@@ -1,0 +1,168 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "FoodDeliveryContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "EFModels",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "FoodDlvProject2",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[CancellationRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Cancellations]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Carts]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CreditCards]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CustomerServices]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DeliveryDriverReportChats]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DeliveryDrivers]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DeliveryDriversAccountStatues]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DeliveryDriverStatuses]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DeliveryRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DeliveryViolationLists]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DeliveryViolationRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Favourites]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MemberAccountStatues]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Members]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MemberViolationLists]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MemberViolationRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OrderDetails]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Orders]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OrderStatuses]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Pays]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProcessingStatues]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProductRatings]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Products]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ServiceChats]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreAccountStatues]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreCategories]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StorePrincipals]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreRatings]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Stores]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreViolationLists]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreViolationRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreWallet]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "DESKTOP-PAKSETB.FoodDelivery",
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
