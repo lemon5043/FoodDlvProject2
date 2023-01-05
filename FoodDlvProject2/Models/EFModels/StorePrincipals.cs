@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvProject2.EFModels
 {
@@ -18,6 +19,8 @@ namespace FoodDlvProject2.EFModels
         public string Phone { get; set; }
         public bool Gender { get; set; }
         public string IdentityCode { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }

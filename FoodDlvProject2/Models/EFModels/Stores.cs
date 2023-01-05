@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvProject2.EFModels
 {
@@ -21,10 +22,14 @@ namespace FoodDlvProject2.EFModels
         public string StoreName { get; set; }
         public string Address { get; set; }
         public string ContactNumber { get; set; }
+
+        [DataType(DataType.Time)]
         public DateTime Opening { get; set; }
+        [DataType(DataType.Time)]
         public DateTime Closing { get; set; }
 
         public virtual StorePrincipals StorePrincipal { get; set; }
+        
         public virtual ICollection<Carts> Carts { get; set; }
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
         public virtual ICollection<Products> Products { get; set; }
