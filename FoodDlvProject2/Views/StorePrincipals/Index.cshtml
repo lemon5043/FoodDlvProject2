@@ -58,7 +58,22 @@
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Gender)
+                @*@Html.DisplayFor(modelItem => item.Gender)*@
+                    @{
+
+                        var sex = "";
+
+                        if (item.Gender == true)
+                        {
+                            sex = "男";
+                        }
+                        else
+                        {
+                            sex = "女";
+                        }
+                    }
+
+                    @sex
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdentityCode)
