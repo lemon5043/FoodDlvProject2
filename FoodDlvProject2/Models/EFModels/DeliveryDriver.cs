@@ -18,7 +18,7 @@ namespace FoodDlvProject2.Models.EFModels
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string Phone { get; set; } = null!;
-        public bool Gender { get; set; }
+        public bool Gender { get ; set; }
         public string BankAccount { get; set; } = null!;
         public string Idcard { get; set; } = null!;
         public DateTime RegistrationTime { get; set; }
