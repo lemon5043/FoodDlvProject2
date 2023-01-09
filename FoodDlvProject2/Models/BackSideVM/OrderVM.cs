@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FoodDlvProject2.Models.EFModels;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace FoodDlvProject2.Models.BackSideVM
 {
@@ -6,14 +8,27 @@ namespace FoodDlvProject2.Models.BackSideVM
 	{
 		[Display(Name = "訂單編號" )]
 		public long Id { get; set; }
-		public int DeliveryDriversId { get; set; }
+
+		[Display(Name = "訂單建立日期")]
+		public DateTime OrderTime { get; set; }
 
 		[Display(Name = "會員編號")]
 		public int MemberId { get; set; }
 
 		[Display(Name = "商家編號")]
 		public int StoreId { get; set; }
-		public int DeliveryFee { get; set; }
-		public string DeliveryAddress { get; set; }
-	}
+
+		[Display(Name = "訂單總價")]
+		public int FinalTotal { get; set; }
+
+        //public virtual ICollection<OrderDetailVM> OrderDetailVM { get; set; }
+    }
+
+	//public static class ToOrderVM
+	//{
+	//	public static toOrderVM(this Models) 
+	//	{
+
+	//	}
+	//}
 }
