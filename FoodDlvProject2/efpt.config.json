@@ -15,11 +15,11 @@
    "SelectedToBeGenerated": 0,
    "Tables": [
       {
-         "Name": "[dbo].[CancellationRecords]",
+         "Name": "[dbo].[AccountAddress]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Cancellations]",
+         "Name": "[dbo].[AccountStatues]",
          "ObjectType": 0
       },
       {
@@ -35,19 +35,15 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DeliveryDriverReportChats]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[DeliveryDrivers]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DeliveryDriversAccountStatues]",
+         "Name": "[dbo].[DeliveryDriversRatings]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DeliveryDriverStatuses]",
+         "Name": "[dbo].[DeliveryDriverWorkStatuses]",
          "ObjectType": 0
       },
       {
@@ -55,11 +51,19 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DeliveryViolationLists]",
+         "Name": "[dbo].[DeliveryViolationRecords]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DeliveryViolationRecords]",
+         "Name": "[dbo].[DeliveryViolationTypes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DriverCancellationRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DriverCancellations]",
          "ObjectType": 0
       },
       {
@@ -67,19 +71,15 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[MemberAccountStatues]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Members]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[MemberViolationLists]",
+         "Name": "[dbo].[MemberViolationRecords]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[MemberViolationRecords]",
+         "Name": "[dbo].[MemberViolationTypes]",
          "ObjectType": 0
       },
       {
@@ -91,7 +91,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[OrderStatuses]",
+         "Name": "[dbo].[OrderSchedules]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OrderStatues]",
          "ObjectType": 0
       },
       {
@@ -103,19 +107,19 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[ProductRatings]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Products]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[ServiceChats]",
+         "Name": "[dbo].[StoreBusinessHour]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[StoreAccountStatues]",
+         "Name": "[dbo].[StoreCancellationRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreCancellationTypes]",
          "ObjectType": 0
       },
       {
@@ -135,11 +139,15 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[StoreViolationLists]",
+         "Name": "[dbo].[StoresCategoriesLists]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[StoreViolationRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreViolationTypes]",
          "ObjectType": 0
       },
       {
@@ -155,7 +163,7 @@
    "UseFluentApiOnly": true,
    "UseHandleBars": false,
    "UseHierarchyId": false,
-   "UseInflector": false,
+   "UseInflector": true,
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
    "UseNoDefaultConstructor": false,

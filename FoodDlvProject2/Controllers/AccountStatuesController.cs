@@ -9,90 +9,85 @@ using FoodDlvProject2.EFModels;
 
 namespace FoodDlvProject2.Controllers
 {
-    public class StoresController : Controller
+    public class AccountStatuesController : Controller
     {
         private readonly FoodDeliveryContext _context;
 
-        public StoresController(FoodDeliveryContext context)
+        public AccountStatuesController(FoodDeliveryContext context)
         {
             _context = context;
         }
 
-        // GET: Stores
+        // GET: AccountStatues
         public async Task<IActionResult> Index()
         {
-            var foodDeliveryContext = _context.Stores.Include(s => s.StorePrincipal);
-            return View(await foodDeliveryContext.ToListAsync());
+              return View(await _context.AccountStatues.ToListAsync());
         }
 
-        // GET: Stores/Details/5
+        // GET: AccountStatues/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Stores == null)
+            if (id == null || _context.AccountStatues == null)
             {
                 return NotFound();
             }
 
-            var store = await _context.Stores
-                .Include(s => s.StorePrincipal)
+            var accountStatue = await _context.AccountStatues
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (store == null)
+            if (accountStatue == null)
             {
                 return NotFound();
             }
 
-            return View(store);
+            return View(accountStatue);
         }
 
-        // GET: Stores/Create
+        // GET: AccountStatues/Create
         public IActionResult Create()
         {
-            ViewData["StorePrincipalId"] = new SelectList(_context.StorePrincipals, "Id", "Account");
             return View();
         }
 
-        // POST: Stores/Create
+        // POST: AccountStatues/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StorePrincipalId,StoreName,Address,ContactNumber,Photo")] Store store)
+        public async Task<IActionResult> Create([Bind("Id,Status")] AccountStatue accountStatue)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(store);
+                _context.Add(accountStatue);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StorePrincipalId"] = new SelectList(_context.StorePrincipals, "Id", "Account", store.StorePrincipalId);
-            return View(store);
+            return View(accountStatue);
         }
 
-        // GET: Stores/Edit/5
+        // GET: AccountStatues/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Stores == null)
+            if (id == null || _context.AccountStatues == null)
             {
                 return NotFound();
             }
 
-            var store = await _context.Stores.FindAsync(id);
-            if (store == null)
+            var accountStatue = await _context.AccountStatues.FindAsync(id);
+            if (accountStatue == null)
             {
                 return NotFound();
             }
-            ViewData["StorePrincipalId"] = new SelectList(_context.StorePrincipals, "Id", "Account", store.StorePrincipalId);
-            return View(store);
+            return View(accountStatue);
         }
 
-        // POST: Stores/Edit/5
+        // POST: AccountStatues/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StorePrincipalId,StoreName,Address,ContactNumber,Photo")] Store store)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Status")] AccountStatue accountStatue)
         {
-            if (id != store.Id)
+            if (id != accountStatue.Id)
             {
                 return NotFound();
             }
@@ -101,12 +96,12 @@ namespace FoodDlvProject2.Controllers
             {
                 try
                 {
-                    _context.Update(store);
+                    _context.Update(accountStatue);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StoreExists(store.Id))
+                    if (!AccountStatueExists(accountStatue.Id))
                     {
                         return NotFound();
                     }
@@ -117,51 +112,49 @@ namespace FoodDlvProject2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StorePrincipalId"] = new SelectList(_context.StorePrincipals, "Id", "Account", store.StorePrincipalId);
-            return View(store);
+            return View(accountStatue);
         }
 
-        // GET: Stores/Delete/5
+        // GET: AccountStatues/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Stores == null)
+            if (id == null || _context.AccountStatues == null)
             {
                 return NotFound();
             }
 
-            var store = await _context.Stores
-                .Include(s => s.StorePrincipal)
+            var accountStatue = await _context.AccountStatues
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (store == null)
+            if (accountStatue == null)
             {
                 return NotFound();
             }
 
-            return View(store);
+            return View(accountStatue);
         }
 
-        // POST: Stores/Delete/5
+        // POST: AccountStatues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Stores == null)
+            if (_context.AccountStatues == null)
             {
-                return Problem("Entity set 'FoodDeliveryContext.Stores'  is null.");
+                return Problem("Entity set 'FoodDeliveryContext.AccountStatues'  is null.");
             }
-            var store = await _context.Stores.FindAsync(id);
-            if (store != null)
+            var accountStatue = await _context.AccountStatues.FindAsync(id);
+            if (accountStatue != null)
             {
-                _context.Stores.Remove(store);
+                _context.AccountStatues.Remove(accountStatue);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StoreExists(int id)
+        private bool AccountStatueExists(int id)
         {
-          return _context.Stores.Any(e => e.Id == id);
+          return _context.AccountStatues.Any(e => e.Id == id);
         }
     }
 }

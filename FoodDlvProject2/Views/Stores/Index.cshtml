@@ -1,10 +1,15 @@
-﻿@model IEnumerable<FoodDlvProject2.EFModels.Stores>
+﻿@model IEnumerable<FoodDlvProject2.EFModels.Store>
 
 @{
     ViewData["Title"] = "Index";
+  
 }
 
-<h1>Stores</h1>
+<h1>Index</h1>
+
+
+
+
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -22,13 +27,7 @@
                 @Html.DisplayNameFor(model => model.ContactNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Opening)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Closing)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StorePrincipal)
+                @Html.DisplayNameFor(model => model.Photo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StorePrincipal)
@@ -49,16 +48,10 @@
                 @Html.DisplayFor(modelItem => item.ContactNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Opening)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Closing)
+                @Html.DisplayFor(modelItem => item.Photo)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StorePrincipal.Account)
-            </td>
- <td>
-                @Html.DisplayFor(modelItem => item.StorePrincipal.Phone)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

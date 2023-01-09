@@ -18,80 +18,78 @@ namespace FoodDlvProject2.EFModels
         {
         }
 
-        public virtual DbSet<CancellationRecords> CancellationRecords { get; set; }
-        public virtual DbSet<Cancellations> Cancellations { get; set; }
-        public virtual DbSet<Carts> Carts { get; set; }
-        public virtual DbSet<CreditCards> CreditCards { get; set; }
-        public virtual DbSet<CustomerServices> CustomerServices { get; set; }
-        public virtual DbSet<DeliveryDriverReportChats> DeliveryDriverReportChats { get; set; }
-        public virtual DbSet<DeliveryDriverStatuses> DeliveryDriverStatuses { get; set; }
-        public virtual DbSet<DeliveryDrivers> DeliveryDrivers { get; set; }
-        public virtual DbSet<DeliveryDriversAccountStatues> DeliveryDriversAccountStatues { get; set; }
-        public virtual DbSet<DeliveryRecords> DeliveryRecords { get; set; }
-        public virtual DbSet<DeliveryViolationLists> DeliveryViolationLists { get; set; }
-        public virtual DbSet<DeliveryViolationRecords> DeliveryViolationRecords { get; set; }
-        public virtual DbSet<Favourites> Favourites { get; set; }
-        public virtual DbSet<MemberAccountStatues> MemberAccountStatues { get; set; }
-        public virtual DbSet<MemberViolationLists> MemberViolationLists { get; set; }
-        public virtual DbSet<MemberViolationRecords> MemberViolationRecords { get; set; }
-        public virtual DbSet<Members> Members { get; set; }
-        public virtual DbSet<OrderDetails> OrderDetails { get; set; }
-        public virtual DbSet<OrderStatuses> OrderStatuses { get; set; }
-        public virtual DbSet<Orders> Orders { get; set; }
-        public virtual DbSet<Pays> Pays { get; set; }
-        public virtual DbSet<ProcessingStatues> ProcessingStatues { get; set; }
-        public virtual DbSet<ProductRatings> ProductRatings { get; set; }
-        public virtual DbSet<Products> Products { get; set; }
-        public virtual DbSet<ServiceChats> ServiceChats { get; set; }
-        public virtual DbSet<StoreAccountStatues> StoreAccountStatues { get; set; }
-        public virtual DbSet<StoreCategories> StoreCategories { get; set; }
-        public virtual DbSet<StorePrincipals> StorePrincipals { get; set; }
-        public virtual DbSet<StoreRatings> StoreRatings { get; set; }
-        public virtual DbSet<StoreViolationLists> StoreViolationLists { get; set; }
-        public virtual DbSet<StoreViolationRecords> StoreViolationRecords { get; set; }
-        public virtual DbSet<StoreWallet> StoreWallet { get; set; }
-        public virtual DbSet<Stores> Stores { get; set; }
+        public virtual DbSet<AccountAddress> AccountAddresses { get; set; }
+        public virtual DbSet<AccountStatue> AccountStatues { get; set; }
+        public virtual DbSet<Cart> Carts { get; set; }
+        public virtual DbSet<CreditCard> CreditCards { get; set; }
+        public virtual DbSet<CustomerService> CustomerServices { get; set; }
+        public virtual DbSet<DeliveryDriver> DeliveryDrivers { get; set; }
+        public virtual DbSet<DeliveryDriverWorkStatus> DeliveryDriverWorkStatuses { get; set; }
+        public virtual DbSet<DeliveryDriversRating> DeliveryDriversRatings { get; set; }
+        public virtual DbSet<DeliveryRecord> DeliveryRecords { get; set; }
+        public virtual DbSet<DeliveryViolationRecord> DeliveryViolationRecords { get; set; }
+        public virtual DbSet<DeliveryViolationType> DeliveryViolationTypes { get; set; }
+        public virtual DbSet<DriverCancellation> DriverCancellations { get; set; }
+        public virtual DbSet<DriverCancellationRecord> DriverCancellationRecords { get; set; }
+        public virtual DbSet<Favourite> Favourites { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
+        public virtual DbSet<MemberViolationRecord> MemberViolationRecords { get; set; }
+        public virtual DbSet<MemberViolationType> MemberViolationTypes { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<OrderSchedule> OrderSchedules { get; set; }
+        public virtual DbSet<OrderStatue> OrderStatues { get; set; }
+        public virtual DbSet<Pay> Pays { get; set; }
+        public virtual DbSet<ProcessingStatue> ProcessingStatues { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Store> Stores { get; set; }
+        public virtual DbSet<StoreBusinessHour> StoreBusinessHours { get; set; }
+        public virtual DbSet<StoreCancellationRecord> StoreCancellationRecords { get; set; }
+        public virtual DbSet<StoreCancellationType> StoreCancellationTypes { get; set; }
+        public virtual DbSet<StoreCategory> StoreCategories { get; set; }
+        public virtual DbSet<StorePrincipal> StorePrincipals { get; set; }
+        public virtual DbSet<StoreRating> StoreRatings { get; set; }
+        public virtual DbSet<StoreViolationRecord> StoreViolationRecords { get; set; }
+        public virtual DbSet<StoreViolationType> StoreViolationTypes { get; set; }
+        public virtual DbSet<StoreWallet> StoreWallets { get; set; }
+        public virtual DbSet<StoresCategoriesList> StoresCategoriesLists { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CancellationRecords>(entity =>
+            modelBuilder.Entity<AccountAddress>(entity =>
             {
-                entity.Property(e => e.CancellationDate).HasColumnType("datetime");
+                entity.HasNoKey();
 
-                entity.HasOne(d => d.Cancellation)
-                    .WithMany(p => p.CancellationRecords)
-                    .HasForeignKey(d => d.CancellationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CancellationRecords_Cancellations");
+                entity.ToTable("AccountAddress");
 
-                entity.HasOne(d => d.DeliveryDrivers)
-                    .WithMany(p => p.CancellationRecords)
-                    .HasForeignKey(d => d.DeliveryDriversId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CancellationRecords_DeliveryDrivers");
-
-                entity.HasOne(d => d.Order)
-                    .WithMany(p => p.CancellationRecords)
-                    .HasForeignKey(d => d.OrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CancellationRecords_Orders");
-            });
-
-            modelBuilder.Entity<Cancellations>(entity =>
-            {
-                entity.Property(e => e.Reason)
+                entity.Property(e => e.Address)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.HasOne(d => d.Member)
+                    .WithMany()
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AccountAddress_Members");
             });
 
-            modelBuilder.Entity<Carts>(entity =>
+            modelBuilder.Entity<AccountStatue>(entity =>
+            {
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(30);
+            });
+
+            modelBuilder.Entity<Cart>(entity =>
             {
                 entity.HasIndex(e => e.MemberId, "IX_Carts")
                     .IsUnique();
 
                 entity.HasOne(d => d.Member)
-                    .WithOne(p => p.Carts)
-                    .HasForeignKey<Carts>(d => d.MemberId)
+                    .WithOne(p => p.Cart)
+                    .HasForeignKey<Cart>(d => d.MemberId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Carts_Members");
 
@@ -108,7 +106,7 @@ namespace FoodDlvProject2.EFModels
                     .HasConstraintName("FK_Carts_Stores");
             });
 
-            modelBuilder.Entity<CreditCards>(entity =>
+            modelBuilder.Entity<CreditCard>(entity =>
             {
                 entity.HasNoKey();
 
@@ -116,9 +114,10 @@ namespace FoodDlvProject2.EFModels
                     .IsRequired()
                     .HasMaxLength(10);
 
-                entity.Property(e => e.CreditCard)
+                entity.Property(e => e.CreditCard1)
                     .IsRequired()
                     .HasMaxLength(16)
+                    .HasColumnName("CreditCard")
                     .IsFixedLength();
 
                 entity.HasOne(d => d.Member)
@@ -128,83 +127,37 @@ namespace FoodDlvProject2.EFModels
                     .HasConstraintName("FK_CreditCard_Members");
             });
 
-            modelBuilder.Entity<CustomerServices>(entity =>
+            modelBuilder.Entity<CustomerService>(entity =>
             {
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(20);
-            });
+                entity.HasIndex(e => e.Account, "IX_CustomerServices")
+                    .IsUnique();
 
-            modelBuilder.Entity<DeliveryDriverReportChats>(entity =>
-            {
-                entity.Property(e => e.Asking).HasColumnType("datetime");
-
-                entity.Property(e => e.DriversAsking)
-                    .IsRequired()
-                    .HasMaxLength(200);
-
-                entity.Property(e => e.Reply).HasColumnType("datetime");
-
-                entity.Property(e => e.ServiceReplies)
-                    .IsRequired()
-                    .HasMaxLength(200);
-
-                entity.HasOne(d => d.DeliveryDrivers)
-                    .WithMany(p => p.DeliveryDriverReportChats)
-                    .HasForeignKey(d => d.DeliveryDriversId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DeliveryDriverReportChats_DeliveryDrivers");
-
-                entity.HasOne(d => d.Order)
-                    .WithMany(p => p.DeliveryDriverReportChats)
-                    .HasForeignKey(d => d.OrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DeliveryDriverReportChats_Orders");
-
-                entity.HasOne(d => d.ProcessingStatus)
-                    .WithMany(p => p.DeliveryDriverReportChats)
-                    .HasForeignKey(d => d.ProcessingStatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DeliveryDriverReportChats_ProcessingStatues");
-
-                entity.HasOne(d => d.Service)
-                    .WithMany(p => p.DeliveryDriverReportChats)
-                    .HasForeignKey(d => d.ServiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DeliveryDriverReportChats_CustomerServices");
-            });
-
-            modelBuilder.Entity<DeliveryDriverStatuses>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.Property(e => e.Latitude)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .HasColumnName("latitude");
-
-                entity.Property(e => e.Longitude)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .HasColumnName("longitude");
-
-                entity.Property(e => e.Status)
+                entity.Property(e => e.Account)
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.HasOne(d => d.DeliveryDrivers)
-                    .WithMany()
-                    .HasForeignKey(d => d.DeliveryDriversId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DeliveryDriverStatuses_DeliveryDrivers");
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Permissions).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<DeliveryDrivers>(entity =>
+            modelBuilder.Entity<DeliveryDriver>(entity =>
             {
                 entity.HasIndex(e => e.Phone, "IX_DeliveryDrivers")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.IdentityCode, "IX_DeliveryDrivers_1")
                     .IsUnique();
 
                 entity.HasIndex(e => e.Email, "IX_DeliveryDrivers_2")
@@ -217,9 +170,7 @@ namespace FoodDlvProject2.EFModels
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Address)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                entity.Property(e => e.AccountStatusId).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.BankAccount)
                     .IsRequired()
@@ -229,25 +180,32 @@ namespace FoodDlvProject2.EFModels
 
                 entity.Property(e => e.DriverLicense)
                     .IsRequired()
-                    .HasColumnType("image");
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(50);
 
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
                 entity.Property(e => e.Idcard)
                     .IsRequired()
-                    .HasColumnType("image")
+                    .HasMaxLength(50)
                     .HasColumnName("IDCard");
 
-                entity.Property(e => e.IdentityCode)
+                entity.Property(e => e.LastName)
                     .IsRequired()
-                    .HasMaxLength(10)
-                    .IsFixedLength();
+                    .HasMaxLength(20);
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.Latitude)
+                    .HasMaxLength(50)
+                    .HasColumnName("latitude");
+
+                entity.Property(e => e.Longitude)
+                    .HasMaxLength(50)
+                    .HasColumnName("longitude");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
@@ -258,27 +216,60 @@ namespace FoodDlvProject2.EFModels
                     .HasMaxLength(10)
                     .IsFixedLength();
 
-                entity.Property(e => e.RegistrationTime).HasColumnType("datetime");
+                entity.Property(e => e.RegistrationTime)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.VehicleRegistration)
                     .IsRequired()
-                    .HasColumnType("image");
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.WorkStatuseId).HasDefaultValueSql("((1))");
 
                 entity.HasOne(d => d.AccountStatus)
                     .WithMany(p => p.DeliveryDrivers)
                     .HasForeignKey(d => d.AccountStatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DeliveryDrivers_DeliveryDriversAccountStatues");
+
+                entity.HasOne(d => d.WorkStatuse)
+                    .WithMany(p => p.DeliveryDrivers)
+                    .HasForeignKey(d => d.WorkStatuseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DeliveryDrivers_DeliveryDriverWorkStatuses");
             });
 
-            modelBuilder.Entity<DeliveryDriversAccountStatues>(entity =>
+            modelBuilder.Entity<DeliveryDriverWorkStatus>(entity =>
             {
                 entity.Property(e => e.Status)
                     .IsRequired()
                     .HasMaxLength(30);
             });
 
-            modelBuilder.Entity<DeliveryRecords>(entity =>
+            modelBuilder.Entity<DeliveryDriversRating>(entity =>
+            {
+                entity.Property(e => e.Comment).HasMaxLength(100);
+
+                entity.HasOne(d => d.DeliveryDrivers)
+                    .WithMany(p => p.DeliveryDriversRatings)
+                    .HasForeignKey(d => d.DeliveryDriversId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DeliveryDriversRatings_DeliveryDrivers");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.DeliveryDriversRatings)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DeliveryDriversRatings_Members");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.DeliveryDriversRatings)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DeliveryDriversRatings_Orders");
+            });
+
+            modelBuilder.Entity<DeliveryRecord>(entity =>
             {
                 entity.HasNoKey();
 
@@ -297,14 +288,7 @@ namespace FoodDlvProject2.EFModels
                     .HasConstraintName("FK_DeliveryRecords_Orders");
             });
 
-            modelBuilder.Entity<DeliveryViolationLists>(entity =>
-            {
-                entity.Property(e => e.ViolationContent)
-                    .IsRequired()
-                    .HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<DeliveryViolationRecords>(entity =>
+            modelBuilder.Entity<DeliveryViolationRecord>(entity =>
             {
                 entity.HasNoKey();
 
@@ -329,7 +313,48 @@ namespace FoodDlvProject2.EFModels
                     .HasConstraintName("FK_DeliveryViolationRecords_DeliveryViolationLists");
             });
 
-            modelBuilder.Entity<Favourites>(entity =>
+            modelBuilder.Entity<DeliveryViolationType>(entity =>
+            {
+                entity.Property(e => e.Content).HasMaxLength(100);
+
+                entity.Property(e => e.ViolationContent)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<DriverCancellation>(entity =>
+            {
+                entity.Property(e => e.Content).HasMaxLength(100);
+
+                entity.Property(e => e.Reason)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<DriverCancellationRecord>(entity =>
+            {
+                entity.Property(e => e.CancellationDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Cancellation)
+                    .WithMany(p => p.DriverCancellationRecords)
+                    .HasForeignKey(d => d.CancellationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CancellationRecords_Cancellations");
+
+                entity.HasOne(d => d.DeliveryDrivers)
+                    .WithMany(p => p.DriverCancellationRecords)
+                    .HasForeignKey(d => d.DeliveryDriversId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CancellationRecords_DeliveryDrivers");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.DriverCancellationRecords)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CancellationRecords_Orders");
+            });
+
+            modelBuilder.Entity<Favourite>(entity =>
             {
                 entity.HasNoKey();
 
@@ -346,21 +371,55 @@ namespace FoodDlvProject2.EFModels
                     .HasConstraintName("FK_Favourites_Stores");
             });
 
-            modelBuilder.Entity<MemberAccountStatues>(entity =>
+            modelBuilder.Entity<Member>(entity =>
             {
-                entity.Property(e => e.Status)
-                    .IsRequired()
-                    .HasMaxLength(30);
-            });
+                entity.HasIndex(e => e.Phone, "IX_Members")
+                    .IsUnique();
 
-            modelBuilder.Entity<MemberViolationLists>(entity =>
-            {
-                entity.Property(e => e.ViolationContent)
+                entity.HasIndex(e => e.Account, "IX_Members_2")
+                    .IsUnique();
+
+                entity.Property(e => e.Account)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.AccountStatusId).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Birthday).HasColumnType("date");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Phone)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
+                entity.Property(e => e.RegistrationTime)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.AccountStatus)
+                    .WithMany(p => p.Members)
+                    .HasForeignKey(d => d.AccountStatusId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Members_MemberAccountStatues");
             });
 
-            modelBuilder.Entity<MemberViolationRecords>(entity =>
+            modelBuilder.Entity<MemberViolationRecord>(entity =>
             {
                 entity.HasNoKey();
 
@@ -371,7 +430,7 @@ namespace FoodDlvProject2.EFModels
 
                 entity.HasOne(d => d.Member)
                     .WithOne()
-                    .HasForeignKey<MemberViolationRecords>(d => d.MemberId)
+                    .HasForeignKey<MemberViolationRecord>(d => d.MemberId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Table_1_Members");
 
@@ -388,103 +447,20 @@ namespace FoodDlvProject2.EFModels
                     .HasConstraintName("FK_MemberViolationRecord_MemberViolationList");
             });
 
-            modelBuilder.Entity<Members>(entity =>
+            modelBuilder.Entity<MemberViolationType>(entity =>
             {
-                entity.HasIndex(e => e.Phone, "IX_Members")
-                    .IsUnique();
+                entity.Property(e => e.Content).HasMaxLength(100);
 
-                entity.HasIndex(e => e.IdentityCode, "IX_Members_1")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.Account, "IX_Members_2")
-                    .IsUnique();
-
-                entity.Property(e => e.Account)
+                entity.Property(e => e.ViolationContent)
                     .IsRequired()
                     .HasMaxLength(50);
-
-                entity.Property(e => e.Address)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.Birthday).HasColumnType("date");
-
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.IdentityCode)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsFixedLength();
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Phone)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsFixedLength();
-
-                entity.Property(e => e.RegistrationTime).HasColumnType("datetime");
-
-                entity.HasOne(d => d.AccountStatus)
-                    .WithMany(p => p.Members)
-                    .HasForeignKey(d => d.AccountStatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Members_MemberAccountStatues");
             });
 
-            modelBuilder.Entity<OrderDetails>(entity =>
-            {
-                entity.Property(e => e.ProductName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.HasOne(d => d.Order)
-                    .WithMany(p => p.OrderDetails)
-                    .HasForeignKey(d => d.OrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderDetails_Orders");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.OrderDetails)
-                    .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderDetails_Products");
-
-                entity.HasOne(d => d.Store)
-                    .WithMany(p => p.OrderDetails)
-                    .HasForeignKey(d => d.StoreId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderDetails_Stores");
-            });
-
-            modelBuilder.Entity<OrderStatuses>(entity =>
-            {
-                entity.Property(e => e.Status)
-                    .IsRequired()
-                    .HasMaxLength(20);
-            });
-
-            modelBuilder.Entity<Orders>(entity =>
+            modelBuilder.Entity<Order>(entity =>
             {
                 entity.Property(e => e.DeliveryAddress)
                     .IsRequired()
                     .HasMaxLength(100);
-
-                entity.Property(e => e.DeliveryAvailable).HasColumnType("datetime");
-
-                entity.Property(e => e.DeliveryEnd).HasColumnType("datetime");
-
-                entity.Property(e => e.DeliveryStart).HasColumnType("datetime");
-
-                entity.Property(e => e.OrderTime).HasColumnType("datetime");
 
                 entity.HasOne(d => d.DeliveryDrivers)
                     .WithMany(p => p.Orders)
@@ -498,14 +474,53 @@ namespace FoodDlvProject2.EFModels
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Members");
 
-                entity.HasOne(d => d.OrderStatuses)
+                entity.HasOne(d => d.Store)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.OrderStatusesId)
+                    .HasForeignKey(d => d.StoreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Orders_OrderStatuses");
+                    .HasConstraintName("FK_Orders_Stores");
             });
 
-            modelBuilder.Entity<Pays>(entity =>
+            modelBuilder.Entity<OrderDetail>(entity =>
+            {
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.OrderDetails)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrderDetails_Orders");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.OrderDetails)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrderDetails_Products");
+            });
+
+            modelBuilder.Entity<OrderSchedule>(entity =>
+            {
+                entity.Property(e => e.MarkTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.OrderSchedules)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrderStatuses_Orders");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.OrderSchedules)
+                    .HasForeignKey(d => d.StatusId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrderSchedules_OrderStatues");
+            });
+
+            modelBuilder.Entity<OrderStatue>(entity =>
+            {
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(30);
+            });
+
+            modelBuilder.Entity<Pay>(entity =>
             {
                 entity.HasNoKey();
 
@@ -516,37 +531,29 @@ namespace FoodDlvProject2.EFModels
                     .HasConstraintName("FK_Pays_DeliveryDrivers");
             });
 
-            modelBuilder.Entity<ProcessingStatues>(entity =>
+            modelBuilder.Entity<ProcessingStatue>(entity =>
             {
                 entity.Property(e => e.Status)
                     .IsRequired()
                     .HasMaxLength(30);
             });
 
-            modelBuilder.Entity<ProductRatings>(entity =>
+            modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.ProductRatings)
-                    .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ProductRatings_Members");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.ProductRatings)
-                    .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ProductRatings_Products");
-            });
-
-            modelBuilder.Entity<Products>(entity =>
-            {
-                entity.Property(e => e.ProductContent)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                entity.Property(e => e.ProductContent).HasMaxLength(100);
 
                 entity.Property(e => e.ProductName)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.HasOne(d => d.CustomizationValueNavigation)
+                    .WithMany(p => p.InverseCustomizationValueNavigation)
+                    .HasForeignKey(d => d.CustomizationValue)
+                    .HasConstraintName("FK_Products_Products");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Products)
@@ -555,53 +562,78 @@ namespace FoodDlvProject2.EFModels
                     .HasConstraintName("FK_ProductInformations_Stores");
             });
 
-            modelBuilder.Entity<ServiceChats>(entity =>
+            modelBuilder.Entity<Store>(entity =>
             {
-                entity.Property(e => e.Asking).HasColumnType("datetime");
+                entity.HasIndex(e => e.StoreName, "IX_Store")
+                    .IsUnique();
 
-                entity.Property(e => e.MemberAsking)
+                entity.Property(e => e.Address)
                     .IsRequired()
-                    .HasMaxLength(200);
+                    .HasMaxLength(100);
 
-                entity.Property(e => e.Reply).HasColumnType("datetime");
-
-                entity.Property(e => e.ServiceReplies)
+                entity.Property(e => e.ContactNumber)
                     .IsRequired()
-                    .HasMaxLength(200);
+                    .HasMaxLength(10);
 
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.ServiceChats)
-                    .HasForeignKey(d => d.MemberId)
+                entity.Property(e => e.StoreName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.StorePrincipal)
+                    .WithMany(p => p.Stores)
+                    .HasForeignKey(d => d.StorePrincipalId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ServiceChats_Members");
+                    .HasConstraintName("FK_Store_StorePrincipal");
+            });
+
+            modelBuilder.Entity<StoreBusinessHour>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("StoreBusinessHour");
+
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.HasOne(d => d.Store)
+                    .WithMany()
+                    .HasForeignKey(d => d.StoreId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StoreBusinessHour_Stores");
+            });
+
+            modelBuilder.Entity<StoreCancellationRecord>(entity =>
+            {
+                entity.Property(e => e.CancellationDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Cancellation)
+                    .WithMany(p => p.StoreCancellationRecords)
+                    .HasForeignKey(d => d.CancellationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StoreCancellationRecords_StoreCancellations");
 
                 entity.HasOne(d => d.Order)
-                    .WithMany(p => p.ServiceChats)
+                    .WithMany(p => p.StoreCancellationRecords)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ServiceChats_Orders");
+                    .HasConstraintName("FK_StoreCancellationRecords_Orders");
 
-                entity.HasOne(d => d.ProcessingStatus)
-                    .WithMany(p => p.ServiceChats)
-                    .HasForeignKey(d => d.ProcessingStatusId)
+                entity.HasOne(d => d.Store)
+                    .WithMany(p => p.StoreCancellationRecords)
+                    .HasForeignKey(d => d.StoreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ServiceChats_ProcessingStatues");
-
-                entity.HasOne(d => d.Service)
-                    .WithMany(p => p.ServiceChats)
-                    .HasForeignKey(d => d.ServiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ServiceChats_CustomerServices");
+                    .HasConstraintName("FK_StoreCancellationRecords_Stores");
             });
 
-            modelBuilder.Entity<StoreAccountStatues>(entity =>
+            modelBuilder.Entity<StoreCancellationType>(entity =>
             {
-                entity.Property(e => e.Status)
+                entity.Property(e => e.Content).HasMaxLength(100);
+
+                entity.Property(e => e.Reason)
                     .IsRequired()
-                    .HasMaxLength(30);
+                    .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<StoreCategories>(entity =>
+            modelBuilder.Entity<StoreCategory>(entity =>
             {
                 entity.HasIndex(e => e.CategoryName, "IX_StoreCategories")
                     .IsUnique();
@@ -613,19 +645,10 @@ namespace FoodDlvProject2.EFModels
                 entity.Property(e => e.CategoryName)
                     .IsRequired()
                     .HasMaxLength(50);
-
-                entity.HasOne(d => d.Store)
-                    .WithMany(p => p.StoreCategories)
-                    .HasForeignKey(d => d.StoreId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_StoreCategories_Stores");
             });
 
-            modelBuilder.Entity<StorePrincipals>(entity =>
+            modelBuilder.Entity<StorePrincipal>(entity =>
             {
-                entity.HasIndex(e => e.IdentityCode, "IX_ShopPrincipal")
-                    .IsUnique();
-
                 entity.HasIndex(e => e.Email, "IX_ShopPrincipal_1")
                     .IsUnique();
 
@@ -636,9 +659,7 @@ namespace FoodDlvProject2.EFModels
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Address)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                entity.Property(e => e.AccountStatusId).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Birthday).HasColumnType("date");
 
@@ -646,14 +667,13 @@ namespace FoodDlvProject2.EFModels
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.IdentityCode)
+                entity.Property(e => e.FirstName)
                     .IsRequired()
-                    .HasMaxLength(10)
-                    .IsFixedLength();
+                    .HasMaxLength(20);
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.LastName)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(20);
 
                 entity.Property(e => e.Password)
                     .IsRequired()
@@ -664,7 +684,9 @@ namespace FoodDlvProject2.EFModels
                     .HasMaxLength(10)
                     .IsFixedLength();
 
-                entity.Property(e => e.RegistrationTime).HasColumnType("datetime");
+                entity.Property(e => e.RegistrationTime)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.AccountStatus)
                     .WithMany(p => p.StorePrincipals)
@@ -673,13 +695,21 @@ namespace FoodDlvProject2.EFModels
                     .HasConstraintName("FK_StorePrincipals_StoreAccountStatues");
             });
 
-            modelBuilder.Entity<StoreRatings>(entity =>
+            modelBuilder.Entity<StoreRating>(entity =>
             {
+                entity.Property(e => e.Comment).HasMaxLength(100);
+
                 entity.HasOne(d => d.Member)
                     .WithMany(p => p.StoreRatings)
                     .HasForeignKey(d => d.MemberId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_StoreRatings_Members");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.StoreRatings)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StoreRatings_Orders");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.StoreRatings)
@@ -688,14 +718,7 @@ namespace FoodDlvProject2.EFModels
                     .HasConstraintName("FK_StoreRatings_Stores");
             });
 
-            modelBuilder.Entity<StoreViolationLists>(entity =>
-            {
-                entity.Property(e => e.ViolationContent)
-                    .IsRequired()
-                    .HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<StoreViolationRecords>(entity =>
+            modelBuilder.Entity<StoreViolationRecord>(entity =>
             {
                 entity.HasNoKey();
 
@@ -712,7 +735,7 @@ namespace FoodDlvProject2.EFModels
 
                 entity.HasOne(d => d.Store)
                     .WithOne()
-                    .HasForeignKey<StoreViolationRecords>(d => d.StoreId)
+                    .HasForeignKey<StoreViolationRecord>(d => d.StoreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_StoreViolationRecord_Store");
 
@@ -723,9 +746,20 @@ namespace FoodDlvProject2.EFModels
                     .HasConstraintName("FK_StoreViolationRecord_StoreViolationList");
             });
 
+            modelBuilder.Entity<StoreViolationType>(entity =>
+            {
+                entity.Property(e => e.Content).HasMaxLength(100);
+
+                entity.Property(e => e.ViolationContent)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
             modelBuilder.Entity<StoreWallet>(entity =>
             {
                 entity.HasNoKey();
+
+                entity.ToTable("StoreWallet");
 
                 entity.HasIndex(e => e.StoreId, "IX_StoreWallet")
                     .IsUnique();
@@ -743,32 +777,23 @@ namespace FoodDlvProject2.EFModels
                     .HasConstraintName("FK_StoreWallet_Stores");
             });
 
-            modelBuilder.Entity<Stores>(entity =>
+            modelBuilder.Entity<StoresCategoriesList>(entity =>
             {
-                entity.HasIndex(e => e.StoreName, "IX_Store")
-                    .IsUnique();
+                entity.HasNoKey();
 
-                entity.Property(e => e.Address)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                entity.Property(e => e.StoreId).ValueGeneratedOnAdd();
 
-                entity.Property(e => e.Closing).HasColumnType("datetime");
-
-                entity.Property(e => e.ContactNumber)
-                    .IsRequired()
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Opening).HasColumnType("datetime");
-
-                entity.Property(e => e.StoreName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.HasOne(d => d.StorePrincipal)
-                    .WithMany(p => p.Stores)
-                    .HasForeignKey(d => d.StorePrincipalId)
+                entity.HasOne(d => d.Category)
+                    .WithMany()
+                    .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Store_StorePrincipal");
+                    .HasConstraintName("FK_StoresCategoriesList_StoreCategories");
+
+                entity.HasOne(d => d.Store)
+                    .WithMany()
+                    .HasForeignKey(d => d.StoreId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StoresCategoriesList_Stores");
             });
 
             OnModelCreatingPartial(modelBuilder);

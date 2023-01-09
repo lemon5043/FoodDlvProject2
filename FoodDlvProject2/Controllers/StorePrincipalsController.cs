@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FoodDlvProject2.EFModels;
+using System.Security.Principal;
 
 namespace FoodDlvProject2.Controllers
 {
@@ -19,35 +20,39 @@ namespace FoodDlvProject2.Controllers
         }
 
         // GET: StorePrincipals
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string Account)
         {
-            var foodDeliveryContext = _context.StorePrincipals.Include(s => s.AccountStatus);
-            return View(await foodDeliveryContext.ToListAsync());
+            //var foodDeliveryContext = _context.StorePrincipals.Include(s => s.AccountStatus);
+
+            IEnumerable<StorePrincipal> foodDeliveryContext = _context.StorePrincipals.Include(s => s.AccountStatus);
+            if (string.IsNullOrEmpty(Account) == false) foodDeliveryContext = foodDeliveryContext.Where(p => p.Account.Contains(Account));
+
+            return View( foodDeliveryContext.ToList());
         }
 
         // GET: StorePrincipals/Details/5
-        public async Task<IActionResult> Details(long? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.StorePrincipals == null)
             {
                 return NotFound();
             }
 
-            var storePrincipals = await _context.StorePrincipals
+            var storePrincipal = await _context.StorePrincipals
                 .Include(s => s.AccountStatus)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (storePrincipals == null)
+            if (storePrincipal == null)
             {
                 return NotFound();
             }
 
-            return View(storePrincipals);
+            return View(storePrincipal);
         }
 
         // GET: StorePrincipals/Create
         public IActionResult Create()
         {
-            ViewData["AccountStatusId"] = new SelectList(_context.StoreAccountStatues, "Id", "Status");
+            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status");
             return View();
         }
 
@@ -56,34 +61,33 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AccountStatusId,Name,Phone,Gender,IdentityCode,Birthday,Email,Address,Account,Password,RegistrationTime")] StorePrincipals storePrincipals)
+        public async Task<IActionResult> Create([Bind("Id,AccountStatusId,FirstName,LastName,Phone,Gender,Birthday,Email,Account,Password,RegistrationTime")] StorePrincipal storePrincipal)
         {
             if (ModelState.IsValid)
             {
-                storePrincipals.RegistrationTime = DateTime.Now;
-                _context.Add(storePrincipals);
+                _context.Add(storePrincipal);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.StoreAccountStatues, "Id", "Status", storePrincipals.AccountStatusId);
-            return View(storePrincipals);
+            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipal.AccountStatusId);
+            return View(storePrincipal);
         }
 
         // GET: StorePrincipals/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.StorePrincipals == null)
             {
                 return NotFound();
             }
 
-            var storePrincipals = await _context.StorePrincipals.FindAsync(id);
-            if (storePrincipals == null)
+            var storePrincipal = await _context.StorePrincipals.FindAsync(id);
+            if (storePrincipal == null)
             {
                 return NotFound();
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.StoreAccountStatues, "Id", "Status", storePrincipals.AccountStatusId);
-            return View(storePrincipals);
+            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipal.AccountStatusId);
+            return View(storePrincipal);
         }
 
         // POST: StorePrincipals/Edit/5
@@ -91,9 +95,9 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,AccountStatusId,Name,Phone,Gender,IdentityCode,Birthday,Email,Address,Account,Password,RegistrationTime")] StorePrincipals storePrincipals)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,AccountStatusId,FirstName,LastName,Phone,Gender,Birthday,Email,Account,Password,RegistrationTime")] StorePrincipal storePrincipal)
         {
-            if (id != storePrincipals.Id)
+            if (id != storePrincipal.Id)
             {
                 return NotFound();
             }
@@ -102,12 +106,12 @@ namespace FoodDlvProject2.Controllers
             {
                 try
                 {
-                    _context.Update(storePrincipals);
+                    _context.Update(storePrincipal);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StorePrincipalsExists(storePrincipals.Id))
+                    if (!StorePrincipalExists(storePrincipal.Id))
                     {
                         return NotFound();
                     }
@@ -118,49 +122,49 @@ namespace FoodDlvProject2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.StoreAccountStatues, "Id", "Status", storePrincipals.AccountStatusId);
-            return View(storePrincipals);
+            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipal.AccountStatusId);
+            return View(storePrincipal);
         }
 
         // GET: StorePrincipals/Delete/5
-        public async Task<IActionResult> Delete(long? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.StorePrincipals == null)
             {
                 return NotFound();
             }
 
-            var storePrincipals = await _context.StorePrincipals
+            var storePrincipal = await _context.StorePrincipals
                 .Include(s => s.AccountStatus)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (storePrincipals == null)
+            if (storePrincipal == null)
             {
                 return NotFound();
             }
 
-            return View(storePrincipals);
+            return View(storePrincipal);
         }
 
         // POST: StorePrincipals/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.StorePrincipals == null)
             {
                 return Problem("Entity set 'FoodDeliveryContext.StorePrincipals'  is null.");
             }
-            var storePrincipals = await _context.StorePrincipals.FindAsync(id);
-            if (storePrincipals != null)
+            var storePrincipal = await _context.StorePrincipals.FindAsync(id);
+            if (storePrincipal != null)
             {
-                _context.StorePrincipals.Remove(storePrincipals);
+                _context.StorePrincipals.Remove(storePrincipal);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StorePrincipalsExists(long id)
+        private bool StorePrincipalExists(int id)
         {
           return _context.StorePrincipals.Any(e => e.Id == id);
         }

@@ -5,13 +5,12 @@ using System.Collections.Generic;
 
 namespace FoodDlvProject2.EFModels
 {
-    public partial class StoreWallet
+    public partial class StoresCategoriesList
     {
         public int StoreId { get; set; }
-        public long OrderId { get; set; }
-        public int Total { get; set; }
+        public int CategoryId { get; set; }
 
-        public virtual Order Order { get; set; }
+        public virtual StoreCategory Category { get; set; }
         public virtual Store Store { get; set; }
     }
 }

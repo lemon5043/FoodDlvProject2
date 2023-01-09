@@ -1,4 +1,4 @@
-﻿@model FoodDlvProject2.EFModels.Stores
+﻿@model FoodDlvProject2.EFModels.Store
 
 @{
     ViewData["Title"] = "Details";
@@ -7,7 +7,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Stores</h4>
+    <h4>Store</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -29,16 +29,10 @@
             @Html.DisplayFor(model => model.ContactNumber)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Opening)
+            @Html.DisplayNameFor(model => model.Photo)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Opening)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Closing)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Closing)
+            @Html.DisplayFor(model => model.Photo)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.StorePrincipal)

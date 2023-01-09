@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace FoodDlvProject2.EFModels
 {
-    public partial class StoreWallet
+    public partial class DeliveryRecord
     {
-        public int StoreId { get; set; }
+        public int DeliveryDriversId { get; set; }
         public long OrderId { get; set; }
-        public int Total { get; set; }
+        public decimal Milage { get; set; }
 
+        public virtual DeliveryDriver DeliveryDrivers { get; set; }
         public virtual Order Order { get; set; }
-        public virtual Store Store { get; set; }
     }
 }
