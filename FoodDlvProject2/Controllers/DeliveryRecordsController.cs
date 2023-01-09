@@ -2,14 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
 
 namespace FoodDlvProject2.Controllers
 {
-	public class DeliveryRecordesController : Controller
+	public class DeliveryRecordsController : Controller
 	{
 		private readonly AppDbContext _context;
 
-		public DeliveryRecordesController(AppDbContext context)
+		public DeliveryRecordsController(AppDbContext context)
 		{
 			_context = context;
 		}
@@ -23,7 +24,7 @@ namespace FoodDlvProject2.Controllers
 		// GET: DeliveryDrivers/Details/5
 		public async Task<IActionResult> Details(int? id)
 		{
-			if (id == null || _context.DeliveryDrivers == null)
+			if (id == null || _context.DeliveryRecords == null)
 			{
 				return NotFound();
 			}
@@ -40,21 +41,23 @@ namespace FoodDlvProject2.Controllers
 			return View(await DeliveryRecords.ToListAsync());
 		}
 		// GET: DeliveryDrivers/Edit/5
-		public async Task<IActionResult> Edit(int? id)
+		public async Task<IActionResult> Edit(int? driverId ,int? orderId)
 		{
-			if (id == null || _context.DeliveryDrivers == null)
+			if (driverId == null ||orderId==null|| _context.DeliveryRecords == null)
 			{
 				return NotFound();
 			}
 
-			var deliveryDriver = await _context.DeliveryDrivers.FindAsync(id);
-			if (deliveryDriver == null)
+			var DeliveryRecords = await _context.DeliveryRecords
+				.Where(m=>m.DeliveryDriversId==driverId)
+				.FirstOrDefaultAsync(o=>o.OrderId==orderId);
+			
+			if (DeliveryRecords == null)
 			{
 				return NotFound();
 			}
-			ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id", deliveryDriver.AccountStatusId);
-			ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Id", deliveryDriver.WorkStatuseId);
-			return View(deliveryDriver);
+		
+			return View(DeliveryRecords);
 		}
 
 		// POST: DeliveryDrivers/Edit/5

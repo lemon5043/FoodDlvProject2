@@ -84,8 +84,8 @@ namespace FoodDlvProject2.Controllers
             {
                 return NotFound();
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id", deliveryDriver.AccountStatusId);
-            ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Id", deliveryDriver.WorkStatuseId);
+            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", deliveryDriver.AccountStatusId);
+            ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Status", deliveryDriver.WorkStatuseId);
             return View(deliveryDriver);
         }
 
@@ -121,8 +121,8 @@ namespace FoodDlvProject2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id", deliveryDriver.AccountStatusId);
-            ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Id", deliveryDriver.WorkStatuseId);
+            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", deliveryDriver.AccountStatusId);
+            ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Status", deliveryDriver.WorkStatuseId);
             return View(deliveryDriver);
         }
 
