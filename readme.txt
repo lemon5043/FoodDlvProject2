@@ -7,3 +7,33 @@
 [v]在Program.cs內註冊AppDbContext
 [v]建立DeliveryDriversController
 [v]修改DeliveryDrivers:Index
+2023/01/08
+[v]建立DeliveryDriversController
+    [v]建立Index
+    [v]建立Details
+    [v]建立Create
+    [v]建立Edit
+    [v]建立Delete
+[v]建立DeliveryRecrodesController
+    [v]建立Index
+    [v]建立Details
+[v]建立DeliveryViolationRecordsController
+    [v]建立Index
+    [v]建立Details
+[v]建立DeliveryCancellationRecordsController
+    [v]建立Index
+    [v]建立Details
+
+    todo
+[]DeliveryRecrodesController
+    []建立Create
+    []建立Edit
+    []建立Delete
+[]DeliveryViolationRecordsController
+    []建立Create
+    []建立Edit
+    []建立Delete
+[]DeliveryCancellationRecordsController
+    []建立Create
+    []建立Edit
+    []建立Delete

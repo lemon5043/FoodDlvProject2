@@ -1,0 +1,55 @@
+﻿@model IEnumerable<FoodDlvProject2.Models.EFModels.DriverCancellationRecord>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.OrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cancellation.Reason)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cancellation.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CancellationDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cancellation.Reason)
+                </td>
+                                <td>
+                    @Html.DisplayFor(modelItem => item.Cancellation.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CancellationDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
