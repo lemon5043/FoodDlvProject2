@@ -15,6 +15,10 @@
    "SelectedToBeGenerated": 0,
    "Tables": [
       {
+         "Name": "[dbo].[AccountAddress]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[AccountStatues]",
          "ObjectType": 0
       },
@@ -39,15 +43,19 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[DeliveryDriverWorkStatuses]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[DeliveryRecords]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DeliveryViolationLists]",
+         "Name": "[dbo].[DeliveryViolationRecords]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DeliveryViolationRecords]",
+         "Name": "[dbo].[DeliveryViolationTypes]",
          "ObjectType": 0
       },
       {
@@ -59,10 +67,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DriverWorkStatuses]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Favourites]",
          "ObjectType": 0
       },
@@ -71,11 +75,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[MemberViolationLists]",
+         "Name": "[dbo].[MemberViolationRecords]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[MemberViolationRecords]",
+         "Name": "[dbo].[MemberViolationTypes]",
          "ObjectType": 0
       },
       {
@@ -87,7 +91,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[OrderStatuses]",
+         "Name": "[dbo].[OrderSchedules]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OrderStatues]",
          "ObjectType": 0
       },
       {
@@ -103,11 +111,15 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[StoreBusinessHour]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[StoreCancellationRecords]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[StoreCancellations]",
+         "Name": "[dbo].[StoreCancellationTypes]",
          "ObjectType": 0
       },
       {
@@ -127,7 +139,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[StoreViolationLists]",
+         "Name": "[dbo].[StoresCategoriesLists]",
          "ObjectType": 0
       },
       {
@@ -135,11 +147,15 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[StoreViolationTypes]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[StoreWallet]",
          "ObjectType": 0
       }
    ],
-   "UiHint": "DESKTOP-PAKSETB.FoodDelivery",
+   "UiHint": "DESKTOP-9UAA6AI.FoodDelivery",
    "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
