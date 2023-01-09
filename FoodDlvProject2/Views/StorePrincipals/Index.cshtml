@@ -1,126 +1,122 @@
 ﻿@model IEnumerable<FoodDlvProject2.EFModels.StorePrincipal>
 
 @{
+	Layout = "_DatatableLayout";
 	ViewData["Title"] = "Index";
 	var AccountName = ViewBag.Account as string;
 }
 
+<h1>店家合作夥伴</h1>
 
-<form method="get">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="caption">
-                <h3>Search</h3>
-                <div class="row">
+<div class="container-fluid" >
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+			<a asp-action="Create">Create New</a>
+        </h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered"
+                   id="dataTable"
+                   width="100%"
+                   cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LastName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Phone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Gender)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Birthday)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Account)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Password)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RegistrationTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AccountStatus)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+				<tbody>
+					@foreach (var item in Model)
+					{
+						<tr>
+							<td>
+								@Html.DisplayFor(modelItem => item.FirstName)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.LastName)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Phone)
+							</td>
+							<td>
+								@{
 
-                    <div class="col-md-4">帳號名稱:<input type="text" name="Account" class="form-control" value="@AccountName" placeholder="Account" ></div>
-                </div>
-            </div>
+									var sex = "";
+
+									if (item.Gender == true)
+									{
+										sex = "男";
+									}
+									else
+									{
+										sex = "女";
+									}
+								}
+
+								@sex
+
+							</td>
+
+
+							<td>
+								@Html.DisplayFor(modelItem => item.Birthday)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Email)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Account)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Password)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.RegistrationTime)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.AccountStatus.Status)
+							</td>
+							<td>
+								<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+								<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+								<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+            </table>
         </div>
     </div>
-    <div class="row" style="margin-top: 10px; margin-bottom: 20px; padding-left: 15px;">
-        <input type="submit" class="btn btn-primary" value="Search" />
-    </div>
-</form>
-
-<h1>Index</h1>
-
-<p>
-	<a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-	<thead>
-		<tr>
-			<th>
-				@Html.DisplayNameFor(model => model.FirstName)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.LastName)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Phone)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Gender)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Birthday)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Email)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Account)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Password)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.RegistrationTime)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.AccountStatus)
-			</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.FirstName)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.LastName)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Phone)
-				</td>
-				<td>
-					@{
-
-						var sex = "";
-
-						if (item.Gender == true)
-						{
-							sex = "男";
-						}
-						else
-						{
-							sex = "女";
-						}
-					}
-
-					@sex
-
-				</td>
-
-
-				<td>
-					@Html.DisplayFor(modelItem => item.Birthday)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Email)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Account)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Password)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.RegistrationTime)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.AccountStatus.Status)
-				</td>
-				<td>
-					<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-					<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-					<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
+</div>
+</div>

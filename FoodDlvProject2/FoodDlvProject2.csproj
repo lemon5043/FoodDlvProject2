@@ -16,7 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\i\" />
+    <Folder Include="Models\DTOs\" />
+    <Folder Include="Models\Infrastructures\" />
+    <Folder Include="Models\Repositories\" />
+    <Folder Include="Models\Services\" />
+    <Folder Include="Models\ViewModels\" />
   </ItemGroup>
 
 </Project>
