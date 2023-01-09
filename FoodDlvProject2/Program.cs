@@ -1,3 +1,6 @@
+using FoodDlvProject2.Models.EFModels;
+using Microsoft.EntityFrameworkCore;
+
 namespace FoodDlvProject2
 {
     public class Program
@@ -7,7 +10,13 @@ namespace FoodDlvProject2
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            //¥[¤J DI µù¥U AppDbContext
+            builder.Services
+                .AddDbContext<AppDbContext>
+                (opt => opt.UseSqlServer(builder.Configuration
+                    .GetConnectionString("default")));
             builder.Services.AddControllersWithViews();
+
 
             var app = builder.Build();
 
