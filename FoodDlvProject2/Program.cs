@@ -1,4 +1,4 @@
-using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.EFModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodDlvProject2
@@ -9,12 +9,12 @@ namespace FoodDlvProject2
         {
             var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
-			var FoodDeliveryConnectionString = builder.Configuration.GetConnectionString("FoodDelivery");
-			builder.Services.AddDbContext<FoodDeliveryContext>(options =>
-				options.UseSqlServer(FoodDeliveryConnectionString));
+            // Add services to the container.
+            var FoodDeliveryConnectionString = builder.Configuration.GetConnectionString("FoodDelivery");
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(FoodDeliveryConnectionString));
 
-			builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 
