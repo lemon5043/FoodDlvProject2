@@ -15,28 +15,32 @@ namespace FoodDlvProject2.Controllers
 			_context = context;
 		}
 		public async Task<IActionResult> Index()
-		{
-			var data = await _context.Orders
-                //.Include(od => od.OrderDetails)
-                //.Include(os => os.OrderSchedules)
-                .Select(x => new 
-				{ 
-					Id = x.Id,					
-					MemberId= x.MemberId,
-					StoreId = x.StoreId,					
-					OrderTime = x.OrderSchedules
-                    .FirstOrDefault(x => x.StatusId == 1)
-					.MarkTime,					
-                })
-				//.Select(x => new OrderDetailVM
-				//{
-				//	ProductId = x.ProductId,
-				//	ProductName = x.ProductName,
-				//	UnitPrice = x.UnitPrice,
-				//	Count = x.OrderDetailVM.Count,
-				//})
-				.ToListAsync();
-			return View(data);
+		{			
+            var data = await _context.OrderDetails
+                .Include(x => x.Order)
+                .Include(x => x.Product)
+                .ToListAsync();
+                
+             
+            //.Include(os => os.OrderSchedules)
+            //.Select(x => new OrderVM
+            //{
+            //	Id = x.Id,
+            //	MemberId = x.MemberId,
+            //	StoreId = x.StoreId,
+            //	OrderTime = x.OrderSchedules
+            //	.FirstOrDefault(x => x.StatusId == 1)
+            //	.MarkTime,
+            //}).ToListAsync();
+            //.Select(x => new OrderDetailVM
+            //{
+            //	ProductId = x.ProductId,
+            //	ProductName = x.ProductName,
+            //	UnitPrice = x.UnitPrice,
+            //	Count = x.OrderDetailVM.Count,
+            //});
+
+            return View(data);
 		}
 
 

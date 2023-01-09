@@ -1,4 +1,5 @@
-﻿@model IEnumerable<FoodDlvProject2.Models.BackSideVM.OrderVM>
+﻿@*@model IEnumerable<FoodDlvProject2.Models.BackSideVM.OrderVM>*@
+@model IEnumerable<FoodDlvProject2.Models.EFModels.Order>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,7 +17,8 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OrderTime)
+                訂單成立時間
+                @*@Html.DisplayNameFor(model => model.OrderSchedules.FirstOrDefault(x => x.StatusId == 1).MarkTime)*@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MemberId)
@@ -28,7 +30,8 @@
                 商品明細
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FinalTotal)
+                訂單總價
+                @*@Html.DisplayNameFor(model => model.FinalTotal)*@
             </th>
             <th></th>
         </tr>
@@ -40,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OrderTime)
+                @Html.DisplayFor(modelItem => item.OrderSchedules.FirstOrDefault(x => x.StatusId == 1).MarkTime)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MemberId)
@@ -55,23 +58,23 @@
                         <td>名稱</td>
                         <td>數量</td>
                         <td>單價</td>
-                        <td>總價</td>                      
+                        @*<td>總價</td>*@                      
                     </tr>
 
-                    @*@foreach (var od in item.OrderDetailVM)
+                    @foreach (var od in item.OrderDetails)
                     {
                         <tr class="active">
                             <td>@od.ProductId</td>
-                            <td>@od.ProductName</td>
+                            <td>@od.Product.ProductName</td>
                             <td>@od.Count</td>
                             <td>@od.UnitPrice</td>
-                            <td>@od.Count * UnitPrice</td>
+                            @*<td>@od.Count * UnitPrice</td>*@
                         </tr>
-                    }*@
+                    }
                 </table>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FinalTotal)
+                @*@Html.DisplayFor(modelItem => item.FinalTotal)*@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
