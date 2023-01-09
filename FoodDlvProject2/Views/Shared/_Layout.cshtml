@@ -125,9 +125,9 @@
                     <div class="bg-white py-2 collapse-inner rounded">                        
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">一般會員:</h6>                        
-                        <a class="collapse-item" href="Members">會員資料</a>
-                        <a class="collapse-item" href="MemberViolationRecords">會員違規紀錄</a>
-                        <a class="collapse-item" href="MemberViolationTypes">會員違規清單</a>
+                        <a class="collapse-item" href="../Members">會員資料</a>
+                        <a class="collapse-item" href="../MemberViolationRecords">會員違規紀錄</a>
+                        <a class="collapse-item" href="../MemberViolationTypes">會員違規清單</a>
 
                     </div>
                 </div>
@@ -135,10 +135,25 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span>
+                <a class="nav-link collapsed"
+                   href="#"
+                   data-toggle="collapse"
+                   data-target="#collapsePages"
+                   aria-expanded="true"
+                   aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>訂單</span>
                 </a>
+                <div id="collapsePages"
+                     class="collapse"
+                     aria-labelledby="headingPages"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">                        
+                        <div class="collapse-divider"></div>
+                        <h6 class="collapse-header">訂單:</h6>                        
+                        <a class="collapse-item" href="../Orders">訂單</a>                        
+                    </div>
+                </div>
             </li>
 
             <!-- Nav Item - Tables -->
