@@ -48,7 +48,7 @@ namespace FoodDlvProject2.Controllers
                 return NotFound();
             }
 
-            var DeliveryViolationRecords = await _context.DeliveryViolationRecords.FindAsync(OrderId);
+            var DeliveryViolationRecords = await _context.DeliveryViolationRecords.FirstOrDefaultAsync(o=>o.OrderId==OrderId);
             if (DeliveryViolationRecords == null)
             {
                 return NotFound();
@@ -61,7 +61,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int OrderId, [Bind("DeliveryDriversId,ViolationId,OrderId,ViolationDate")] DeliveryViolationRecord DeliveryViolationRecord)
+        public async Task<IActionResult> Edit(long? OrderId, [Bind("DeliveryDriversId,ViolationId,OrderId,ViolationDate")] DeliveryViolationRecord DeliveryViolationRecord)
         {
             if (OrderId != DeliveryViolationRecord.OrderId)
             {
