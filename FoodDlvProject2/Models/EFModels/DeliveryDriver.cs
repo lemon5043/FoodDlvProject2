@@ -2,6 +2,8 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace FoodDlvProject2.EFModels
 {
@@ -15,22 +17,39 @@ namespace FoodDlvProject2.EFModels
         }
 
         public int Id { get; set; }
+        [Display(Name = "帳號狀態")]
         public int AccountStatusId { get; set; }
+        [Display(Name ="工作狀態")]
         public int WorkStatuseId { get; set; }
+        [Display(Name = "名")]
         public string FirstName { get; set; }
+        [Display(Name = "姓")]
         public string LastName { get; set; }
+        [Display(Name = "電話")]
         public string Phone { get; set; }
+        [Display(Name = "性別")]
         public bool Gender { get; set; }
+        [Display(Name = "銀行帳戶")]
         public string BankAccount { get; set; }
+        [Display(Name = "身分證")]
         public string Idcard { get; set; }
+        [Display(Name = "註冊時間")]
         public DateTime RegistrationTime { get; set; }
+        [Display(Name = "行照")]
         public string VehicleRegistration { get; set; }
+        [Display(Name = "生日")]
         public DateTime Birthday { get; set; }
         public string Email { get; set; }
+        [Display(Name = "帳號")]
         public string Account { get; set; }
+        [Display(Name = "密碼")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+        [Display(Name = "駕照")]
         public string DriverLicense { get; set; }
+        [Display(Name ="經度")]
         public string Longitude { get; set; }
+        [Display(Name = "緯度")]
         public string Latitude { get; set; }
 
         public virtual AccountStatue AccountStatus { get; set; }
