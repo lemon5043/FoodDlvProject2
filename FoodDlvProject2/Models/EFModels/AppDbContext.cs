@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using FoodDlvProject2.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -53,6 +54,10 @@ namespace FoodDlvProject2.EFModels
         public virtual DbSet<StoreViolationType> StoreViolationTypes { get; set; }
         public virtual DbSet<StoreWallet> StoreWallets { get; set; }
         public virtual DbSet<StoresCategoriesList> StoresCategoriesLists { get; set; }
+
+        public virtual DbSet<OrderVM> OrderVM { get; set; }
+
+        public virtual DbSet<OrderDetailVM> OrderDetailVM { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
