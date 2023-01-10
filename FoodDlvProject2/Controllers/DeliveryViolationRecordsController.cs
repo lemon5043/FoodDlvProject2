@@ -37,8 +37,8 @@ namespace FoodDlvProject2.Controllers
             {
                 return NotFound();
             }
-
-            return View(await DeliveryRecords.ToListAsync());
+			ViewBag.DriverId = id;
+			return View(await DeliveryRecords.ToListAsync());
         }
         // GET: DeliveryDrivers/Edit/5
         public async Task<IActionResult> Edit(int? id)

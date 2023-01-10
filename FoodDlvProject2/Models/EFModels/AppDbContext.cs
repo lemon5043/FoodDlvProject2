@@ -257,7 +257,7 @@ namespace FoodDlvProject2.Models.EFModels
                 entity.Property(e => e.ViolationDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.DeliveryDrivers)
-                    .WithMany()
+                    .WithMany(/*p=>p.DriverViolationRecords*/)
                     .HasForeignKey(d => d.DeliveryDriversId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DeliveryViolationRecords_DeliveryDrivers");

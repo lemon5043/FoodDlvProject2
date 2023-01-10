@@ -34,8 +34,20 @@ namespace FoodDlvProject2.Controllers
             }
 
             var deliveryDriver = await _context.DeliveryDrivers
-                .Include(d => d.AccountStatus)
-                .Include(d => d.WorkStatuse)
+                .Include(a => a.AccountStatus)
+                .Include(w => w.WorkStatuse)
+                .Include(r=>r.DeliveryDriversRatings)
+                .Include(c => c.DriverCancellationRecords)
+                //.Include(v=>v.DriverViolationRecords)
+                //.Select(p => new
+                //{
+                //    Id= p.Id,
+                //    FirstName=p.FirstName,
+                //    LastName=p.LastName,
+                //    Phone=p.Phone,
+                //    Gender=p.Gender,
+
+                //})
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (deliveryDriver == null)
             {

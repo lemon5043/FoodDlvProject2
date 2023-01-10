@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvProject2.Models.EFModels
 {
@@ -13,6 +14,7 @@ namespace FoodDlvProject2.Models.EFModels
         }
 
         public int Id { get; set; }
+        [Display(Name = "帳號狀態")]
         public string Status { get; set; } = null!;
 
         public virtual ICollection<DeliveryDriver> DeliveryDrivers { get; set; }
