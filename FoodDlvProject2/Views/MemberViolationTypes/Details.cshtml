@@ -1,0 +1,30 @@
+﻿@model FoodDlvProject2.Models.EFModels.MemberViolationType
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>查詢介面</h1>
+
+<div>
+    <h4>會員違規清單</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ViolationContent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ViolationContent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">編輯</a> |
+    <a asp-action="Index">返回</a>
+</div>
