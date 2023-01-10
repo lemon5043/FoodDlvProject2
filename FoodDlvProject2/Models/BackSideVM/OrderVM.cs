@@ -18,10 +18,13 @@ namespace FoodDlvProject2.Models.BackSideVM
 		[Display(Name = "商家編號")]
 		public int StoreId { get; set; }
 
-		[Display(Name = "訂單總價")]
+        //[Display(Name = "訂單明細")]
+        //public List<OrderDetailVM> orderDetails { get; set; }
+
+        [Display(Name = "訂單總價")]
 		public int FinalTotal { get; set; }
 
-        //public virtual ICollection<OrderDetailVM> OrderDetailVM { get; set; }
+        //public virtual ICollection<OrderDetail> orderDetails { get; set; }
     }
 
 	//public static class ToOrderVM

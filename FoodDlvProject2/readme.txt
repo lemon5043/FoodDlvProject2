@@ -22,4 +22,8 @@ Order_ver0.2
 5. 新增View-Orders-index
 6. 製作三層式架構:
 	6-1. 新增Infrastructures-ExtensionMethods-OrderExts
-	
+
+Order_ver0.2.1 ~ 0.2.2
+1. 修改OrdersController: 新增雙層式表單(未完成, 但可檢視)
+2. 修改View-Orders-index: 修改格式for雙層表單
+ 
