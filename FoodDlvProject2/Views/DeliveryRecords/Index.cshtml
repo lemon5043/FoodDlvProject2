@@ -1,0 +1,65 @@
+﻿@model IEnumerable<FoodDlvProject2.Models.EFModels.DeliveryRecord>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>外送員管理</h1>
+<h2>外送紀錄</h2>
+<a class="collapse-item" href="/DeliveryDrivers/Index">基本資料</a>
+<a class="collapse-item" href="/DeliveryViolationRecords/Index">違規紀錄</a>
+<a class="collapse-item" href="/DriverCancellationRecords/Index">取消訂單紀錄</a>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DeliveryDriversId)
+            </th>
+			<th>
+				@Html.DisplayNameFor(model => model.DeliveryDrivers.FirstName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DeliveryDrivers.LastName)
+			</th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Milage)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeliveryDriversId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeliveryDrivers.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeliveryDrivers.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Milage)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.DeliveryDriversId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.DeliveryDriversId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.DeliveryDriversId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
