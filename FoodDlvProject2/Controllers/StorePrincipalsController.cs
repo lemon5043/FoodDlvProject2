@@ -20,14 +20,11 @@ namespace FoodDlvProject2.Controllers
         }
 
         // GET: StorePrincipals
-        public async Task<IActionResult> Index(string Account)
+        public async Task<IActionResult> Index()
         {
-            //var foodDeliveryContext = _context.StorePrincipals.Include(s => s.AccountStatus);
+            var foodDeliveryContext = _context.StorePrincipals.Include(s => s.AccountStatus);
 
-            IEnumerable<StorePrincipal> foodDeliveryContext = _context.StorePrincipals.Include(s => s.AccountStatus);
-            if (string.IsNullOrEmpty(Account) == false) foodDeliveryContext = foodDeliveryContext.Where(p => p.Account.Contains(Account));
-
-            return View( foodDeliveryContext.ToList());
+            return View(await foodDeliveryContext.ToListAsync());
         }
 
         // GET: StorePrincipals/Details/5
