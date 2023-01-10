@@ -24,6 +24,10 @@ Order_ver0.2
 	6-1. 新增Infrastructures-ExtensionMethods-OrderExts
 
 Order_ver0.2.1 ~ 0.2.2
-1. 修改OrdersController: 新增雙層式表單(未完成, 但可檢視)
+1. 修改OrdersController: 新增雙層式表單(Order => Details)(未完成, 但可檢視)
 2. 修改View-Orders-index: 修改格式for雙層表單
  
+Order_ver0.3(2023/01/10暫時展示版本)
+1. 新增View-Orders-Details: 暫改使用新view頁面取代雙層表單呈現Details
+2. 新增View-Orders-ProductsDetail: 新增產品說明(未完成)
+3. 修改OrdersController: 新增method以執行detail與ProductsDetail頁面

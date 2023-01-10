@@ -723,5 +723,7 @@ namespace FoodDlvProject2.Models.EFModels
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
         public DbSet<FoodDlvProject2.Models.BackSideVM.OrderVM> OrderVM { get; set; }
+
+        public DbSet<FoodDlvProject2.Models.BackSideVM.OrderDetailVM> OrderDetailVM { get; set; }
     }
 }
