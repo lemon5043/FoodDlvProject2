@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using FoodDlvProject2.Models.EFModels;
+using FoodDlvProject2.EFModels;
 
 namespace FoodDlvProject2.Controllers
 {
@@ -37,7 +37,7 @@ namespace FoodDlvProject2.Controllers
                 .Include(m => m.Member)
                 .Include(m => m.Order)
                 .Include(m => m.Violation)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.MemberId == id);
             if (memberViolationRecord == null)
             {
                 return NotFound();
@@ -100,7 +100,7 @@ namespace FoodDlvProject2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("MemberId,ViolationId,OrderId,ViolationDate,Id")] MemberViolationRecord memberViolationRecord)
         {
-            if (id != memberViolationRecord.Id)
+            if (id != memberViolationRecord.MemberId)
             {
                 return NotFound();
             }
@@ -114,7 +114,7 @@ namespace FoodDlvProject2.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MemberViolationRecordExists(memberViolationRecord.Id))
+                    if (!MemberViolationRecordExists(memberViolationRecord.MemberId))
                     {
                         return NotFound();
                     }
@@ -143,7 +143,7 @@ namespace FoodDlvProject2.Controllers
                 .Include(m => m.Member)
                 .Include(m => m.Order)
                 .Include(m => m.Violation)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.MemberId == id);
             if (memberViolationRecord == null)
             {
                 return NotFound();
@@ -173,7 +173,7 @@ namespace FoodDlvProject2.Controllers
 
         private bool MemberViolationRecordExists(int id)
         {
-          return _context.MemberViolationRecords.Any(e => e.Id == id);
+          return _context.MemberViolationRecords.Any(e => e.MemberId == id);
         }
     }
 }
