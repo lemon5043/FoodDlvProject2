@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FoodDlvProject2.EFModels
 {
-    public partial class FoodDeliveryContext : DbContext
+    public partial class AppDbContext : DbContext
     {
-        public FoodDeliveryContext()
+        public AppDbContext()
         {
         }
 
-        public FoodDeliveryContext(DbContextOptions<FoodDeliveryContext> options)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
         }

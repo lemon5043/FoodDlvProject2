@@ -12,7 +12,7 @@ namespace FoodDlvProject2
 			// Add services to the container.
 
 			var FoodDeliveryConnectionString = builder.Configuration.GetConnectionString("FoodDelivery");
-			builder.Services.AddDbContext<FoodDeliveryContext>(options =>
+			builder.Services.AddDbContext<AppDbContext>(options =>
 				options.UseSqlServer(FoodDeliveryConnectionString));
 
 

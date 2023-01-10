@@ -11,9 +11,9 @@ namespace FoodDlvProject2.Controllers
 {
     public class AccountStatuesController : Controller
     {
-        private readonly FoodDeliveryContext _context;
+        private readonly AppDbContext _context;
 
-        public AccountStatuesController(FoodDeliveryContext context)
+        public AccountStatuesController(AppDbContext context)
         {
             _context = context;
         }

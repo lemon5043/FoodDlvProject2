@@ -12,9 +12,9 @@ namespace FoodDlvProject2.Controllers
 {
     public class StorePrincipalsController : Controller
     {
-        private readonly FoodDeliveryContext _context;
+        private readonly AppDbContext _context;
 
-        public StorePrincipalsController(FoodDeliveryContext context)
+        public StorePrincipalsController(AppDbContext context)
         {
             _context = context;
         }

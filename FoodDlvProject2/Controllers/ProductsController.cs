@@ -11,9 +11,9 @@ namespace FoodDlvProject2.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly FoodDeliveryContext _context;
+        private readonly AppDbContext _context;
 
-        public ProductsController(FoodDeliveryContext context)
+        public ProductsController(AppDbContext context)
         {
             _context = context;
         }
