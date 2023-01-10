@@ -1,12 +1,12 @@
-﻿using FoodDlvProject2.Models.BackSideVM;
-using FoodDlvProject2.Models.EFModels;
+﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.BackSideVM;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodDlvProject2.Controllers
 {
-	public class OrdersController : Controller
+    public class OrdersController : Controller
 	{
 		private readonly AppDbContext _context;
 

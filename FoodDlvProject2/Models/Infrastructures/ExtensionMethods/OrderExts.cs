@@ -1,5 +1,4 @@
-﻿using FoodDlvProject2.Models.EFModels;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using FoodDlvProject2.EFModels;
 
 namespace FoodDlvProject2.Models.Infrastructures.ExtensionMethods
 {

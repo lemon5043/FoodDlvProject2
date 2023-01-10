@@ -1,5 +1,4 @@
-﻿using FoodDlvProject2.Models.EFModels;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvProject2.Models.BackSideVM
 {
@@ -9,7 +8,7 @@ namespace FoodDlvProject2.Models.BackSideVM
 		public long ProductId { get; set; }
 
 		[Display(Name = "商品名稱")]
-		public string ProductName { get; set; }
+		public string? ProductName { get; set; }
 
 		[Display(Name = "商品單價")]
 		public int UnitPrice { get; set; }
