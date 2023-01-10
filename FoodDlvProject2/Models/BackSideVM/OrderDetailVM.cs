@@ -4,7 +4,10 @@ namespace FoodDlvProject2.Models.BackSideVM
 {
 	public class OrderDetailVM
 	{
-		[Display(Name = "商品編號")]
+        [Display(Name = "訂單編號")]
+        public long Id { get; set; }
+
+        [Display(Name = "商品編號")]
 		public long ProductId { get; set; }
 
 		[Display(Name = "商品名稱")]
