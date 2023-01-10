@@ -1,0 +1,60 @@
+﻿@model IEnumerable<FoodDlvProject2.EFModels.DeliveryViolationRecord>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>違規紀錄</h1>
+<a class="collapse-item" href="/DeliveryDrivers/Details/@ViewBag.DriverId">基本資料</a>
+<a class="collapse-item" href="/DeliveryRecords/Details/@ViewBag.DriverId">外送紀錄</a>
+<a class="collapse-item" href="/DriverCancellationRecords/Details/@ViewBag.DriverId">取消訂單紀錄</a>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.OrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Violation.ViolationContent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Violation.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ViolationDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Violation.ViolationContent)
+                </td>
+                                <td>
+                    @Html.DisplayFor(modelItem => item.Violation.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ViolationDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
