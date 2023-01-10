@@ -1,4 +1,4 @@
-﻿using FoodDlvProject2.Models.EFModels;
+﻿using FoodDlvProject2.EFModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
