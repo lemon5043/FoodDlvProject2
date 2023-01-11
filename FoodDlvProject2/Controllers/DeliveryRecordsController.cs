@@ -1,4 +1,5 @@
 ﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,41 +18,63 @@ namespace FoodDlvProject2.Controllers
 		// GET: DeliveryDrivers
 		public async Task<IActionResult> Index()
 		{
-			var appDbContext = _context.DeliveryRecords.Include(d => d.Order).Include(d => d.DeliveryDrivers).OrderBy(d=>d.DeliveryDriversId);
+			var appDbContext = _context.Orders.Include(d => d.DeliveryDrivers);
 			return View(await appDbContext.ToListAsync());
 		}
 
 		// GET: DeliveryDrivers/Details/5
-		public async Task<IActionResult> Details(int? id)
+		public async Task<IActionResult> MonthlyDetails(int? id)
 		{
-			if (id == null || _context.DeliveryRecords == null)
+			if (id == null || _context.Orders == null)
 			{
 				return NotFound();
 			}
 
-			var DeliveryRecords = _context.DeliveryRecords
+			var DeliveryRecords = await _context.Orders
 				.Include(d => d.DeliveryDrivers)
-				.Include(d => d.Order)
-				.Where(m => m.DeliveryDriversId == id);
+				.Where(m => m.DeliveryDriversId == id)
+				.Join(_context.OrderSchedules.Where(s=>s.StatusId>3), o => o.Id, s => s.OrderId, (o, s) => new
+				{
+					o.Id,o.DeliveryDriversId,o.Milage,s.MarkTime,s.OrderId,
+				}).ToListAsync();
+
+                IEnumerable<DeliveryRecordVM> a = DeliveryRecords.GroupBy(r=>r.OrderId)
+				.Select(g => g.OrderByDescending(r => r.MarkTime)
+				.FirstOrDefault())
+				.Select(s => new 
+				{
+                    //DeliveryDriversId=s.DeliveryDriversId,
+                    Id = s.Id,
+					OrderDate = s.MarkTime,
+					Milage = s.Milage,
+				})
+				.GroupBy(r => r.OrderDate.Month).ToList()
+				.Select(s => new DeliveryRecordVM
+                {
+                    TotalMilage = s.Sum(x=>x.Milage),
+					TotalDelievery = s.Count(),
+					Month =s.Min(x=>x.OrderDate).Month,
+				})
+				;
 			if (DeliveryRecords == null)
 			{
 				return NotFound();
 			}
 			ViewBag.DriverId = id;
 
-            return View(await DeliveryRecords.ToListAsync());
+            return View(a);
 		}
 		// GET: DeliveryDrivers/Edit/5
 		public async Task<IActionResult> Edit(int? driverId ,int? orderId)
 		{
-			if (driverId == null ||orderId==null|| _context.DeliveryRecords == null)
+			if (driverId == null ||orderId==null|| _context.Orders == null)
 			{
 				return NotFound();
 			}
 
-			var DeliveryRecords = await _context.DeliveryRecords
-				.Where(m=>m.DeliveryDriversId==driverId)
-				.FirstOrDefaultAsync(o=>o.OrderId==orderId);
+			var DeliveryRecords = await _context.Orders
+                .Where(m=>m.DeliveryDriversId==driverId)
+				.FirstOrDefaultAsync(o=>o.Id==orderId);
 			
 			if (DeliveryRecords == null)
 			{

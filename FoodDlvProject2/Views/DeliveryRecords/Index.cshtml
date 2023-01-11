@@ -14,7 +14,7 @@
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
     }
-@model IEnumerable<FoodDlvProject2.EFModels.DeliveryRecord>
+@model IEnumerable<FoodDlvProject2.EFModels.Order>
 
 @{
     ViewData["Title"] = "Index";
@@ -58,7 +58,7 @@
 							@Html.DisplayNameFor(model => model.DeliveryDrivers.LastName)
 						</th>
 						<th>
-							@Html.DisplayNameFor(model => model.OrderId)
+							@Html.DisplayNameFor(model => model.Id)
 						</th>
 						<th>
 							@Html.DisplayNameFor(model => model.Milage)
@@ -81,14 +81,14 @@
 								@Html.DisplayFor(modelItem => item.DeliveryDrivers.LastName)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.OrderId)
+								@Html.DisplayFor(modelItem => item.Id)
 							</td>
 							<td>
 								@Html.DisplayFor(modelItem => item.Milage)
 							</td>
 							<td>
 								<a asp-action="Edit" asp-route-id="@item.DeliveryDriversId">Edit</a> |
-								<a asp-action="Details" asp-route-id="@item.DeliveryDriversId">Details</a> |
+								<a asp-action="MonthlyDetails" asp-route-id="@item.DeliveryDriversId">Details</a> |
 								<a asp-action="Delete" asp-route-id="@item.DeliveryDriversId">Delete</a>
 							</td>
 						</tr>

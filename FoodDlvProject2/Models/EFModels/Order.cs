@@ -23,6 +23,7 @@ namespace FoodDlvProject2.EFModels
         public int StoreId { get; set; }
         public int DeliveryFee { get; set; }
         public string DeliveryAddress { get; set; }
+        public decimal Milage { get; set; }
 
         public virtual DeliveryDriver DeliveryDrivers { get; set; }
         public virtual Member Member { get; set; }

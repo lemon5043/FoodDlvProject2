@@ -805,5 +805,7 @@ namespace FoodDlvProject2.EFModels
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<FoodDlvProject2.Models.ViewModels.DeliveryRecordVM> DeliveryRecordVM { get; set; }
     }
 }
