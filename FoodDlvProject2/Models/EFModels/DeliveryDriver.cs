@@ -9,9 +9,10 @@ namespace FoodDlvProject2.EFModels
     {
         public DeliveryDriver()
         {
-            DeliveryDriversRatings = new HashSet<DeliveryDriversRating>();
+            DeliveryViolationRecords = new HashSet<DeliveryViolationRecord>();
             DriverCancellationRecords = new HashSet<DriverCancellationRecord>();
             Orders = new HashSet<Order>();
+            Pays = new HashSet<Pay>();
         }
 
         public int Id { get; set; }
@@ -35,8 +36,9 @@ namespace FoodDlvProject2.EFModels
 
         public virtual AccountStatue AccountStatus { get; set; }
         public virtual DeliveryDriverWorkStatus WorkStatuse { get; set; }
-        public virtual ICollection<DeliveryDriversRating> DeliveryDriversRatings { get; set; }
+        public virtual ICollection<DeliveryViolationRecord> DeliveryViolationRecords { get; set; }
         public virtual ICollection<DriverCancellationRecord> DriverCancellationRecords { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Pay> Pays { get; set; }
     }
 }

@@ -7,8 +7,15 @@ namespace FoodDlvProject2.EFModels
 {
     public partial class StoreViolationType
     {
+        public StoreViolationType()
+        {
+            StoreViolationRecords = new HashSet<StoreViolationRecord>();
+        }
+
         public int Id { get; set; }
         public string ViolationContent { get; set; }
         public string Content { get; set; }
+
+        public virtual ICollection<StoreViolationRecord> StoreViolationRecords { get; set; }
     }
 }

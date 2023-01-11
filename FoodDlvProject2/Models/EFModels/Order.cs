@@ -9,12 +9,14 @@ namespace FoodDlvProject2.EFModels
     {
         public Order()
         {
-            DeliveryDriversRatings = new HashSet<DeliveryDriversRating>();
+            DeliveryViolationRecords = new HashSet<DeliveryViolationRecord>();
             DriverCancellationRecords = new HashSet<DriverCancellationRecord>();
+            MemberViolationRecords = new HashSet<MemberViolationRecord>();
             OrderDetails = new HashSet<OrderDetail>();
             OrderSchedules = new HashSet<OrderSchedule>();
             StoreCancellationRecords = new HashSet<StoreCancellationRecord>();
-            StoreRatings = new HashSet<StoreRating>();
+            StoreViolationRecords = new HashSet<StoreViolationRecord>();
+            StoreWallets = new HashSet<StoreWallet>();
         }
 
         public long Id { get; set; }
@@ -23,15 +25,22 @@ namespace FoodDlvProject2.EFModels
         public int StoreId { get; set; }
         public int DeliveryFee { get; set; }
         public string DeliveryAddress { get; set; }
+        public int? DriverRating { get; set; }
+        public int? StoreRating { get; set; }
+        public string DriverComment { get; set; }
+        public string StoreComment { get; set; }
+        public decimal Milage { get; set; }
 
         public virtual DeliveryDriver DeliveryDrivers { get; set; }
         public virtual Member Member { get; set; }
         public virtual Store Store { get; set; }
-        public virtual ICollection<DeliveryDriversRating> DeliveryDriversRatings { get; set; }
+        public virtual ICollection<DeliveryViolationRecord> DeliveryViolationRecords { get; set; }
         public virtual ICollection<DriverCancellationRecord> DriverCancellationRecords { get; set; }
+        public virtual ICollection<MemberViolationRecord> MemberViolationRecords { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<OrderSchedule> OrderSchedules { get; set; }
         public virtual ICollection<StoreCancellationRecord> StoreCancellationRecords { get; set; }
-        public virtual ICollection<StoreRating> StoreRatings { get; set; }
+        public virtual ICollection<StoreViolationRecord> StoreViolationRecords { get; set; }
+        public virtual ICollection<StoreWallet> StoreWallets { get; set; }
     }
 }

@@ -1,16 +1,13 @@
 ﻿using FoodDlvProject2.EFModels;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.ComponentModel.DataAnnotations;
+
 
 namespace FoodDlvProject2.Models.ViewModels
 {
     public class OrderVM
-    {
-        //public OrderVM()
-        //{
-        //    orderDetails = new HashSet<OrderDetail>();
-        //}
-
+    {       
         [Display(Name = "訂單編號")]
         public long Id { get; set; }
 
@@ -31,15 +28,22 @@ namespace FoodDlvProject2.Models.ViewModels
 
         [Display(Name = "訂單總價")]
         public int Total => Items.Sum(x => x.SubTotal) + DeliveryFee;
-
-        //public virtual ICollection<OrderDetail> orderDetails { get; set; }
+        
     }
 
-    //public static class ToOrderVM
-    //{
-    //	public static toOrderVM(this Models) 
-    //	{
-
-    //	}
-    //}
+    public static partial class OrderDtoExts
+    {
+        public static OrderVM ToVM(this OrderVM source)
+        {
+            return new OrderVM
+            {
+                Id = source.Id,
+                OrderTime = source.OrderTime,
+                MemberId = source.MemberId,
+                StoreId = source.StoreId,
+                Items = source.Items,
+                DeliveryFee = source.DeliveryFee,              
+            };
+        }
+    }
 }

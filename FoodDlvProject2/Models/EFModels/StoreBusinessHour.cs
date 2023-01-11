@@ -11,6 +11,7 @@ namespace FoodDlvProject2.EFModels
         public int StoreId { get; set; }
         public TimeSpan OpeningTime { get; set; }
         public TimeSpan ClosingTime { get; set; }
+        public int OpeningDays { get; set; }
 
         public virtual Store Store { get; set; }
     }

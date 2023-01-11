@@ -36,7 +36,6 @@ namespace FoodDlvProject2.Controllers
             var deliveryDriver = await _context.DeliveryDrivers
                 .Include(a => a.AccountStatus)
                 .Include(w => w.WorkStatuse)
-                .Include(r=>r.DeliveryDriversRatings)
                 .Include(c => c.DriverCancellationRecords)
                 //.Include(v=>v.DriverViolationRecords)
                 //.Select(p => new

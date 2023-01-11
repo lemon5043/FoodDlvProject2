@@ -33,8 +33,14 @@ Order_ver0.3(2023/01/10暫時展示版本)
 3. 修改OrdersController: 新增method以執行detail與ProductsDetail頁面
 
 Order_ver0.4
-1. 分支合併main, 重新建立分支
+**1. 分支合併main, 重新建立分支
 
 Order_ver0.4.1
 1. 修改OrdersController: 修改雙層式表單(Order => Details)(未完成, 但可檢視)
 2. 修改View-Orders-index: 修改格式for雙層表單
+
+Order_ver0.5
+**1. 更新Database
+2. 更新EFModels
+3. 重新設計OrderVM, OrderDetailVM
+4. 製作三層式架構(製作中)
