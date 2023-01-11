@@ -1,0 +1,84 @@
+﻿@section DatatableStyle
+    {
+    <!-- Custom styles for this page -->
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
+      rel="stylesheet" />
+}
+
+@section DatatableScript
+    {
+    <!-- Page level plugins -->
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="~/js/demo/datatables-demo.js"></script>
+    }
+@model IEnumerable<FoodDlvProject2.Models.ViewModels.DeliveryMonthlyDetailRecordVM>
+
+@{
+    ViewData["Title"] = "MonthlyDetails";
+}
+
+<h1>MonthlyDetails</h1>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+                DataTables Example
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered"
+                       id="dataTable"
+                       width="100%"
+                       cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderDate.Month)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TotalMilage)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TotalDelievery)
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderDate.Month)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TotalMilage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TotalDelievery)
+                                </td>
+
+                                <td>
+
+                                    <a asp-action="IndividualMonthlyDetails" 
+                                    asp-route-year="@item.OrderDate.Year"
+                                    asp-route-month="@item.OrderDate.Month" 
+                                    asp-route-id="@ViewBag.DriverId">Details</a> |
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
