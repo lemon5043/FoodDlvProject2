@@ -133,7 +133,7 @@ namespace FoodDlvProject2.EFModels
 
             modelBuilder.Entity<CommonReply>(entity =>
             {
-                entity.HasNoKey();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Answer)
                     .IsRequired()
