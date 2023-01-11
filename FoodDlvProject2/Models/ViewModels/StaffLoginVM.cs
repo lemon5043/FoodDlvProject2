@@ -3,7 +3,8 @@ using System.Xml.Linq;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-    public class LoginVM
+    //此VM 為管理員工的帳密資訊
+    public class StaffLoginVM
     {
         [Display(Name = "帳號")]
         [Required]
