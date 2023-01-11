@@ -7,6 +7,7 @@ namespace FoodDlvProject2.EFModels
 {
     public partial class StoresCategoriesList
     {
+        public int Id { get; set; }
         public int StoreId { get; set; }
         public int CategoryId { get; set; }
 

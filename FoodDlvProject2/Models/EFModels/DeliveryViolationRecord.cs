@@ -7,6 +7,7 @@ namespace FoodDlvProject2.EFModels
 {
     public partial class DeliveryViolationRecord
     {
+        public int Id { get; set; }
         public int DeliveryDriversId { get; set; }
         public int ViolationId { get; set; }
         public long OrderId { get; set; }

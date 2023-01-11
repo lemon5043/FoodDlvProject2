@@ -2,7 +2,6 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvProject2.EFModels
 {
@@ -16,9 +15,7 @@ namespace FoodDlvProject2.EFModels
         }
 
         public int Id { get; set; }
-		[Required]
-		
-		public string Status { get; set; }
+        public string Status { get; set; }
 
         public virtual ICollection<DeliveryDriver> DeliveryDrivers { get; set; }
         public virtual ICollection<Member> Members { get; set; }

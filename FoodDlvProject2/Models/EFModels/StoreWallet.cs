@@ -7,6 +7,7 @@ namespace FoodDlvProject2.EFModels
 {
     public partial class StoreWallet
     {
+        public int Id { get; set; }
         public int StoreId { get; set; }
         public long OrderId { get; set; }
         public int Total { get; set; }

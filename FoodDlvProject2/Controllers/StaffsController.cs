@@ -9,11 +9,11 @@ using FoodDlvProject2.EFModels;
 
 namespace FoodDlvProject2.Controllers
 {
-    public class CustomerServicesController : Controller
+    public class StaffsController : Controller
     {
         private readonly AppDbContext _context;
 
-        public CustomerServicesController(AppDbContext context)
+        public StaffsController(AppDbContext context)
         {
             _context = context;
         }
@@ -21,18 +21,18 @@ namespace FoodDlvProject2.Controllers
         // GET: CustomerServices
         public async Task<IActionResult> Index()
         {
-              return View(await _context.CustomerServices.ToListAsync());
+              return View(await _context.Staffs.ToListAsync());
         }
 
         // GET: CustomerServices/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.CustomerServices == null)
+            if (id == null || _context.Staffs == null)
             {
                 return NotFound();
             }
 
-            var customerService = await _context.CustomerServices
+            var customerService = await _context.Staffs
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customerService == null)
             {
@@ -53,7 +53,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Account,Password,Title,Permissions")] CustomerService customerService)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Account,Password,Title,Permissions")] Staff customerService)
         {
             if (ModelState.IsValid)
             {
@@ -67,12 +67,12 @@ namespace FoodDlvProject2.Controllers
         // GET: CustomerServices/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.CustomerServices == null)
+            if (id == null || _context.Staffs == null)
             {
                 return NotFound();
             }
 
-            var customerService = await _context.CustomerServices.FindAsync(id);
+            var customerService = await _context.Staffs.FindAsync(id);
             if (customerService == null)
             {
                 return NotFound();
@@ -85,7 +85,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Account,Password,Title,Permissions")] CustomerService customerService)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Account,Password,Title,Permissions")] Staff customerService)
         {
             if (id != customerService.Id)
             {
@@ -118,12 +118,12 @@ namespace FoodDlvProject2.Controllers
         // GET: CustomerServices/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.CustomerServices == null)
+            if (id == null || _context.Staffs == null)
             {
                 return NotFound();
             }
 
-            var customerService = await _context.CustomerServices
+            var customerService = await _context.Staffs
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customerService == null)
             {
@@ -138,14 +138,14 @@ namespace FoodDlvProject2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.CustomerServices == null)
+            if (_context.Staffs == null)
             {
                 return Problem("Entity set 'AppDbContext.CustomerServices'  is null.");
             }
-            var customerService = await _context.CustomerServices.FindAsync(id);
+            var customerService = await _context.Staffs.FindAsync(id);
             if (customerService != null)
             {
-                _context.CustomerServices.Remove(customerService);
+                _context.Staffs.Remove(customerService);
             }
             
             await _context.SaveChangesAsync();
@@ -154,7 +154,7 @@ namespace FoodDlvProject2.Controllers
 
         private bool CustomerServiceExists(int id)
         {
-          return _context.CustomerServices.Any(e => e.Id == id);
+          return _context.Staffs.Any(e => e.Id == id);
         }
     }
 }
