@@ -17,10 +17,15 @@ namespace FoodDlvProject2.Controllers
 
         //GET(list): Orders
 		public async Task<IActionResult> Index()
-		{			
-            var data = await _context.Orders
-                .Include(x => x.OrderDetails)                
+		{
+            var data1 = await _context.Orders
+                .Include(x => x.OrderDetails)
+                .ThenInclude(p => p.Product)
                 .Include(os => os.OrderSchedules)
+                .ToListAsync();
+                
+
+            var data = data1
                 .Select(x => new OrderVM
                 {
                     Id = x.Id,
@@ -29,15 +34,18 @@ namespace FoodDlvProject2.Controllers
                     OrderTime = x.OrderSchedules
                     .FirstOrDefault(x => x.StatusId == 1)
                     .MarkTime,
-                })
-            //.Select(x => new OrderDetailVM
-            //{
-            //	ProductId = x.ProductId,
-            //	ProductName = x.ProductName,
-            //	UnitPrice = x.UnitPrice,
-            //	Count = x.OrderDetailVM.Count,
-            //});
-                .ToListAsync();
+                    Items = x.OrderDetails
+                        .Select(y => new OrderDetailVM
+                        {
+                            Id = y.Id,
+                            OrderId = y.OrderId,
+                            ProductId = y.ProductId,
+                            ProductName = y.Product.ProductName,
+                            UnitPrice = y.UnitPrice,
+                            Count = y.Count,                            
+                        }).ToList(),
+
+                }).ToList();
             return View(data);
 		}
 

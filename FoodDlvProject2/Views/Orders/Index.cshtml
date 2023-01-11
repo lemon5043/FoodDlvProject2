@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<FoodDlvProject2.Models.ViewModels.OrderVM>
-@*@model IEnumerable<FoodDlvProject2.Models.EFModels.Order>*@
+
 
 @{
     ViewData["Title"] = "Index";
@@ -29,9 +29,8 @@
             <th>
                 商品明細
             </th>
-            <th>
-                訂單總價
-                @*@Html.DisplayNameFor(model => model.FinalTotal)*@
+            <th>                
+                @Html.DisplayNameFor(model => model.Total)
             </th>           
         </tr>
     </thead>
@@ -50,30 +49,30 @@
             <td>
                 @Html.DisplayFor(modelItem => item.StoreId)
             </td>
-                <td>
-                    <table class="table table-bordered">
-                        <tr class="active">
-                            <td width="200">商品編號</td>
-                            <td>名稱</td>
-                            <td>數量</td>
-                            <td>單價</td>
-                            @*<td>總價</td>*@                      
-                        </tr>
-
-                        @*@foreach (var od in item.OrderDetails)
-                        {
-                            <tr class="active">
-                                <td>@od.ProductId</td>
-                                <td>@od.Product.ProductName</td>
-                                <td>@od.Count</td>
-                                <td>@od.UnitPrice</td>
-                                @*<td>@od.Count * UnitPrice</td>
-                            </tr>
-                        }*@
-                    </table>
-                </td>
             <td>
-                @*@Html.DisplayFor(modelItem => item.FinalTotal)*@
+                <table class="table table-bordered">
+                    <tr class="active">
+                        <td width="200">商品編號</td>
+                        <td>名稱</td>
+                        <td>數量</td>
+                        <td>單價</td>
+                        <td>總價</td>                     
+                    </tr>
+
+                    @foreach (var od in item.Items)
+                    {
+                        <tr class="active">
+                            <td>@od.ProductId</td>
+                            <td>@od.ProductName</td>
+                            <td>@od.Count</td>
+                            <td>@od.UnitPrice</td>
+                            <td>@od.SubTotal</td>
+                        </tr>
+                    }
+                </table>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
             </td>
             <td>
                 @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@

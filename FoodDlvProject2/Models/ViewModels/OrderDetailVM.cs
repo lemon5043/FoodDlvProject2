@@ -4,8 +4,9 @@ namespace FoodDlvProject2.Models.ViewModels
 {
     public class OrderDetailVM
     {
-        [Display(Name = "訂單編號")]
         public long Id { get; set; }
+        [Display(Name = "訂單編號")]
+        public long OrderId { get; set; }
 
         [Display(Name = "商品編號")]
         public long ProductId { get; set; }
@@ -19,6 +20,7 @@ namespace FoodDlvProject2.Models.ViewModels
         [Display(Name = "商品數量")]
         public int Count { get; set; }
 
-        //public virtual ICollection<Product> Products { get; set; }
+        [Display(Name = "單品總價")]
+        public int SubTotal => UnitPrice * Count;        
     }
 }

@@ -14,7 +14,7 @@ Order_ver0.1.1 ~ 0.1.2
 	1-4. 重新建置EFModels: 使用指令建置
 
 Order_ver0.2
-1. 更新Database
+**1. 更新Database
 2. 更新EFModels
 3. 新增OrderVM, OrderDetailVM
 4. 重做OrdersController: 
@@ -34,3 +34,7 @@ Order_ver0.3(2023/01/10暫時展示版本)
 
 Order_ver0.4
 1. 分支合併main, 重新建立分支
+
+Order_ver0.4.1
+1. 修改OrdersController: 修改雙層式表單(Order => Details)(未完成, 但可檢視)
+2. 修改View-Orders-index: 修改格式for雙層表單
