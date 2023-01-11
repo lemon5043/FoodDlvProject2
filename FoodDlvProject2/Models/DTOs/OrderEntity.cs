@@ -9,15 +9,22 @@ namespace FoodDlvProject2.Models.DTOs
         public DeliveryDriverDto DeliveryDriver { get; set; }
         public int MemberId { get; set; }
         public int StoreId { get; set; }
+
+        public DateTime OrderTime { get; set; }
+
+        public List<OrderDetailEntity> Items { get; set; }
+
         public int DeliveryFee { get; set; }
-        public string DeliveryAddress { get; set; }
-        public int? DriverRating { get; set; }
-        public int? StoreRating { get; set; }
-        public string DriverComment { get; set; }
-        public string StoreComment { get; set; }
+
+        public int Total => Items.Sum(x => x.SubTotal) + DeliveryFee;
+
+        public string DeliveryAddress { get; set; }        
         public decimal Milage { get; set; }
 
-        
+        public OrderEntity(long id, int memberId, int storeId)
+        {
+
+        }
     }
 
     public static partial class OrderExts
@@ -29,11 +36,7 @@ namespace FoodDlvProject2.Models.DTOs
             {
                 Id= source.Id,
                 DeliveryDriver = source.DeliveryDriver.ToEntity(),
-                DeliveryAddress = source.DeliveryAddress,
-                DriverRating = source.DriverRating,
-                StoreRating = source.StoreRating,
-                DriverComment = source.DriverComment,
-                StoreComment = source.StoreComment,
+                DeliveryAddress = source.DeliveryAddress,                
                 Milage = source.Milage,
             };
         }
