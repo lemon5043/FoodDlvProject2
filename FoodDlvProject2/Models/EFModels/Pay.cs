@@ -7,6 +7,7 @@ namespace FoodDlvProject2.EFModels
 {
     public partial class Pay
     {
+        public int Id { get; set; }
         public int DeliveryDriversId { get; set; }
         public int DeliveryCount { get; set; }
         public int TotalMilage { get; set; }

@@ -5,13 +5,10 @@ using System.Collections.Generic;
 
 namespace FoodDlvProject2.EFModels
 {
-    public partial class CreditCard
+    public partial class CommonReply
     {
         public int Id { get; set; }
-        public int MemberId { get; set; }
-        public string BankName { get; set; }
-        public string CreditCard1 { get; set; }
-
-        public virtual Member Member { get; set; }
+        public DateTime CreateTime { get; set; }
+        public string Answer { get; set; }
     }
 }

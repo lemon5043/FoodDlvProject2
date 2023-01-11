@@ -7,6 +7,11 @@ namespace FoodDlvProject2.EFModels
 {
     public partial class Cart
     {
+        public Cart()
+        {
+            CartCustomizationItems = new HashSet<CartCustomizationItem>();
+        }
+
         public long Id { get; set; }
         public int MemberId { get; set; }
         public int StoreId { get; set; }
@@ -16,5 +21,6 @@ namespace FoodDlvProject2.EFModels
         public virtual Member Member { get; set; }
         public virtual Product Product { get; set; }
         public virtual Store Store { get; set; }
+        public virtual ICollection<CartCustomizationItem> CartCustomizationItems { get; set; }
     }
 }

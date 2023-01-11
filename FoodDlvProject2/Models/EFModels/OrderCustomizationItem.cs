@@ -5,22 +5,20 @@ using System.Collections.Generic;
 
 namespace FoodDlvProject2.EFModels
 {
-    public partial class OrderDetail
+    public partial class OrderCustomizationItem
     {
-        public OrderDetail()
+        public OrderCustomizationItem()
         {
+            CartCustomizationItems = new HashSet<CartCustomizationItem>();
             OrderAssItems = new HashSet<OrderAssItem>();
         }
 
-        public long Id { get; set; }
-        public long OrderId { get; set; }
-        public long ProductId { get; set; }
+        public int Id { get; set; }
+        public int ProuctId { get; set; }
+        public string ItemName { get; set; }
         public int UnitPrice { get; set; }
-        public int Count { get; set; }
-        public string CustomizationList { get; set; }
 
-        public virtual Order Order { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual ICollection<CartCustomizationItem> CartCustomizationItems { get; set; }
         public virtual ICollection<OrderAssItem> OrderAssItems { get; set; }
     }
 }

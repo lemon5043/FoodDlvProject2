@@ -7,8 +7,15 @@ namespace FoodDlvProject2.EFModels
 {
     public partial class StoreCategory
     {
+        public StoreCategory()
+        {
+            StoresCategoriesLists = new HashSet<StoresCategoriesList>();
+        }
+
         public int Id { get; set; }
         public string CategoryName { get; set; }
         public string CategoryContent { get; set; }
+
+        public virtual ICollection<StoresCategoriesList> StoresCategoriesLists { get; set; }
     }
 }
