@@ -61,24 +61,24 @@ namespace FoodDlvProject2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create( StorePrincipalVM storePrincipalVM)
         {
-            try
-            {
-                StorePrincipal storePrincipal = storePrincipalVM.ToStorePrincipal();
+            //try
+            //{
+            //    StorePrincipal storePrincipal = storePrincipalVM.ToStorePrincipal();
 
-                if (storePrincipal.Id == null) { }
+            //    if (storePrincipal.Id == null) { }
 
-            }
-            catch (Exception ex) 
-            {
-                ModelState.AddModelError(string.Empty, ex.Message);
+            //}
+            //catch (Exception ex) 
+            //{
+            //    ModelState.AddModelError(string.Empty, ex.Message);
 
-            };
-
-
-
+            //};
+            
             if (ModelState.IsValid)
             {
                 StorePrincipal storePrincipal = storePrincipalVM.ToStorePrincipal();
+                storePrincipal.RegistrationTime = DateTime.Now;
+
                 _context.Add(storePrincipal);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

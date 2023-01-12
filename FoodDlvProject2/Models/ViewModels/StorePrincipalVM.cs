@@ -67,7 +67,7 @@ namespace FoodDlvProject2.Models.ViewModels
                 Email = storePrincipalVM.Email,
                 Account = storePrincipalVM.Account,
                 Password = storePrincipalVM.Password,
-                RegistrationTime = storePrincipalVM.RegistrationTime,
+                
 
             };
 
@@ -89,7 +89,7 @@ namespace FoodDlvProject2.Models.ViewModels
                 Email = storePrincipal.Email,
                 Account = storePrincipal.Account,
                 Password = storePrincipal.Password,
-                RegistrationTime = storePrincipal.RegistrationTime,
+                
 
             };
 
