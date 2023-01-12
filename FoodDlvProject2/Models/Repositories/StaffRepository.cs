@@ -10,9 +10,7 @@ namespace FoodDlvProject2.Models.Repositories
         private AppDbContext db = new AppDbContext();
         public StaffDto GetByAccount(string account)
         {
-            return db.Staffs
-                .SingleOrDefault(x => x.Account == account)
-                .ToDto();
+            return db.Staffs.SingleOrDefault(x => x.Account == account).ToDto();
         }
 
         public bool IsExist(string account)

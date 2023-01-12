@@ -10,6 +10,7 @@ using FoodDlvProject2.Models.ViewModels;
 using FoodDlvProject2.Models.Services;
 using NuGet.Protocol.Core.Types;
 using FoodDlvProject2.Models.Services.Interfaces;
+using FoodDlvProject2.Models.Repositories;
 
 namespace FoodDlvProject2.Controllers
 {
@@ -26,6 +27,8 @@ namespace FoodDlvProject2.Controllers
         public StaffsController(AppDbContext context)
         {
             _context = context;
+            repo = new StaffRepository();
+            service = new StaffService(repo);
         }
 
         // GET: Staffs

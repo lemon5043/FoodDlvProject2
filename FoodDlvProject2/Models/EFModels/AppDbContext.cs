@@ -30,7 +30,6 @@ namespace FoodDlvProject2.EFModels
         public virtual DbSet<DeliveryViolationType> DeliveryViolationTypes { get; set; }
         public virtual DbSet<DriverCancellation> DriverCancellations { get; set; }
         public virtual DbSet<DriverCancellationRecord> DriverCancellationRecords { get; set; }
-        public virtual DbSet<Favourite> Favourites { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<MemberViolationRecord> MemberViolationRecords { get; set; }
         public virtual DbSet<MemberViolationType> MemberViolationTypes { get; set; }
@@ -57,14 +56,15 @@ namespace FoodDlvProject2.EFModels
         public virtual DbSet<StoreWallet> StoreWallets { get; set; }
         public virtual DbSet<StoresCategoriesList> StoresCategoriesLists { get; set; }
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=FoodDelivery;Persist Security Info=True;User ID=FoodDiv;Password=123");
-//            }
-//        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("FoodDelivery"));
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -315,11 +315,6 @@ namespace FoodDlvProject2.EFModels
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CancellationRecords_Orders");
-            });
-
-            modelBuilder.Entity<Favourite>(entity =>
-            {
-                entity.HasKey(e => new { e.StoreId, e.MemberId });
             });
 
             modelBuilder.Entity<Member>(entity =>
