@@ -181,17 +181,18 @@ namespace FoodDlvProject2.Controllers
             (bool IsSuccess, string ErrorMessage) response =
                 service.Login(model.Account, model.Password);
 
-            //if (response.IsSuccess)
-            //{
-            //    // 記住登入成功的會員，要會cookie才能用
-            //    var rememberMe = false;
+            if (response.IsSuccess)
+            {
+                return RedirectToAction("Index", "Home");
+                //// 記住登入成功的會員，要會cookie才能用
+                //var rememberMe = false;
 
-            //    string returnUrl = ProcessLogin(model.Account, rememberMe, out HttpCookie cookie);
+                //string returnUrl = ProcessLogin(model.Account, rememberMe, out HttpCookie cookie);
 
-            //    Response.Cookies.Add(cookie);
+                //Response.Cookies.Add(cookie);
 
-            //    return Redirect(returnUrl);
-            //}
+                //return Redirect(returnUrl);
+            }
 
             ModelState.AddModelError(string.Empty, response.ErrorMessage);
 
