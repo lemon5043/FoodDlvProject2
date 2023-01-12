@@ -3,13 +3,13 @@
 namespace FoodDlvProject2.Models.DTOs
 {
     
-    public class OrderProductEntity
+    public class OrderProductDto
     {
         public long Id { get; set; }
         public string ProductName { get; set; }
         public int UnitPrice { get; set; }
 
-        public OrderProductEntity(long id, string productName, int unitPrice)
+        public OrderProductDto(long id, string productName, int unitPrice)
         {
             Id = id;
             ProductName = productName;
@@ -19,9 +19,9 @@ namespace FoodDlvProject2.Models.DTOs
 
     public static partial class ProductExts
     {
-        public static OrderProductEntity ToOrderProductEntity(this Product source)
+        public static OrderProductDto ToOrderProductEntity(this Product source)
         {
-            return new OrderProductEntity(source.Id, source.ProductName, source.UnitPrice);
+            return new OrderProductDto(source.Id, source.ProductName, source.UnitPrice);
         }
     }
 
