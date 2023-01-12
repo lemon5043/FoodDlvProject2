@@ -12,7 +12,7 @@ namespace FoodDlvProject2.Models.ViewModels
         [Display(Name = "訂單編號")]
         public long Id { get; set; }
 
-        [Display(Name = "訂單建立日期")]
+        [Display(Name = "訂單建立時間")]
         public DateTime OrderTime { get; set; }
 
         [Display(Name = "會員編號")]
@@ -54,18 +54,5 @@ namespace FoodDlvProject2.Models.ViewModels
                 total = source.Total,                
             };
         }
-
-        //public static List<OrderVM> ToListOrderVM(this OrderDto source)
-        //{
-        //    return new List<OrderVM>
-        //    {
-        //        Id = source.Id,
-        //        OrderTime = source.OrderTime,
-        //        MemberName = source.MemberName,
-        //        StoreName = source.StoreName,
-        //        DeliveryFee = source.DeliveryFee,
-        //        total = source.Total,
-        //    };
-        //}
     }
 }

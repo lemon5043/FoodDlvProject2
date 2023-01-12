@@ -52,67 +52,114 @@ namespace FoodDlvProject2.Controllers
             return View(data);
         }
 
-        public async Task<IActionResult> Orderlist()
-        {
-            var data = orderService.Search();
-
-            return View(data);
+		//GET: Orders
+        public async Task<IActionResult> InfoView()
+        {            
+            return View();
         }
 
+		//GET: OrderSchedules
+		public async Task<IActionResult> ScheduleView()
+		{
+			return View();
+		}
 
-        
-        //GET(list): Orders/OrderDetails/5
-        //public async Task<IActionResult> Details(long id)
-        //{
-        //    var orderDetail = _context.OrderDetails
-        //        .Include(p => p.Product)
-        //        .Where(x => x.Id == id)
-        //        .Select(x => new OrderDetailVM
-        //        {
-        //            ProductId = x.ProductId,
-        //            ProductName = x.Product.ProductName,
-        //            UnitPrice = x.UnitPrice,
-        //            Count = x.Count,
-        //        });
+		//GET: OrderDetails
+		public async Task<IActionResult> DetailView()
+		{
+			return View();
+		}
 
-        //    return View(await orderDetail.ToListAsync());
-        //}
+		//GET: OrderProducts
+		public async Task<IActionResult> ProductView()
+		{
+			return View();
+		}
 
-        //GET(detail): Orders/OrderDetails/Products/5
-        //public async Task<IActionResult> ProductsDetail(long id)
-        //{
-        //    var product = await _context.Products
-        //        .Include(s => s.Store)              
-        //        .Select(x => new
-        //        {
-        //            Id = x.Id,
-        //            StoreId = x.StoreId,
-        //            ProductName = x.ProductName,
-        //            Photo = x.Photo,
-        //            ProductContent = x.ProductContent,
-        //        })
-        //        .FirstOrDefaultAsync(x => x.Id == id);
-        //    return View(product);
-        //}
+		//GET: OrderSearch
+		public async Task<IActionResult> OrderSearch()
+		{
+			return View();
+		}
+
+		//POST: OrderSearch
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> OrderSearch(int id)
+		{
+			return View();
+		}
+
+		//GET: DateSearch
+		public async Task<IActionResult> DateSearch()
+		{
+			return View();
+		}
+
+		//POST: DateSearch
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DateSearch(int id)
+		{
+			return View();
+		}
 
 
-        //GET(delete): Orders/Delete/5
-        //public async Task<IActionResult> Delete(long id)
-        //{
-        //    var order = await _context.Orders
-        //        .Include(os => os.OrderSchedules)
-        //        .Include(od => od.OrderDetails)
-        //        .FirstOrDefaultAsync(x => x.Id == id);
 
-        //    return View(order);
-        //}
 
-        ////POST(delete): Order/Delete/5
-        //public async Task<IActionResult> DeleteConfirmed(long id)
-        //{
-        //    return View();
-        //}
-    
-    }
+
+		//GET(list): Orders/OrderDetails/5
+		//public async Task<IActionResult> Details(long id)
+		//{
+		//    var orderDetail = _context.OrderDetails
+		//        .Include(p => p.Product)
+		//        .Where(x => x.Id == id)
+		//        .Select(x => new OrderDetailVM
+		//        {
+		//            ProductId = x.ProductId,
+		//            ProductName = x.Product.ProductName,
+		//            UnitPrice = x.UnitPrice,
+		//            Count = x.Count,
+		//        });
+
+		//    return View(await orderDetail.ToListAsync());
+		//}
+
+		//GET(detail): Orders/OrderDetails/Products/5
+		//public async Task<IActionResult> ProductsDetail(long id)
+		//{
+		//    var product = await _context.Products
+		//        .Include(s => s.Store)              
+		//        .Select(x => new
+		//        {
+		//            Id = x.Id,
+		//            StoreId = x.StoreId,
+		//            ProductName = x.ProductName,
+		//            Photo = x.Photo,
+		//            ProductContent = x.ProductContent,
+		//        })
+		//        .FirstOrDefaultAsync(x => x.Id == id);
+		//    return View(product);
+		//}
+
+
+		//GET(delete): Orders/Delete/5
+		//public async Task<IActionResult> Delete(long id)
+		//{
+		//    var order = await _context.Orders
+		//        .Include(os => os.OrderSchedules)
+		//        .Include(od => od.OrderDetails)
+		//        .FirstOrDefaultAsync(x => x.Id == id);
+
+		//    return View(order);
+		//}
+
+		////POST(delete): Order/Delete/5
+		//public async Task<IActionResult> DeleteConfirmed(long id)
+		//{
+		//    return View();
+		//}
+
+	}
 }
 
