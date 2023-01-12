@@ -2,6 +2,8 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace FoodDlvProject2.EFModels
 {
@@ -19,14 +21,35 @@ namespace FoodDlvProject2.EFModels
         }
 
         public int Id { get; set; }
+        [Display(Name = "店家合作夥伴帳號")]
+        [Required(ErrorMessage = "{0}必填")]
         public int StorePrincipalId { get; set; }
+        [Display(Name = "商店名稱")]
+        [Required(ErrorMessage = "{0}必填")]
+        [StringLength(50)]
         public string StoreName { get; set; }
+        [Display(Name = "地址")]
+        [Required(ErrorMessage = "{0}必填")]
+        [StringLength(100)]
         public string Address { get; set; }
+        [Display(Name = "聯絡電話")]
+        [Required(ErrorMessage = "{0}必填")]
+        [StringLength(10)]
         public string ContactNumber { get; set; }
+        [Display(Name = "圖片")]
+
         public byte[] Photo { get; set; }
 
+
+
+
+        [Display(Name = "店家合作夥伴")]
+
         public virtual StorePrincipal StorePrincipal { get; set; }
+
+        [Display(Name = "店家違規紀錄")]
         public virtual StoreViolationRecord StoreViolationRecord { get; set; }
+        [Display(Name = "店家錢包")]
         public virtual StoreWallet StoreWallet { get; set; }
         public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

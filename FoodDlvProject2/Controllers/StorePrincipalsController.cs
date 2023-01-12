@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FoodDlvProject2.EFModels;
 using System.Security.Principal;
+using FoodDlvProject2.Models.ViewModels;
 
 namespace FoodDlvProject2.Controllers
 {
@@ -58,16 +59,32 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AccountStatusId,FirstName,LastName,Phone,Gender,Birthday,Email,Account,Password,RegistrationTime")] StorePrincipal storePrincipal)
+        public async Task<IActionResult> Create( StorePrincipalVM storePrincipalVM)
         {
+            try
+            {
+                StorePrincipal storePrincipal = storePrincipalVM.ToStorePrincipal();
+
+                if (storePrincipal.Id == null) { }
+
+            }
+            catch (Exception ex) 
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+
+            };
+
+
+
             if (ModelState.IsValid)
             {
+                StorePrincipal storePrincipal = storePrincipalVM.ToStorePrincipal();
                 _context.Add(storePrincipal);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipal.AccountStatusId);
-            return View(storePrincipal);
+            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipalVM.AccountStatusId);
+            return View(storePrincipalVM);
         }
 
         // GET: StorePrincipals/Edit/5
@@ -84,7 +101,8 @@ namespace FoodDlvProject2.Controllers
                 return NotFound();
             }
             ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipal.AccountStatusId);
-            return View(storePrincipal);
+            StorePrincipalVM storePrincipalVM = storePrincipal.ToStorePrincipaVM();
+            return View(storePrincipalVM);
         }
 
         // POST: StorePrincipals/Edit/5
@@ -92,15 +110,19 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AccountStatusId,FirstName,LastName,Phone,Gender,Birthday,Email,Account,Password,RegistrationTime")] StorePrincipal storePrincipal)
+        public async Task<IActionResult> Edit(int id, StorePrincipalVM storePrincipalVM)
         {
-            if (id != storePrincipal.Id)
+            if (id != storePrincipalVM.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
+                StorePrincipal storePrincipal = storePrincipalVM.ToStorePrincipal();
+
+
+
                 try
                 {
                     _context.Update(storePrincipal);
@@ -119,8 +141,8 @@ namespace FoodDlvProject2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipal.AccountStatusId);
-            return View(storePrincipal);
+            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipalVM.AccountStatusId);
+            return View(storePrincipalVM);
         }
 
         // GET: StorePrincipals/Delete/5

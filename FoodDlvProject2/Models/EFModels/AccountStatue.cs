@@ -2,6 +2,8 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace FoodDlvProject2.EFModels
 {
@@ -15,6 +17,10 @@ namespace FoodDlvProject2.EFModels
         }
 
         public int Id { get; set; }
+        [Display(Name = "狀態")]
+        [Required(ErrorMessage = "{0}必填")]
+
+        [StringLength(30)]
         public string Status { get; set; }
 
         public virtual ICollection<DeliveryDriver> DeliveryDrivers { get; set; }
