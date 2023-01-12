@@ -1,10 +1,4 @@
-﻿@model IEnumerable<FoodDlvProject2.EFModels.Staff>
-
-@{
-    ViewData["Title"] = "Index";
-}
-
-@section DatatableStyle
+﻿@section DatatableStyle
     {
     <!-- Custom styles for this page -->
     <link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
@@ -19,14 +13,24 @@
 
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
-	}
+    }
+@model IEnumerable<FoodDlvProject2.Models.ViewModels.DeliveryIndividualDetailsRecordVM>
 
-<div class="container-fluid">
-    <h1>員工管理</h1>
+@{
+    ViewData["Title"] = "DeliveryIndividualDetailsRecord";
+}
+
+<h1>DeliveryIndividualDetailsRecord</h1>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
-                <a asp-action="Create">Create New</a>
+                DataTables Example
             </h6>
         </div>
         <div class="card-body">
@@ -38,26 +42,18 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstName)
+                                @Html.DisplayNameFor(model => model.Id)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.LastName)
+                                @Html.DisplayNameFor(model => model.OrderDate)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Account)
+                                @Html.DisplayNameFor(model => model.Milage)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Password)
+                                @Html.DisplayNameFor(model => model.Status)
                             </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Title)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Permissions)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.RegistrationTime)
-                            </th>
+
                             <th></th>
                         </tr>
                     </thead>
@@ -66,36 +62,26 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                    @Html.DisplayFor(modelItem => item.Id)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.LastName)
+                                    @Html.DisplayFor(modelItem => item.OrderDate)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Account)
+                                    @Html.DisplayFor(modelItem => item.Milage)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Password)
+                                    @Html.DisplayFor(modelItem => item.Status)
                                 </td>
+
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Title)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Permissions)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.RegistrationTime)
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                 </td>
                             </tr>
                         }
                     </tbody>
+
                 </table>
             </div>
         </div>
     </div>
-</div>

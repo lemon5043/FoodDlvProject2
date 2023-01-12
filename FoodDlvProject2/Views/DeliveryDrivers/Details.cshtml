@@ -5,7 +5,7 @@
 }
 
 <h1>基本資料</h1>
-<a class="collapse-item" href="/DeliveryRecords/Details/@Model.Id">外送紀錄</a>
+<a class="collapse-item" href="/DeliveryRecords/MonthlyDetails/@Model.Id">外送紀錄</a>
 <a class="collapse-item" href="/DeliveryViolationRecords/Details/@Model.Id">違規紀錄</a>
 <a class="collapse-item" href="/DriverCancellationRecords/Details/@Model.Id">取消訂單紀錄</a>
 <div>
@@ -34,7 +34,10 @@
             @Html.DisplayNameFor(model => model.Gender)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
+            @{
+                var sex = Model.Gender ? "男" : "女";
+            }
+            @sex
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.BankAccount)

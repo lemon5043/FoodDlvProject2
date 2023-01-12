@@ -43,19 +43,18 @@ namespace FoodDlvProject2.Controllers
         // GET: DeliveryDrivers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.DeliveryDrivers == null)
+            if (id == null || _context.DriverCancellationRecords == null)
             {
                 return NotFound();
             }
 
-            var deliveryDriver = await _context.DeliveryDrivers.FindAsync(id);
-            if (deliveryDriver == null)
+            var DriverCancellationRecords = await _context.DriverCancellationRecords.Include(c=>c.Cancellation).FirstOrDefaultAsync(i=>i.Id==id);
+            if (DriverCancellationRecords == null)
             {
                 return NotFound();
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id", deliveryDriver.AccountStatusId);
-            ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Id", deliveryDriver.WorkStatuseId);
-            return View(deliveryDriver);
+
+            return View(DriverCancellationRecords);
         }
 
         // POST: DeliveryDrivers/Edit/5
@@ -63,9 +62,9 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AccountStatusId,WorkStatuseId,FirstName,LastName,Phone,Gender,BankAccount,Idcard,RegistrationTime,VehicleRegistration,Birthday,Email,Account,Password,DriverLicense,Longitude,Latitude")] DeliveryDriver deliveryDriver)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CancellationId,OrderId,DeliveryDriversId,CancellationDate,Reason,[Content]")] DriverCancellationRecord DriverCancellationRecords)
         {
-            if (id != deliveryDriver.Id)
+            if (id != DriverCancellationRecords.Id)
             {
                 return NotFound();
             }
@@ -74,12 +73,12 @@ namespace FoodDlvProject2.Controllers
             {
                 try
                 {
-                    _context.Update(deliveryDriver);
+                    _context.Update(DriverCancellationRecords);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DeliveryDriverExists(deliveryDriver.Id))
+                    if (!CancellationRecordsExists(DriverCancellationRecords.Id))
                     {
                         return NotFound();
                     }
@@ -90,13 +89,12 @@ namespace FoodDlvProject2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id", deliveryDriver.AccountStatusId);
-            ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Id", deliveryDriver.WorkStatuseId);
-            return View(deliveryDriver);
+
+            return View(DriverCancellationRecords);
         }
-        private bool DeliveryDriverExists(int id)
+        private bool CancellationRecordsExists(int id)
         {
-            return _context.DeliveryDrivers.Any(e => e.Id == id);
+            return _context.DriverCancellationRecords.Any(e => e.Id == id);
         }
     }
 }

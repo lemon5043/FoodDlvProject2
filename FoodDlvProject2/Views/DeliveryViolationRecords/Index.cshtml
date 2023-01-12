@@ -1,4 +1,20 @@
-﻿@model IEnumerable<FoodDlvProject2.EFModels.DeliveryViolationRecord>
+﻿@section DatatableStyle
+    {
+    <!-- Custom styles for this page -->
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
+      rel="stylesheet" />
+}
+
+@section DatatableScript
+    {
+    <!-- Page level plugins -->
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="~/js/demo/datatables-demo.js"></script>
+    }
+@model IEnumerable<FoodDlvProject2.EFModels.DeliveryViolationRecord>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,7 +30,23 @@
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
-    <thead>
+    
+</table>
+<div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  DataTables Example
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    class="table table-bordered"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                  >
+                  <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.DeliveryDriversId)
@@ -61,11 +93,14 @@
                     @Html.DisplayFor(modelItem => item.ViolationDate)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.DeliveryDriversId">Edit</a> |
+                    <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.DeliveryDriversId">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.DeliveryDriversId">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
-</table>
+                  </table>
+                </div>
+              </div>
+            </div>
