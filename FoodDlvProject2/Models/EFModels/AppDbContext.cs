@@ -30,6 +30,7 @@ namespace FoodDlvProject2.EFModels
         public virtual DbSet<DeliveryViolationType> DeliveryViolationTypes { get; set; }
         public virtual DbSet<DriverCancellation> DriverCancellations { get; set; }
         public virtual DbSet<DriverCancellationRecord> DriverCancellationRecords { get; set; }
+        public virtual DbSet<Favourite> Favourites { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<MemberViolationRecord> MemberViolationRecords { get; set; }
         public virtual DbSet<MemberViolationType> MemberViolationTypes { get; set; }
@@ -314,6 +315,11 @@ namespace FoodDlvProject2.EFModels
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CancellationRecords_Orders");
+            });
+
+            modelBuilder.Entity<Favourite>(entity =>
+            {
+                entity.HasKey(e => new { e.StoreId, e.MemberId });
             });
 
             modelBuilder.Entity<Member>(entity =>
