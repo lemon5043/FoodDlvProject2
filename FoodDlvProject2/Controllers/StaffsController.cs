@@ -31,7 +31,7 @@ namespace FoodDlvProject2.Controllers
         // GET: Staffs
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Staffs.ToListAsync());
+            return View(await _context.Staffs.ToListAsync());
         }
 
         // GET: Staffs/Details/5
@@ -157,14 +157,14 @@ namespace FoodDlvProject2.Controllers
             {
                 _context.Staffs.Remove(staff);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StaffExists(int id)
         {
-          return _context.Staffs.Any(e => e.Id == id);
+            return _context.Staffs.Any(e => e.Id == id);
         }
 
 
@@ -199,35 +199,36 @@ namespace FoodDlvProject2.Controllers
         }
 
 
-        //施工中，拎北不會用 cookie
-        //private string ProcessLogin(string account, bool rememberMe)
+        //施工中，不會用 cookie
+        //private string ProcessLogin(string account, bool rememberMe out HttpCookie)
         //{
         //    var member = repo.GetByAccount(account);
-        //    string roles = String.Empty; // 在本範例, 沒有用到角色權限,所以存入空白
+        //    string roles = String.Empty;
 
-            //// 建立一張認證票
-            //FormsAuthenticationTicket ticket =
-            //    new FormsAuthenticationTicket(
-            //        1,          // 版本別, 沒特別用處
-            //        account,
-            //        DateTime.Now,   // 發行日
-            //        DateTime.Now.AddDays(2), // 到期日
-            //        rememberMe,     // 是否續存
-            //        roles,          // userdata
-            //        "/" // cookie位置
-            //    );
+        //    // 建立一張認證票
+        //    FormsAuthenticationTicket ticket =
+        //        new FormsAuthenticationTicket(
+        //            1,          // 版本別, 沒特別用處
+        //            account,
+        //            DateTime.Now,   // 發行日
+        //            DateTime.Now.AddDays(2), // 到期日
+        //            rememberMe,     // 是否續存
+        //            roles,          // userdata
+        //            "/" // cookie位置
+        //        );
 
-            //// 將它加密
-            //string value = FormsAuthentication.Encrypt(ticket);
+        //    // 將它加密
+        //    string value = FormsAuthentication.Encrypt(ticket);
 
-            //// 存入cookie
-            //cookie = new HttpCookie(FormsAuthentication.FormsCookieName, value);
+        //    // 存入cookie
+        //    cookie = new HttpCookie(FormsAuthentication.FormsCookieName, value);
 
-            //// 取得return url
-            //string url = FormsAuthentication.GetRedirectUrl(account, true); //第二個引數沒有用處
+        //    // 取得return url
+        //    string url = FormsAuthentication.GetRedirectUrl(account, true); //第二個引數沒有用處
 
-            //return url;
-        }
+        //    return url;
+        //}
 
 
     }
+}
