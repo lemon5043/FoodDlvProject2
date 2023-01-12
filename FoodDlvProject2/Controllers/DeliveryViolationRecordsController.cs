@@ -41,21 +41,19 @@ namespace FoodDlvProject2.Controllers
 			return View(await DeliveryRecords.ToListAsync());
         }
         // GET: DeliveryDrivers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? OrderId)
         {
-            if (id == null || _context.DeliveryDrivers == null)
+            if (OrderId == null || _context.DeliveryViolationRecords == null)
             {
                 return NotFound();
             }
 
-            var deliveryDriver = await _context.DeliveryDrivers.FindAsync(id);
-            if (deliveryDriver == null)
+            var DeliveryViolationRecords = await _context.DeliveryViolationRecords.FirstOrDefaultAsync(o=>o.OrderId==OrderId);
+            if (DeliveryViolationRecords == null)
             {
                 return NotFound();
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id", deliveryDriver.AccountStatusId);
-            ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Id", deliveryDriver.WorkStatuseId);
-            return View(deliveryDriver);
+            return View(DeliveryViolationRecords);
         }
 
         // POST: DeliveryDrivers/Edit/5
@@ -63,9 +61,9 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AccountStatusId,WorkStatuseId,FirstName,LastName,Phone,Gender,BankAccount,Idcard,RegistrationTime,VehicleRegistration,Birthday,Email,Account,Password,DriverLicense,Longitude,Latitude")] DeliveryDriver deliveryDriver)
+        public async Task<IActionResult> Edit(long? OrderId, [Bind("DeliveryDriversId,ViolationId,OrderId,ViolationDate")] DeliveryViolationRecord DeliveryViolationRecord)
         {
-            if (id != deliveryDriver.Id)
+            if (OrderId != DeliveryViolationRecord.OrderId)
             {
                 return NotFound();
             }
@@ -74,12 +72,12 @@ namespace FoodDlvProject2.Controllers
             {
                 try
                 {
-                    _context.Update(deliveryDriver);
+                    _context.Update(DeliveryViolationRecord);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DeliveryDriverExists(deliveryDriver.Id))
+                    if (!ViolationRecordExists(DeliveryViolationRecord.OrderId))
                     {
                         return NotFound();
                     }
@@ -90,13 +88,12 @@ namespace FoodDlvProject2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id", deliveryDriver.AccountStatusId);
-            ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Id", deliveryDriver.WorkStatuseId);
-            return View(deliveryDriver);
+
+            return View(DeliveryViolationRecord);
         }
-        private bool DeliveryDriverExists(int id)
+        private bool ViolationRecordExists(long id)
         {
-            return _context.DeliveryDrivers.Any(e => e.Id == id);
+            return _context.DeliveryViolationRecords.Any(e => e.OrderId == id);
         }
     }
 }

@@ -1,4 +1,20 @@
-﻿@model IEnumerable<FoodDlvProject2.EFModels.DeliveryViolationRecord>
+﻿@section DatatableStyle
+    {
+    <!-- Custom styles for this page -->
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
+      rel="stylesheet" />
+}
+
+@section DatatableScript
+    {
+    <!-- Page level plugins -->
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="~/js/demo/datatables-demo.js"></script>
+    }
+@model IEnumerable<FoodDlvProject2.EFModels.DeliveryViolationRecord>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,55 +22,72 @@
 
 <h1>違規紀錄</h1>
 <a class="collapse-item" href="/DeliveryDrivers/Details/@ViewBag.DriverId">基本資料</a>
-<a class="collapse-item" href="/DeliveryRecords/Details/@ViewBag.DriverId">外送紀錄</a>
+<a class="collapse-item" href="/DeliveryRecords/MonthlyDetails/@ViewBag.DriverId">外送紀錄</a>
 <a class="collapse-item" href="/DriverCancellationRecords/Details/@ViewBag.DriverId">取消訂單紀錄</a>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
 
-            <th>
-                @Html.DisplayNameFor(model => model.OrderId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Violation.ViolationContent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Violation.Content)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ViolationDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Violation.ViolationContent)
-                </td>
-                                <td>
-                    @Html.DisplayFor(modelItem => item.Violation.Content)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ViolationDate)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  DataTables Example
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    class="table table-bordered"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                  >
+                <thead>
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.OrderId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Violation.ViolationContent)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Violation.Content)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ViolationDate)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OrderId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Violation.ViolationContent)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Violation.Content)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ViolationDate)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
+                                <a asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+                </div>
+              </div>
+            </div>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

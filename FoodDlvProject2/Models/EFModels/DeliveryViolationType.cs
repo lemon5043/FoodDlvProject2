@@ -2,6 +2,8 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace FoodDlvProject2.EFModels
 {
@@ -13,7 +15,9 @@ namespace FoodDlvProject2.EFModels
         }
 
         public int Id { get; set; }
+        [Display(Name = "違規項目")]
         public string ViolationContent { get; set; }
+        [Display(Name = "違規簡述")]
         public string Content { get; set; }
 
         public virtual ICollection<DeliveryViolationRecord> DeliveryViolationRecords { get; set; }
