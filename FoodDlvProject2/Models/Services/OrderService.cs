@@ -19,12 +19,10 @@ namespace FoodDlvProject2.Models.Services
             return _repository.Search(start, end, keyWord);
         }
 
-        //public IPagedList<Order> GetPagedOrders(DateTime? start, DateTime? end, string keyWord)
-        //{
-        //    int pageSize;
-
-            
-        //}
+        public IEnumerable<OrderDetailDto> DetailSearch(long orderId)
+        {
+            return _repository.DetailSearch(orderId);
+        }
 
     }
 }

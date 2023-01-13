@@ -23,7 +23,7 @@ namespace FoodDlvProject2.Controllers
         }		       
         
 		//GET: Orders
-        public IActionResult Index()
+        public IActionResult Index(DateTime? start, DateTime? end, string keyWord)
         {
 			var data = orderService.Search(null, null, null)
                 .Select(x => x.ToOrderVM());
@@ -32,9 +32,11 @@ namespace FoodDlvProject2.Controllers
 				
 
 		//GET: OrderDetails
-		public async Task<IActionResult> DetailIndex()
+		public async Task<IActionResult> DetailIndex(long orderId)
 		{
-			return View();
+			var data = orderService.DetailSearch(orderId)
+				.Select(x => x.ToOrderDetailVM());
+			return View(data);
 		}
 
 

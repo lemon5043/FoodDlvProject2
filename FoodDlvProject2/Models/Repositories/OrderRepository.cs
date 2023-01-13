@@ -2,6 +2,7 @@
 using FoodDlvProject2.Models.DTOs;
 using FoodDlvProject2.Models.Services.Interfaces;
 using FoodDlvProject2.Models.ViewModels;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -38,8 +39,8 @@ namespace FoodDlvProject2.Models.Repositories
                 Id = o.Id,
                 MemberName = o.Member.LastName + o.Member.FirstName,
                 StoreName = o.Store.StoreName,
-                //OrderTime = o.OrderSchedules.SingleOrDefault(x => x.StatusId == 1).MarkTime,
-                orderSchedule = o.OrderSchedules.Select(x => new OrderSchedule
+				//OrderTime = o.OrderSches.FirstOrDefault(x => x.StatusId == 1).MarkTime,
+				orderSchedule = o.OrderSchedules.Select(x => new OrderSchedule
                 {                    
                     StatusId = x.StatusId,
                     MarkTime = x.MarkTime,                    
@@ -59,7 +60,24 @@ namespace FoodDlvProject2.Models.Repositories
                 .Sum();            
         }
 
-
+        public IEnumerable<OrderDetailDto> DetailSearch(long orderId)
+        {
+            IEnumerable<OrderDetailDto> query = _context.OrderDetails
+                .Include(od => od.Product)
+                .Where(od => od.OrderId == orderId)
+                .Select(x => new OrderDetailDto
+                {
+                    Id = x.Id,
+                    OrderId = x.OrderId,
+					ProductId = x.ProductId,
+                    ProductName = x.Product.ProductName,
+					UnitPrice = x.UnitPrice,
+					Count = x.Count,
+					SubTotal = OrderDetailClac(orderId)
+				});
+                
+               return query;
+        }
 
         //public IEnumerable<OrderDetail> Read()
         //{

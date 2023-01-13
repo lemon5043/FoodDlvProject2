@@ -16,10 +16,10 @@ namespace FoodDlvProject2.Models.ViewModels
 		public string KeyWord { get; set; }
 
 		[Display(Name = "起始時間")]
-		public DateTime? start { get; set; }
+		public DateTime? dateStart { get; set; }
 
 		[Display(Name = "結束時間")]
-		public DateTime? end { get; set; }
+		public DateTime? dateEnd { get; set; }
         
         /// <summary>
         /// 顯示頁面

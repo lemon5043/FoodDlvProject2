@@ -5,7 +5,8 @@
 
 @{
 	ViewData["Title"] = "Index";
-	//var dateLimit = ViewBag.Order as IEnumerable;
+	var dateStart = ViewBag.start as DateTime?;
+	var dateEnd = ViewBag.end as DateTime?;
 	var keyWord = ViewBag.KeyWord as string;
 }
 
@@ -17,7 +18,8 @@
             <div class="caption">
                 <h3>Search</h3>
                 <div class="row">
-					@*<div class="col-md-4">時間範圍:@Html.("now", dateLimit, new { @class = "form-control" })</div>*@
+					<div class="col-md-4">訂單時間:<input type="datetime-local" name="dateStart" class="form-control"/> </div>
+					<div class="col-md-4"><input type="datetime-local" name="dateEnd" class="form-control" /> </div>
 					<div class="col-md-4">商品名稱:<input type="text" name="keyWord" class="form-control" value="@keyWord"></div>
                 </div>
             </div>

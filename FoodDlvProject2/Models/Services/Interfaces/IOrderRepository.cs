@@ -13,6 +13,6 @@ namespace FoodDlvProject2.Models.Services.Interfaces
         /// <returns></returns>
         IEnumerable<OrderDto> Search(DateTime? start, DateTime? end, string keyWord);
 
-        //IEnumerable<OrderDetail> SearchDetail();
+        IEnumerable<OrderDetailDto> DetailSearch(long orderId);
     }
 }
