@@ -15,7 +15,15 @@
    "SelectedToBeGenerated": 0,
    "Tables": [
       {
-         "Name": "[dbo].[CommonReplies]",
+         "Name": "[dbo].[AppealRecord]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ComplaintStatus]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ComplaintType]",
          "ObjectType": 0
       }
    ],
