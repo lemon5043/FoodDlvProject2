@@ -1,4 +1,4 @@
-﻿@model FoodDlvProject2.EFModels.DeliveryDriver
+﻿@model FoodDlvProject2.Models.ViewModels.DeliveryDriversEditVM
 
 @{
     ViewData["Title"] = "Edit";
@@ -22,27 +22,38 @@
                 <label asp-for="WorkStatuseId" class="control-label"></label>
                 <select asp-for="WorkStatuseId" class="form-control" asp-items="ViewBag.WorkStatuseId"></select>
                 <span asp-validation-for="WorkStatuseId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
+            </div>            
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+			<div class="form-group form-check">
+                <label asp-for="Gender" class="control-label"></label><br />
+				<label class="radioOfGender">
+					<label>@Html.RadioButtonFor(x => x.Gender, true) 男</label>
+					<label>@Html.RadioButtonFor(x => x.Gender, false) 女</label>
+				</label>
+			</div>
+            <div class="form-group">
+				<label asp-for="Birthday" class="control-label"></label>
+				<input asp-for="Birthday" class="form-control" />
+				<span asp-validation-for="Birthday" class="text-danger"></span>
+			</div>
+            <div class="form-group">
                 <label asp-for="Phone" class="control-label"></label>
                 <input asp-for="Phone" class="form-control" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="radioOfGender">
-                    <label>@Html.RadioButtonFor(x => x.Gender, true) 男</label>
-                    <label>@Html.RadioButtonFor(x => x.Gender, false) 女</label>
-                </label>
+			<div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BankAccount" class="control-label"></label>
@@ -54,25 +65,11 @@
                 <input asp-for="Idcard" class="form-control" />
                 <span asp-validation-for="Idcard" class="text-danger"></span>
             </div>
-            <div class="form-group hide">
-                <label asp-for="RegistrationTime" class="control-label"></label>
-                <input asp-for="RegistrationTime" class="form-control" />
-                <span asp-validation-for="RegistrationTime" class="text-danger"></span>
-            </div>
+            
             <div class="form-group">
                 <label asp-for="VehicleRegistration" class="control-label"></label>
                 <input asp-for="VehicleRegistration" class="form-control" />
                 <span asp-validation-for="VehicleRegistration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Birthday" class="control-label"></label>
-                <input asp-for="Birthday" class="form-control" />
-                <span asp-validation-for="Birthday" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DriverLicense" class="control-label"></label>

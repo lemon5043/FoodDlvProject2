@@ -101,8 +101,11 @@ namespace FoodDlvProject2.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Year = year;
+			ViewBag.Month = month;
+			ViewBag.DriverId = id;
 
-            return View(a);
+			return View(a);
         }
        
     }

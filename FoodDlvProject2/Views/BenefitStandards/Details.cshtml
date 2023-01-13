@@ -64,7 +64,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.HolidayBouns)
         </dd>
-        <dt class = "col-sm-2">
+@*        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RushHoursBouns)
         </dt>
         <dd class = "col-sm-10">
@@ -93,12 +93,15 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.RushHoursEnd2)
-        </dd>
+        </dd>*@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Selected)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Selected)
+            @{
+                var Selected = Model.Selected ? "使用中" : "未使用";
+            }
+            @Selected
         </dd>
     </dl>
 </div>

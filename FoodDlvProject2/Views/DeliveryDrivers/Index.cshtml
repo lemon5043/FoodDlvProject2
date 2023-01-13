@@ -14,7 +14,7 @@
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
     }
-@model IEnumerable<FoodDlvProject2.EFModels.DeliveryDriver>
+@model IEnumerable<FoodDlvProject2.Models.ViewModels.DeliveryDriversIndexVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -22,6 +22,7 @@
 <h1>外送員管理</h1>
 <h2>基本資料</h2>
 <a class="collapse-item" href="/DeliveryRecords/Index">外送紀錄</a>
+<a class="collapse-item" href="/Pays/Index">薪資資料</a>
 <a class="collapse-item" href="/DeliveryViolationRecords/Index">違規紀錄</a>
 <a class="collapse-item" href="/DriverCancellationRecords/Index">取消訂單紀錄</a>
 <p>
@@ -45,19 +46,13 @@
 				<thead>
 					<tr>
 						<th>
-							@Html.DisplayNameFor(model => model.FirstName)
+							@Html.DisplayNameFor(model => model.Id)
 						</th>
 						<th>
-							@Html.DisplayNameFor(model => model.LastName)
+							@Html.DisplayNameFor(model => model.DriverName)
 						</th>
 						<th>
 							@Html.DisplayNameFor(model => model.Gender)
-						</th>
-						<th>
-							@Html.DisplayNameFor(model => model.RegistrationTime)
-						</th>
-						<th>
-							@Html.DisplayNameFor(model => model.Account)
 						</th>
 						<th>
 							@Html.DisplayNameFor(model => model.AccountStatus)
@@ -73,26 +68,20 @@
 					{
 						<tr>
 							<td>
-								@Html.DisplayFor(modelItem => item.FirstName)
+								@Html.DisplayFor(modelItem => item.Id)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.LastName)
+								@Html.DisplayFor(modelItem => item.DriverName)
 							</td>
 							<td>
 								@{ var sex = item.Gender?"男":"女"; }
 								@sex
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.RegistrationTime)
+								@Html.DisplayFor(modelItem => item.AccountStatus)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.Account)
-							</td>
-							<td>
-								@Html.DisplayFor(modelItem => item.AccountStatus.Status)
-							</td>
-							<td>
-								@Html.DisplayFor(modelItem => item.WorkStatuse.Status)
+								@Html.DisplayFor(modelItem => item.WorkStatuse)
 							</td>
 							<td>
 								<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -1,0 +1,66 @@
+﻿@model FoodDlvProject2.Models.ViewModels.PaysIndividualMonthlyDetailsVM
+
+@{
+	ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+	<h4>Pay</h4>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.DeliveryDriversId)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.DeliveryDriversId)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.DriversName)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.DriversName)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.DeliveryCount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.DeliveryCount)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.TotalMilage)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TotalMilage)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Bouns)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Bouns)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.TotalPay)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TotalPay)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.SettlementMonth)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.SettlementMonth.Year)年
+			@Html.DisplayFor(model => model.SettlementMonth.Month)月
+		</dd>
+	</dl>
+</div>
+<div>
+	<a asp-controller="DeliveryRecords"
+		asp-action="IndividualMonthlyDetails"
+	   asp-route-year="@Model.SettlementMonth.Year"
+	   asp-route-month="@Model.SettlementMonth.Month"
+	   asp-route-id="@Model.DeliveryDriversId">外送紀錄</a> |
+	<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+	<a asp-action="Index">Back to List</a>
+</div>

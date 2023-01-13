@@ -14,13 +14,18 @@
 	<!-- Page level custom scripts -->
 	<script src="~/js/demo/datatables-demo.js"></script>
     }
-@model IEnumerable<FoodDlvProject2.EFModels.BenefitStandard>
+@model IEnumerable<FoodDlvProject2.Models.ViewModels.PaysIndexVM>
 
 @{
 	ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>外送員管理</h1>
+<h2>薪資資料</h2>
+<a class="collapse-item" href="/DeliveryDrivers/Index">基本資料</a>
+<a class="collapse-item" href="/Pays/Index">薪資資料</a>
+<a class="collapse-item" href="/DeliveryViolationRecords/Index">違規紀錄</a>
+<a class="collapse-item" href="/DriverCancellationRecords/Index">取消訂單紀錄</a>
 
 <p>
 	<a asp-action="Create">Create New</a>
@@ -41,32 +46,27 @@
 				<thead>
 					<tr>
 						<th>
-							@Html.DisplayNameFor(model => model.Id)
+							@Html.DisplayNameFor(model => model.DeliveryDriversId)
 						</th>
 						<th>
-							@Html.DisplayNameFor(model => model.PerOrder)
+							@Html.DisplayNameFor(model => model.DriversName)
 						</th>
 						<th>
-							@Html.DisplayNameFor(model => model.PerMilage)
+							@Html.DisplayNameFor(model => model.DeliveryCount)
 						</th>
 						<th>
-							@Html.DisplayNameFor(model => model.Bouns1)
+							@Html.DisplayNameFor(model => model.TotalMilage)
 						</th>
 						<th>
-							@Html.DisplayNameFor(model => model.Bouns2)
+							@Html.DisplayNameFor(model => model.Bouns)
 						</th>
 						<th>
-							@Html.DisplayNameFor(model => model.Bouns3)
-						</th>
-@*						<th>
-							@Html.DisplayNameFor(model => model.HolidayBouns)
+							@Html.DisplayNameFor(model => model.TotalPay)
 						</th>
 						<th>
-							@Html.DisplayNameFor(model => model.RushHoursBouns)
-						</th>*@
-						<th>
-							@Html.DisplayNameFor(model => model.Selected)
+							@Html.DisplayNameFor(model => model.SettlementMonth)
 						</th>
+
 						<th></th>
 					</tr>
 				</thead>
@@ -75,38 +75,30 @@
 					{
 						<tr>
 							<td>
-								@Html.DisplayFor(modelItem => item.Id)
+								@Html.DisplayFor(modelItem => item.DeliveryDriversId)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.PerOrder)
+								@Html.DisplayFor(modelItem => item.DriversName)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.PerMilage)
+								@Html.DisplayFor(modelItem => item.DeliveryCount)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.Bouns1)
+								@Html.DisplayFor(modelItem => item.TotalMilage)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.Bouns2)
+								@Html.DisplayFor(modelItem => item.Bouns)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.Bouns3)
-							</td>
-@*							<td>
-								@Html.DisplayFor(modelItem => item.HolidayBouns)
+								@Html.DisplayFor(modelItem => item.TotalPay)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.RushHoursBouns)
-							</td>*@
-							<td>
-								@{
-									var selected = item.Selected ? "使用中" : "未使用";
-								}
-								@selected
+								@Html.DisplayFor(modelItem => item.SettlementMonth.Year )年
+								@Html.DisplayFor(modelItem => item.SettlementMonth.Month)月
 							</td>
 							<td>
 								<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-								<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+								<a asp-action="MonthlyDetails" asp-route-id="@item.DeliveryDriversId">Details</a> |
 								<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
 							</td>
 						</tr>
