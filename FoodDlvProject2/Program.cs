@@ -1,17 +1,23 @@
 using FoodDlvProject2.EFModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace FoodDlvProject2
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
+            //以下為身分驗證相關 cookie 設置功能
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie();
 
-			var FoodDeliveryConnectionString = builder.Configuration.GetConnectionString("FoodDelivery");
+            // Add services to the container.
+
+            var FoodDeliveryConnectionString = builder.Configuration.GetConnectionString("FoodDelivery");
 			builder.Services.AddDbContext<AppDbContext>(options =>
 				options.UseSqlServer(FoodDeliveryConnectionString));
 
@@ -33,6 +39,8 @@ namespace FoodDlvProject2
 
             app.UseRouting();
 
+            //以下為驗證相關功能，請洽https://learn.microsoft.com/zh-tw/aspnet/core/security/authentication/cookie?view=aspnetcore-7.0
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

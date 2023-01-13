@@ -423,7 +423,16 @@
                                data-toggle="dropdown"
                                aria-haspopup="true"
                                aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                @{
+                                    if (User.Identity.IsAuthenticated)
+                                    {
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Hi! @(User.Identity.Name)</span>
+                                    }
+                                    else
+                                    {
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">未登入</span>
+                                    }
+                                }
                                 <img class="img-profile rounded-circle"
                                      src="~/img/undraw_profile.svg" />
                             </a>
