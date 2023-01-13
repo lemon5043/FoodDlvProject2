@@ -15,14 +15,15 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using System.Security.Principal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FoodDlvProject2.Controllers
 {
     public class StaffsController : Controller
     {
 
-        //精靈做的
-        private readonly AppDbContext _context;
+    //精靈做的
+    private readonly AppDbContext _context;
 
         //自定義
         private StaffService service;
@@ -176,30 +177,33 @@ namespace FoodDlvProject2.Controllers
 
 
         //自定義
+        [AllowAnonymous]
         public async Task<IActionResult> Login()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(StaffLoginVM model)
         {
+           
             // var service = new MemberService(repository);
-            (bool IsSuccess, string ErrorMessage) response =
+            (bool IsSuccess, string? ErrorMessage) response =
                 service.Login(model.Account, model.Password);
 
             if (response.IsSuccess)
             {
                 // 記住登入成功的會員，
-                var rememberMe = false;
+                var rememberMe = true;
 
                 var member = repo.GetByAccount(model.Account);
-                string roles = String.Empty;
+                int roles = member.Permissions;
 
                 var claims = new List<Claim>
             {
-            new Claim(ClaimTypes.Name, member.Account),
-            new Claim(ClaimTypes.Role, roles),
+            new Claim(ClaimTypes.Name, member.FirstName),
+            new Claim(ClaimTypes.Role, roles.ToString()),
             };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

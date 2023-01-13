@@ -13,7 +13,10 @@ namespace FoodDlvProject2
 
             //以下為身分驗證相關 cookie 設置功能
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie();
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Staffs/Login";
+            });
 
             // Add services to the container.
 
@@ -43,10 +46,14 @@ namespace FoodDlvProject2
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app
+            .MapControllers()
+            .RequireAuthorization(); // This will set a default policy that says a user has to be authenticated
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-
+                pattern: "{controller=Home}/{action=Index}/{id?}"           
+                );
             app.Run();
         }
     }
