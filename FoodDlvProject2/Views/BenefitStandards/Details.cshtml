@@ -1,0 +1,108 @@
+﻿@model FoodDlvProject2.EFModels.BenefitStandard
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>BenefitStandard</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PerOrder)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PerOrder)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PerMilage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PerMilage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BonusThreshold1)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BonusThreshold1)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BonusThreshold2)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BonusThreshold2)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BonusThreshold3)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BonusThreshold3)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Bouns1)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Bouns1)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Bouns2)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Bouns2)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Bouns3)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Bouns3)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HolidayBouns)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HolidayBouns)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RushHoursBouns)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RushHoursBouns)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RushHoursStart1)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RushHoursStart1)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.RushHoursEnd1)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.RushHoursEnd1)
+		</dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RushHoursStart2)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RushHoursStart2)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RushHoursEnd2)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RushHoursEnd2)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Selected)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Selected)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

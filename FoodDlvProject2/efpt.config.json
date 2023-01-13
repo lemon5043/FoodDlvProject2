@@ -15,11 +15,7 @@
    "SelectedToBeGenerated": 0,
    "Tables": [
       {
-         "Name": "[dbo].[AccountAddress]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[CommonReplies]",
+         "Name": "[dbo].[BenefitStandard]",
          "ObjectType": 0
       }
    ],

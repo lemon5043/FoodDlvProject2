@@ -1,0 +1,102 @@
+﻿@model FoodDlvProject2.EFModels.BenefitStandard
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>BenefitStandard</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="PerOrder" class="control-label"></label>
+                <input asp-for="PerOrder" class="form-control" />
+                <span asp-validation-for="PerOrder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PerMilage" class="control-label"></label>
+                <input asp-for="PerMilage" class="form-control" />
+                <span asp-validation-for="PerMilage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BonusThreshold1" class="control-label"></label>
+                <input asp-for="BonusThreshold1" class="form-control" />
+                <span asp-validation-for="BonusThreshold1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BonusThreshold2" class="control-label"></label>
+                <input asp-for="BonusThreshold2" class="form-control" />
+                <span asp-validation-for="BonusThreshold2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BonusThreshold3" class="control-label"></label>
+                <input asp-for="BonusThreshold3" class="form-control" />
+                <span asp-validation-for="BonusThreshold3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bouns1" class="control-label"></label>
+                <input asp-for="Bouns1" class="form-control" />
+                <span asp-validation-for="Bouns1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bouns2" class="control-label"></label>
+                <input asp-for="Bouns2" class="form-control" />
+                <span asp-validation-for="Bouns2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bouns3" class="control-label"></label>
+                <input asp-for="Bouns3" class="form-control" />
+                <span asp-validation-for="Bouns3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HolidayBouns" class="control-label"></label>
+                <input asp-for="HolidayBouns" class="form-control" />
+                <span asp-validation-for="HolidayBouns" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RushHoursBouns" class="control-label"></label>
+                <input asp-for="RushHoursBouns" class="form-control" />
+                <span asp-validation-for="RushHoursBouns" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RushHoursStart1" class="control-label"></label>
+                <input asp-for="RushHoursStart1" class="form-control" />
+                <span asp-validation-for="RushHoursStart1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RushHoursStart2" class="control-label"></label>
+                <input asp-for="RushHoursStart2" class="form-control" />
+                <span asp-validation-for="RushHoursStart2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RushHoursEnd1" class="control-label"></label>
+                <input asp-for="RushHoursEnd1" class="form-control" />
+                <span asp-validation-for="RushHoursEnd1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RushHoursEnd2" class="control-label"></label>
+                <input asp-for="RushHoursEnd2" class="form-control" />
+                <span asp-validation-for="RushHoursEnd2" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="radioOfGender">
+                    <label>@Html.RadioButtonFor(x => x.Selected, true) 啟用</label>
+                    <label>@Html.RadioButtonFor(x => x.Selected, false) 關閉</label>
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

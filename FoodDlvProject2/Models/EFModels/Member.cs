@@ -29,6 +29,7 @@ namespace FoodDlvProject2.EFModels
 
         public virtual AccountStatue AccountStatus { get; set; }
         public virtual Cart Cart { get; set; }
+        //public virtual AccountAddress AccountAddress { get; set; }
         public virtual MemberViolationRecord MemberViolationRecord { get; set; }
         public virtual ICollection<CreditCard> CreditCards { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

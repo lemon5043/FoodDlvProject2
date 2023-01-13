@@ -20,6 +20,7 @@ namespace FoodDlvProject2.EFModels
 
         public virtual DbSet<AccountAddress> AccountAddresses { get; set; }
         public virtual DbSet<AccountStatue> AccountStatues { get; set; }
+        public virtual DbSet<BenefitStandard> BenefitStandards { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<CartCustomizationItem> CartCustomizationItems { get; set; }
         public virtual DbSet<CommonReply> CommonReplies { get; set; }
@@ -91,6 +92,11 @@ namespace FoodDlvProject2.EFModels
                 entity.Property(e => e.Status)
                     .IsRequired()
                     .HasMaxLength(30);
+            });
+
+            modelBuilder.Entity<BenefitStandard>(entity =>
+            {
+                entity.ToTable("BenefitStandard");
             });
 
             modelBuilder.Entity<Cart>(entity =>

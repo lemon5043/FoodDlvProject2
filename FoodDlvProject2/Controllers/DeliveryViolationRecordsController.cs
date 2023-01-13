@@ -1,7 +1,9 @@
 ﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace FoodDlvProject2.Controllers
 {
@@ -13,14 +15,14 @@ namespace FoodDlvProject2.Controllers
         {
             _context = context;
         }
-        // GET: DeliveryDrivers
+        // GET: DeliveryViolationRecords
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.DeliveryViolationRecords.Include(d => d.Order).Include(d => d.DeliveryDrivers).Include(v=>v.Violation);
             return View(await appDbContext.ToListAsync());
         }
 
-        // GET: DeliveryDrivers/Details/5
+        // GET: DeliveryViolationRecords/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.DeliveryDrivers == null)
@@ -28,19 +30,19 @@ namespace FoodDlvProject2.Controllers
                 return NotFound();
             }
 
-            var DeliveryRecords = _context.DeliveryViolationRecords
+            var DeliveryViolationRecords = _context.DeliveryViolationRecords
                 .Include(d => d.DeliveryDrivers)
                 .Include(d => d.Order)
                 .Include(d=>d.Violation)
                 .Where(m => m.DeliveryDriversId == id);
-            if (DeliveryRecords == null)
+            if (DeliveryViolationRecords == null)
             {
                 return NotFound();
             }
 			ViewBag.DriverId = id;
-			return View(await DeliveryRecords.ToListAsync());
+			return View(await DeliveryViolationRecords.ToListAsync());
         }
-        // GET: DeliveryDrivers/Edit/5
+        // GET: DeliveryViolationRecords/Edit/5
         public async Task<IActionResult> Edit(int? OrderId)
         {
             if (OrderId == null || _context.DeliveryViolationRecords == null)
@@ -56,7 +58,7 @@ namespace FoodDlvProject2.Controllers
             return View(DeliveryViolationRecords);
         }
 
-        // POST: DeliveryDrivers/Edit/5
+        // POST: DeliveryViolationRecords/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -90,6 +92,51 @@ namespace FoodDlvProject2.Controllers
             }
 
             return View(DeliveryViolationRecord);
+        }
+        // GET: DeliveryViolationRecords/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.DeliveryViolationRecords == null)
+            {
+                return NotFound();
+            }
+
+            var DeliveryViolationRecords = await _context.DeliveryViolationRecords
+                .Select(x => new DeliveryViolationRecordVM
+                {
+                Id=x.Id,
+                DriverId = x.DeliveryDriversId,
+                DriverName = x.DeliveryDrivers.LastName + x.DeliveryDrivers.FirstName,           
+                Violation = x.Violation.ViolationContent,
+                Content= x.Violation.Content,
+                ViolationDate = x.ViolationDate,
+            }).FirstAsync(x=>x.Id==id);
+
+            if (DeliveryViolationRecords == null)
+            {
+                return NotFound();
+            }
+
+            return View(DeliveryViolationRecords);
+        }
+
+        // POST: DeliveryViolationRecords/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.DeliveryViolationRecords == null)
+            {
+                return Problem("Entity set 'AppDbContext.DeliveryViolationRecords'  is null.");
+            }
+            var DeliveryViolationRecords = await _context.DeliveryViolationRecords.FindAsync(id);
+            if (DeliveryViolationRecords != null)
+            {
+                _context.DeliveryViolationRecords.Remove(DeliveryViolationRecords);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
         private bool ViolationRecordExists(long id)
         {
