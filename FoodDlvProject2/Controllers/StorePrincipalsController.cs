@@ -101,8 +101,8 @@ namespace FoodDlvProject2.Controllers
                 return NotFound();
             }
             ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipal.AccountStatusId);
-            StorePrincipalVM storePrincipalVM = storePrincipal.ToStorePrincipaVM();
-            return View(storePrincipalVM);
+            //StorePrincipalVM storePrincipalVM = storePrincipal.ToStorePrincipaVM();
+            return View(storePrincipal);
         }
 
         // POST: StorePrincipals/Edit/5
@@ -110,21 +110,26 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, StorePrincipalVM storePrincipalVM)
+        public async Task<IActionResult> Edit(int id, StorePrincipal storePrincipal)
         {
-            if (id != storePrincipalVM.Id)
+            if (id != storePrincipal.Id)
             {
                 return NotFound();
             }
+            AppDbContext _context2 =new AppDbContext();
+
+           
+
+            storePrincipal.Account = _context2.StorePrincipals.Find(id).Account;
+            storePrincipal.Password = _context2.StorePrincipals.Find(id).Password;
 
             if (ModelState.IsValid)
             {
-                StorePrincipal storePrincipal = storePrincipalVM.ToStorePrincipal();
-
-
 
                 try
                 {
+                    storePrincipal.RegistrationTime = _context2.StorePrincipals.Find(id).RegistrationTime;
+
                     _context.Update(storePrincipal);
                     await _context.SaveChangesAsync();
                 }
@@ -141,8 +146,8 @@ namespace FoodDlvProject2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipalVM.AccountStatusId);
-            return View(storePrincipalVM);
+            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipal.AccountStatusId);
+            return View(storePrincipal);
         }
 
         // GET: StorePrincipals/Delete/5
