@@ -1,6 +1,6 @@
 ﻿namespace FoodDlvProject2.Models.ViewModels
 {
-    public class DeliveryDriversDetailsVM
+    internal class DeliveryDriversDeleteVM
     {
         public int Id { get; set; }
         public string Account { get; set; }

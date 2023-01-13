@@ -15,7 +15,7 @@ namespace FoodDlvProject2.EFModels
         }
 
         public int Id { get; set; }
-        [Display(Name = "工作狀態")]
+
         public string Status { get; set; }
 
         public virtual ICollection<DeliveryDriver> DeliveryDrivers { get; set; }

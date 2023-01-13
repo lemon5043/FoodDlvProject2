@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-    internal class DeliveryIndividualDetailsRecordVM
+    public class DeliveryIndividualDetailsRecordVM
     {
         [Display(Name ="訂單編號")]
         public long Id { get; set; }

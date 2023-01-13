@@ -72,32 +72,33 @@ namespace FoodDlvProject2.Controllers
         }
 
         // GET: DeliveryDrivers/Create
-        public IActionResult Create()
-        {
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id");
-            ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Id");
-            return View();
-        }
+        //public IActionResult Create()
+        //{
+        //    ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id");
+        //    ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Id");
+        //    return View();
+        //}
 
         // POST: DeliveryDrivers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AccountStatusId,WorkStatuseId,FirstName,LastName,Phone,Gender,BankAccount,Idcard,RegistrationTime,VehicleRegistration,Birthday,Email,Account,Password,DriverLicense,Longitude,Latitude")] DeliveryDriver deliveryDriver)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(deliveryDriver);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id", deliveryDriver.AccountStatusId);
-            ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Id", deliveryDriver.WorkStatuseId);
-            return View(deliveryDriver);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,AccountStatusId,WorkStatuseId,FirstName,LastName,Phone,Gender,BankAccount,Idcard,RegistrationTime,VehicleRegistration,Birthday,Email,Account,Password,DriverLicense,Longitude,Latitude")] DeliveryDriver deliveryDriver)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(deliveryDriver);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id", deliveryDriver.AccountStatusId);
+        //    ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Id", deliveryDriver.WorkStatuseId);
+        //    return View(deliveryDriver);
+        //}
 
         // GET: DeliveryDrivers/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.DeliveryDrivers == null)
@@ -108,7 +109,6 @@ namespace FoodDlvProject2.Controllers
             var deliveryDriver = await _context.DeliveryDrivers.Select(x => new DeliveryDriversEditVM
 			{
 				Id = x.Id,
-				Account = x.Account,
 				LastName = x.LastName,
                 FirstName = x.FirstName,
 				Gender = x.Gender,
@@ -137,8 +137,9 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AccountStatusId,WorkStatuseId,FirstName,LastName,Phone,Gender,BankAccount,Idcard,VehicleRegistration,Birthday,Email,DriverLicense")] DeliveryDriver deliveryDriver)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,AccountStatusId,WorkStatuseId,FirstName,LastName,Phone,Gender,BankAccount,Idcard,VehicleRegistration,Birthday,Email,DriverLicense")] DeliveryDriversEditVM deliveryDriver)
         {
+            var deliveryDriverDB = await _context.DeliveryDrivers.FindAsync(deliveryDriver.Id);
             if (id != deliveryDriver.Id)
             {
                 return NotFound();
@@ -150,8 +151,8 @@ namespace FoodDlvProject2.Controllers
                 try
                 {
                     //_context.Update(deliveryDriver);
-                    _context.Entry(true).CurrentValues.SetValues(deliveryDriver);
-                    await _context.SaveChangesAsync();
+                    _context.Entry(deliveryDriverDB).CurrentValues.SetValues(deliveryDriver);
+                     _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -166,8 +167,9 @@ namespace FoodDlvProject2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id", deliveryDriver.AccountStatusId);
-            ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "Id", deliveryDriver.WorkStatuseId);
+
+            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "status", deliveryDriver.AccountStatusId);
+            ViewData["WorkStatuseId"] = new SelectList(_context.DeliveryDriverWorkStatuses, "Id", "status", deliveryDriver.WorkStatuseId);
             return View(deliveryDriver);
         }
 
@@ -180,8 +182,25 @@ namespace FoodDlvProject2.Controllers
             }
 
             var deliveryDriver = await _context.DeliveryDrivers
-                .Include(d => d.AccountStatus)
-                .Include(d => d.WorkStatuse)
+                .Select(x => new DeliveryDriversDeleteVM
+                {
+                    Id = x.Id,
+                    Account = x.Account,
+                    DriverName = x.LastName + x.FirstName,
+                    Gender = x.Gender,
+                    Birthday = x.Birthday,
+                    Phone = x.Phone,
+                    Email = x.Email,
+                    BankAccount = x.BankAccount,
+                    AccountStatus = x.AccountStatus.Status,
+                    WorkStatuse = x.WorkStatuse.Status,
+                    DeliveryViolationRecords = x.DeliveryViolationRecords.Sum(x => x.DeliveryDriversId),
+                    DriverRating = x.Orders.Average(x => x.DriverRating),
+                    RegistrationTime = x.RegistrationTime,
+                    Idcard = x.Idcard,
+                    VehicleRegistration = x.VehicleRegistration,
+                    DriverLicense = x.DriverLicense,
+                })
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (deliveryDriver == null)
             {
