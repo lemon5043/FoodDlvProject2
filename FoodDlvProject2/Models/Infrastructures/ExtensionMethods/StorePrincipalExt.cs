@@ -3,7 +3,7 @@ using FoodDlvProject2.Models.ViewModels;
 
 namespace FoodDlvProject2.Models.Infrastructures.ExtensionMethods
 {
-    public static class StorePrincipalCreateVMExt
+    public static class StorePrincipalVMExt
     {
 
 

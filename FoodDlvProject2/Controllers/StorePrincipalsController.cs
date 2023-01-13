@@ -68,7 +68,7 @@ namespace FoodDlvProject2.Controllers
                 StorePrincipal storePrincipal = storePrincipalCreateVM.ToStorePrincipal();
                 var emailExist = _context.StorePrincipals.FirstOrDefault(x => x.Email == storePrincipal.Email);
                 var accountExist = _context.StorePrincipals.FirstOrDefault(x => x.Account == storePrincipal.Account);
-                
+
 
                 if (emailExist != null) // 表示資料表有這筆記錄
                 {
@@ -121,13 +121,13 @@ namespace FoodDlvProject2.Controllers
             //}
 
 
-            var storePrincipalInDb= await _context.StorePrincipals.FindAsync(id);
+            var storePrincipalInDb = await _context.StorePrincipals.FindAsync(id);
             if (storePrincipalInDb == null)
             {
                 return NotFound();
             }
 
-            StorePrincipalEditVM storePrincipalEditVM= storePrincipalInDb.ToStorePrincipalEditVM();
+            StorePrincipalEditVM storePrincipalEditVM = storePrincipalInDb.ToStorePrincipalEditVM();
 
 
             ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipalEditVM.AccountStatusId);
@@ -142,7 +142,7 @@ namespace FoodDlvProject2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, StorePrincipalEditVM storePrincipalEditVM)
         {
-            try 
+            try
             {
                 if (ModelState.IsValid)
                 {
@@ -177,11 +177,15 @@ namespace FoodDlvProject2.Controllers
                     storePrincipal.Password = _context2.StorePrincipals.Find(id).Password;
                     storePrincipal.RegistrationTime = _context2.StorePrincipals.Find(id).RegistrationTime;
 
-                    var emailExist = _context.StorePrincipals.FirstOrDefault(x => x.Email == storePrincipal.Email);
+                    var emailExist = _context2.StorePrincipals.FirstOrDefault(x => x.Email == storePrincipal.Email);
+
 
                     if (emailExist != null) // 表示資料表有這筆記錄
                     {
-                        throw new Exception("Email已經報名過了,請更改");
+                        if (storePrincipal.Email!= _context2.StorePrincipals.Find(id).Email)
+                        {
+                            throw new Exception("Email已經報名過了,請更改");
+                        }
                     }
                     _context.Update(storePrincipal);
                     await _context.SaveChangesAsync();
@@ -217,7 +221,7 @@ namespace FoodDlvProject2.Controllers
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
                 ModelState.AddModelError(string.Empty, ex.Message);
@@ -225,7 +229,7 @@ namespace FoodDlvProject2.Controllers
 
 
 
-           
+
             ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipalEditVM.AccountStatusId);
             return View(storePrincipalEditVM);
         }
