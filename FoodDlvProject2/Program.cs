@@ -13,7 +13,7 @@ namespace FoodDlvProject2
 
             //以下為身分驗證相關 cookie 設置功能
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie();
+            .AddCookie();
 
             // Add services to the container.
 

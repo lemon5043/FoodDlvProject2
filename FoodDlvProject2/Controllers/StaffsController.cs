@@ -221,5 +221,17 @@ namespace FoodDlvProject2.Controllers
 
             return this.View(model);
         }
+
+
+        public async Task<IActionResult> LogOut()
+        {
+            
+            // Clear the existing external cookie
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var url = LocalRedirect("/Staffs/Login");
+            return url;
+        }
     }
 }
