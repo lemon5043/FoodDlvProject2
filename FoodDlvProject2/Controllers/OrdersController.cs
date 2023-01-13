@@ -1,5 +1,7 @@
 ﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.Repositories;
 using FoodDlvProject2.Models.Services;
+using FoodDlvProject2.Models.Services.Interfaces;
 using FoodDlvProject2.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -15,98 +17,35 @@ namespace FoodDlvProject2.Controllers
 
         public OrdersController(AppDbContext context)
         {
-            _context = context;
-        }
-
-        //GET(list): Orders
-        public async Task<IActionResult> Index()
+            _context = context;            
+            IOrderRepository repo = new OrderRepository(_context);
+            this.orderService = new OrderService(repo);
+        }		       
+        
+		//GET: Orders
+        public IActionResult Index()
         {
-            var data1 = await _context.Orders
-                .Include(x => x.OrderDetails)
-                .ThenInclude(p => p.Product)
-                .Include(os => os.OrderSchedules)
-                .ToListAsync();
-
-
-            var data = data1
-                .Select(x => new OrderVM
-                {
-                    Id = x.Id,
-                    MemberId = x.MemberId,
-                    StoreId = x.StoreId,
-                    OrderTime = x.OrderSchedules
-                    .FirstOrDefault(x => x.StatusId == 1)
-                    .MarkTime,
-                    Items = x.OrderDetails
-                        .Select(y => new OrderDetailVM
-                        {
-                            Id = y.Id,
-                            OrderId = y.OrderId,
-                            ProductId = y.ProductId,
-                            ProductName = y.Product.ProductName,
-                            UnitPrice = y.UnitPrice,
-                            Count = y.Count,
-                        }).ToList(),
-
-                }).ToList();
+			var data = orderService.Search(null, null, null)
+                .Select(x => x.ToOrderVM());
             return View(data);
         }
-
-		//GET: Orders
-        public async Task<IActionResult> InfoView()
-        {            
-            return View();
-        }
-
-		//GET: OrderSchedules
-		public async Task<IActionResult> ScheduleView()
-		{
-			return View();
-		}
+				
 
 		//GET: OrderDetails
-		public async Task<IActionResult> DetailView()
+		public async Task<IActionResult> DetailIndex()
 		{
 			return View();
 		}
+
 
 		//GET: OrderProducts
-		public async Task<IActionResult> ProductView()
+		public async Task<IActionResult> ProductIndex()
 		{
 			return View();
 		}
 
-		//GET: OrderSearch
-		public async Task<IActionResult> OrderSearch()
-		{
-			return View();
-		}
-
-		//POST: OrderSearch
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> OrderSearch(int id)
-		{
-			return View();
-		}
-
-		//GET: DateSearch
-		public async Task<IActionResult> DateSearch()
-		{
-			return View();
-		}
-
-		//POST: DateSearch
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> DateSearch(int id)
-		{
-			return View();
-		}
-
-
-
-
+		
+		
 
 		//GET(list): Orders/OrderDetails/5
 		//public async Task<IActionResult> Details(long id)

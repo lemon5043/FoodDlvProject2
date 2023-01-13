@@ -12,9 +12,9 @@ namespace FoodDlvProject2.Models.Services
             _repository = repository;
         }
 
-        public IEnumerable<OrderVM> Search()
+        public IEnumerable<OrderDto> Search(DateTime? start, DateTime? end, string keyWord)
         {
-            return (IEnumerable<OrderVM>)_repository.Search();
+            return _repository.Search(start, end, keyWord);
         }
 
 

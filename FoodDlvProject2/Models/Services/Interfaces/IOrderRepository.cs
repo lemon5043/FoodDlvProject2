@@ -11,7 +11,7 @@ namespace FoodDlvProject2.Models.Services.Interfaces
         /// </summary>
         /// <param name="keyWord"></param>
         /// <returns></returns>
-        IEnumerable<OrderVM> Search();
+        IEnumerable<OrderDto> Search(DateTime? start, DateTime? end, string keyWord);
 
         //IEnumerable<OrderDetail> SearchDetail();
     }

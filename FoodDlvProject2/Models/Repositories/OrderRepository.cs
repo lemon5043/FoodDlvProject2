@@ -4,6 +4,7 @@ using FoodDlvProject2.Models.Services.Interfaces;
 using FoodDlvProject2.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 namespace FoodDlvProject2.Models.Repositories
 {
@@ -16,33 +17,50 @@ namespace FoodDlvProject2.Models.Repositories
             _context = context;
         }
 
-        public IEnumerable<OrderVM> Search()
+        public IEnumerable<OrderDto> Search(DateTime? start, DateTime? end, string keyWord)
         {
-            var query = _context.Orders
-                .Select(o => new OrderDto
-                {
-                    Id = o.Id,
-                    MemberName = o.Member.LastName + o.Member.FirstName,
-                    StoreName = o.Store.StoreName,
-                    OrderTime = o.OrderSchedules.SingleOrDefault(x => x.StatusId == 1).MarkTime,
-                    DeliveryFee = o.DeliveryFee,
-                    Total = o.OrderDetails.Where(od => od.OrderId == o.Id).Select(n => n.UnitPrice * n.Count).Sum()
-                }).Select(x => new OrderVM
-                {
-                    Id = x.Id,
-                    MemberName = x.MemberName,
-                    StoreName = x.StoreName,
-                    OrderTime = x.OrderTime,
-                    DeliveryFee = x.DeliveryFee,
-                    total = x.Total,
-                });
+            IEnumerable<Order> query = _context.Orders
+                .Include(o => o.Member)
+                .Include(o => o.Store)
+                .Include(o => o.OrderSchedules)
+                .ToList();
 
-            //if(string.IsNullOrEmpty(keyWord)) query = query.Where(x => x.MemberName.Contains(keyWord));
+            //日期範圍搜尋(未實作)
+
+            //關鍵字搜尋
+            if (!string.IsNullOrEmpty(keyWord))
+            {
+                query = query.Where(x => (x.Member.FirstName + x.Member.LastName).Contains(keyWord) || x.Store.StoreName.Contains(keyWord));
+            }
 
 
-            return query;
+            return query.Select(o => new OrderDto
+            {
+                Id = o.Id,
+                MemberName = o.Member.LastName + o.Member.FirstName,
+                StoreName = o.Store.StoreName,
+                //OrderTime = o.OrderSchedules.SingleOrDefault(x => x.StatusId == 1).MarkTime,
+                orderSchedule = o.OrderSchedules.Select(x => new OrderSchedule
+                {                    
+                    StatusId = x.StatusId,
+                    MarkTime = x.MarkTime,                    
+                }),
+                DeliveryAddress = o.DeliveryAddress,
+                DeliveryFee = o.DeliveryFee,
+                Total = OrderDetailClac(o.Id) + o.DeliveryFee,
+            });           
+                       
         }
-           
+
+        private int OrderDetailClac(long id)
+        {
+            return _context.OrderDetails
+                .Where(od => od.OrderId == id)
+                .Select(n => n.UnitPrice * n.Count)
+                .Sum();            
+        }
+
+
 
         //public IEnumerable<OrderDetail> Read()
         //{

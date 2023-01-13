@@ -1,85 +1,70 @@
 ﻿@model IEnumerable<FoodDlvProject2.Models.ViewModels.OrderVM>
 
-
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+	
+	<a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                訂單成立時間
-                @*@Html.DisplayNameFor(model => model.OrderSchedules.FirstOrDefault(x => x.StatusId == 1).MarkTime)*@
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MemberId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StoreId)
-            </th>
-            <th>
-                商品明細
-            </th>
-            <th>                
-                @Html.DisplayNameFor(model => model.Total)
-            </th>           
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MemberId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StoreId)
-            </td>
-            <td>
-                <table class="table table-bordered">
-                    <tr class="active">
-                        <td width="200">商品編號</td>
-                        <td>名稱</td>
-                        <td>數量</td>
-                        <td>單價</td>
-                        <td>總價</td>                     
-                    </tr>
 
-                    @foreach (var od in item.Items)
-                    {
-                        <tr class="active">
-                            <td>@od.ProductId</td>
-                            <td>@od.ProductName</td>
-                            <td>@od.Count</td>
-                            <td>@od.UnitPrice</td>
-                            <td>@od.SubTotal</td>
-                        </tr>
-                    }
-                </table>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total)
-            </td>
-            <td>
-                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                <a asp-action="Details" asp-route-id="@item.Id">明細</a> |
-                @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-            </td>
-        </tr>
-}
-    </tbody>
+<table>
+	@foreach (var item in Model)
+	{
+		<table class="table">
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.Id)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.MemberName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.StoreName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DeliveryAddress)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DeliveryFee)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Total)
+				</th>
+			</tr>
+
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Id)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.MemberName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.StoreName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DeliveryAddress)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DeliveryFee)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Total)
+				</td>
+				<td>
+					| <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+				</td>
+			</tr>
+			<tr>
+
+			</tr>
+
+		</table>
+	}
 </table>
+
+
