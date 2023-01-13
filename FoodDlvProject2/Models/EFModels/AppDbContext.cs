@@ -806,5 +806,7 @@ namespace FoodDlvProject2.EFModels
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
         //public DbSet<FoodDlvProject2.Models.ViewModels.OrderVM> OrderVM { get; set; }
+
+        //public DbSet<FoodDlvProject2.Models.ViewModels.OrderVM> OrderVM { get; set; }
     }
 }

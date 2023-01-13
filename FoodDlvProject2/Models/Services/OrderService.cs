@@ -1,6 +1,8 @@
-﻿using FoodDlvProject2.Models.DTOs;
+﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.DTOs;
 using FoodDlvProject2.Models.Services.Interfaces;
 using FoodDlvProject2.Models.ViewModels;
+using X.PagedList;
 
 namespace FoodDlvProject2.Models.Services
 {
@@ -17,6 +19,12 @@ namespace FoodDlvProject2.Models.Services
             return _repository.Search(start, end, keyWord);
         }
 
+        //public IPagedList<Order> GetPagedOrders(DateTime? start, DateTime? end, string keyWord)
+        //{
+        //    int pageSize;
+
+            
+        //}
 
     }
 }

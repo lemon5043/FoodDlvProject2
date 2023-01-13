@@ -8,21 +8,27 @@ using System.ComponentModel.DataAnnotations;
 namespace FoodDlvProject2.Models.ViewModels
 {
     public class OrderVM
-    {       
+    {
+        /// <summary>
+        /// 搜尋條件
+        /// </summary>
+		[Display(Name = "關鍵字")]
+		public string KeyWord { get; set; }
+
+		[Display(Name = "起始時間")]
+		public DateTime? start { get; set; }
+
+		[Display(Name = "結束時間")]
+		public DateTime? end { get; set; }
+        
+        /// <summary>
+        /// 顯示頁面
+        /// </summary>
         [Display(Name = "訂單編號")]
-        public long Id { get; set; }
-
-        //[Display(Name = "訂單建立時間")]
-        //public DateTime OrderTime { get; set; }
-
-        //[Display(Name = "會員編號")]
-        //public int MemberId { get; set; }
+        public long Id { get; set; }        
 
         [Display(Name = "會員姓名")]
-        public string MemberName { get; set; }
-
-        //[Display(Name = "商家編號")]
-        //public int StoreId { get; set; }
+        public string MemberName { get; set; }        
 
         [Display(Name = "商家名稱")]
         public string StoreName { get; set; }

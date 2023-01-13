@@ -22,8 +22,7 @@ namespace FoodDlvProject2.Models.Repositories
             IEnumerable<Order> query = _context.Orders
                 .Include(o => o.Member)
                 .Include(o => o.Store)
-                .Include(o => o.OrderSchedules)
-                .ToList();
+                .Include(o => o.OrderSchedules);                
 
             //日期範圍搜尋(未實作)
 
