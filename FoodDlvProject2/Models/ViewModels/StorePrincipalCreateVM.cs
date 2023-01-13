@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-    public class StorePrincipalVM
+    public class StorePrincipalCreateVM
     {
         public int Id { get; set; }
 
@@ -61,48 +61,6 @@ namespace FoodDlvProject2.Models.ViewModels
         [Display(Name = "註冊時間")]
         public DateTime RegistrationTime { get; set; }
     }
-    public static class StorePrincipalsVMExt
-    {
-        public static StorePrincipal ToStorePrincipal(this StorePrincipalVM storePrincipalVM)
-        {
-            return new StorePrincipal
-            {
-                Id = storePrincipalVM.Id,
-                AccountStatusId = storePrincipalVM.AccountStatusId,
-                FirstName = storePrincipalVM.FirstName,
-                LastName = storePrincipalVM.LastName,
-                Phone = storePrincipalVM.Phone,
-                Gender = storePrincipalVM.Gender,
-                Birthday = storePrincipalVM.Birthday,
-                Email = storePrincipalVM.Email,
-                Account = storePrincipalVM.Account,
-                Password = storePrincipalVM.Password,
-                
-
-            };
-
-        }
-    }
-    public static class StorePrincipalsExt
-    {
-        public static StorePrincipalVM ToStorePrincipaVM(this StorePrincipal storePrincipal)
-        {
-            return new StorePrincipalVM
-            {
-                Id = storePrincipal.Id,
-                AccountStatusId = storePrincipal.AccountStatusId,
-                FirstName = storePrincipal.FirstName,
-                LastName = storePrincipal.LastName,
-                Phone = storePrincipal.Phone,
-                Gender = storePrincipal.Gender,
-                Birthday = storePrincipal.Birthday,
-                Email = storePrincipal.Email,
-                Account = storePrincipal.Account,
-                Password = storePrincipal.Password,
-                
-
-            };
-
-        }
-    }
+   
+   
 }
