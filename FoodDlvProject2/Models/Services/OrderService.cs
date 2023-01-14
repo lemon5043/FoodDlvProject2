@@ -18,8 +18,9 @@ namespace FoodDlvProject2.Models.Services
         {
             IEnumerable<OrderDto> data = await _repository.SearchAsync(start, end, keyWord);
 
-            //把
-            foreach(var orderData in data)
+			//把orderSchedule每一筆資料取出, 放到新的List<OrderScheduleDto>,
+			//在把新的List<OrderScheduleDto>的資料分別給OrderDto的OrderTime與orderSchedule屬性
+			foreach (var orderData in data)
             {
                 var orderScheduleData = orderData.orderSchedule
                     .Where(os => os.StatusId == 1)
@@ -38,6 +39,11 @@ namespace FoodDlvProject2.Models.Services
         public IEnumerable<OrderDetailDto> DetailSearch(long orderId)
         {
             return _repository.DetailSearch(orderId);
+        }
+
+        public IEnumerable<OrderProductDto> ProductSearch(long productId)
+        {
+            return _repository.ProductSearch(productId);
         }
 
     }

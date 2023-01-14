@@ -18,7 +18,7 @@ namespace FoodDlvProject2.Models.Repositories
         {
             _context = context;
         }
-
+                
         public Task<IEnumerable<OrderDto>> SearchAsync(DateTime? start, DateTime? end, string keyWord)
         {
             IEnumerable<Order> query = _context.Orders
@@ -83,18 +83,37 @@ namespace FoodDlvProject2.Models.Repositories
             IEnumerable<OrderDetailDto> query = _context.OrderDetails
                 .Include(od => od.Product)
                 .Where(od => od.OrderId == orderId)
-                .Select(x => new OrderDetailDto
+                .Select(od => new OrderDetailDto
                 {
-                    Id = x.Id,
-                    OrderId = x.OrderId,
-					ProductId = x.ProductId,
-                    ProductName = x.Product.ProductName,
-					UnitPrice = x.UnitPrice,
-					Count = x.Count,
+                    Id = od.Id,
+                    OrderId = od.OrderId,
+					ProductId = od.ProductId,
+                    ProductName = od.Product.ProductName,
+					UnitPrice = od.UnitPrice,
+					Count = od.Count,
 					SubTotal = OrderDetailClac(orderId)
 				});
                 
                return query;
-        }        
+        }
+        
+        public IEnumerable<OrderProductDto> ProductSearch(long productId)
+        {
+            IEnumerable<OrderProductDto> query = _context.Products
+                .Include(p => p.Store)
+                .Where(p => p.Id == productId)
+                .Select(p => new OrderProductDto
+                {
+                    Id = p.Id,
+					StoreId = p.StoreId,
+					StoreName = p.Store.StoreName,
+					ProductName = p.ProductName,
+					UnitPrice = p.UnitPrice,
+					Photo = p.Photo,
+					ProductContent = p.ProductContent,
+				});
+
+            return query;
+        }
     }
 }

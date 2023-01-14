@@ -1,4 +1,9 @@
-﻿order_ver0.1
+﻿///
+Order_ver_0.5.9
+   改版內容參閱Order_readme.txt
+///
+
+order_ver0.1
 1. 環境建置:
 	1-1. Nuget套件管理: 新增EFCore sqlserver與EFCore tool(版本6.0.12)
 	1-2. 更新Program與appsetting: 新增連線字串
@@ -47,19 +52,24 @@ Order_ver0.5
 
 Oreder_ver0.5.1 ~ 0.5.8
 1. 重新設計view-index, 主頁捨棄雙層式表單
-2. 修正MVC三層式架構
+2. 新增與修正MVC三層式架構
 	2-1. Controller: Order
 	2-2. ViewModel: Order, OrderDetail, Product
 	2-3. Service: Order
 	2-4. Data Treanfer Object: Order, OrderDetail, OrderProduct, OrderSchedule
 	2-5. Interface: OrderRepository
 	2-6. Repository: Order
-	2-7. View: index.html, index.css, DetailIndex
-3. 新增
-3. 新增功能index頁面: 
-	3-1. 日期範圍搜尋
-	3-2. 關鍵字模糊搜尋(姓名,店家名稱,地址)
-	3-3. 連結DetailIndex
-	3-4. 訂單狀態-時間線(未完成)
-	3-5. 非同步顯示(未完成)
-	
+	2-7. View: index.html, index.css, DetailIndex, 
+3. 新增View-DetailIndex
+4. 新增功能index頁面: 
+	4-1. 日期範圍搜尋
+	4-2. 關鍵字模糊搜尋(姓名,店家名稱,地址)
+	4-3. 連結DetailIndex
+	4-4. 訂單狀態-時間線(未完成)
+	4-5. 非同步顯示(未完成)
+
+Order0.5.9
+1. 修正index頁面
+	1-1. 套版datatable
+	1-2. 修正格式
+2. 新增View-ProductIndex

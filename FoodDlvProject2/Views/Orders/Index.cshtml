@@ -9,124 +9,158 @@
     var dateEnd = ViewBag.end as DateTime?;
     var keyWord = ViewBag.KeyWord as string;
 }
-<head>
-    <link href="~/css/orders-index.css" rel="stylesheet" />
-</head>
 
-<h1>Index</h1>
+@section DatatableStyle
+    {
+    <!-- Custom styles for this page -->
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
+      rel="stylesheet" />
+}
 
-<form method="get">
-    <div>
-        <h3>Search</h3>
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td>訂單時間:</td>
-                    <td><input type="datetime-local" name="dateStart" class="form-control" /></td>
-                    <td><input type="datetime-local" name="dateEnd" class="form-control" /></td>
-                </tr>
-                <tr>
-                    <td>關鍵字搜尋:</td>
-                    <td colspan="2"><input type="text" name="keyWord" class="form-control" value="@keyWord"></td>
-                    <td>
-                        <div class="text-center" style="margin-top: 10px;">
-                            <input type="submit" class="btn btn-primary" value="Search" />
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</form>
+    @section DatatableScript
+    {
+    <!-- Page level plugins -->
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="~/js/demo/datatables-demo.js"></script>
+}
+
+    <head>
+        <link href="~/css/orders-index.css" rel="stylesheet" />
+    </head>
+
+    <h1>Index</h1>
+
+    <form method="get">
+        <div>
+            <h3>Search</h3>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>訂單時間:</td>
+                        <td><input type="datetime-local" name="dateStart" class="form-control" /></td>
+                        <td><input type="datetime-local" name="dateEnd" class="form-control" /></td>
+                    </tr>
+                    <tr>
+                        <td>關鍵字搜尋:</td>
+                        <td colspan="2"><input type="text" name="keyWord" class="form-control" value="@keyWord"></td>
+                        <td>
+                            <div class="text-center" style="margin-top: 10px;">
+                                <input type="submit" class="btn btn-primary" value="Search" />
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
 
 
 
 @foreach (var item in Model)
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Id)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OrderTime)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MemberName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.StoreName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DeliveryAddress)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DeliveryFee)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Total)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MemberName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StoreName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeliveryAddress)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeliveryFee)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Total)
-                </td>
-                <td>
-                    | <a asp-action="DetailIndex" asp-route-id="@item.Id">Details</a> |
-                </td>
-            </tr>
-        </tbody>
-
-    </table>
-    <div class="container">
-        <div class="row text-center justify-content-center mb-5">
-            <div class="col-xl-6 col-lg-8">
-                <h2 class="font-weight-bold">訂單狀態</h2>
-                <p class="text-muted">We’re very proud of the path we’ve taken. Explore the history that made us the company we are today.</p>
-            </div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+                DataTables Example
+            </h6>
         </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered"
+                   id="dataTable"
+                   width="100%"
+                   cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MemberName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.StoreName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DeliveryAddress)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DeliveryFee)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Total)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
 
-        <div class="row">
-            <div class="col">
-                @foreach (var schdule in item.orderSchedule)
-                {
-                    <div class="timeline-steps aos-init aos-animate" data-aos="fade-up">
-                        <div class="timeline-step">
-                            <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="@schdule.Status" data-original-title="@schdule.MarkTime">
-                                <div class="inner-circle"></div>
-                                <p class="h6 mt-3 mb-1">@schdule.MarkTime</p>
-                                <p class="h6 text-muted mb-0 mb-lg-0">@schdule.Status</p>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OrderTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MemberName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StoreName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DeliveryAddress)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DeliveryFee)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Total)
+                            </td>
+                            <td>
+                                <a asp-action="DetailIndex" asp-route-id="@item.Id">Details</a> 
+                            </td>
+                        </tr>
+                    </tbody>
+
+
+                    <div class="container">
+                        <div class="row text-center justify-content-center mb-5">
+                            <div class="col-xl-6 col-lg-8">
+                                <h2 class="font-weight-bold">訂單狀態</h2>
+                                <p class="text-muted">We’re very proud of the path we’ve taken. Explore the history that made us the company we are today.</p>
                             </div>
                         </div>
                     </div>
-                }
+
+                    <div class="row">
+                        <div class="timeline-steps">
+                            @foreach (var schdule in item.orderSchedule)
+                            {
+                                <div class="timeline-steps aos-init aos-animate" data-aos="fade-up">
+                                    <div class="timeline-step">
+                                        <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="@schdule.Status" data-original-title="@schdule.MarkTime">
+                                            <div class="inner-circle"></div>
+                                            <p class="h6 mt-3 mb-1">@schdule.MarkTime</p>
+                                            <p class="h6 text-muted mb-0 mb-lg-0">@schdule.Status</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </table>
             </div>
         </div>
     </div>
 }
+
 
 
 

@@ -45,9 +45,12 @@ namespace FoodDlvProject2.Controllers
 
 
 		//GET: OrderProducts
-		public async Task<IActionResult> ProductIndex()
+		public IActionResult ProductIndex(long Id)
 		{
-			return View();
+			var data = orderService.ProductSearch(Id)
+				.Select(x => x.ToOrderProductVM());
+
+			return View(data);
 		}
 
 		

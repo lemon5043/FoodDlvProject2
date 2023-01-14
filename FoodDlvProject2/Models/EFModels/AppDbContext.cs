@@ -807,6 +807,8 @@ namespace FoodDlvProject2.EFModels
 
         public DbSet<FoodDlvProject2.Models.ViewModels.OrderDetailVM> OrderDetailVM { get; set; }
 
+        public DbSet<FoodDlvProject2.Models.ViewModels.OrderProductVM> OrderProductVM { get; set; }
+
         //public DbSet<FoodDlvProject2.Models.ViewModels.OrderVM> OrderVM { get; set; }
 
         //public DbSet<FoodDlvProject2.Models.ViewModels.OrderVM> OrderVM { get; set; }

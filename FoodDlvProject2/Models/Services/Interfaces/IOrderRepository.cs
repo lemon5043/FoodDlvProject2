@@ -13,6 +13,18 @@ namespace FoodDlvProject2.Models.Services.Interfaces
         /// <returns></returns>
         Task<IEnumerable<OrderDto>> SearchAsync(DateTime? start, DateTime? end, string keyWord);
 
+        /// <summary>
+        /// 查詢訂單明細
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
         IEnumerable<OrderDetailDto> DetailSearch(long orderId);
+
+        /// <summary>
+        /// 查詢商品資料
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        IEnumerable<OrderProductDto> ProductSearch(long productId);
     }
 }
