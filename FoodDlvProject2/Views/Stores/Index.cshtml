@@ -20,13 +20,13 @@
 	<!-- Page level custom scripts -->
 	<script src="~/js/demo/datatables-demo.js"></script>
 	}
-
-<div class="container-fluid">
 	<h1>店家管理</h1>
+<div class="container-fluid">
+	
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
 			<h6 class="m-0 font-weight-bold text-primary">
-				<a asp-action="Create">Create New</a>
+				<a asp-action="Create">新增</a>
 			</h6>
 		</div>
 		<div class="card-body">
@@ -49,7 +49,9 @@
 							<th>
 								@Html.DisplayNameFor(model => model.StorePrincipal.Account)
 							</th>
-							<th></th>
+							<th>
+								商品
+							</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -79,30 +81,16 @@
 											<tr class="active">
 												<td>@p.ProductName</td>
 												<td>@p.UnitPrice</td>
-												<td>
-													<a asp-action="EditP" asp-route-id="@item.Id">Edit</a> |
-													<a asp-action="DetailsP" asp-route-id="@item.Id">Details</a> |
-													<a asp-action="DeleteP" asp-route-id="@item.Id">Delete</a>
-												</td>
-												
+
 											</tr>
-
-											
 										}
-										
-
+	
 									</table>
-									<a asp-action="CreateP">新增商品未完成</a>
 								</td>
-
-
-
-
-
 								<td>
-									<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-									<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-									<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+								<a asp-action="Edit" asp-route-id="@item.Id">修改</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">詳細內容</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">刪除</a>
 								</td>
 							</tr>
 						}
