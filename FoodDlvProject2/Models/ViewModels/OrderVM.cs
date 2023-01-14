@@ -9,21 +9,7 @@ namespace FoodDlvProject2.Models.ViewModels
 {
     public class OrderVM
     {
-        /// <summary>
-        /// 搜尋條件
-        /// </summary>
-		[Display(Name = "關鍵字")]
-		public string KeyWord { get; set; }
-
-		[Display(Name = "起始時間")]
-		public DateTime? dateStart { get; set; }
-
-		[Display(Name = "結束時間")]
-		public DateTime? dateEnd { get; set; }
-        
-        /// <summary>
-        /// 顯示頁面
-        /// </summary>
+               
         [Display(Name = "訂單編號")]
         public long Id { get; set; }        
 
@@ -37,9 +23,13 @@ namespace FoodDlvProject2.Models.ViewModels
 		public DateTime OrderTime { get; set; }
 
 
-		public IEnumerable<OrderSchedule> orderSchedule { get; set; }
+		public List<OrderScheduleDto> orderSchedule { get; set; }
 
-        [Display(Name = "外送地址")]
+
+		[Display(Name = "訂單狀態時間")]
+		public DateTime MarkTime { get; set; }
+
+		[Display(Name = "外送地址")]
         public string DeliveryAddress { get; set; }
 
         [Display(Name = "外送費")]
@@ -61,6 +51,7 @@ namespace FoodDlvProject2.Models.ViewModels
                 MemberName = source.MemberName,
                 StoreName = source.StoreName,
                 orderSchedule = source.orderSchedule,
+                MarkTime = source.MarkTime,
                 DeliveryAddress = source.DeliveryAddress,
                 DeliveryFee = source.DeliveryFee,
                 Total = source.Total,                

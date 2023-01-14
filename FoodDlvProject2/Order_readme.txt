@@ -40,7 +40,26 @@ Order_ver0.4.1
 2. 修改View-Orders-index: 修改格式for雙層表單
 
 Order_ver0.5
-**1. 更新Database
+**1. 更新Database, 全部內容重做
 2. 更新EFModels
 3. 重新設計OrderVM, OrderDetailVM
 4. 製作三層式架構(製作中)
+
+Oreder_ver0.5.1 ~ 0.5.8
+1. 重新設計view-index, 主頁捨棄雙層式表單
+2. 修正MVC三層式架構
+	2-1. Controller: Order
+	2-2. ViewModel: Order, OrderDetail, Product
+	2-3. Service: Order
+	2-4. Data Treanfer Object: Order, OrderDetail, OrderProduct, OrderSchedule
+	2-5. Interface: OrderRepository
+	2-6. Repository: Order
+	2-7. View: index.html, index.css, DetailIndex
+3. 新增
+3. 新增功能index頁面: 
+	3-1. 日期範圍搜尋
+	3-2. 關鍵字模糊搜尋(姓名,店家名稱,地址)
+	3-3. 連結DetailIndex
+	3-4. 訂單狀態-時間線(未完成)
+	3-5. 非同步顯示(未完成)
+	

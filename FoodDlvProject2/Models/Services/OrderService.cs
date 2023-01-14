@@ -16,7 +16,23 @@ namespace FoodDlvProject2.Models.Services
 
         public async Task<IEnumerable<OrderDto>> SearchAsync(DateTime? start, DateTime? end, string keyWord)
         {
-            return await _repository.SearchAsync(start, end, keyWord);
+            IEnumerable<OrderDto> data = await _repository.SearchAsync(start, end, keyWord);
+
+            //把
+            foreach(var orderData in data)
+            {
+                var orderScheduleData = orderData.orderSchedule
+                    .Where(os => os.StatusId == 1)
+                    .Select(os => new OrderScheduleDto
+                    {
+                        StatusId = os.StatusId,
+                        MarkTime = os.MarkTime,
+                    }).ToList();
+                orderData.OrderTime = orderScheduleData.FirstOrDefault().MarkTime;
+                orderData.orderSchedule = orderScheduleData;
+            }
+
+            return data;
         }
 
         public IEnumerable<OrderDetailDto> DetailSearch(long orderId)

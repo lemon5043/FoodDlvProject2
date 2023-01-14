@@ -24,7 +24,8 @@ namespace FoodDlvProject2.Models.Repositories
             IEnumerable<Order> query = _context.Orders
                 .Include(o => o.Member)
                 .Include(o => o.Store)
-                .Include(o => o.OrderSchedules);
+                .Include(o => o.OrderSchedules)
+                .ThenInclude(os => os.Status);
 
             //日期範圍搜尋
             if (start.HasValue)
@@ -52,18 +53,22 @@ namespace FoodDlvProject2.Models.Repositories
                 MemberName = o.Member.LastName + o.Member.FirstName,
                 StoreName = o.Store.StoreName,
 				OrderTime = o.OrderSchedules.FirstOrDefault(x => x.StatusId == 1).MarkTime,
-				orderSchedule = o.OrderSchedules.Select(os => new OrderSchedule
-                {                    
-                    StatusId = os.StatusId,
-                    MarkTime = os.MarkTime,                    
-                }),
+				orderSchedule = o.OrderSchedules
+                    .OrderBy(os => os.StatusId)
+                    .Select(os => new OrderScheduleDto
+                    {                     
+                        StatusId = os.StatusId,
+                        Status = os.Status.Status,
+                        MarkTime = os.MarkTime,                    
+                    }).ToList(),
                 DeliveryAddress = o.DeliveryAddress,
                 DeliveryFee = o.DeliveryFee,
                 Total = OrderDetailClac(o.Id) + o.DeliveryFee,
             }));           
                        
-        }
+        }       
 
+        //計算單筆訂單明細
         private int OrderDetailClac(long id)
         {
             return _context.OrderDetails
@@ -71,6 +76,7 @@ namespace FoodDlvProject2.Models.Repositories
                 .Select(od => od.UnitPrice * od.Count)
                 .Sum();            
         }
+
 
         public IEnumerable<OrderDetailDto> DetailSearch(long orderId)
         {
@@ -89,40 +95,6 @@ namespace FoodDlvProject2.Models.Repositories
 				});
                 
                return query;
-        }
-
-        //public IEnumerable<OrderDetail> Read()
-        //{
-        //    IEnumerable<OrderDetail> query = _context.OrderDetails;
-        //}
-        //public  Read()
-        //{
-        //    var data = _context.Orders
-        //        .Include(x => x.OrderDetails)
-        //        .ThenInclude(p => p.Product)
-        //        .Include(os => os.OrderSchedules)
-        //        .ToList()
-        //        .Select(x => new OrderVM
-        //        {
-        //            Id = x.Id,
-        //            MemberId = x.MemberId,
-        //            StoreId = x.StoreId,
-        //            OrderTime = x.OrderSchedules
-        //            .FirstOrDefault(x => x.StatusId == 1)
-        //            .MarkTime,
-        //            Items = x.OrderDetails
-        //                .Select(y => new OrderDetailVM
-        //                {
-        //                    Id = y.Id,
-        //                    OrderId = y.OrderId,
-        //                    ProductId = y.ProductId,
-        //                    ProductName = y.Product.ProductName,
-        //                    UnitPrice = y.UnitPrice,
-        //                    Count = y.Count,
-        //                }).ToList(),
-        //        }).ToList();
-
-        //    return data;
-        //}
+        }        
     }
 }
