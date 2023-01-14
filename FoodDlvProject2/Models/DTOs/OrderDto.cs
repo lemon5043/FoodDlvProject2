@@ -11,6 +11,8 @@ namespace FoodDlvProject2.Models.DTOs
         public string MemberName { get; set; }
         public string StoreName { get; set; }
 
+        public DateTime OrderTime { get; set; }
+
         public IEnumerable<OrderSchedule> orderSchedule { get; set; }
 
         public string DeliveryAddress { get; set; }
@@ -27,7 +29,7 @@ namespace FoodDlvProject2.Models.DTOs
                 Id = source.Id,
                 MemberName = memberName,
                 StoreName = source.Store.StoreName,
-                //OrderTime = OrderTime,
+                OrderTime = OrderTime,
                 orderSchedule = source.OrderSchedules,
                 DeliveryAddress = source.DeliveryAddress,
                 DeliveryFee = source.DeliveryFee,

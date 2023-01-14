@@ -4,6 +4,7 @@ using FoodDlvProject2.Models.Services.Interfaces;
 using FoodDlvProject2.Models.ViewModels;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 
@@ -18,37 +19,48 @@ namespace FoodDlvProject2.Models.Repositories
             _context = context;
         }
 
-        public IEnumerable<OrderDto> Search(DateTime? start, DateTime? end, string keyWord)
+        public Task<IEnumerable<OrderDto>> SearchAsync(DateTime? start, DateTime? end, string keyWord)
         {
             IEnumerable<Order> query = _context.Orders
                 .Include(o => o.Member)
                 .Include(o => o.Store)
-                .Include(o => o.OrderSchedules);                
+                .Include(o => o.OrderSchedules);
 
-            //日期範圍搜尋(未實作)
+            //日期範圍搜尋
+            if (start.HasValue)
+            {
+                query = query.Where(o => o.OrderSchedules.Any(os => os.MarkTime >= start));
+                    
+            }
+            if (end.HasValue)
+            {
+                query = query.Where(o => o.OrderSchedules.Any(os => os.MarkTime <= end));
+            }
 
             //關鍵字搜尋
             if (!string.IsNullOrEmpty(keyWord))
             {
-                query = query.Where(x => (x.Member.FirstName + x.Member.LastName).Contains(keyWord) || x.Store.StoreName.Contains(keyWord));
+                 query = query.Where(o => (o.Member.FirstName + " " + o.Member.LastName).Contains(keyWord)
+                    || o.Store.StoreName.Contains(keyWord)
+                    || o.DeliveryAddress.Contains(keyWord));
             }
 
 
-            return query.Select(o => new OrderDto
+            return Task.FromResult(query.Select(o => new OrderDto
             {
                 Id = o.Id,
                 MemberName = o.Member.LastName + o.Member.FirstName,
                 StoreName = o.Store.StoreName,
-				//OrderTime = o.OrderSches.FirstOrDefault(x => x.StatusId == 1).MarkTime,
-				orderSchedule = o.OrderSchedules.Select(x => new OrderSchedule
+				OrderTime = o.OrderSchedules.FirstOrDefault(x => x.StatusId == 1).MarkTime,
+				orderSchedule = o.OrderSchedules.Select(os => new OrderSchedule
                 {                    
-                    StatusId = x.StatusId,
-                    MarkTime = x.MarkTime,                    
+                    StatusId = os.StatusId,
+                    MarkTime = os.MarkTime,                    
                 }),
                 DeliveryAddress = o.DeliveryAddress,
                 DeliveryFee = o.DeliveryFee,
                 Total = OrderDetailClac(o.Id) + o.DeliveryFee,
-            });           
+            }));           
                        
         }
 
@@ -56,7 +68,7 @@ namespace FoodDlvProject2.Models.Repositories
         {
             return _context.OrderDetails
                 .Where(od => od.OrderId == id)
-                .Select(n => n.UnitPrice * n.Count)
+                .Select(od => od.UnitPrice * od.Count)
                 .Sum();            
         }
 

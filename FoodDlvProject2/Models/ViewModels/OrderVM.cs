@@ -33,8 +33,11 @@ namespace FoodDlvProject2.Models.ViewModels
         [Display(Name = "商家名稱")]
         public string StoreName { get; set; }
 
-        
-        public IEnumerable<OrderSchedule> orderSchedule { get; set; }
+		[Display(Name = "訂單成立時間")]
+		public DateTime OrderTime { get; set; }
+
+
+		public IEnumerable<OrderSchedule> orderSchedule { get; set; }
 
         [Display(Name = "外送地址")]
         public string DeliveryAddress { get; set; }
@@ -54,7 +57,7 @@ namespace FoodDlvProject2.Models.ViewModels
             return new OrderVM
             {
                 Id = source.Id,
-                //OrderTime = source.OrderTime,
+                OrderTime = source.OrderTime,
                 MemberName = source.MemberName,
                 StoreName = source.StoreName,
                 orderSchedule = source.orderSchedule,

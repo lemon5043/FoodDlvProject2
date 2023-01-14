@@ -14,9 +14,9 @@ namespace FoodDlvProject2.Models.Services
             _repository = repository;
         }
 
-        public IEnumerable<OrderDto> Search(DateTime? start, DateTime? end, string keyWord)
+        public async Task<IEnumerable<OrderDto>> SearchAsync(DateTime? start, DateTime? end, string keyWord)
         {
-            return _repository.Search(start, end, keyWord);
+            return await _repository.SearchAsync(start, end, keyWord);
         }
 
         public IEnumerable<OrderDetailDto> DetailSearch(long orderId)

@@ -4,92 +4,104 @@
 @model IEnumerable<FoodDlvProject2.Models.ViewModels.OrderVM>
 
 @{
-	ViewData["Title"] = "Index";
-	var dateStart = ViewBag.start as DateTime?;
-	var dateEnd = ViewBag.end as DateTime?;
-	var keyWord = ViewBag.KeyWord as string;
+    ViewData["Title"] = "Index";
+    var dateStart = ViewBag.start as DateTime?;
+    var dateEnd = ViewBag.end as DateTime?;
+    var keyWord = ViewBag.KeyWord as string;
 }
 
 <h1>Index</h1>
 
 <form method="get">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="caption">
-                <h3>Search</h3>
-                <div class="row">
-					<div class="col-md-4">訂單時間:<input type="datetime-local" name="dateStart" class="form-control"/> </div>
-					<div class="col-md-4"><input type="datetime-local" name="dateEnd" class="form-control" /> </div>
-					<div class="col-md-4">商品名稱:<input type="text" name="keyWord" class="form-control" value="@keyWord"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row" style="margin-top: 10px; margin-bottom: 20px; padding-left: 15px;">
-        <input type="submit" class="btn btn-primary" value="Search" />
+    <div>
+        <h3>Search</h3>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>訂單時間:</td>
+                    <td><input type="datetime-local" name="dateStart" class="form-control" /></td>
+                    <td><input type="datetime-local" name="dateEnd" class="form-control" /></td>
+                </tr>
+                <tr>
+                    <td>關鍵字搜尋:</td>
+                    <td colspan="2"><input type="text" name="keyWord" class="form-control" value="@keyWord"></td>
+                    <td>
+                        <div class="text-center" style="margin-top: 10px;">
+                            <input type="submit" class="btn btn-primary" value="Search" />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </form>
 
-<table>
-	@foreach (var item in Model)
-	{
-		<table class="table">
-			<thead>
-				<tr>
-					<th>
-						@Html.DisplayNameFor(model => model.Id)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.MemberName)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.StoreName)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.DeliveryAddress)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.DeliveryFee)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.Total)
-					</th>
-					<th></th>
-				</tr>
-			</thead>
 
-			<tbody>
-				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.Id)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.MemberName)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.StoreName)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.DeliveryAddress)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.DeliveryFee)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Total)
-					</td>
-					<td>
-						| <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-					</td>
-				</tr>
-			</tbody>
 
-		</table>
-		<div>
-			訂單進度
+@foreach (var item in Model)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MemberName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StoreName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeliveryAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeliveryFee)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
 
-		</div>
-	}
-</table>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemberName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StoreName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeliveryAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeliveryFee)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    | <a asp-action="DetailIndex" asp-route-id="@item.Id">Details</a> |
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    <div>
+        訂單進度
+    </div>
+}
+
 
 
