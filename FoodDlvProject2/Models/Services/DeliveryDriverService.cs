@@ -19,8 +19,6 @@ namespace FoodDlvProject2.Models.Services
 
         public DeliveryDriverDTO GetOne(int? id)
         {
-            if (id == null) return null;
-
             return _repository.GetOne(id);
         }
 
@@ -33,8 +31,7 @@ namespace FoodDlvProject2.Models.Services
             _repository.Edit(model);
         }
 
-        public (IEnumerable<AccountStatueDTO>
-            , IEnumerable<DeliveryDriverWorkStatusDTO>) GetList()
+        public (IEnumerable<AccountStatueDTO>, IEnumerable<DeliveryDriverWorkStatusDTO>) GetList()
             => _repository.GetList();
     }
 }

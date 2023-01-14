@@ -33,10 +33,7 @@ namespace FoodDlvProject2.Models.Repositories
 
         public DeliveryDriverDTO GetOne(int? id)
         {
-            if (db.DeliveryDrivers == null)
-            {
-                return null;
-            }
+            if (db.DeliveryDrivers == null)throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
             var query = db.DeliveryDrivers.Select(x => new DeliveryDriverDTO
             {
@@ -61,6 +58,8 @@ namespace FoodDlvProject2.Models.Repositories
                 DriverLicense = x.DriverLicense,
             }).FirstOrDefault(m => m.Id == id);
 
+            if (query == null) throw new Exception("很抱歉找不到相關的資料");
+            
             return query;
         }
 

@@ -37,11 +37,17 @@ namespace FoodDlvProject2.Controllers
         // GET: DeliveryDrivers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            var data = deliveryDriverService.GetOne(id).ToDeliveryDriversDetailsVM();
-
-            if (data == null) return NotFound();
-
-            return View(data);
+            try
+            {
+                var data = deliveryDriverService.GetOne(id).ToDeliveryDriversDetailsVM();
+                return View(data);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction(nameof(Index));
+            }
+            
         }
 
         // GET: DeliveryDrivers/Create
@@ -75,9 +81,8 @@ namespace FoodDlvProject2.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             var data = deliveryDriverService.GetOne(id).ToDeliveryDriversEditVM();
-            var selectList = deliveryDriverService.GetList();
             if (data == null) return NotFound();
-
+            var selectList = deliveryDriverService.GetList();
             ViewData["AccountStatusId"] = new SelectList(selectList.Item1, "Id", "Status", data.AccountStatusId);
             ViewData["WorkStatuseId"] = new SelectList(selectList.Item2, "Id", "Status", data.WorkStatuseId);
             return View(data);
@@ -89,8 +94,9 @@ namespace FoodDlvProject2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, 
-            [Bind("Id,AccountStatusId,WorkStatuseId,FirstName,LastName,Phone,Gender,BankAccount,Idcard,VehicleRegistration,Birthday,Email,DriverLicense")] 
-                DeliveryDriversEditVM deliveryDriver)
+                     [Bind("Id,AccountStatusId,WorkStatuseId,FirstName,LastName,Phone,Gender,BankAccount,Idcard," +
+                            "VehicleRegistration,Birthday,Email,DriverLicense")] 
+                     DeliveryDriversEditVM deliveryDriver)
         {
             if (ModelState.IsValid)
             {
