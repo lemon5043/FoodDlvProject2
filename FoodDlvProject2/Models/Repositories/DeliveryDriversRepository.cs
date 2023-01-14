@@ -1,4 +1,5 @@
 ﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.DTOs;
 using FoodDlvProject2.Models.Services.Interfaces;
 using FoodDlvProject2.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@ namespace FoodDlvProject2.Models.Repositories
 
         public DeliveryDriverDTO GetOne(int? id)
         {
-            if (id == null || db.DeliveryDrivers == null)
+            if (db.DeliveryDrivers == null)
             {
                 return null;
             }
@@ -51,6 +52,7 @@ namespace FoodDlvProject2.Models.Repositories
                 AccountStatusId=x.AccountStatusId,
                 AccountStatus = x.AccountStatus.Status,
                 WorkStatuse = x.WorkStatuse.Status,
+                WorkStatuseId=x.WorkStatuseId,
                 DeliveryViolationRecords = x.DeliveryViolationRecords.Sum(x => x.DeliveryDriversId),
                 DriverRating = x.Orders.Average(x => x.DriverRating),
                 RegistrationTime = x.RegistrationTime,
@@ -62,16 +64,60 @@ namespace FoodDlvProject2.Models.Repositories
             return query;
         }
 
-        public void Edit(DeliveryDriverDTO model)
+        public void Edit(DeliveryDriverEditDTO model)
         {
-            var deliveryDriverDB = db.DeliveryDrivers.Find(model.Id);
-            db.Entry(deliveryDriverDB).CurrentValues.SetValues(model);
-            db.SaveChanges();
+            try
+            {
+                //db.Update(model);
+                var EFModel = ToEFModle(model);
+                db.Attach(EFModel);
+                string[] updateModel = { "LastName", "FirstName", "Gender", "Birthday", "Phone", "Email",
+                    "BankAccount", "AccountStatusId","WorkStatuseId","Idcard","VehicleRegistration","DriverLicense" };
+
+                foreach (var property in updateModel)
+                {
+                    db.Entry(EFModel).Property(property).IsModified = true;
+                }
+
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DeliveryDriverExists(model.Id)) throw new Exception("在更新資料時發生衝突。這可能是因為其他使用者已經更新了相同的資料，請重新載入頁面後再進行修改。");
+            }
         }
 
         public bool DeliveryDriverExists(int id)
         {
             return db.DeliveryDrivers.Any(e => e.Id == id);
+        }
+
+        public (IEnumerable<AccountStatueDTO>,
+            IEnumerable<DeliveryDriverWorkStatusDTO>) GetList()
+        {
+            var query = db.AccountStatues.Select(x=>x.ToEntity());
+            var query2 = db.DeliveryDriverWorkStatuses.Select(x => x.ToEntity());
+            return (query, query2);
+        }
+
+        public DeliveryDriver ToEFModle(DeliveryDriverEditDTO model)
+        {
+            return new DeliveryDriver
+            {
+                Id = model.Id,
+                AccountStatusId = model.AccountStatusId,
+                WorkStatuseId = model.WorkStatuseId,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Phone = model.Phone,
+                Gender = model.Gender,
+                BankAccount = model.BankAccount,
+                Birthday = model.Birthday,
+                Email = model.Email,
+                Idcard = model.Idcard,
+                VehicleRegistration = model.VehicleRegistration,
+                DriverLicense = model.DriverLicense,
+            };
         }
     }
 }

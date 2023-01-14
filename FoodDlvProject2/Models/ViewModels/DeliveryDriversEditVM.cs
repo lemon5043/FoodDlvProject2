@@ -1,4 +1,7 @@
-﻿namespace FoodDlvProject2.Models.ViewModels
+﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.DTOs;
+
+namespace FoodDlvProject2.Models.ViewModels
 {
     public class DeliveryDriversEditVM
     {
@@ -15,7 +18,46 @@
         public string Email { get; set; }
         public string VehicleRegistration { get; set; }
         public string DriverLicense { get; set; }
-
-
-	}
+    }
+    public static partial class DriversDtoExts
+    {
+        public static DeliveryDriversEditVM ToDeliveryDriversEditVM(this DeliveryDriverDTO source)
+        {
+            return new DeliveryDriversEditVM
+            {
+                Id = source.Id,
+                AccountStatusId = source.AccountStatusId,
+                WorkStatuseId = source.WorkStatuseId,
+                FirstName = source.FirstName,
+                LastName = source.LastName,
+                Phone = source.Phone,
+                Gender = source.Gender,
+                BankAccount = source.BankAccount,
+                Birthday = source.Birthday,             
+                Email = source.Email,               
+                Idcard = source.Idcard,
+                VehicleRegistration = source.VehicleRegistration,
+                DriverLicense = source.DriverLicense,
+            };
+        }
+        public static DeliveryDriverEditDTO ToDeliveryDriverEditDTO(this DeliveryDriversEditVM source)
+        {
+            return new DeliveryDriverEditDTO
+            {
+                Id = source.Id,
+                AccountStatusId = source.AccountStatusId,
+                WorkStatuseId = source.WorkStatuseId,
+                FirstName = source.FirstName,
+                LastName = source.LastName,
+                Phone = source.Phone,
+                Gender = source.Gender,
+                BankAccount = source.BankAccount,
+                Birthday = source.Birthday,
+                Email = source.Email,
+                Idcard = source.Idcard,
+                VehicleRegistration = source.VehicleRegistration,
+                DriverLicense = source.DriverLicense,
+            };
+        }
+    }
 }

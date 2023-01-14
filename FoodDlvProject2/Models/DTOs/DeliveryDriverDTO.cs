@@ -20,6 +20,8 @@ namespace FoodDlvProject2.EFModels
 
         public string WorkStatuse { get; set; }
 
+        public int WorkStatuseId { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -30,19 +32,19 @@ namespace FoodDlvProject2.EFModels
 
         public string BankAccount { get; set; }
 
-        public string Idcard { get; set; }    
+        public string Idcard { get; set; }
 
-        public DateTime RegistrationTime { get; set; }        
+        public DateTime RegistrationTime { get; set; }
 
-        public string VehicleRegistration { get; set; }       
-        
+        public string VehicleRegistration { get; set; }
+
         public DateTime Birthday { get; set; }
 
         public string Email { get; set; }
-       
-        public string Account { get; set; }     
-        
-        public string DriverLicense { get; set; }      
+
+        public string Account { get; set; }
+
+        public string DriverLicense { get; set; }
 
         public int? DeliveryViolationRecords { get; set; }
 
@@ -59,9 +61,9 @@ namespace FoodDlvProject2.EFModels
             LastName = source.LastName,
             Phone = source.Phone,
             Gender = source.Gender,
-            AccountStatus=source.AccountStatus,
+            AccountStatus = source.AccountStatus,
             WorkStatuse = source.WorkStatuse,
-            DeliveryViolationRecords=source.DeliveryViolationRecords,
+            DeliveryViolationRecords = source.DeliveryViolationRecords,
             DriverRating = source.DriverRating,
         };
     }

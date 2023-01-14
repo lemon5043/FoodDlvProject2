@@ -2,6 +2,8 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
+using FoodDlvProject2.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -64,10 +66,12 @@ namespace FoodDlvProject2.EFModels
                     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
                 optionsBuilder.UseSqlServer(configuration.GetConnectionString("FoodDelivery"));
             }
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<DeliveryDriverEditDTO>();
             modelBuilder.Entity<AccountAddress>(entity =>
             {
                 entity.HasNoKey();
