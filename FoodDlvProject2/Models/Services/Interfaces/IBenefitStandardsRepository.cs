@@ -5,8 +5,8 @@ namespace FoodDlvProject2.Models.Services.Interfaces
     public interface IBenefitStandardsRepository
     {
         void CreateAsync(BenefitStandardsDTO model);
-        void EditAsync(BenefitStandardsDTO model);
-        IEnumerable<BenefitStandardsDTO> GetBenefitStandards();
-        BenefitStandardsDTO GetOne(int? id);
+		Task<string> EditAsync(BenefitStandardsDTO model);
+		Task<IEnumerable<BenefitStandardsDTO>> GetBenefitStandardsAsync();
+		Task<BenefitStandardsDTO> GetOneAsync (int? id);
     }
 }

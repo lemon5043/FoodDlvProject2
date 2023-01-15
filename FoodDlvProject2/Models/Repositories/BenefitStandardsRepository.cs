@@ -13,7 +13,7 @@ namespace FoodDlvProject2.Models.Repositories
 		{
 			this.db = db;
 		}
-		public IEnumerable<BenefitStandardsDTO> GetBenefitStandards()
+		public async Task<IEnumerable<BenefitStandardsDTO>> GetBenefitStandardsAsync()
 		{
 			var query = db.BenefitStandards.Select(x => new BenefitStandardsDTO
 			{
@@ -25,14 +25,14 @@ namespace FoodDlvProject2.Models.Repositories
 				Bouns3 = x.Bouns3,
 				Selected = x.Selected,
 			});
-			return query.Select(x => x.ToEntity());
+			return await query.Select(x => x.ToEntity()).ToListAsync();
 		}
 
-		public BenefitStandardsDTO GetOne(int? id)
+		public async Task<BenefitStandardsDTO> GetOneAsync(int? id)
 		{
-			if (db.DeliveryDrivers == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+			if (db.BenefitStandards == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
-			var query = db.DeliveryDrivers.Select(x => new BenefitStandardsDTO
+			var query = db.BenefitStandards.Select(x => new BenefitStandardsDTO
 			{
 				Id = x.Id,
 				PerOrder = x.PerOrder,
@@ -47,11 +47,11 @@ namespace FoodDlvProject2.Models.Repositories
 				//RushHoursEnd1 = source.RushHoursEnd1,
 				//RushHoursEnd2 = source.RushHoursEnd2,
 				Selected = x.Selected,
-			}).FirstOrDefault(m => m.Id == id);
+			}).FirstOrDefaultAsync(m => m.Id == id);
 
 			if (query == null) throw new Exception("很抱歉找不到相關的資料");
 
-			return query;
+			return await query;
 		}
 
 		public async void CreateAsync(BenefitStandardsDTO model)
@@ -72,7 +72,7 @@ namespace FoodDlvProject2.Models.Repositories
 			}
 		}
 
-		public async void EditAsync(BenefitStandardsDTO model)
+		public async Task<string> EditAsync(BenefitStandardsDTO model)
 		{
 			try
 			{
@@ -107,6 +107,7 @@ namespace FoodDlvProject2.Models.Repositories
 			{
 				if (!BenefitStandardExists(model.Id)) throw new Exception("在更新資料時發生衝突。這可能是因為其他使用者已經更新了相同的資料，請重新載入頁面後再進行修改。");
 			}
+			return "修改成功";
 		}
 
 		public bool BenefitStandardExists(int id)

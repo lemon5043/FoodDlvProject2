@@ -24,7 +24,7 @@ namespace FoodDlvProject2.Models.DTOs
 	public static class BenefitStandardExts
 	{
 		public static BenefitStandardsDTO ToEntity(this BenefitStandardsDTO source)
-		=> new BenefitStandardsDTO
+		=>  new BenefitStandardsDTO
 		{
 			Id = source.Id,
 			PerOrder = source.PerOrder,
