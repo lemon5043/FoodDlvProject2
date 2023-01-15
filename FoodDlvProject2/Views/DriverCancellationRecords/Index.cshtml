@@ -29,9 +29,6 @@
 <a class="collapse-item" href="/DeliveryRecords/Index">外送紀錄</a>
 <a class="collapse-item" href="/DeliveryViolationRecords/Index">違規紀錄</a>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     
 </table>
@@ -98,7 +95,6 @@
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                 <a asp-action="Details" asp-route-id="@item.DeliveryDriversId">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.DeliveryDriversId">Delete</a>
                             </td>
                         </tr>
                     }
