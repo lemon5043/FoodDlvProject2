@@ -4,28 +4,62 @@
 
 .timeline-steps {
     display: flex;
-    justify-content: center;
     flex-wrap: nowrap;
-    flex-direction: row
+    position: relative;
 }
 
-    .timeline-steps .timeline-step {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        margin: 1rem
+.timeline-step {
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+    .timeline-step:before,
+    .timeline-step:after {
+        content: "";
+        border-top: .25rem dotted #3b82f6;
+        width: 50%;
+        position: absolute;
+        top: 0;
     }
 
-        .timeline-steps .timeline-step:before {
-            left: 1rem;
-            top: 50%;
+    .timeline-step:before {
+        content: "";
+        border-top: .25rem dotted #3b82f6;
+        width: 50%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        /*新增判斷 */
+        @if(schdule == item.orderSchedule.First()) {
+            display: none;
         }
+    }
 
-        .timeline-steps .timeline-step:after {
-            left: 1rem;
-            top: 50%;
+    .timeline-step:after {
+        content: "";
+        border-top: .25rem dotted #3b82f6;
+        width: 50%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        /*新增判斷*/
+        @if(schdule != item.orderSchedule.Last()) {
+            display: none;
         }
+    }
+
+.inner-circle {
+    border-radius: 50%;
+    height: 1rem;
+    width: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3b82f6;
+}
 
 @media (min-width:768px) {
     .timeline-steps .timeline-step:not(:last-child):after {
@@ -35,7 +69,11 @@
         width: 3.46rem;
         position: absolute;
         left: 7.5rem;
-        top: .3125rem
+        top: .3125rem;
+        /*新增判斷*/
+        @if(schdule != item.orderSchedule.Last()) {
+            display: none;
+        }
     }
 
     .timeline-steps .timeline-step:not(:first-child):before {
@@ -45,7 +83,11 @@
         width: 3.8125rem;
         position: absolute;
         right: 7.5rem;
-        top: .3125rem
+        top: .3125rem;
+        /*新增判斷*/
+        @if(schdule != item.orderSchedule.First()) {
+            display: none;
+        }
     }
 }
 

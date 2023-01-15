@@ -1,5 +1,5 @@
 ﻿///
-Order_ver_0.5.9
+Order_ver_0.6
    改版內容參閱Order_readme.txt
 ///
 
@@ -54,7 +54,7 @@ Oreder_ver0.5.1 ~ 0.5.8
 1. 重新設計view-index, 主頁捨棄雙層式表單
 2. 新增與修正MVC三層式架構
 	2-1. Controller: Order
-	2-2. ViewModel: Order, OrderDetail, Product
+	2-2. ViewModel: Order, OrderDetail, OrderProduct
 	2-3. Service: Order
 	2-4. Data Treanfer Object: Order, OrderDetail, OrderProduct, OrderSchedule
 	2-5. Interface: OrderRepository
@@ -68,8 +68,12 @@ Oreder_ver0.5.1 ~ 0.5.8
 	4-4. 訂單狀態-時間線(未完成)
 	4-5. 非同步顯示(未完成)
 
-Order0.5.9
+Order_ver0.5.9
 1. 修正index頁面
 	1-1. 套版datatable
 	1-2. 修正格式
 2. 新增View-ProductIndex
+
+Order_ver0.6(2023/01/15合併版本)
+1. 修正index頁面
+	1-1. 修正格式, 修改css樣式

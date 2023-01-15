@@ -124,32 +124,26 @@
                                 @Html.DisplayFor(modelItem => item.Total)
                             </td>
                             <td>
-                                <a asp-action="DetailIndex" asp-route-id="@item.Id">Details</a> 
+                                <a asp-action="DetailIndex" asp-route-id="@item.Id">訂單明細</a>
                             </td>
                         </tr>
                     </tbody>
-
-
                     <div class="container">
                         <div class="row text-center justify-content-center mb-5">
                             <div class="col-xl-6 col-lg-8">
-                                <h2 class="font-weight-bold">訂單狀態</h2>
-                                <p class="text-muted">We’re very proud of the path we’ve taken. Explore the history that made us the company we are today.</p>
+                                <p class="font-weight-bold">訂單狀態</p>
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="timeline-steps">
                             @foreach (var schdule in item.orderSchedule)
                             {
-                                <div class="timeline-steps aos-init aos-animate" data-aos="fade-up">
-                                    <div class="timeline-step">
-                                        <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="@schdule.Status" data-original-title="@schdule.MarkTime">
-                                            <div class="inner-circle"></div>
-                                            <p class="h6 mt-3 mb-1">@schdule.MarkTime</p>
-                                            <p class="h6 text-muted mb-0 mb-lg-0">@schdule.Status</p>
-                                        </div>
+                                <div class="timeline-step">
+                                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="@schdule.Status" data-original-title="@schdule.MarkTime">
+                                        <div class="inner-circle"></div>
+                                        <p class="h6 mt-3 mb-1">@schdule.MarkTime</p>
+                                        <p class="h6 text-muted mb-0 mb-lg-0">@schdule.Status</p>
                                     </div>
                                 </div>
                             }
