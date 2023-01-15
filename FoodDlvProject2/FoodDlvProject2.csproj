@@ -16,4 +16,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\DeliveyDriver\DriverLicense\" />
+    <Folder Include="wwwroot\img\DeliveyDriver\Idcard\" />
+    <Folder Include="wwwroot\img\DeliveyDriver\VehicleRegistration\" />
+  </ItemGroup>
+
 </Project>
