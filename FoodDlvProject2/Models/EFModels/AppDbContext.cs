@@ -575,6 +575,18 @@ namespace FoodDlvProject2.EFModels
                     .IsRequired()
                     .HasMaxLength(50);
 
+                entity.Property(e => e.Birthday)
+                    .HasColumnType("date")
+                    .HasColumnName("birthday");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(256);
+
+                entity.Property(e => e.EncryptedPassword)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
                 entity.Property(e => e.FirstName)
                     .IsRequired()
                     .HasMaxLength(20);
@@ -583,13 +595,12 @@ namespace FoodDlvProject2.EFModels
                     .IsRequired()
                     .HasMaxLength(20);
 
-                entity.Property(e => e.Password)
+                entity.Property(e => e.RegistrationTime).HasColumnType("date");
+
+                entity.Property(e => e.Role)
                     .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Permissions).HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.RegistrationTime).HasColumnType("datetime");
+                    .HasMaxLength(20)
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Title)
                     .IsRequired()
