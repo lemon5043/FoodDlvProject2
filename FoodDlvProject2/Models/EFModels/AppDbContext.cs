@@ -58,6 +58,7 @@ namespace FoodDlvProject2.EFModels
         public virtual DbSet<StoreViolationType> StoreViolationTypes { get; set; }
         public virtual DbSet<StoreWallet> StoreWallets { get; set; }
         public virtual DbSet<StoresCategoriesList> StoresCategoriesLists { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -66,7 +67,6 @@ namespace FoodDlvProject2.EFModels
                     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
                 optionsBuilder.UseSqlServer(configuration.GetConnectionString("FoodDelivery"));
             }
-            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

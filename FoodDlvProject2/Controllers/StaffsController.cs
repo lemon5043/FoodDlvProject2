@@ -10,14 +10,20 @@ using FoodDlvProject2.Models.ViewModels;
 using FoodDlvProject2.Models.Services;
 using NuGet.Protocol.Core.Types;
 using FoodDlvProject2.Models.Services.Interfaces;
+using FoodDlvProject2.Models.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using System.Security.Principal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FoodDlvProject2.Controllers
 {
     public class StaffsController : Controller
     {
 
-        //精靈做的
-        private readonly AppDbContext _context;
+    //精靈做的
+    private readonly AppDbContext _context;
 
         //自定義
         private StaffService service;
@@ -26,6 +32,8 @@ namespace FoodDlvProject2.Controllers
         public StaffsController(AppDbContext context)
         {
             _context = context;
+            repo = new StaffRepository();
+            service = new StaffService(repo);
         }
 
         // GET: Staffs
@@ -169,29 +177,48 @@ namespace FoodDlvProject2.Controllers
 
 
         //自定義
-        public ActionResult Login()
+        [AllowAnonymous]
+        public async Task<IActionResult> Login()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(StaffLoginVM model)
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(StaffLoginVM model)
         {
+           
             // var service = new MemberService(repository);
-            (bool IsSuccess, string ErrorMessage) response =
+            (bool IsSuccess, string? ErrorMessage) response =
                 service.Login(model.Account, model.Password);
 
             if (response.IsSuccess)
             {
-                return RedirectToAction("Index", "Home");
-                //// 記住登入成功的會員，要會cookie才能用
-                //var rememberMe = false;
+                // 記住登入成功的會員，
+                var rememberMe = true;
 
-                //string returnUrl = ProcessLogin(model.Account, rememberMe, out HttpCookie cookie);
+                var member = repo.GetByAccount(model.Account);
+                int roles = member.Permissions;
 
-                //Response.Cookies.Add(cookie);
+                var claims = new List<Claim>
+            {
+            new Claim(ClaimTypes.Name, member.FirstName),
+            new Claim(ClaimTypes.Role, roles.ToString()),
+            };
 
-                //return Redirect(returnUrl);
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = rememberMe,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30),
+                };
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity), authProperties);
+
+                var url = LocalRedirect("/Home/Index");
+                return url;
             }
 
             ModelState.AddModelError(string.Empty, response.ErrorMessage);
@@ -200,36 +227,15 @@ namespace FoodDlvProject2.Controllers
         }
 
 
-        //施工中，不會用 cookie
-        //private string ProcessLogin(string account, bool rememberMe out HttpCookie)
-        //{
-        //    var member = repo.GetByAccount(account);
-        //    string roles = String.Empty;
+        public async Task<IActionResult> LogOut()
+        {
+            
+            // Clear the existing external cookie
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
 
-        //    // 建立一張認證票
-        //    FormsAuthenticationTicket ticket =
-        //        new FormsAuthenticationTicket(
-        //            1,          // 版本別, 沒特別用處
-        //            account,
-        //            DateTime.Now,   // 發行日
-        //            DateTime.Now.AddDays(2), // 到期日
-        //            rememberMe,     // 是否續存
-        //            roles,          // userdata
-        //            "/" // cookie位置
-        //        );
-
-        //    // 將它加密
-        //    string value = FormsAuthentication.Encrypt(ticket);
-
-        //    // 存入cookie
-        //    cookie = new HttpCookie(FormsAuthentication.FormsCookieName, value);
-
-        //    // 取得return url
-        //    string url = FormsAuthentication.GetRedirectUrl(account, true); //第二個引數沒有用處
-
-        //    return url;
-        //}
-
-
+            var url = LocalRedirect("/Staffs/Login");
+            return url;
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace FoodDlvProject2.Models.Services
         /// <param name="account"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public (bool IsSuccess, string? ErrorMessage) Login(string account, string password)
+        public  (bool IsSuccess, string? ErrorMessage) Login(string account, string password)
         {
             StaffDto staff = repo.GetByAccount(account);
 
