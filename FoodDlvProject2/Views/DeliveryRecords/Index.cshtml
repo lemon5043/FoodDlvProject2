@@ -26,10 +26,6 @@
 <a class="collapse-item" href="/Pays/Index">薪資資料</a>
 <a class="collapse-item" href="/DeliveryViolationRecords/Index">違規紀錄</a>
 <a class="collapse-item" href="/DriverCancellationRecords/Index">取消訂單紀錄</a>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
    
 </table>
@@ -87,10 +83,8 @@
 							<td>
 								@Html.DisplayFor(modelItem => item.Milage)
 							</td>
-							<td>
-								<a asp-action="Edit" asp-route-id="@item.DeliveryDriversId">Edit</a> |
+							<td> |
 								<a asp-action="MonthlyDetails" asp-route-id="@item.DeliveryDriversId">Details</a> |
-								<a asp-action="Delete" asp-route-id="@item.DeliveryDriversId">Delete</a>
 							</td>
 						</tr>
 					}
