@@ -1,17 +1,16 @@
 ﻿using FoodDlvProject2.EFModels;
 using FoodDlvProject2.Models.DTOs;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices;
+using System.Xml.Linq;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-	public class BenefitStandardCreateVM
+	public class BenefitStandardsDeleteVM
 	{
-		public int Id { get; set; }
-		[Display(Name = "送餐費")]
-		[Required]
-		public int PerOrder { get; set; }
+        public int Id { get; set; }
+        [Display(Name = "送餐費")]
+        [Required]
+        public int PerOrder { get; set; }
         [Display(Name = "距離費")]
         [Required]
         public int PerMilage { get; set; }
@@ -41,12 +40,13 @@ namespace FoodDlvProject2.Models.ViewModels
         //public TimeSpan RushHoursEnd2 { get; set; }
         [Display(Name = "方案啟用")]
         public bool Selected { get; set; }
-	}
-	public static class BenefitStandardCreateVMExts
+    }
+
+	public static class BenefitStandardDeleteVMExts
 	{
-		public static BenefitStandardDTO ToBenefitStandardsDTO(this BenefitStandardCreateVM source)
+		public static BenefitStandardsDeleteVM ToBenefitStandardsDeleteVM(this BenefitStandardDTO source)
 		{
-			 return new BenefitStandardDTO
+			return new BenefitStandardsDeleteVM
 			{
 				Id = source.Id,
 				PerOrder = source.PerOrder,

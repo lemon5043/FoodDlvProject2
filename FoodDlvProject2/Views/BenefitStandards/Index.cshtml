@@ -14,7 +14,7 @@
 	<!-- Page level custom scripts -->
 	<script src="~/js/demo/datatables-demo.js"></script>
     }
-@model IEnumerable<FoodDlvProject2.EFModels.BenefitStandard>
+@model IEnumerable<FoodDlvProject2.Models.ViewModels.BenefitStandardsIndexVM>
 
 @{
 	ViewData["Title"] = "Index";
@@ -25,7 +25,14 @@
 <p>
 	<a asp-action="Create">Create New</a>
 </p>
-
+@if (TempData["ErrorMessage"] != null)
+{
+	<div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+@if (TempData["Result"] != null)
+{
+	<div class="alert alert-danger">@TempData["Result"]</div>
+}
 <div class="card shadow mb-4">
 	<div class="card-header py-3">
 		<h6 class="m-0 font-weight-bold text-primary">
@@ -40,9 +47,6 @@
 				   cellspacing="0">
 				<thead>
 					<tr>
-						<th>
-							@Html.DisplayNameFor(model => model.Id)
-						</th>
 						<th>
 							@Html.DisplayNameFor(model => model.PerOrder)
 						</th>
@@ -74,9 +78,6 @@
 					@foreach (var item in Model)
 					{
 						<tr>
-							<td>
-								@Html.DisplayFor(modelItem => item.Id)
-							</td>
 							<td>
 								@Html.DisplayFor(modelItem => item.PerOrder)
 							</td>

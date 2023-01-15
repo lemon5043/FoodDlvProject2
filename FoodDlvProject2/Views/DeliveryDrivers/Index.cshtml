@@ -25,9 +25,6 @@
 <a class="collapse-item" href="/Pays/Index">薪資資料</a>
 <a class="collapse-item" href="/DeliveryViolationRecords/Index">違規紀錄</a>
 <a class="collapse-item" href="/DriverCancellationRecords/Index">取消訂單紀錄</a>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 
 <div class="card shadow mb-4">
               <div class="card-header py-3">
@@ -98,4 +95,8 @@
 @if (TempData["ErrorMessage"] != null)
 {
 	<div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+@if (TempData["Result"] != null)
+{
+	<div class="alert alert-danger">@TempData["Result"]</div>
 }

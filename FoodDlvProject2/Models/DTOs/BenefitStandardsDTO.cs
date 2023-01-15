@@ -1,8 +1,12 @@
-﻿using FoodDlvProject2.EFModels;
+﻿using FoodDlvProject2.Models.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
-namespace FoodDlvProject2.Models.DTOs
+namespace FoodDlvProject2.EFModels
 {
-	public class BenefitStandardsDTO
+	public class BenefitStandardDTO
 	{
 		public int Id { get; set; }
 		public int PerOrder { get; set; }
@@ -23,8 +27,8 @@ namespace FoodDlvProject2.Models.DTOs
 	}
 	public static class BenefitStandardExts
 	{
-		public static BenefitStandardsDTO ToEntity(this BenefitStandardsDTO source)
-		=>  new BenefitStandardsDTO
+		public static BenefitStandardDTO ToEntity(this BenefitStandardDTO source)
+		=>  new BenefitStandardDTO
 		{
 			Id = source.Id,
 			PerOrder = source.PerOrder,

@@ -19,8 +19,8 @@ namespace FoodDlvProject2.Models.ViewModels
         public string VehicleRegistration { get; set; }
         public string DriverLicense { get; set; }
     }
-    public static partial class DriversDtoExts
-    {
+    public static class DeliveryDriversEditVMExts
+	{
         public static DeliveryDriversEditVM ToDeliveryDriversEditVM(this DeliveryDriverDTO source)
         {
             return new DeliveryDriversEditVM

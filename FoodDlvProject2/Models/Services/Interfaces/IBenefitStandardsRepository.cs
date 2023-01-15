@@ -1,12 +1,16 @@
-﻿using FoodDlvProject2.Models.DTOs;
+﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.DTOs;
 
 namespace FoodDlvProject2.Models.Services.Interfaces
 {
     public interface IBenefitStandardsRepository
     {
-        void CreateAsync(BenefitStandardsDTO model);
-		Task<string> EditAsync(BenefitStandardsDTO model);
-		Task<IEnumerable<BenefitStandardsDTO>> GetBenefitStandardsAsync();
-		Task<BenefitStandardsDTO> GetOneAsync (int? id);
-    }
+		Task<string> CreateAsync(BenefitStandardDTO model);
+		Task<string> EditAsync(BenefitStandardDTO model);
+		Task<IEnumerable<BenefitStandardDTO>> GetBenefitStandardsAsync();
+		Task<BenefitStandardDTO> GetOneAsync (int? id);
+		Task<string> DeleteAsync(int? id);
+        int FindSelectBenefitStandard();
+		void CancelSelection();
+	}
 }

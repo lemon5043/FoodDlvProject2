@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FoodDlvProject2.Models.Repositories
 {
-    public class BenefitStandardsRepository : IBenefitStandardsRepository
+	public class BenefitStandardsRepository : IBenefitStandardsRepository
 	{
 		private readonly AppDbContext db;
 
@@ -13,9 +13,10 @@ namespace FoodDlvProject2.Models.Repositories
 		{
 			this.db = db;
 		}
-		public async Task<IEnumerable<BenefitStandardsDTO>> GetBenefitStandardsAsync()
+
+		public async Task<IEnumerable<BenefitStandardDTO>> GetBenefitStandardsAsync()
 		{
-			var query = db.BenefitStandards.Select(x => new BenefitStandardsDTO
+			var query = db.BenefitStandards.Select(x => new BenefitStandardDTO
 			{
 				Id = x.Id,
 				PerOrder = x.PerOrder,
@@ -28,15 +29,18 @@ namespace FoodDlvProject2.Models.Repositories
 			return await query.Select(x => x.ToEntity()).ToListAsync();
 		}
 
-		public async Task<BenefitStandardsDTO> GetOneAsync(int? id)
+		public async Task<BenefitStandardDTO> GetOneAsync(int? id)
 		{
 			if (db.BenefitStandards == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
-			var query = db.BenefitStandards.Select(x => new BenefitStandardsDTO
+			var query = db.BenefitStandards.Select(x => new BenefitStandardDTO
 			{
 				Id = x.Id,
 				PerOrder = x.PerOrder,
 				PerMilage = x.PerMilage,
+				BonusThreshold1 = x.BonusThreshold1,
+				BonusThreshold2 = x.BonusThreshold2,
+				BonusThreshold3 = x.BonusThreshold3,
 				Bouns1 = x.Bouns1,
 				Bouns2 = x.Bouns2,
 				Bouns3 = x.Bouns3,
@@ -54,15 +58,10 @@ namespace FoodDlvProject2.Models.Repositories
 			return await query;
 		}
 
-		public async void CreateAsync(BenefitStandardsDTO model)
+		public async Task<string> CreateAsync(BenefitStandardDTO model)
 		{
 			try
 			{
-				if (model.Selected)
-				{
-					db.Update(BenefitStandardSelected());
-					await db.SaveChangesAsync();
-				}
 				db.Add(ToEFModle(model));
 				await db.SaveChangesAsync();
 			}
@@ -70,9 +69,10 @@ namespace FoodDlvProject2.Models.Repositories
 			{
 				if (!BenefitStandardExists(model.Id)) throw new Exception("在更新資料時發生衝突。這可能是因為其他使用者已經更新了相同的資料，請重新載入頁面後再進行修改。");
 			}
+			return "新增成功";
 		}
 
-		public async Task<string> EditAsync(BenefitStandardsDTO model)
+		public async Task<string> EditAsync(BenefitStandardDTO model)
 		{
 			try
 			{
@@ -85,22 +85,7 @@ namespace FoodDlvProject2.Models.Repositories
 					db.Entry(EFModel).Property(property).IsModified = true;
 				}
 
-				if (model.Selected)
-				{
-					List<BenefitStandard> list = new List<BenefitStandard> { EFModel, BenefitStandardSelected() };
-					foreach (var item in list)
-					{
-						var existing = db.BenefitStandards.Find(item.Id);
-						if (existing != null)
-						{
-							db.Entry(existing).CurrentValues.SetValues(item);
-						}
-					}
-				}
-				else
-				{
-					db.Update(EFModel);
-				}
+				db.Update(EFModel);
 				await db.SaveChangesAsync();
 			}
 			catch (DbUpdateConcurrencyException)
@@ -110,13 +95,52 @@ namespace FoodDlvProject2.Models.Repositories
 			return "修改成功";
 		}
 
+		public async Task<string> DeleteAsync(int? id)
+		{
+			if (db.BenefitStandards == null)
+			{
+				throw new Exception("抱歉，找不到方案，請確認資料庫");
+			}
+
+			var benefitStandard = await db.BenefitStandards.FindAsync(id);
+
+			if (benefitStandard != null)
+			{
+				db.BenefitStandards.Remove(benefitStandard);
+			}
+
+			await db.SaveChangesAsync();
+			return "刪除成功";
+		}
+
 		public bool BenefitStandardExists(int id)
 		{
 			return db.BenefitStandards.Any(e => e.Id == id);
 		}
 
-		private BenefitStandard ToEFModle(BenefitStandardsDTO model)
-		{			
+		public int FindSelectBenefitStandard()
+		{
+			return db.BenefitStandards.FirstOrDefault(e => e.Selected == true).Id;
+		}
+
+		public void CancelSelection()
+		{
+			try
+			{
+				int? id = db.BenefitStandards.FirstOrDefault(e => e.Selected == true).Id;
+				var selectItem = db.BenefitStandards.Find(id);
+				selectItem.Selected = false;
+				db.Update(selectItem);
+				db.SaveChanges();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				throw new Exception("找不到目前正在使用的方案，請確認資料庫");
+			}
+		}
+
+		private static BenefitStandard ToEFModle(BenefitStandardDTO model)
+		{
 			return new BenefitStandard
 			{
 				Id = model.Id,
@@ -138,13 +162,5 @@ namespace FoodDlvProject2.Models.Repositories
 			};
 		}
 
-		private BenefitStandard? BenefitStandardSelected()
-		{
-			int? id = db.BenefitStandards.FirstOrDefault(e => e.Selected == true).Id;
-			if (id == null) throw new Exception("找不到目前正在使用的方案，請確認資料庫"); ;
-			var selectItem = db.BenefitStandards.Find(id);
-			selectItem.Selected = false;
-			return selectItem;
-		}
 	}
 }
