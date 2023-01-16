@@ -1,5 +1,5 @@
 ﻿///
-Order_ver_0.6
+Order_ver_0.6.1
    改版內容參閱Order_readme.txt
 ///
 

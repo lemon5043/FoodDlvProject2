@@ -24,10 +24,13 @@ namespace FoodDlvProject2.Controllers
         }		       
         
 		//GET: Orders
-        public async Task<IActionResult> Index(DateTime? dateStart, DateTime? dateEnd, string keyWord)
+        public async Task<IActionResult> Index(DateTime? dateStart, DateTime? dateEnd, string keyWord, int pageNumber = 1)
         {
+			int pageSize = 5;
+			pageNumber = pageNumber > 0 ? pageNumber : 1;
+
 			var data = await orderService.SearchAsync(dateStart, dateEnd, keyWord);
-            var dataAsync = data.Select(x => x.ToOrderVM()).ToList();
+            var dataAsync = data.Select(x => x.ToOrderVM()).ToPagedList(pageNumber, pageSize);
 
             return View(dataAsync);					
 

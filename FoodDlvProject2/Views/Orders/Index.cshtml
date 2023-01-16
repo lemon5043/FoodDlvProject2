@@ -1,154 +1,136 @@
-﻿@using FoodDlvProject2.EFModels 
-@using FoodDlvProject2 
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core.Fluent
+@using X.PagedList.Web.Common
+@using FoodDlvProject2.EFModels
+@using FoodDlvProject2
 @model IEnumerable<FoodDlvProject2.Models.ViewModels.OrderVM>
-  @{ 
-      ViewData["Title"] = "Index"; 
-      var dateStart = ViewBag.start as DateTime?;
-      var dateEnd = ViewBag.end as DateTime?; 
-      var keyWord = ViewBag.KeyWord as string; 
-   } 
-  @* @section DatatableStyle {
-  <!-- Custom styles for this page -->
-  <link
-    href="~/vendor/datatables/dataTables.bootstrap4.min.css"
-    rel="stylesheet"
-  />
-  }  *@
+@{
+	ViewData["Title"] = "Index";
+	var dateStart = ViewBag.start as DateTime?;
+	var dateEnd = ViewBag.end as DateTime?;
+	var keyWord = ViewBag.KeyWord as string;	
+}
 
-  @section Customize {
-    <link href="~/css/orders-index.css" rel="stylesheet" />
+@section Customize {
+	<link href="~/css/orders-index.css" rel="stylesheet" />
   }
 
-  @* @section DatatableScript {
-  <!-- Page level plugins -->
-  <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<div class="container-fluid">
+	<h1>訂單管理</h1>
+	<form method="get">
+		<div class="card mb-4 py-3">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-12 col-lg-2 col-xxl-1 pt-1">
+						訂單時間:
+					</div>
+					<div class="col-12 col-sm-4 col-xl-2">
+						<input type="datetime-local"
+							   name="dateStart"
+							   class="form-control" />
+					</div>
+					<div class="col-12 col-sm-4 col-xl-2">
+						<input type="datetime-local"
+							   name="dateEnd"
+							   class="form-control" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-lg-2 col-xxl-1 pt-1 mt-3">
+						關鍵字搜尋:
+					</div>
+					<div class="col-12 col-sm-8 col-xl-4 mt-3">
+						<input type="text"
+							   name="keyWord"
+							   class="form-control"
+							   value="@keyWord" />
+					</div>
+					<div class="col-1 text-center mt-3">
+						<input type="submit"
+							   class="btn btn-primary"
+							   value="Search" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
 
-  <!-- Page level custom scripts -->
-  <script src="~/js/demo/datatables-demo.js"></script>
-  } *@
+	@foreach (var item in Model)
+	{
+		<div class="card shadow mb-4">			
+			<div class="card-body">
+				<div >
+					<table class="table table-bordered"
+					   id="dataTable"
+					   width="100%"
+					   cellspacing="0">
+						<thead>
+							<tr>
+								<th>@Html.DisplayNameFor(model => model.Id)</th>
+								<th>@Html.DisplayNameFor(model => model.OrderTime)</th>
+								<th>@Html.DisplayNameFor(model => model.MemberName)</th>
+								<th>@Html.DisplayNameFor(model => model.StoreName)</th>
+								<th>@Html.DisplayNameFor(model => model.DeliveryAddress)</th>
+								<th>@Html.DisplayNameFor(model => model.DeliveryFee)</th>
+								<th>@Html.DisplayNameFor(model => model.Total)</th>
+								<th></th>
+							</tr>
+						</thead>
 
-  <div class="container-fluid">
-    <h1>訂單管理</h1>
-    <form method="get">
-        <div class="card mb-4 py-3">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-12 col-lg-2 col-xxl-1 pt-1">
-                訂單時間:
-              </div>
-              <div class="col-12 col-sm-4 col-xl-2">
-                <input
-                  type="datetime-local"
-                  name="dateStart"
-                  class="form-control"
-                />
-              </div>
-              <div class="col-12 col-sm-4 col-xl-2">
-                <input
-                  type="datetime-local"
-                  name="dateEnd"
-                  class="form-control"
-                />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12 col-lg-2 col-xxl-1 pt-1 mt-3">
-                關鍵字搜尋:
-              </div>
-              <div class="col-12 col-sm-8 col-xl-4 mt-3">
-                <input
-                  type="text"
-                  name="keyWord"
-                  class="form-control"
-                  value="@keyWord"
-                />
-              </div>
-              <div class="col-1 text-center mt-3">
-                <input
-                  type="submit"
-                  class="btn btn-primary"
-                  value="Search"
-                  />
-              </div>
-            </div>
-          </div>
-        </div>
-    </form>
+						<tbody>
+							<tr>
+								<td>@Html.DisplayFor(modelItem => item.Id)</td>
+								<td>@Html.DisplayFor(modelItem => item.OrderTime)</td>
+								<td>@Html.DisplayFor(modelItem => item.MemberName)</td>
+								<td>@Html.DisplayFor(modelItem => item.StoreName)</td>
+								<td>@Html.DisplayFor(modelItem => item.DeliveryAddress)</td>
+								<td>@Html.DisplayFor(modelItem => item.DeliveryFee)</td>
+								<td>@Html.DisplayFor(modelItem => item.Total)</td>
+								<td>
+									<a asp-action="DetailIndex" asp-route-id="@item.Id">訂單明細</a>
+								</td>
+							</tr>
+						</tbody>
 
-    @foreach (var item in Model) {
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table
-            class="table table-bordered"
-            id="dataTable"
-            width="100%"
-            cellspacing="0"
-          >
-            <thead>
-              <tr>
-                <th>@Html.DisplayNameFor(model => model.Id)</th>
-                <th>@Html.DisplayNameFor(model => model.OrderTime)</th>
-                <th>@Html.DisplayNameFor(model => model.MemberName)</th>
-                <th>@Html.DisplayNameFor(model => model.StoreName)</th>
-                <th>@Html.DisplayNameFor(model => model.DeliveryAddress)</th>
-                <th>@Html.DisplayNameFor(model => model.DeliveryFee)</th>
-                <th>@Html.DisplayNameFor(model => model.Total)</th>
-                <th></th>
-              </tr>
-            </thead>
+						<div class="row text-center justify-content-center mb-5">
+							<div class="col-xl-6 col-lg-8">
+								<p class="font-weight-bold">訂單狀態</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="timeline-steps">
+									@foreach (var schdule in item.orderSchedule)
+									{
+										<div class="timeline-step">
+											<div class="timeline-content"
+										 data-toggle="popover"
+										 data-trigger="hover"
+										 data-placement="top"
+										 title=""
+										 data-content="@schdule.Status"
+										 data-original-title="@schdule.MarkTime">
+												<div class="inner-circle"></div>
+												<p class="h6 mt-3 mb-1">@schdule.MarkTime</p>
+												<p class="h6 text-muted mb-0 mb-lg-0">@schdule.Status</p>
+											</div>
+										</div>
+									}
+								</div>
+							</div>
+						</div>
+					</table>
+				</div>
+			</div>
+		</div>
+	}
+</div>
 
-            <tbody>
-              <tr>
-                <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                <td>@Html.DisplayFor(modelItem => item.OrderTime)</td>
-                <td>@Html.DisplayFor(modelItem => item.MemberName)</td>
-                <td>@Html.DisplayFor(modelItem => item.StoreName)</td>
-                <td>@Html.DisplayFor(modelItem => item.DeliveryAddress)</td>
-                <td>@Html.DisplayFor(modelItem => item.DeliveryFee)</td>
-                <td>@Html.DisplayFor(modelItem => item.Total)</td>
-                <td>
-                  <a asp-action="DetailIndex" asp-route-id="@item.Id"
-                    >訂單明細</a>
-                </td>
-              </tr>
-            </tbody>
+@Html.PagedListPager((IPagedList)Model, page =>
+    Url.Action("Index", new { pageNumber = page }),
+    new PagedListRenderOptions {
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+})
 
-            <div class="row text-center justify-content-center mb-5">
-              <div class="col-xl-6 col-lg-8">
-                <p class="font-weight-bold">訂單狀態</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <div class="timeline-steps">
-                @foreach (var schdule in item.orderSchedule) {
-                <div class="timeline-step">
-                  <div
-                    class="timeline-content"
-                    data-toggle="popover"
-                    data-trigger="hover"
-                    data-placement="top"
-                    title=""
-                    data-content="@schdule.Status"
-                    data-original-title="@schdule.MarkTime"
-                  >
-                    <div class="inner-circle"></div>
-                    <p class="h6 mt-3 mb-1">@schdule.MarkTime</p>
-                    <p class="h6 text-muted mb-0 mb-lg-0">@schdule.Status</p>
-                  </div>
-                </div>
-                }
-                </div>
-              </div>
-            </div>
-          </table>
-        </div>
-      </div>
-    </div>
-    }
-  </div>
