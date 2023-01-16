@@ -1,22 +1,46 @@
 ﻿using FoodDlvProject2.EFModels;
 using FoodDlvProject2.Models.DTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
     public class DeliveryDriversEditVM
     {
         public int Id { get; set; }
+        [Display(Name = "帳號認證狀態")]
+
         public int AccountStatusId { get;  set; }
-		public int WorkStatuseId { get;  set; }
+        [Display(Name = "工作狀態")]
+        public int WorkStatuseId { get;  set; }
+        [Required(ErrorMessage ="請輸入{0}")]
+        [Display(Name = "名子")]
         public string FirstName { get; set; }
+        [Required(ErrorMessage = "請輸入{0}")]
+        [Display(Name = "姓氏")]
         public string LastName { get; set; }
+        [Required(ErrorMessage = "請輸入{0}")]
+        [Display(Name = "聯絡電話")]
+        [StringLength(10, ErrorMessage = "字串長度不能大於{1}")]
         public string Phone { get; set; }
-		public bool Gender { get; set; }
+        [Display(Name = "性別")]
+        public bool Gender { get; set; }
+        [Required(ErrorMessage ="請輸入{0}")]
+        [Display(Name = "銀行帳戶")]
         public string BankAccount { get; set; }
+        [Required(ErrorMessage = "請輸入{0}")]
+        [Display(Name = "身分證")]
         public string Idcard { get; set; }
+        [Required(ErrorMessage = "請輸入{0}")]
+        [Display(Name = "生日")]
         public DateTime Birthday { get; set; }
+        [Display(Name = "電子郵件")]
+        [EmailAddress(ErrorMessage ="輸入的{0}格式不正確")]
         public string Email { get; set; }
+        [Required(ErrorMessage ="請輸入{0}")]
+        [Display(Name = "行照")]
         public string VehicleRegistration { get; set; }
+        [Required(ErrorMessage = "請輸入{0}")]
+        [Display(Name = "駕照")]
         public string DriverLicense { get; set; }
     }
     public static class DeliveryDriversEditVMExts

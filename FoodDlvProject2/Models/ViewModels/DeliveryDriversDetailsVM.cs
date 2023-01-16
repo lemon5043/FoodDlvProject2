@@ -1,24 +1,41 @@
 ﻿using FoodDlvProject2.EFModels;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
     public class DeliveryDriversDetailsVM
     {
         public int Id { get; set; }
+        [Display(Name = "帳號")]
         public string Account { get; set; }
+        [Display(Name = "姓名")]
         public string DriverName { get; set; }
+        [Display(Name = "性別")]
         public bool Gender { get; set; }
+        [Display(Name = "生日")]
         public DateTime Birthday { get; set; }
+        [Display(Name = "聯絡電話")]
         public string Phone { get; set; }
+        [Display(Name = "電子郵件")]
         public string Email { get; set; }
+        [Display(Name = "銀行帳戶")]
         public string BankAccount { get; set; }
+        [Display(Name = "帳號認證狀態")]
         public string AccountStatus { get; set; }
+        [Display(Name = "工作狀態")]
         public string WorkStatuse { get; set; }
+        [Display(Name = "違規次數")]
         public int? DeliveryViolationRecords { get; set; }
+        [Display(Name = "外送評分")]
         public double? DriverRating { get; set; }
+        [Display(Name = "註冊時間")]
         public DateTime RegistrationTime { get; set; }
+        [Display(Name = "身分證")]
         public string Idcard { get; set; }
+        [Display(Name = "行照")]
         public string VehicleRegistration { get; set; }
+        [Display(Name = "駕照")]
         public string DriverLicense { get; set; }
     }
     public static partial class DriversDtoExts

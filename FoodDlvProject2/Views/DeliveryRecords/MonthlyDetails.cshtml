@@ -20,10 +20,9 @@
     ViewData["Title"] = "MonthlyDetails";
 }
 
-<h1>MonthlyDetails</h1>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>個人外送紀錄</h1>
+<h3>@Html.DisplayNameFor(model => model.DriverName):@ViewBag.DriverName</h3>
+
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -40,7 +39,7 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.OrderDate.Month)
+                                @Html.DisplayNameFor(model => model.OrderDate)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.TotalMilage)
@@ -57,7 +56,8 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.OrderDate.Month)
+                                @Html.DisplayFor(modelItem => item.OrderDate.Year)年
+                                    @Html.DisplayFor(modelItem => item.OrderDate.Month)月
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.TotalMilage)
