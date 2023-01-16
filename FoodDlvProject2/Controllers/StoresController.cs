@@ -190,10 +190,16 @@ namespace FoodDlvProject2.Controllers
 		}
 
 		// GET: Products/Create
-		public IActionResult CreateP()
+		public IActionResult CreateP(int id)
 		{
-			ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName");
-			return View();
+
+            var store=_context.Stores.Find(id);
+
+
+            ViewBag.Name = store.StoreName;
+            ViewBag.StoreId = store.Id;
+            //ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName");
+            return View();
 		}
 
 		// POST: Products/Create

@@ -70,6 +70,39 @@
                                     @Html.DisplayFor(modelItem => item.StorePrincipal.Account)
                                 </td>
 
+
+                                <td>
+                                    <table class="table table-bordered">
+                                        <tr class="active">
+                                            <td>品名</td>
+                                            <td>單價</td>
+                                        </tr>
+                                        @foreach (var p in item.Products)
+                                        {
+                                            <tr class="active">
+                                                <td>@p.ProductName</td>
+                                                <td>@p.UnitPrice</td>
+                                                <td>
+                                                    <a asp-action="EditP" asp-route-id="@item.Id">Edit</a> |
+                                                    <a asp-action="DetailsP" asp-route-id="@item.Id">Details</a> |
+                                                    <a asp-action="DeleteP" asp-route-id="@item.Id">Delete</a>
+                                                </td>
+
+                                            </tr>
+
+
+                                        }
+
+
+                                    </table>
+                                    <a asp-action="CreateP" asp-route-id="@item.Id">新增商品</a>
+                                </td>
+
+
+
+
+
+
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.Id">修改</a> |
                                     <a asp-action="Details" asp-route-id="@item.Id">詳細內容</a> |
