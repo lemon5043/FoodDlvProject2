@@ -18,6 +18,7 @@ namespace FoodDlvProject2.EFModels
             StoreCancellationRecords = new HashSet<StoreCancellationRecord>();
             StoresCategoriesLists = new HashSet<StoresCategoriesList>();
             Members = new HashSet<Member>();
+           
         }
 
         public int Id { get; set; }
@@ -57,7 +58,7 @@ namespace FoodDlvProject2.EFModels
         public virtual ICollection<StoreBusinessHour> StoreBusinessHours { get; set; }
         public virtual ICollection<StoreCancellationRecord> StoreCancellationRecords { get; set; }
         public virtual ICollection<StoresCategoriesList> StoresCategoriesLists { get; set; }
-
+        
         public virtual ICollection<Member> Members { get; set; }
     }
 }

@@ -1,111 +1,111 @@
 ﻿@model IEnumerable<FoodDlvProject2.EFModels.Product>
 
 @{
-	ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index";
 }
 @section DatatableStyle
-	{
-	<!-- Custom styles for this page -->
-	<link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
-	  rel="stylesheet" />
+    {
+    <!-- Custom styles for this page -->
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
+      rel="stylesheet" />
 }
 
-@section DatatableScript
-	{
-	<!-- Page level plugins -->
-	<script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
-	<script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    @section DatatableScript
+    {
+    <!-- Page level plugins -->
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-	<!-- Page level custom scripts -->
-	<script src="~/js/demo/datatables-demo.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="~/js/demo/datatables-demo.js"></script>
 	}
 
-<h1>商品管理</h1>
+    <h1>商品管理</h1>
 
-<div class="container-fluid">
+    <div class="container-fluid">
 
 
-	<div class="card shadow mb-4">
-		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">
-					<a asp-action="Create">新增</a>
-			</h6>
-		</div>
-		<div class="card-body">
-			<div class="table-responsive">
-				<table class="table table-bordered"
-					   id="dataTable"
-					   width="100%"
-					   cellspacing="0">
-					<thead>
-						<tr>
-							<th>
-								@Html.DisplayNameFor(model => model.ProductName)
-							</th>
-							<th>
-								@Html.DisplayNameFor(model => model.Photo)
-							</th>
-							<th>
-								@Html.DisplayNameFor(model => model.ProductContent)
-							</th>
-							<th>
-								@Html.DisplayNameFor(model => model.Status)
-							</th>
-							<th>
-								@Html.DisplayNameFor(model => model.UnitPrice)
-							</th>
-							<th>
-								@Html.DisplayNameFor(model => model.Store)
-							</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach (var item in Model)
-						{
-							<tr>
-								<td>
-									@Html.DisplayFor(modelItem => item.ProductName)
-								</td>
-								<td>
-									@Html.DisplayFor(modelItem => item.Photo)
-								</td>
-								<td>
-									@Html.DisplayFor(modelItem => item.ProductContent)
-								</td>
-								<td>
-									@{
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <a asp-action="Create">新增</a>
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered"
+                       id="dataTable"
+                       width="100%"
+                       cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ProductName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Photo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ProductContent)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Status)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UnitPrice)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Store)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProductName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Photo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProductContent)
+                                </td>
+                                <td>
+                                    @{
 
-										var status = "";
+                                        var status = "";
 
-										if (item.Status == true)
-										{
-											status = "販賣中";
-										}
-										else
-										{
-											status = "未販賣";
-										}
-									}
+                                        if (item.Status == true)
+                                        {
+                                            status = "販賣中";
+                                        }
+                                        else
+                                        {
+                                            status = "未販賣";
+                                        }
+                                    }
 
-									@status
-								</td>
-								<td>
-									@Html.DisplayFor(modelItem => item.UnitPrice)
-								</td>
-								<td>
-									@Html.DisplayFor(modelItem => item.Store.StoreName)
-								</td>
-								<td>
-								<a asp-action="Edit" asp-route-id="@item.Id">修改</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">詳細內容</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">刪除</a>
-								</td>
-							</tr>
-						}
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+                                    @status
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Store.StoreName)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">修改</a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id">詳細內容</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id">刪除</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

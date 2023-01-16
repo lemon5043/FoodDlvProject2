@@ -40,6 +40,84 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.StorePrincipal.Account)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StoreBusinessHours)
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                var SBH = "";
+                foreach (var p in Model.StoreBusinessHours)
+                {
+                    SBH = $"{p.OpeningTime}~{p.ClosingTime}";
+
+                }
+            }
+            @SBH
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Products)
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                var P = "";
+                <td>
+                    <table class="table table-bordered">
+                        <tr class="active">
+                            <td>品名</td>
+                            <td>單價</td>
+                        </tr>
+                        @foreach (var p in Model.Products)
+                        {
+                            <tr class="active">
+                                <td>@p.ProductName</td>
+                                <td>@p.UnitPrice</td>
+                                <td>
+                                     <a asp-action="EditP" asp-route-id="@p.Id">Edit</a> |
+                                    <a asp-action="DetailsP" asp-route-id="@p.Id">Details</a> |
+                                    <a asp-action="DeleteP" asp-route-id="@p.Id">Delete</a>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </table>
+                    <a asp-action="CreateP" asp-route-id="model.Id">新增商品</a>
+                </td>
+            }
+            @P
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StoreCancellationRecords)
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                var SCR = "";
+                foreach (var p in Model.StoreCancellationRecords)
+                {
+                   @p.CancellationDate
+
+                }
+            }
+            @SCR
+        </dd>
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StoreViolationRecord)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayNameFor(model => model.StoreViolationRecord.ViolationDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StoreWallet)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayNameFor(model => model.StoreWallet.Total)
+        </dd>
+
+
+
+
     </dl>
 </div>
 <div>
