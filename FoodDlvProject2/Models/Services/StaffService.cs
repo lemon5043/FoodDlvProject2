@@ -29,7 +29,7 @@ namespace FoodDlvProject2.Models.Services
                 return (false, "帳密有誤");
             }
 
-            return (staff.Password == password)
+            return (staff.EncryptedPassword == password)
                 ? (true, null)
                 : (false, "帳密有誤");
         }

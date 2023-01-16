@@ -71,7 +71,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Account,Password,Title,Permissions,RegistrationTime")] Staff staff)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Account,EncryptedPassword,Title,Role,RegistrationTime,Photo,Email,Birthday")] Staff staff)
         {
             if (ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Account,Password,Title,Permissions,RegistrationTime")] Staff staff)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Account,Title,Role,RegistrationTime,Photo,Email,Birthday")] Staff staff)
         {
             if (id != staff.Id)
             {
@@ -198,12 +198,12 @@ namespace FoodDlvProject2.Controllers
                 var rememberMe = true;
 
                 var member = repo.GetByAccount(model.Account);
-                int roles = member.Permissions;
+                string roles = member.Role;
 
                 var claims = new List<Claim>
             {
             new Claim(ClaimTypes.Name, member.FirstName),
-            new Claim(ClaimTypes.Role, roles.ToString()),
+            new Claim(ClaimTypes.Role, roles),
             };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
