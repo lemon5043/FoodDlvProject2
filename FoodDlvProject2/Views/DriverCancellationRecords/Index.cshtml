@@ -1,4 +1,5 @@
-﻿@section DatatableStyle
+﻿
+@section DatatableStyle
     {
     <!-- Custom styles for this page -->
     <link
@@ -16,7 +17,7 @@
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
     }
-@model IEnumerable<FoodDlvProject2.EFModels.DriverCancellationRecord>
+@model IEnumerable<FoodDlvProject2.Models.ViewModels.DriverCancellationRecordsIndexVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -49,19 +50,16 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.DeliveryDriversId)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DeliveryDrivers.FirstName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DeliveryDrivers.LastName)
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(model => model.OrderId)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Cancellation.Reason)
+                            @Html.DisplayNameFor(model => model.DriverId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DriverName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reason)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.CancellationDate)
@@ -75,26 +73,23 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.DeliveryDriversId)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DeliveryDrivers.FirstName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DeliveryDrivers.LastName)
-                            </td>
-                            <td>
                                 @Html.DisplayFor(modelItem => item.OrderId)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Cancellation.Reason)
+                                @Html.DisplayFor(modelItem => item.DriverId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DriverName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Reason)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.CancellationDate)
                             </td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.DeliveryDriversId">Details</a> |
+                                <a asp-action="Details" asp-route-id="@item.DriverId">Details</a> |
                             </td>
                         </tr>
                     }

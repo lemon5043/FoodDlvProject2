@@ -121,7 +121,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("Id,OrderId,DriverId,DriverName,ViolationId,ViolationDate")] DeliveryViolationRecordEditVM DeliveryViolationRecord)
+        public async Task<IActionResult> Edit(int? id, [Bind("Id,ViolationId,ViolationDate")] DeliveryViolationRecordEditVM DeliveryViolationRecord)
         {
             if (id != DeliveryViolationRecord.Id)
             {
@@ -154,6 +154,7 @@ namespace FoodDlvProject2.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
 

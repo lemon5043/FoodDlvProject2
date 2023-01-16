@@ -1,7 +1,9 @@
 ﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 
 namespace FoodDlvProject2.Controllers
 {
@@ -16,7 +18,16 @@ namespace FoodDlvProject2.Controllers
         // GET: DeliveryDrivers
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.DriverCancellationRecords.Include(d => d.Order).Include(d => d.DeliveryDrivers).Include(v => v.Cancellation);
+            var appDbContext = _context.DriverCancellationRecords
+                .Select(x => new DriverCancellationRecordsIndexVM
+                {
+                    Id = x.Id,
+                    OrderId = x.OrderId,
+                    DriverId = x.DeliveryDriversId,
+                    DriverName = x.DeliveryDrivers.LastName + x.DeliveryDrivers.FirstName,
+                    Reason = x.Cancellation.Reason,
+                    CancellationDate = x.CancellationDate,
+                });
             return View(await appDbContext.ToListAsync());
         }
 
@@ -29,15 +40,24 @@ namespace FoodDlvProject2.Controllers
             }
 
             var DeliveryRecords = _context.DriverCancellationRecords
-                .Include(d => d.DeliveryDrivers)
-                .Include(d => d.Order)
-                .Include(d => d.Cancellation)
-                .Where(m => m.DeliveryDriversId == id);
+                .Where(m => m.DeliveryDriversId == id)
+                .Select(x => new DriverCancellationRecordsDetailsVM
+                {
+                    Id = x.Id,
+                    OrderId = x.OrderId,
+                    DriverId = x.DeliveryDriversId,
+                    DriverName = x.DeliveryDrivers.LastName + x.DeliveryDrivers.FirstName,
+                    Reason = x.Cancellation.Reason,
+                    Context = x.Cancellation.Content,
+                    CancellationDate = x.CancellationDate,
+                });
+                
             if (DeliveryRecords == null)
             {
                 return NotFound();
             }
 			ViewBag.DriverId = id;
+            ViewBag.DeliveryName = DeliveryRecords.Select(x=>x.DriverName).FirstOrDefault();
 			return View(await DeliveryRecords.ToListAsync());
         }
         // GET: DeliveryDrivers/Edit/5
