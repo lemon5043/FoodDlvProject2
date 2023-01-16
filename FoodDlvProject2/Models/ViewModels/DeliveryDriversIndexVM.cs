@@ -5,7 +5,8 @@ namespace FoodDlvProject2.Models.ViewModels
 {
     public class DeliveryDriversIndexVM
     {
-        public int Id { get; set; }
+		[Display(Name = "外送員編號")]
+		public int Id { get; set; }
         [Display(Name = "姓名")]
         public string DriverName { get; set; }
         [Display(Name = "性別")]

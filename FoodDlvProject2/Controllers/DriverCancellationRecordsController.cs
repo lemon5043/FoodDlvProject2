@@ -51,14 +51,14 @@ namespace FoodDlvProject2.Controllers
                     Context = x.Cancellation.Content,
                     CancellationDate = x.CancellationDate,
                 });
-                
+
             if (DeliveryRecords == null)
             {
                 return NotFound();
             }
-			ViewBag.DriverId = id;
-            ViewBag.DeliveryName = DeliveryRecords.Select(x=>x.DriverName).FirstOrDefault();
-			return View(await DeliveryRecords.ToListAsync());
+            ViewBag.DriverId = id;
+            ViewBag.DriverName = DeliveryRecords.Select(x => x.DriverName).FirstOrDefault();
+            return View(await DeliveryRecords.ToListAsync());
         }
         // GET: DeliveryDrivers/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -68,12 +68,23 @@ namespace FoodDlvProject2.Controllers
                 return NotFound();
             }
 
-            var DriverCancellationRecords = await _context.DriverCancellationRecords.Include(c=>c.Cancellation).FirstOrDefaultAsync(i=>i.Id==id);
+            var DriverCancellationRecords = await _context.DriverCancellationRecords
+                .Where(i => i.Id == id)
+                .Select(x => new DriverCancellationRecordsEditVM
+                {
+                    Id = x.Id,
+                    OrderId = x.OrderId,
+                    DriverId = x.DeliveryDriversId,
+                    DriverName = x.DeliveryDrivers.LastName + x.DeliveryDrivers.FirstName,
+                    CancellationId = x.CancellationId,
+                    CancellationDate = x.CancellationDate,
+                })
+                .FirstOrDefaultAsync();
             if (DriverCancellationRecords == null)
             {
                 return NotFound();
             }
-
+            ViewData["CancellationId"] = new SelectList(_context.DriverCancellations, "Id", "Reason", DriverCancellationRecords.CancellationId);
             return View(DriverCancellationRecords);
         }
 
@@ -82,18 +93,26 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CancellationId,OrderId,DeliveryDriversId,CancellationDate,Reason,[Content]")] DriverCancellationRecord DriverCancellationRecords)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CancellationId,CancellationDate")] DriverCancellationRecordsEditVM DriverCancellationRecords)
         {
             if (id != DriverCancellationRecords.Id)
             {
                 return NotFound();
             }
-
+            ModelState.Remove("DriverName");
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(DriverCancellationRecords);
+                    var EFModel = DriverCancellationRecords.ToEFModels();
+                    _context.Attach(EFModel);
+                    string[] updateModel = { "CancellationId", "CancellationDate" };
+
+                    foreach (var property in updateModel)
+                    {
+                        _context.Entry(EFModel).Property(property).IsModified = true;
+                    }
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -109,8 +128,20 @@ namespace FoodDlvProject2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            return View(DriverCancellationRecords);
+            var data = await _context.DriverCancellationRecords
+                .Where(i => i.Id == id)
+                .Select(x => new DriverCancellationRecordsEditVM
+                {
+                    Id = x.Id,
+                    OrderId = x.OrderId,
+                    DriverId = x.DeliveryDriversId,
+                    DriverName = x.DeliveryDrivers.LastName + x.DeliveryDrivers.FirstName,
+                    CancellationId = DriverCancellationRecords.CancellationId,
+                    CancellationDate = DriverCancellationRecords.CancellationDate,
+                })
+                .FirstOrDefaultAsync();
+            ViewData["CancellationId"] = new SelectList(_context.DriverCancellations, "Id", "Reason", DriverCancellationRecords.CancellationId);
+            return View(data);
         }
         private bool CancellationRecordsExists(int id)
         {

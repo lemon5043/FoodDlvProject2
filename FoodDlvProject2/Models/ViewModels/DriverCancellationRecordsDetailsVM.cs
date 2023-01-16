@@ -2,7 +2,7 @@
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-    internal class DriverCancellationRecordsDetailsVM
+    class DriverCancellationRecordsDetailsVM
     {
         public int Id { get; set; }
         [Display(Name = "訂單編號")]

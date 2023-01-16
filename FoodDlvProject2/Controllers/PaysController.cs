@@ -60,8 +60,11 @@ namespace FoodDlvProject2.Controllers
             {
                 return NotFound();
             }
+
 			ViewBag.DriverId = id;
-            return View(pay);
+			ViewBag.DriverName = pay.Select(x=>x.DriversName).FirstOrDefault();
+
+			return View(pay);
         }
 
         // GET: Pays/IndividualMonthly/5

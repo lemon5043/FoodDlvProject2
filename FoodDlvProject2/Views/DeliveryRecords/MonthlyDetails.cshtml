@@ -21,11 +21,11 @@
 }
 
 <h1>個人外送紀錄</h1>
-<h3>@Html.DisplayNameFor(model => model.DriverName):@ViewBag.DriverName</h3>
-<a class="collapse-item" href="/DeliveryDrivers/Details/@ViewBag.DriverId">基本資料</a>
-<a class="collapse-item" href="/Pays/MonthlyDetails/@ViewBag.DriverId">薪水紀錄</a>
-<a class="collapse-item" href="/DeliveryViolationRecords/PersonalDetails/@ViewBag.DriverId">違規紀錄</a>
-<a class="collapse-item" href="/DriverCancellationRecords/Details/@ViewBag.DriverId">取消訂單紀錄</a>
+<p>@Html.DisplayNameFor(model => model.DriverName):@ViewBag.DriverName</p>
+<a class="collapse-item" href="/DeliveryDrivers/Details/@ViewBag.DriverId">個人基本資料</a>
+<a class="collapse-item" href="/Pays/MonthlyDetails/@ViewBag.DriverId">個人薪水紀錄</a>
+<a class="collapse-item" href="/DeliveryViolationRecords/PersonalDetails/@ViewBag.DriverId">個人違規紀錄</a>
+<a class="collapse-item" href="/DriverCancellationRecords/Details/@ViewBag.DriverId">個人取消訂單紀錄</a>
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -74,7 +74,7 @@
                                     <a asp-action="IndividualMonthlyDetails" 
                                     asp-route-year="@item.OrderDate.Year"
                                     asp-route-month="@item.OrderDate.Month" 
-                                    asp-route-id="@ViewBag.DriverId">Details</a>
+                                    asp-route-id="@ViewBag.DriverId">檢視</a>
 
                                 </td>
                             </tr>

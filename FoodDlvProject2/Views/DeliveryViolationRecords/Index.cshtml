@@ -85,9 +85,9 @@
 								@Html.DisplayFor(modelItem => item.ViolationDate)
 							</td>
 							<td>
-								<a asp-action="Edit" asp-route-Id="@item.Id">Edit</a> |
-								<a asp-action="PersonalDetails" asp-route-id="@item.DriverId">PersonalDetails</a> |
-								<a asp-action="Delete" asp-route-id="@item.DriverId">Delete</a>
+								<a asp-action="Edit" asp-route-Id="@item.Id">維護紀錄</a> |
+								<a asp-action="PersonalDetails" asp-route-id="@item.DriverId">檢視個人紀錄</a> |
+								<a asp-action="Delete" asp-route-id="@item.DriverId">刪除</a>
 							</td>
 						</tr>
 					}

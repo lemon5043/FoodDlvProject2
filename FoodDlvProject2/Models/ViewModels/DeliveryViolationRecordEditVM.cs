@@ -15,7 +15,6 @@ namespace FoodDlvProject2.Models.ViewModels
 		public int ViolationId { get; set; }
         [Display(Name = "外送員姓名")]
 		public string DriverName { get; set; }
-
         [Display(Name = "違規日期")]
         [Required(ErrorMessage ="請輸入{0}")]
         [DateNowAttribute(ErrorMessage = "輸入{0}不可大於今日")]

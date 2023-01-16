@@ -6,7 +6,7 @@ namespace FoodDlvProject2.Models.ViewModels
     internal class PaysIndexVM
     {
         public int Id { get; set; }
-        [Display(Name = "外送員ID")]
+        [Display(Name = "外送員編號")]
         public int DeliveryDriversId { get; set; }
         [Display(Name = "姓名")]
         public string DriversName { get; set; }

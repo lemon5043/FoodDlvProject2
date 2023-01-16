@@ -29,7 +29,7 @@ namespace FoodDlvProject2.Models.ViewModels
         public string BankAccount { get; set; }
         [Required(ErrorMessage = "請輸入{0}")]
         [Display(Name = "身分證")]
-        public string Idcard { get; set; }
+        public IFormFile Idcard { get; set; }
         [Required(ErrorMessage = "請輸入{0}")]
         [Display(Name = "生日")]
         [DateNowAttribute(ErrorMessage = "{}不可大於今日")]
@@ -39,10 +39,10 @@ namespace FoodDlvProject2.Models.ViewModels
         public string Email { get; set; }
         [Required(ErrorMessage ="請輸入{0}")]
         [Display(Name = "行照")]
-        public string VehicleRegistration { get; set; }
+        public IFormFile VehicleRegistration { get; set; }
         [Required(ErrorMessage = "請輸入{0}")]
         [Display(Name = "駕照")]
-        public string DriverLicense { get; set; }
+        public IFormFile DriverLicense { get; set; }
     }
     public static class DeliveryDriversEditVMExts
 	{
@@ -60,9 +60,9 @@ namespace FoodDlvProject2.Models.ViewModels
                 BankAccount = source.BankAccount,
                 Birthday = source.Birthday,             
                 Email = source.Email,               
-                Idcard = source.Idcard,
-                VehicleRegistration = source.VehicleRegistration,
-                DriverLicense = source.DriverLicense,
+                //Idcard = source.Idcard,
+                //VehicleRegistration = source.VehicleRegistration,
+                //DriverLicense = source.DriverLicense,
             };
         }
         public static DeliveryDriverEditDTO ToDeliveryDriverEditDTO(this DeliveryDriversEditVM source)
@@ -79,9 +79,9 @@ namespace FoodDlvProject2.Models.ViewModels
                 BankAccount = source.BankAccount,
                 Birthday = source.Birthday,
                 Email = source.Email,
-                Idcard = source.Idcard,
-                VehicleRegistration = source.VehicleRegistration,
-                DriverLicense = source.DriverLicense,
+                Idcard = source.Idcard.FileName,
+                VehicleRegistration = source.VehicleRegistration.FileName,
+                DriverLicense = source.DriverLicense.FileName,
             };
         }
     }

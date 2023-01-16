@@ -157,9 +157,20 @@ namespace FoodDlvProject2.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-
+            var data = await _context.DeliveryViolationRecords
+                 .Where(o => o.Id == id)
+                 .Select(x => new DeliveryViolationRecordEditVM
+                 {
+                     Id = x.Id,
+                     OrderId = x.OrderId,
+                     DriverId = x.DeliveryDriversId,
+                     DriverName = x.DeliveryDrivers.LastName + x.DeliveryDrivers.FirstName,
+                     ViolationDate = DeliveryViolationRecord.ViolationDate,
+                     ViolationId = DeliveryViolationRecord.ViolationId
+                 })
+                 .FirstOrDefaultAsync();
             ViewData["ViolationId"] = new SelectList(_context.DeliveryViolationTypes, "Id", "ViolationContent", DeliveryViolationRecord.ViolationId);
-            return View(DeliveryViolationRecord);
+            return View(data);
         }
         // GET: DeliveryViolationRecords/Delete/5
 
@@ -180,16 +191,17 @@ namespace FoodDlvProject2.Controllers
             ModelState.Remove("DriverName");
             if (ModelState.IsValid)
             {
-                try { 
-                var EFModel = DeliveryViolationRecord.ToEFModels();
-                _context.Attach(EFModel);
-                string[] updateModel = { "DeliveryDriversId", "OrderId", "ViolationId", "ViolationDate" };
-
-                foreach (var property in updateModel)
+                try
                 {
-                    _context.Entry(EFModel).Property(property).IsModified = true;
-                }
-                await _context.SaveChangesAsync(); 
+                    var EFModel = DeliveryViolationRecord.ToEFModels();
+                    _context.Attach(EFModel);
+                    string[] updateModel = { "DeliveryDriversId", "OrderId", "ViolationId", "ViolationDate" };
+
+                    foreach (var property in updateModel)
+                    {
+                        _context.Entry(EFModel).Property(property).IsModified = true;
+                    }
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
