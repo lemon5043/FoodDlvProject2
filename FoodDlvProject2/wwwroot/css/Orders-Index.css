@@ -1,118 +1,60 @@
-﻿body {
-    margin-top: 20px;
+﻿.timeline-steps {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.timeline-steps {
-    display: flex;
-    flex-wrap: nowrap;
-    position: relative;
+.timeline-steps .timeline-step {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 1rem;
 }
 
-.timeline-step {
-    width: 100%;
-    text-align: center;
-    padding: 1rem 0;
-    margin-bottom: 1rem;
-    position: relative;
-}
-
-    .timeline-step:before,
-    .timeline-step:after {
-        content: "";
-        border-top: .25rem dotted #3b82f6;
-        width: 50%;
-        position: absolute;
-        top: 0;
-    }
-
-    .timeline-step:before {
-        content: "";
-        border-top: .25rem dotted #3b82f6;
-        width: 50%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        /*新增判斷 */
-        @if(schdule == item.orderSchedule.First()) {
-            display: none;
-        }
-    }
-
-    .timeline-step:after {
-        content: "";
-        border-top: .25rem dotted #3b82f6;
-        width: 50%;
-        position: absolute;
-        top: 0;
-        right: 0;
-        /*新增判斷*/
-        @if(schdule != item.orderSchedule.Last()) {
-            display: none;
-        }
-    }
-
-.inner-circle {
-    border-radius: 50%;
-    height: 1rem;
-    width: 1rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #3b82f6;
-}
-
-@media (min-width:768px) {
-    .timeline-steps .timeline-step:not(:last-child):after {
-        content: "";
-        display: block;
-        border-top: .25rem dotted #3b82f6;
-        width: 3.46rem;
-        position: absolute;
-        left: 7.5rem;
-        top: .3125rem;
-        /*新增判斷*/
-        @if(schdule != item.orderSchedule.Last()) {
-            display: none;
-        }
-    }
-
-    .timeline-steps .timeline-step:not(:first-child):before {
-        content: "";
-        display: block;
-        border-top: .25rem dotted #3b82f6;
-        width: 3.8125rem;
-        position: absolute;
-        right: 7.5rem;
-        top: .3125rem;
-        /*新增判斷*/
-        @if(schdule != item.orderSchedule.First()) {
-            display: none;
-        }
-    }
+@media (min-width: 768px) {
+  .timeline-steps .timeline-step:not(:last-child):after {
+    content: "";
+    display: block;
+    border-top: 0.25rem dotted #3b82f6;
+    width: 3.46rem;
+    position: absolute;
+    left: 7.5rem;
+    top: 0.3125rem;
+  }
+  .timeline-steps .timeline-step:not(:first-child):before {
+    content: "";
+    display: block;
+    border-top: 0.25rem dotted #3b82f6;
+    width: 3.8125rem;
+    position: absolute;
+    right: 7.5rem;
+    top: 0.3125rem;
+  }
 }
 
 .timeline-steps .timeline-content {
-    width: 10rem;
-    text-align: center
+  width: 10rem;
+  text-align: center;
 }
 
-    .timeline-steps .timeline-content .inner-circle {
-        border-radius: 1.5rem;
-        height: 1rem;
-        width: 1rem;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #3b82f6
-    }
+.timeline-steps .timeline-content .inner-circle {
+  border-radius: 1.5rem;
+  height: 1rem;
+  width: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3b82f6;
+}
 
-        .timeline-steps .timeline-content .inner-circle:before {
-            content: "";
-            background-color: #3b82f6;
-            display: inline-block;
-            height: 3rem;
-            width: 3rem;
-            min-width: 3rem;
-            border-radius: 6.25rem;
-            opacity: .5
-        }
+.timeline-steps .timeline-content .inner-circle:before {
+  content: "";
+  background-color: #3b82f6;
+  display: inline-block;
+  height: 3rem;
+  width: 3rem;
+  min-width: 3rem;
+  border-radius: 6.25rem;
+  opacity: 0.5;
+}
