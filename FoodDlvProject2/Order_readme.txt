@@ -1,5 +1,5 @@
 ﻿///
-Order_ver_0.6.1
+Order_ver0.7
    改版內容參閱Order_readme.txt
 ///
 
@@ -77,3 +77,7 @@ Order_ver0.5.9
 Order_ver0.6(2023/01/15合併版本)
 1. 修正index頁面
 	1-1. 修正格式, 修改css樣式
+
+Order_ver0.7
+1. 修正Wiew頁面
+	1-1. 修正格式

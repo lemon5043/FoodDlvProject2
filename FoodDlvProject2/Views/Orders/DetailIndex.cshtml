@@ -4,7 +4,7 @@
     ViewData["Title"] = "DetailIndex";
 }
 
-<h1>DetailIndex</h1>
+<h1>訂單明細</h1>
 
 @section DatatableStyle
     {
@@ -26,7 +26,9 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
-                DataTables Example
+                @Html.DisplayNameFor(model => model.OrderId)
+                :
+                @Html.DisplayFor(model => model.FirstOrDefault().OrderId)
             </h6>
         </div>
         <div class="card-body">
@@ -36,10 +38,7 @@
                    width="100%"
                    cellspacing="0">
                     <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.OrderId)
-                            </th>
+                        <tr>                            
                             <th>
                                 @Html.DisplayNameFor(model => model.ProductId)
                             </th>
@@ -55,16 +54,15 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.SubTotal)
                             </th>
-                            <th></th>
+                            <th>
+                                商品明細
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OrderId)
-                            </td>
+                        <tr>                            
                             <td>
                                 @Html.DisplayFor(modelItem => item.ProductId)
                             </td>
@@ -81,7 +79,8 @@
                                 @Html.DisplayFor(modelItem => item.SubTotal)
                             </td>
                             <td>
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                <a href="#" role="button" class="btn btn-secondary popover-test" title="Popover title" data-bs-content="Popover body content is set in this attribute.">button</a>
+                                <a href="#" onclick="window.open('../Orders/ProductIndex/@item.ProductId', '_blank', 'location=yes,height=700,width=800,scrollbars=yes,status=yes');">Detail</a>
                             </td>
                         </tr>
                     }

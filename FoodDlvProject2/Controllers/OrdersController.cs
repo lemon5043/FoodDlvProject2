@@ -48,9 +48,9 @@ namespace FoodDlvProject2.Controllers
 
 
 		//GET: OrderProducts
-		public IActionResult ProductIndex(long Id)
+		public IActionResult ProductIndex(long ProductId)
 		{
-			var data = orderService.ProductSearch(Id)
+			var data = orderService.ProductSearch(ProductId)
 				.Select(x => x.ToOrderProductVM());
 
 			return View(data);
