@@ -71,17 +71,13 @@
                             <tr class="active">
                                 <td>@p.ProductName</td>
                                 <td>@p.UnitPrice</td>
-                                <td>
-                                     <a asp-action="EditP" asp-route-id="@p.Id">Edit</a> |
-                                    <a asp-action="DetailsP" asp-route-id="@p.Id">Details</a> |
-                                    <a asp-action="DeleteP" asp-route-id="@p.Id">Delete</a>
-                                </td>
+                               
 
                             </tr>
                         }
 
                     </table>
-                    <a asp-action="CreateP" asp-route-id="model.Id">新增商品</a>
+                   
                 </td>
             }
             @P

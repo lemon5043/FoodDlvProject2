@@ -2,17 +2,23 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace FoodDlvProject2.EFModels
 {
     public partial class StoreBusinessHour
     {
         public int Id { get; set; }
+        [Display(Name = "店家")]
         public int StoreId { get; set; }
+        [Display(Name = "營業開始時間")]
         public TimeSpan OpeningTime { get; set; }
+        [Display(Name = "營業結束時間")]
         public TimeSpan ClosingTime { get; set; }
+        [Display(Name = "開店日")]
         public int OpeningDays { get; set; }
-
+        [Display(Name = "店家")]
         public virtual Store Store { get; set; }
     }
 }

@@ -47,7 +47,7 @@ namespace FoodDlvProject2.Controllers
         // GET: StoreBusinessHours/Create
         public IActionResult Create()
         {
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address");
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace FoodDlvProject2.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address", storeBusinessHour.StoreId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", storeBusinessHour.StoreId);
             return View(storeBusinessHour);
         }
 
@@ -81,7 +81,7 @@ namespace FoodDlvProject2.Controllers
             {
                 return NotFound();
             }
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address", storeBusinessHour.StoreId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", storeBusinessHour.StoreId);
             return View(storeBusinessHour);
         }
 
@@ -117,7 +117,7 @@ namespace FoodDlvProject2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address", storeBusinessHour.StoreId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", storeBusinessHour.StoreId);
             return View(storeBusinessHour);
         }
 

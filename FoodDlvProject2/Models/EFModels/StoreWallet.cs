@@ -2,17 +2,23 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace FoodDlvProject2.EFModels
 {
     public partial class StoreWallet
     {
         public int Id { get; set; }
+        [Display(Name = "店家")]
         public int StoreId { get; set; }
+        [Display(Name = "訂單")]
         public long OrderId { get; set; }
+        [Display(Name = "總計")]
         public int Total { get; set; }
 
         public virtual Order Order { get; set; }
+        [Display(Name = "店家")]
         public virtual Store Store { get; set; }
     }
 }

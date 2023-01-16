@@ -51,7 +51,7 @@ namespace FoodDlvProject2.Controllers
         {
             ViewData["CancellationId"] = new SelectList(_context.StoreCancellationTypes, "Id", "Reason");
             ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "DeliveryAddress");
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address");
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName");
             return View();
         }
 
@@ -70,7 +70,7 @@ namespace FoodDlvProject2.Controllers
             }
             ViewData["CancellationId"] = new SelectList(_context.StoreCancellationTypes, "Id", "Reason", storeCancellationRecord.CancellationId);
             ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "DeliveryAddress", storeCancellationRecord.OrderId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address", storeCancellationRecord.StoreId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", storeCancellationRecord.StoreId);
             return View(storeCancellationRecord);
         }
 
@@ -89,7 +89,7 @@ namespace FoodDlvProject2.Controllers
             }
             ViewData["CancellationId"] = new SelectList(_context.StoreCancellationTypes, "Id", "Reason", storeCancellationRecord.CancellationId);
             ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "DeliveryAddress", storeCancellationRecord.OrderId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address", storeCancellationRecord.StoreId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", storeCancellationRecord.StoreId);
             return View(storeCancellationRecord);
         }
 
@@ -127,7 +127,7 @@ namespace FoodDlvProject2.Controllers
             }
             ViewData["CancellationId"] = new SelectList(_context.StoreCancellationTypes, "Id", "Reason", storeCancellationRecord.CancellationId);
             ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "DeliveryAddress", storeCancellationRecord.OrderId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address", storeCancellationRecord.StoreId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", storeCancellationRecord.StoreId);
             return View(storeCancellationRecord);
         }
 
