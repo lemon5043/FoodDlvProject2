@@ -50,7 +50,7 @@ namespace FoodDlvProject2.Controllers
         public IActionResult Create()
         {
             ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "DeliveryAddress");
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address");
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName");
             ViewData["ViolationId"] = new SelectList(_context.StoreViolationTypes, "Id", "ViolationContent");
             return View();
         }
@@ -69,7 +69,7 @@ namespace FoodDlvProject2.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "DeliveryAddress", storeViolationRecord.OrderId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address", storeViolationRecord.StoreId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", storeViolationRecord.StoreId);
             ViewData["ViolationId"] = new SelectList(_context.StoreViolationTypes, "Id", "ViolationContent", storeViolationRecord.ViolationId);
             return View(storeViolationRecord);
         }
@@ -88,7 +88,7 @@ namespace FoodDlvProject2.Controllers
                 return NotFound();
             }
             ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "DeliveryAddress", storeViolationRecord.OrderId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address", storeViolationRecord.StoreId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", storeViolationRecord.StoreId);
             ViewData["ViolationId"] = new SelectList(_context.StoreViolationTypes, "Id", "ViolationContent", storeViolationRecord.ViolationId);
             return View(storeViolationRecord);
         }
@@ -126,7 +126,7 @@ namespace FoodDlvProject2.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "DeliveryAddress", storeViolationRecord.OrderId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address", storeViolationRecord.StoreId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", storeViolationRecord.StoreId);
             ViewData["ViolationId"] = new SelectList(_context.StoreViolationTypes, "Id", "ViolationContent", storeViolationRecord.ViolationId);
             return View(storeViolationRecord);
         }

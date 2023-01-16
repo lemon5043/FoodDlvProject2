@@ -16,7 +16,7 @@ namespace FoodDlvProject2.EFModels
         public long OrderId { get; set; }
         [Display(Name = "總計")]
         public int Total { get; set; }
-
+        [Display(Name = "訂單")]
         public virtual Order Order { get; set; }
         [Display(Name = "店家")]
         public virtual Store Store { get; set; }

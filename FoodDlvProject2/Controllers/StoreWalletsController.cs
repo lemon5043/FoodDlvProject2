@@ -49,7 +49,7 @@ namespace FoodDlvProject2.Controllers
         public IActionResult Create()
         {
             ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "DeliveryAddress");
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address");
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName");
             return View();
         }
 
@@ -67,7 +67,7 @@ namespace FoodDlvProject2.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "DeliveryAddress", storeWallet.OrderId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address", storeWallet.StoreId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", storeWallet.StoreId);
             return View(storeWallet);
         }
 
@@ -85,7 +85,7 @@ namespace FoodDlvProject2.Controllers
                 return NotFound();
             }
             ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "DeliveryAddress", storeWallet.OrderId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address", storeWallet.StoreId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", storeWallet.StoreId);
             return View(storeWallet);
         }
 
@@ -122,7 +122,7 @@ namespace FoodDlvProject2.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "DeliveryAddress", storeWallet.OrderId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Address", storeWallet.StoreId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", storeWallet.StoreId);
             return View(storeWallet);
         }
 

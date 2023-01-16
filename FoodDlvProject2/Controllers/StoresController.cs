@@ -23,7 +23,7 @@ namespace FoodDlvProject2.Controllers
         {
 
 
-            var foodDeliveryContext = _context.Stores.Include(s => s.StorePrincipal);
+            var foodDeliveryContext = _context.Stores.Include(s => s.StorePrincipal).Include(p=>p.Products);
             return View(await foodDeliveryContext.ToListAsync());
         }
 
@@ -211,10 +211,11 @@ namespace FoodDlvProject2.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				_context.Add(product);
-				await _context.SaveChangesAsync();
-				return RedirectToAction(nameof(Index));
-			}
+
+                _context.Add(product);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
 			ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", product.StoreId);
 			return View(product);
 		}
@@ -292,7 +293,7 @@ namespace FoodDlvProject2.Controllers
 		}
 
 		// POST: Products/Delete/5
-		[HttpPost, ActionName("Delete")]
+		[HttpPost, ActionName("DeleteP")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteConfirmedP(long id)
 		{

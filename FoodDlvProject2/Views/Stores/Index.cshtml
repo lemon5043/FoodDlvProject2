@@ -49,6 +49,9 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.StorePrincipal.Account)
                                 </th>
+                                <th>
+                                    商品
+                                </th>
                              
                               
                             </tr>
@@ -83,9 +86,9 @@
                                                 <td>@p.ProductName</td>
                                                 <td>@p.UnitPrice</td>
                                                 <td>
-                                                    <a asp-action="EditP" asp-route-id="@item.Id">Edit</a> |
-                                                    <a asp-action="DetailsP" asp-route-id="@item.Id">Details</a> |
-                                                    <a asp-action="DeleteP" asp-route-id="@item.Id">Delete</a>
+                                                    <a asp-action="EditP" asp-route-id="@p.Id">Edit</a> |
+                                                    <a asp-action="DetailsP" asp-route-id="@p.Id">Details</a> |
+                                                    <a asp-action="DeleteP" asp-route-id="@p.Id">Delete</a>
                                                 </td>
 
                                             </tr>
