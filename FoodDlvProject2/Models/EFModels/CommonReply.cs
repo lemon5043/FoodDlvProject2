@@ -2,13 +2,17 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace FoodDlvProject2.EFModels
 {
     public partial class CommonReply
     {
         public int Id { get; set; }
+        [Display(Name = "建立時間")]
         public DateTime CreateTime { get; set; }
+        [Display(Name = "回覆內容")]
         public string Answer { get; set; }
     }
 }

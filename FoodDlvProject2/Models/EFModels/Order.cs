@@ -42,5 +42,6 @@ namespace FoodDlvProject2.EFModels
         public virtual ICollection<StoreCancellationRecord> StoreCancellationRecords { get; set; }
         public virtual ICollection<StoreViolationRecord> StoreViolationRecords { get; set; }
         public virtual ICollection<StoreWallet> StoreWallets { get; set; }
+        public virtual ICollection<AppealRecord> AppealRecords { get; set; }
     }
 }

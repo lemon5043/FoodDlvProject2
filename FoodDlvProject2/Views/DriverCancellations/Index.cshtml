@@ -1,0 +1,71 @@
+﻿@section DatatableStyle
+    {
+    <!-- Custom styles for this page -->
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
+      rel="stylesheet" />
+}
+
+@section DatatableScript
+    {
+    <!-- Page level plugins -->
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="~/js/demo/datatables-demo.js"></script>
+    }
+@model IEnumerable<FoodDlvProject2.EFModels.DriverCancellation>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>外送取消訂單原因</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            DataTables Example
+        </h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered"
+                   id="dataTable"
+                   width="100%"
+                   cellspacing="0">
+                   <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Reason)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reason)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+            </table>
+        </div>
+    </div>
+</div>

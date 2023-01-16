@@ -58,6 +58,9 @@ namespace FoodDlvProject2.EFModels
         public virtual DbSet<StoreViolationType> StoreViolationTypes { get; set; }
         public virtual DbSet<StoreWallet> StoreWallets { get; set; }
         public virtual DbSet<StoresCategoriesList> StoresCategoriesLists { get; set; }
+        public virtual DbSet<AppealRecord> AppealRecords { get; set; }
+        public virtual DbSet<ComplaintStatus> ComplaintStatuses { get; set; }
+        public virtual DbSet<ComplaintType> ComplaintTypes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -143,7 +146,7 @@ namespace FoodDlvProject2.EFModels
 
             modelBuilder.Entity<CommonReply>(entity =>
             {
-                entity.HasNoKey();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Answer)
                     .IsRequired()
@@ -807,6 +810,53 @@ namespace FoodDlvProject2.EFModels
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_StoresCategoriesList_Stores");
             });
+            modelBuilder.Entity<AppealRecord>(entity =>
+            {
+            
+                entity.ToTable("AppealRecord");
+
+                entity.Property(e => e.Content).HasMaxLength(500);
+
+                entity.Property(e => e.CreateTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.AppealRecords)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AppealRecord_Orders");
+                entity.HasOne(d => d.Complaint)
+                   .WithMany(p => p.AppealRecords)
+                   .HasForeignKey(d => d.ComplaintId)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("FK_AppealRecord_ComplaintType");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.AppealRecords)
+                    .HasForeignKey(d => d.StatusId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AppealRecord_ComplaintStatus");
+
+            });
+
+            modelBuilder.Entity<ComplaintStatus>(entity =>
+            {
+                entity.ToTable("ComplaintStatus");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<ComplaintType>(entity =>
+            {
+                entity.ToTable("ComplaintType");
+
+                entity.Property(e => e.ComplaintType1)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("ComplaintType");
+            });
+
 
             OnModelCreatingPartial(modelBuilder);
         }
