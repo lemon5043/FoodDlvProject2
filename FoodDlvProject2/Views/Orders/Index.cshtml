@@ -7,26 +7,26 @@
       var dateEnd = ViewBag.end as DateTime?; 
       var keyWord = ViewBag.KeyWord as string; 
    } 
-  @section DatatableStyle {
+  @* @section DatatableStyle {
   <!-- Custom styles for this page -->
   <link
     href="~/vendor/datatables/dataTables.bootstrap4.min.css"
     rel="stylesheet"
   />
-  } 
+  }  *@
 
   @section Customize {
     <link href="~/css/orders-index.css" rel="stylesheet" />
   }
 
-  @section DatatableScript {
+  @* @section DatatableScript {
   <!-- Page level plugins -->
   <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
   <!-- Page level custom scripts -->
   <script src="~/js/demo/datatables-demo.js"></script>
-  }
+  } *@
 
   <div class="container-fluid">
     <h1>訂單管理</h1>
@@ -116,11 +116,12 @@
                     >訂單明細</a>
                 </td>
               </tr>
-            
-              <div class="row text-center justify-content-center mb-5">
-                <div class="col-xl-6 col-lg-8">
-                  <p class="font-weight-bold">訂單狀態</p>
-                </div>
+            </tbody>
+
+            <div class="row text-center justify-content-center mb-5">
+              <div class="col-xl-6 col-lg-8">
+                <p class="font-weight-bold">訂單狀態</p>
+              </div>
             </div>
             <div class="row">
               <div class="col">
@@ -145,7 +146,6 @@
                 </div>
               </div>
             </div>
-            </tbody>
           </table>
         </div>
       </div>
