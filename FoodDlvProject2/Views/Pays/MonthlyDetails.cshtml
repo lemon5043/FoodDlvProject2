@@ -21,9 +21,10 @@
 }
 
 <h1>MonthlyDetails</h1>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<a class="collapse-item" href="/DeliveryDrivers/Details/@ViewBag.DriverId">基本資料</a>
+<a class="collapse-item" href="/DeliveryRecords/MonthlyDetails/@ViewBag.DriverId">外送紀錄</a>
+<a class="collapse-item" href="/DriverCancellationRecords/Details/@ViewBag.DriverId">取消訂單紀錄</a>
+<a class="collapse-item" href="/DeliveryViolationRecords/PersonalDetails/@ViewBag.DriverId">違規紀錄</a>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">

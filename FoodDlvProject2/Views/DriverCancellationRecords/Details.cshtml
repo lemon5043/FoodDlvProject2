@@ -24,8 +24,10 @@
 
 <h1>取消訂單紀錄</h1>
 <a class="collapse-item" href="/DeliveryDrivers/Details/@ViewBag.DriverId">基本資料</a>
+<a class="collapse-item" href="/Pays/MonthlyDetails/@ViewBag.DriverId">薪水紀錄</a>
 <a class="collapse-item" href="/DeliveryRecords/MonthlyDetails/@ViewBag.DriverId">外送紀錄</a>
-<a class="collapse-item" href="/DeliveryViolationRecords/Details/@ViewBag.DriverId">違規紀錄</a>
+<a class="collapse-item" href="/DeliveryViolationRecords/PersonalDetails/@ViewBag.DriverId">違規紀錄</a>
+
 
 <p>
     <a asp-action="Create">Create New</a>

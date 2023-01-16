@@ -111,8 +111,9 @@ namespace FoodDlvProject2.Controllers
                 return RedirectToAction(nameof(Index));
             }
             var selectList = deliveryDriverService.GetList();
-            ViewData["AccountStatusId"] = new SelectList(selectList.Item1, "Id", "status", deliveryDriver.AccountStatusId);
-            ViewData["WorkStatuseId"] = new SelectList(selectList.Item2, "Id", "status", deliveryDriver.WorkStatuseId);
+            ViewData["AccountStatusId"] = new SelectList(selectList.Item1, "Id", "Status", deliveryDriver.AccountStatusId);
+            ViewData["WorkStatuseId"] = new SelectList(selectList.Item2, "Id", "Status", deliveryDriver.WorkStatuseId);
+
             return View(deliveryDriver);
         }
 

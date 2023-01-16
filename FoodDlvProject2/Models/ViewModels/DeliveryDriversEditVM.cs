@@ -1,5 +1,6 @@
 ﻿using FoodDlvProject2.EFModels;
 using FoodDlvProject2.Models.DTOs;
+using FoodDlvProject2.Models.Infrastructures.ExtensionMethods;
 using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvProject2.Models.ViewModels
@@ -8,7 +9,6 @@ namespace FoodDlvProject2.Models.ViewModels
     {
         public int Id { get; set; }
         [Display(Name = "帳號認證狀態")]
-
         public int AccountStatusId { get;  set; }
         [Display(Name = "工作狀態")]
         public int WorkStatuseId { get;  set; }
@@ -32,6 +32,7 @@ namespace FoodDlvProject2.Models.ViewModels
         public string Idcard { get; set; }
         [Required(ErrorMessage = "請輸入{0}")]
         [Display(Name = "生日")]
+        [DateNowAttribute(ErrorMessage = "{}不可大於今日")]
         public DateTime Birthday { get; set; }
         [Display(Name = "電子郵件")]
         [EmailAddress(ErrorMessage ="輸入的{0}格式不正確")]
