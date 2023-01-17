@@ -15,11 +15,13 @@ namespace FoodDlvProject2.Models.Infrastructures.ExtensionMethods
                     FirstName = entity.FirstName,
                     LastName = entity.LastName,
                     Account = entity.Account,
-                    Password = entity.Password,
+                    EncryptedPassword = entity.EncryptedPassword,
                     Title = entity.Title,
-                    Permissions = entity.Permissions,
-                    RegistrationTime = entity.RegistrationTime
-
+                    Role = entity.Role,
+                    RegistrationTime = entity.RegistrationTime,
+                    Photo= entity.Photo,
+                    Email= entity.Email,
+                    Birthday= entity.Birthday,
                 };
         }
     }
