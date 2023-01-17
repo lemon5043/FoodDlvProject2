@@ -6,6 +6,7 @@ using FoodDlvProject2.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using X.PagedList;
 
 namespace FoodDlvProject2.Controllers
@@ -21,9 +22,10 @@ namespace FoodDlvProject2.Controllers
             _context = context;            
             IOrderRepository repo = new OrderRepository(_context);
             this.orderService = new OrderService(repo);
-        }		       
-        
+        }
+
 		//GET: Orders
+		[HttpGet]
         public async Task<IActionResult> Index(DateTime? dateStart, DateTime? dateEnd, string keyWord, int pageNumber = 1)
         {
 			int pageSize = 5;
@@ -36,7 +38,7 @@ namespace FoodDlvProject2.Controllers
 
 		}
 
-
+		[HttpGet]
 		//GET: OrderDetails
 		public IActionResult DetailIndex(long Id)
 		{
@@ -46,13 +48,13 @@ namespace FoodDlvProject2.Controllers
 			return View(data);
 		}
 
-
+		[HttpGet]
 		//GET: OrderProducts
 		public IActionResult ProductDetails(long Id)
 		{
 			var data = orderService.ProductSearch(Id)
 				.Select(x => x.ToOrderProductVM()).FirstOrDefault();
-
+						
 			return View(data);
 		}			
 

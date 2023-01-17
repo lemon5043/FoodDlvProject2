@@ -1,10 +1,10 @@
 ﻿@model FoodDlvProject2.Models.ViewModels.OrderProductVM
 
-@{
-    ViewData["Title"] = "ProductDetails";
+@{    
+    /*Layout = "~/Views/Shared/_Layout2.cshtml"*/;
 }
 
-<div class="card" style="width: 50rem;">
+<div class="card" style="width: 25rem;">
     <img src="..." class="card-img-top" alt="...">
     <div class="card-body">
         <h5 class="card-title">@Html.DisplayFor(model => model.ProductName)</h5>
@@ -15,7 +15,7 @@
                 </dt>
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.StoreName)
-                </dd>                
+                </dd>
                 <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.UnitPrice)
                 </dt>
@@ -35,7 +35,7 @@
                     @Html.DisplayFor(model => model.ProductContent)
                 </dd>
             </dl>
-        </p>        
+        </p>
     </div>
 </div>
 
