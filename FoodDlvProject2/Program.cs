@@ -2,6 +2,7 @@ using FoodDlvProject2.EFModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using FoodDlvProject2.Hubs;
 
 namespace FoodDlvProject2
 {
@@ -26,6 +27,7 @@ namespace FoodDlvProject2
 
 
 			builder.Services.AddControllersWithViews();
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
@@ -54,6 +56,7 @@ namespace FoodDlvProject2
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}"           
                 );
+            app.MapHub<ChatHub>("/chatHub");
             app.Run();
         }
     }
