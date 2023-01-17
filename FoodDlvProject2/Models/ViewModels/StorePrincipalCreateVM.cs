@@ -1,4 +1,5 @@
 ﻿using FoodDlvProject2.EFModels;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvProject2.Models.ViewModels
@@ -33,6 +34,7 @@ namespace FoodDlvProject2.Models.ViewModels
         [Display(Name = "生日")]
         [Required(ErrorMessage = "生日必填")]
         [DataType(DataType.Date)]
+        [Range(typeof(DateTime), "1/1/1900", "1/1/2100")]
         public DateTime Birthday { get; set; }
 
         [Required(ErrorMessage = "{0}必填")]

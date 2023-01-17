@@ -8,7 +8,7 @@
 
 <h3>你確定要刪除此店家?</h3>
 <div>
-    <h4>Store</h4>
+    
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -33,13 +33,40 @@
             @Html.DisplayNameFor(model => model.Photo)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Photo)
+              @{
+                var imgSrc = "";
+                if (Model.Photo != null)
+                {
+                    var base64String = Convert.ToBase64String(Model.Photo);
+                    imgSrc = $"data:image/png;base64,{base64String}";
+
+
+                }
+                else
+                {
+                    imgSrc = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
+
+                }
+
+            }
+
+
+
+            <img src="@imgSrc" width="100px" height="100px">
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StorePrincipal.Account)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StorePrincipal.Account)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.StorePrincipal)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StorePrincipal.Account)
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StorePrincipal.LastName)
+            @Html.DisplayFor(model => model.StorePrincipal.FirstName)
         </dd>
     </dl>
     
