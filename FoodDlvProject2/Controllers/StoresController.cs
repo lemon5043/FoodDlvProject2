@@ -228,7 +228,7 @@ namespace FoodDlvProject2.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> CreateP([Bind("Id,StoreId,ProductName,Photo,ProductContent,Status,UnitPrice")] Product product, IFormFile? myimg)
+		public async Task<IActionResult> CreateP([Bind("StoreId,ProductName,Photo,ProductContent,Status,UnitPrice")] Product product, IFormFile? myimg)
 		{
 			
 
