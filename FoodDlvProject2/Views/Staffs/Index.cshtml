@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FoodDlvProject2.Models.ViewModels.StaffDisplayVM>
+﻿@model IEnumerable<FoodDlvProject2.Models.ViewModels.StaffVM>
 
 @section DatatableStyle
     {
@@ -46,9 +46,6 @@
                             @Html.DisplayNameFor(model => model.Role)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Photo)
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(model => model.Email)
                         </th>
                         <th>
@@ -72,13 +69,7 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Role)
-                            </td>
-                            <td>  
-                                <img src="~/images/@item.Photo"   
-                                class="rounded-circle"   
-                                height="40" width="40"   
-                                asp-append-version="true" />    
-                            </td>  
+                            </td> 
                             <td>
                                 @Html.DisplayFor(modelItem => item.Email)
                             </td>

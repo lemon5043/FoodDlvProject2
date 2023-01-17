@@ -1,13 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-    public class StaffCreateVM
+    public class StaffVM
     {
 
+        [Key]
         public int Id { get; set; }
 
-        public IFormFile Photo { get; set; }
+        public string Photo { get; set; }
+
+        [NotMapped]
+        public IFormFile PhotoFile { get; set; }
 
         [Required]
         [StringLength(20)]

@@ -877,6 +877,6 @@ namespace FoodDlvProject2.EFModels
 
         public DbSet<FoodDlvProject2.Models.ViewModels.DeliveryMonthlyDetailRecordVM> DeliveryReDeliveryMonthlyDetailRecordVMcordVM { get; set; }
 
-        public DbSet<FoodDlvProject2.Models.ViewModels.StaffDisplayVM> StaffDisplayVM { get; set; }
+        public DbSet<FoodDlvProject2.Models.ViewModels.StaffVM> StaffVM { get; set; }
     }
 }
