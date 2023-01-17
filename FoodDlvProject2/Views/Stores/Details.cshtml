@@ -90,6 +90,7 @@
                 <td>
                     <table class="table table-bordered">
                         <tr class="active">
+                        <td>照片</td>
                             <td>品名</td>
                             <td>單價</td>
                         </tr>
@@ -124,13 +125,18 @@
                             </td>
                                 <td>@p.ProductName</td>
                                 <td>@p.UnitPrice</td>
-                               
+                                <td>
+                                    <a asp-action="EditP" asp-route-id="@p.Id">商品編輯</a> |
+                                    <a asp-action="DetailsP" asp-route-id="@p.Id">商品詳細資料</a> |
+                                    <a asp-action="DeleteP" asp-route-id="@p.Id">商品刪除</a>
+                                </td>
 
 
 
                             </tr>
+                                    
                         }
-
+                        <a asp-action="CreateP" asp-route-id="@Model.Id">新增商品</a>
                     </table>
                    
                 </td>

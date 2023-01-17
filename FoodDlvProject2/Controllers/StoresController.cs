@@ -173,10 +173,17 @@ namespace FoodDlvProject2.Controllers
                 return Problem("Entity set 'FoodDeliveryContext.Stores'  is null.");
             }
             var store = await _context.Stores.FindAsync(id);
+
+
             if (store != null)
             {
                 _context.Stores.Remove(store);
             }
+
+
+
+            
+
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -248,7 +255,11 @@ namespace FoodDlvProject2.Controllers
 
 				_context.Add(product);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+
+                return Redirect($"~/Stores/Details/{product.StoreId}");
+
+
             }
 			ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", product.StoreId);
 			return View(product);
@@ -313,8 +324,8 @@ namespace FoodDlvProject2.Controllers
 						throw;
 					}
 				}
-				return RedirectToAction(nameof(Index));
-			}
+                return Redirect($"~/Stores/Details/{product.StoreId}");
+            }
 			ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", product.StoreId);
 			return View(product);
 		}
@@ -352,10 +363,14 @@ namespace FoodDlvProject2.Controllers
 			{
 				_context.Products.Remove(product);
 			}
+            
+
+
+
 
 			await _context.SaveChangesAsync();
-			return RedirectToAction(nameof(Index));
-		}
+            return Redirect($"~/Stores/Details/{product.StoreId}");
+        }
 
 		private bool ProductExists(long id)
 		{

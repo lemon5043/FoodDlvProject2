@@ -54,7 +54,7 @@
 								@Html.DisplayNameFor(model => model.StorePrincipal.Account)
 							</th>
 							<th>
-								商品
+								
 							</th>
 
 
@@ -98,61 +98,6 @@
 								<td>
 									@Html.DisplayFor(modelItem => item.StorePrincipal.Account)
 								</td>
-
-
-								<td>
-									<table class="table table-bordered">
-										<tr class="active">
-											<td>商品圖片</td>
-											<td>品名</td>
-											<td>單價</td>
-										</tr>
-										@foreach (var p in item.Products)
-										{
-											<tr class="active">
-												<td>
-													@{
-														var imgSrcP = "";
-														if (p.Photo != null)
-														{
-															var base64StringP = Convert.ToBase64String(p.Photo);
-															imgSrcP = $"data:image/png;base64,{base64StringP}";
-															
-
-														}
-														else
-														{
-															imgSrcP = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
-
-														}
-
-													}
-
-
-
-													<img src="@imgSrcP" width="100px" height="100px">
-												</td>
-												<td>@p.ProductName</td>
-												<td>@p.UnitPrice</td>
-												<td>
-													<a asp-action="EditP" asp-route-id="@p.Id">商品編輯</a> |
-													<a asp-action="DetailsP" asp-route-id="@p.Id">商品詳細資料</a> |
-													<a asp-action="DeleteP" asp-route-id="@p.Id">商品刪除</a>
-												</td>
-
-											</tr>
-
-
-										}
-
-
-									</table>
-									<a asp-action="CreateP" asp-route-id="@item.Id">新增商品</a>
-								</td>
-
-
-
-
 
 
 								<td>
