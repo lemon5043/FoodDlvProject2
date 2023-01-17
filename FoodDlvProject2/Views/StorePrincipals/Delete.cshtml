@@ -8,7 +8,7 @@
 
 <h3>你確定要刪除店家合作夥伴嗎</h3>
 <div>
-    <h4>StorePrincipal</h4>
+    
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -33,7 +33,21 @@
             @Html.DisplayNameFor(model => model.Gender)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
+           @{
+
+				var sex = "";
+
+				if (Model.Gender == true)
+				{
+					sex = "男";
+				}
+				else
+				{
+					sex = "女";
+				}
+			}
+
+			@sex
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Birthday)
