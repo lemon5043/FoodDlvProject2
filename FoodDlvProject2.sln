@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "方案項目", "方案項�
 		readme.txt = readme.txt
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalR", "..\無腦聊天室\SignalR\SignalR.csproj", "{CAA4AA90-4E28-412C-82FB-AED362BD3444}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRChat", "SignalRChat\SignalRChat.csproj", "{5B64E7A9-E8DB-42DE-8790-46E55E2788E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{6B3DA776-EC98-43EF-8229-D6A368425226}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B3DA776-EC98-43EF-8229-D6A368425226}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B3DA776-EC98-43EF-8229-D6A368425226}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CAA4AA90-4E28-412C-82FB-AED362BD3444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CAA4AA90-4E28-412C-82FB-AED362BD3444}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CAA4AA90-4E28-412C-82FB-AED362BD3444}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CAA4AA90-4E28-412C-82FB-AED362BD3444}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B64E7A9-E8DB-42DE-8790-46E55E2788E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B64E7A9-E8DB-42DE-8790-46E55E2788E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B64E7A9-E8DB-42DE-8790-46E55E2788E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B64E7A9-E8DB-42DE-8790-46E55E2788E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
