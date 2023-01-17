@@ -33,7 +33,21 @@
             @Html.DisplayNameFor(model => model.Status)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
+            @{
+
+                var status = "";
+
+                if (Model.Status == true)
+                {
+                    status = "販賣中";
+                }
+                else
+                {
+                    status = "未販賣";
+                }
+            }
+
+            @status
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.UnitPrice)

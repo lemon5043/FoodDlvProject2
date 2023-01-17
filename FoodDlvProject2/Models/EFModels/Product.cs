@@ -20,8 +20,8 @@ namespace FoodDlvProject2.EFModels
         public int StoreId { get; set; }
         [Display(Name = "商品名稱")]
         public string ProductName { get; set; }
-        [Display(Name = "照片")]
-        public byte[] Photo { get; set; }
+		[Display(Name = "圖片")]
+		public byte[] Photo { get; set; }
         [Display(Name = "商品內容")]
         public string ProductContent { get; set; }
         [Display(Name = "狀態")]

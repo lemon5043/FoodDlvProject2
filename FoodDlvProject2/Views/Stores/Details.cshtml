@@ -54,12 +54,20 @@
             <img src="@imgSrc" width="100px" height="100px">
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StorePrincipal)
+            @Html.DisplayNameFor(model => model.StorePrincipal.Account)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.StorePrincipal.Account)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StorePrincipal)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StorePrincipal.LastName)
+            @Html.DisplayFor(model => model.StorePrincipal.FirstName)
+        </dd>
+
+        @*<dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.StoreBusinessHours)
         </dt>
         <dd class="col-sm-10">
@@ -72,7 +80,7 @@
                 }
             }
             @SBH
-        </dd>
+        </dd>*@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Products)
         </dt>
@@ -93,9 +101,9 @@
                             <td>
                                     @{
                                         var imgSrcP = "";
-                                        if (Model.Photo != null)
+                                        if (p.Photo != null)
                                         {
-                                            var base64StringP = Convert.ToBase64String(Model.Photo);
+                                            var base64StringP = Convert.ToBase64String(p.Photo);
                                             imgSrcP = $"data:image/png;base64,{base64StringP}";
 
 
@@ -152,12 +160,12 @@
             @SCR
         </dd>*@
 
-        <dt class="col-sm-2">
+@*        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.StoreWallet)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.StoreWallet.Total)
-        </dd>
+        </dd>*@
 
 
 
