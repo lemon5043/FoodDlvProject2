@@ -1,11 +1,8 @@
-﻿
-@section DatatableStyle
+﻿@section DatatableStyle
     {
     <!-- Custom styles for this page -->
-    <link
-      href="~/vendor/datatables/dataTables.bootstrap4.min.css"
-      rel="stylesheet"
-    />
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
+      rel="stylesheet" />
 }
 
 @section DatatableScript
@@ -17,22 +14,20 @@
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
     }
-@model IEnumerable<FoodDlvProject2.Models.ViewModels.DriverCancellationRecordsIndexVM>
+@model IEnumerable<FoodDlvProject2.Models.ViewModels.DeliveryViolationRecordPersonalDetailsVM>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>外送員管理</h1>
-<h2>取消訂單紀錄</h2>
-<a class="collapse-item" href="/DeliveryDrivers/Index">基本資料</a>
-<a class="collapse-item" href="/Pays/Index">薪資資料</a>
-<a class="collapse-item" href="/DeliveryRecords/Index">外送紀錄</a>
-<a class="collapse-item" href="/DeliveryViolationRecords/Index">違規紀錄</a>
+<h1>個人違規紀錄</h1>
+<p>@Html.DisplayNameFor(model => model.DriverName):@ViewBag.DriverName</p>
+<a class="collapse-item" href="/DeliveryDrivers/Details/@ViewBag.DriverId">個人基本資料</a>
+<a class="collapse-item" href="/Pays/MonthlyDetails/@ViewBag.DriverId">個人薪水紀錄</a>
+<a class="collapse-item" href="/DeliveryRecords/MonthlyDetails/@ViewBag.DriverId">個人外送紀錄</a>
+<a class="collapse-item" href="/DriverCancellationRecords/Details/@ViewBag.DriverId">個人取消訂單紀錄</a>
 
-<table class="table">
-    
-</table>
+
 <div class="card shadow mb-4">
               <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
@@ -49,22 +44,19 @@
                   >
                 <thead>
                     <tr>
+
                         <th>
                             @Html.DisplayNameFor(model => model.OrderId)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.DriverId)
+                            @Html.DisplayNameFor(model => model.ViolationContent)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.DriverName)
+                            @Html.DisplayNameFor(model => model.Content)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Reason)
+                            @Html.DisplayNameFor(model => model.ViolationDate)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CancellationDate)
-                        </th>
-
                         <th></th>
                     </tr>
                 </thead>
@@ -76,26 +68,26 @@
                                 @Html.DisplayFor(modelItem => item.OrderId)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.DriverId)
+                                @Html.DisplayFor(modelItem => item.ViolationContent)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.DriverName)
+                                @Html.DisplayFor(modelItem => item.Content)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Reason)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CancellationDate)
+                                @Html.DisplayFor(modelItem => item.ViolationDate)
                             </td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id">維護</a> |
-                                <a asp-action="Details" asp-route-id="@item.DriverId">檢視</a> 
+                                <a asp-action="Details" asp-route-id="@item.Id">檢視</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">刪除</a>
                             </td>
                         </tr>
                     }
                 </tbody>
-                  </table>
+            </table>
                 </div>
               </div>
             </div>
-
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

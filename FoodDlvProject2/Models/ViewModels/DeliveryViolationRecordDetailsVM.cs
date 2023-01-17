@@ -1,17 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-    internal class DeliveryViolationRecordVM
+    internal class DeliveryViolationRecordDetailsVM
     {
         public int Id { get; set; }
-        [Display(Name = "外送員ID")]
-        public int DriverId { get; set; }
-        [Display(Name = "姓名")]
+        [Display(Name = "訂單編號")]
+        public long OrderId { get; set; }
+        [Display(Name = "外送員姓名")]
         public string DriverName { get; set; }
-        [Display(Name = "違規")]
-        public string Violation { get; set; }
+        [Display(Name = "違規事項")]
+        public string ViolationContent { get; set; }
         [Display(Name = "違規內容")]
         public string Content { get; set; }
         [Display(Name = "違規日期")]

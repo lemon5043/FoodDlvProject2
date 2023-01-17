@@ -20,13 +20,9 @@
 	ViewData["Title"] = "DeliveryIndividualDetailsRecord";
 }
 
-<h1>DeliveryIndividualDetailsRecord</h1>
-<p>
-	<a asp-action="Create">Create New</a>
-</p>
-
-
-
+<h1>個人當月外送紀錄</h1>
+<p>@Html.DisplayNameFor(model => model.DriverName):@ViewBag.DriverName</p>
+<p>結算月份: @ViewBag.Year 年 @ViewBag.Month 月</p>
 <div class="card shadow mb-4">
 	<div class="card-header py-3">
 		<h6 class="m-0 font-weight-bold text-primary">
@@ -75,7 +71,7 @@
 							</td>
 
 							<td>
-								<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+								<a asp-controller="Orders" asp-action="Details" asp-route-id="@item.Id">檢視訂單</a>
 							</td>
 						</tr>
 					}

@@ -71,7 +71,7 @@ namespace FoodDlvProject2.Models.Repositories
                 var EFModel = ToEFModle(model);
                 db.Attach(EFModel);
                 string[] updateModel = { "LastName", "FirstName", "Gender", "Birthday", "Phone", "Email",
-                    "BankAccount", "AccountStatusId","WorkStatuseId","Idcard","VehicleRegistration","DriverLicense" };
+                    "BankAccount", "AccountStatusId","WorkStatuseId" };
 
                 foreach (var property in updateModel)
                 {
