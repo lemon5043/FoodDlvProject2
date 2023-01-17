@@ -10,7 +10,7 @@
         public string Title { get; set; }
         public string Role { get; set; }
         public DateTime RegistrationTime { get; set; }
-        public byte[] Photo { get; set; }
+        public string Photo { get; set; }
         public string Email { get; set; }
         public DateTime Birthday { get; set; }
     }

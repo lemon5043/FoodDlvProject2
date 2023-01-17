@@ -73,9 +73,12 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Role)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Photo)
-                            </td>
+                            <td>  
+                                <img src="~/images/@item.Photo"   
+                                class="rounded-circle"   
+                                height="40" width="40"   
+                                asp-append-version="true" />    
+                            </td>  
                             <td>
                                 @Html.DisplayFor(modelItem => item.Email)
                             </td>

@@ -17,6 +17,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Microsoft.AspNetCore.Hosting;
 
 namespace FoodDlvProject2.Controllers
 {
@@ -25,14 +26,16 @@ namespace FoodDlvProject2.Controllers
 
     //精靈做的
     private readonly AppDbContext _context;
+    private readonly IWebHostEnvironment webHostEnvironment;
 
         //自定義
         private StaffService service;
         private IStaffRepository repo;
 
-        public StaffsController(AppDbContext context)
+        public StaffsController(AppDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            webHostEnvironment = hostEnvironment;
             repo = new StaffRepository();
             service = new StaffService(repo);
         }
@@ -40,6 +43,7 @@ namespace FoodDlvProject2.Controllers
         // GET: Staffs
         public async Task<IActionResult> Index()
         {
+
             var data = await _context.Staffs.Select(x => new StaffDisplayVM
             {
                 Id= x.Id,
@@ -54,6 +58,8 @@ namespace FoodDlvProject2.Controllers
             }).ToListAsync();
             return View(data);
         }
+
+
 
         // GET: Staffs/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -84,15 +90,47 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Account,EncryptedPassword,Title,Role,RegistrationTime,Photo,Email,Birthday")] Staff staff)
+        public async Task<IActionResult> Create(StaffCreateVM model)
         {
             if (ModelState.IsValid)
             {
+                string uniqueFileName = UploadedFile(model);
+
+                var staff = new StaffDisplayVM
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Account = model.Account,
+                    EncryptedPassword = model.EncryptedPassword,
+                    Title = model.Title,
+                    Role = model.Role,
+                    RegistrationTime = DateTime.Now,
+                    Email = model.Email,
+                    Birthday = model.Birthday,
+                    Photo = uniqueFileName
+                };
                 _context.Add(staff);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(staff);
+            return View();
+        }
+
+        public string UploadedFile(StaffCreateVM model)
+        {
+            string uniqueFileName = null;
+
+            if (model.Photo != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.Photo.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
 
         // GET: Staffs/Edit/5
