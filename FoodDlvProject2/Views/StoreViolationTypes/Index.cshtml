@@ -1,10 +1,13 @@
-﻿@section DatatableStyle
+﻿@model IEnumerable<FoodDlvProject2.EFModels.StoreViolationType>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@section DatatableStyle
     {
     <!-- Custom styles for this page -->
-    <link
-      href="~/vendor/datatables/dataTables.bootstrap4.min.css"
-      rel="stylesheet"
-    />
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
+      rel="stylesheet" />
 }
 
 @section DatatableScript
@@ -15,32 +18,26 @@
 
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
-    }
-@model IEnumerable<FoodDlvProject2.EFModels.StoreViolationType>
+	}
 
-@{
-    ViewData["Title"] = "Index";
-}
+    <h1>商店違規類型管理</h1>
 
-<h1>店家違規紀錄</h1>
+<div class="container-fluid">
 
-<p>
-    <a asp-action="Create">新增</a>
-</p>
-<div class="card shadow mb-4">
-              <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">
-                  DataTables Example
-                </h6>
-              </div>
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table
-                    class="table table-bordered"
-                    id="dataTable"
-                    width="100%"
-                    cellspacing="0">
-                     <thead>
+
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary">
+                    <a asp-action="Create">新增</a>
+			</h6>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-bordered"
+					   id="dataTable"
+					   width="100%"
+					   cellspacing="0">
+					<thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ViolationContent)
@@ -61,16 +58,15 @@
                 @Html.DisplayFor(modelItem => item.Content)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+              <a asp-action="Edit" asp-route-id="@item.Id">修改</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">詳細內容</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">刪除</a>
             </td>
         </tr>
 }
     </tbody>
-                  </table>
-                </div>
-              </div>
+                </table>
             </div>
-
-
+        </div>
+    </div>
+</div>
