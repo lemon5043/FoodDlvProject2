@@ -31,7 +31,7 @@ namespace FoodDlvProject2.Controllers
         public async Task<IActionResult> Index()
         {
             var data = deliveryDriverService.GetDelivers().Select(x => x.ToDeliveryDriversIndexVM());
-            return View(data);
+            return await Task.Run(() => View(data));
         }
 
         // GET: DeliveryDrivers/Details/5
