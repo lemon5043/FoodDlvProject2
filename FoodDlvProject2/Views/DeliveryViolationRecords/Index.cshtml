@@ -1,23 +1,23 @@
 ﻿@section DatatableStyle
-    {
-    <!-- Custom styles for this page -->
-    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
-      rel="stylesheet" />
+	{
+	<!-- Custom styles for this page -->
+	<link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
+	  rel="stylesheet" />
 }
 
 @section DatatableScript
-    {
-    <!-- Page level plugins -->
-    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+	{
+	<!-- Page level plugins -->
+	<script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+	<script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="~/js/demo/datatables-demo.js"></script>
+	<!-- Page level custom scripts -->
+	<script src="~/js/demo/datatables-demo.js"></script>
     }
-@model IEnumerable<FoodDlvProject2.EFModels.DeliveryViolationRecord>
+@model IEnumerable<FoodDlvProject2.Models.ViewModels.DeliveryViolationRecordsIndexVM>
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
 <h1>外送員管理</h1>
@@ -26,80 +26,73 @@
 <a class="collapse-item" href="/Pays/Index">薪資資料</a>
 <a class="collapse-item" href="/DeliveryRecords/Index">外送紀錄</a>
 <a class="collapse-item" href="/DriverCancellationRecords/Index">取消訂單紀錄</a>
-
+<p>
+	<a asp-action="Create">Create New</a>
+</p>
 
 <table class="table">
-    
 </table>
 <div class="card shadow mb-4">
-              <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">
-                  DataTables Example
-                </h6>
-              </div>
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table
-                    class="table table-bordered"
-                    id="dataTable"
-                    width="100%"
-                    cellspacing="0"
-                  >
-                  <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DeliveryDriversId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeliveryDrivers.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeliveryDrivers.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Violation.ViolationContent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ViolationDate)
-            </th>
+	<div class="card-header py-3">
+		<h6 class="m-0 font-weight-bold text-primary">
+			DataTables Example
+		</h6>
+	</div>
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="table table-bordered"
+				   id="dataTable"
+				   width="100%"
+				   cellspacing="0">
+				<thead>
+					<tr>
+						<th>
+							@Html.DisplayNameFor(model => model.DriverId)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.DriverName)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.OrderId)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.ViolationContent)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.ViolationDate)
+						</th>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeliveryDriversId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeliveryDrivers.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeliveryDrivers.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Violation.ViolationContent)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ViolationDate)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-OrderId="@item.OrderId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.DeliveryDriversId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.DeliveryDriversId">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model)
+					{
+						<tr>
+							<td>
+								@Html.DisplayFor(modelItem => item.DriverId)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.DriverName)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.OrderId)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.ViolationContent)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.ViolationDate)
+							</td>
+							<td>
+								<a asp-action="Edit" asp-route-Id="@item.Id">維護紀錄</a> |
+								<a asp-action="PersonalDetails" asp-route-id="@item.DriverId">檢視個人紀錄</a> |
+								<a asp-action="Delete" asp-route-id="@item.DriverId">刪除</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

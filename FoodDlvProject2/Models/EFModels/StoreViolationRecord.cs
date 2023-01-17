@@ -2,19 +2,27 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace FoodDlvProject2.EFModels
 {
     public partial class StoreViolationRecord
     {
         public int Id { get; set; }
+        [Display(Name = "店家")]
         public int StoreId { get; set; }
+        [Display(Name = "違規類型")]
         public int ViolationId { get; set; }
+        [Display(Name = "訂單")]
         public long OrderId { get; set; }
+        [Display(Name = "違規日期")]
         public DateTime ViolationDate { get; set; }
-
+        [Display(Name = "訂單")]
         public virtual Order Order { get; set; }
+        [Display(Name = "店家")]
         public virtual Store Store { get; set; }
+        [Display(Name = "違規類型")]
         public virtual StoreViolationType Violation { get; set; }
     }
 }

@@ -20,10 +20,12 @@
     ViewData["Title"] = "MonthlyDetails";
 }
 
-<h1>MonthlyDetails</h1>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>個人外送紀錄</h1>
+<p>@Html.DisplayNameFor(model => model.DriverName):@ViewBag.DriverName</p>
+<a class="collapse-item" href="/DeliveryDrivers/Details/@ViewBag.DriverId">個人基本資料</a>
+<a class="collapse-item" href="/Pays/MonthlyDetails/@ViewBag.DriverId">個人薪水紀錄</a>
+<a class="collapse-item" href="/DeliveryViolationRecords/PersonalDetails/@ViewBag.DriverId">個人違規紀錄</a>
+<a class="collapse-item" href="/DriverCancellationRecords/Details/@ViewBag.DriverId">個人取消訂單紀錄</a>
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -40,7 +42,7 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.OrderDate.Month)
+                                @Html.DisplayNameFor(model => model.OrderDate)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.TotalMilage)
@@ -57,7 +59,8 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.OrderDate.Month)
+                                @Html.DisplayFor(modelItem => item.OrderDate.Year)年
+                                    @Html.DisplayFor(modelItem => item.OrderDate.Month)月
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.TotalMilage)
@@ -71,7 +74,7 @@
                                     <a asp-action="IndividualMonthlyDetails" 
                                     asp-route-year="@item.OrderDate.Year"
                                     asp-route-month="@item.OrderDate.Month" 
-                                    asp-route-id="@ViewBag.DriverId">Details</a>
+                                    asp-route-id="@ViewBag.DriverId">檢視</a>
 
                                 </td>
                             </tr>

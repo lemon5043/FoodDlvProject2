@@ -21,7 +21,9 @@ namespace FoodDlvProject2.Controllers
         // GET: Stores
         public async Task<IActionResult> Index()
         {
-            var foodDeliveryContext = _context.Stores.Include(s => s.StorePrincipal);
+
+
+            var foodDeliveryContext = _context.Stores.Include(s => s.StorePrincipal).Include(p=>p.Products);
             return View(await foodDeliveryContext.ToListAsync());
         }
 
@@ -34,7 +36,7 @@ namespace FoodDlvProject2.Controllers
             }
 
             var store = await _context.Stores
-                .Include(s => s.StorePrincipal)
+                .Include(s => s.StorePrincipal).Include(x=>x.StoreBusinessHours).Include(x=>x.Products).Include(x => x.StoreCancellationRecords).Include(x=>x.StoreWallet).Include(x=>x.StoreViolationRecord)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (store == null)
             {
@@ -56,10 +58,21 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StorePrincipalId,StoreName,Address,ContactNumber,Photo")] Store store)
+        public async Task<IActionResult> Create([Bind("Id,StorePrincipalId,StoreName,Address,ContactNumber,Photo")] Store store, IFormFile? myimg)
         {
             if (ModelState.IsValid)
             {
+                if (myimg != null)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        myimg.CopyTo(ms);
+                        store.Photo = ms.ToArray();
+                    }
+                }
+
+
+
                 _context.Add(store);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -90,7 +103,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StorePrincipalId,StoreName,Address,ContactNumber,Photo")] Store store)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,StorePrincipalId,StoreName,Address,ContactNumber,Photo")] Store store, IFormFile? myimg)
         {
             if (id != store.Id)
             {
@@ -101,6 +114,16 @@ namespace FoodDlvProject2.Controllers
             {
                 try
                 {
+                    if (myimg != null)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        myimg.CopyTo(ms);
+                        store.Photo = ms.ToArray();
+                    }
+                }
+
+
                     _context.Update(store);
                     await _context.SaveChangesAsync();
                 }
@@ -150,10 +173,17 @@ namespace FoodDlvProject2.Controllers
                 return Problem("Entity set 'FoodDeliveryContext.Stores'  is null.");
             }
             var store = await _context.Stores.FindAsync(id);
+
+
             if (store != null)
             {
                 _context.Stores.Remove(store);
             }
+
+
+
+            
+
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -163,5 +193,189 @@ namespace FoodDlvProject2.Controllers
         {
           return _context.Stores.Any(e => e.Id == id);
         }
-    }
+
+
+
+
+
+
+		public async Task<IActionResult> DetailsP(long? id)
+		{
+			if (id == null || _context.Products == null)
+			{
+				return NotFound();
+			}
+
+			var product = await _context.Products
+				.Include(p => p.Store)
+				.FirstOrDefaultAsync(m => m.Id == id);
+			if (product == null)
+			{
+				return NotFound();
+			}
+
+			return View(product);
+		}
+
+		// GET: Products/Create
+		public IActionResult CreateP(int id)
+		{
+
+            var store=_context.Stores.Find(id);
+
+
+            ViewBag.Name = store.StoreName;
+            ViewBag.StoreId = store.Id;
+            //ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName");
+            return View();
+		}
+
+		// POST: Products/Create
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> CreateP([Bind("StoreId,ProductName,Photo,ProductContent,Status,UnitPrice")] Product product, IFormFile? myimg)
+		{
+			
+
+
+			if (ModelState.IsValid)
+			{
+
+				if (myimg != null)
+				{
+					using (var ms = new MemoryStream())
+					{
+						myimg.CopyTo(ms);
+						product.Photo = ms.ToArray();
+					}
+				}
+
+
+				_context.Add(product);
+                await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
+
+                return Redirect($"~/Stores/Details/{product.StoreId}");
+
+
+            }
+			ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", product.StoreId);
+			return View(product);
+		}
+
+		// GET: Products/Edit/5
+		public async Task<IActionResult> EditP(long? id)
+		{
+			if (id == null || _context.Products == null)
+			{
+				return NotFound();
+			}
+
+			var product = await _context.Products.FindAsync(id);
+			if (product == null)
+			{
+				return NotFound();
+			}
+			ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", product.StoreId);
+			return View(product);
+		}
+
+		// POST: Products/Edit/5
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> EditP(long id, [Bind("Id,StoreId,ProductName,Photo,ProductContent,Status,UnitPrice")] Product product, IFormFile? myimg)
+		{
+			if (id != product.Id)
+			{
+				return NotFound();
+			}
+
+			if (ModelState.IsValid)
+			{
+				try
+				{
+                   
+                    if (myimg != null)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            myimg.CopyTo(ms);
+                            product.Photo = ms.ToArray();
+                        }
+                    }
+
+
+
+                    _context.Update(product);
+					await _context.SaveChangesAsync();
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!ProductExists(product.Id))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+                return Redirect($"~/Stores/Details/{product.StoreId}");
+            }
+			ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", product.StoreId);
+			return View(product);
+		}
+
+		// GET: Products/Delete/5
+		public async Task<IActionResult> DeleteP(long? id)
+		{
+			if (id == null || _context.Products == null)
+			{
+				return NotFound();
+			}
+
+			var product = await _context.Products
+				.Include(p => p.Store)
+				.FirstOrDefaultAsync(m => m.Id == id);
+			if (product == null)
+			{
+				return NotFound();
+			}
+
+			return View(product);
+		}
+
+		// POST: Products/Delete/5
+		[HttpPost, ActionName("DeleteP")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmedP(long id)
+		{
+			if (_context.Products == null)
+			{
+				return Problem("Entity set 'AppDbContext.Products'  is null.");
+			}
+			var product = await _context.Products.FindAsync(id);
+			if (product != null)
+			{
+				_context.Products.Remove(product);
+			}
+            
+
+
+
+
+			await _context.SaveChangesAsync();
+            return Redirect($"~/Stores/Details/{product.StoreId}");
+        }
+
+		private bool ProductExists(long id)
+		{
+			return _context.Products.Any(e => e.Id == id);
+		}
+
+	}
 }

@@ -1,0 +1,87 @@
+﻿@model FoodDlvProject2.EFModels.Product
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>刪除商品</h1>
+
+<h3>你確定想要刪除這筆商品</h3>
+<div>
+    
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Photo)
+        </dt>
+        <dd class = "col-sm-10">
+            @{
+                var imgSrc = "";
+                if (Model.Photo != null)
+                {
+                    var base64String = Convert.ToBase64String(Model.Photo);
+                    imgSrc = $"data:image/png;base64,{base64String}";
+
+
+                }
+                else
+                {
+                    imgSrc = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
+
+                }
+
+            }
+            <img src="@imgSrc" width="100px" height="100px">
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductContent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProductContent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class = "col-sm-10">
+            @{
+
+                var status = "";
+
+                if (Model.Status == true)
+                {
+                    status = "販賣中";
+                }
+                else
+                {
+                    status = "未販賣";
+                }
+            }
+
+            @status
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UnitPrice)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Store)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Store.Address)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

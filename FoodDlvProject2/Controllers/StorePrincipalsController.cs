@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FoodDlvProject2.EFModels;
 using System.Security.Principal;
+using FoodDlvProject2.Models.ViewModels;
+using FoodDlvProject2.Models.Infrastructures.ExtensionMethods;
 
 namespace FoodDlvProject2.Controllers
 {
@@ -58,33 +60,79 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AccountStatusId,FirstName,LastName,Phone,Gender,Birthday,Email,Account,Password,RegistrationTime")] StorePrincipal storePrincipal)
+        public async Task<IActionResult> Create(StorePrincipalCreateVM storePrincipalCreateVM)
         {
-            if (ModelState.IsValid)
+            //AppDbContext _context2 = new AppDbContext();
+            try
             {
-                _context.Add(storePrincipal);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                StorePrincipal storePrincipal = storePrincipalCreateVM.ToStorePrincipal();
+                var emailExist = _context.StorePrincipals.FirstOrDefault(x => x.Email == storePrincipal.Email);
+                var accountExist = _context.StorePrincipals.FirstOrDefault(x => x.Account == storePrincipal.Account);
+
+
+                if (emailExist != null) // 表示資料表有這筆記錄
+                {
+                    throw new Exception("Email已經報名過了, 無法再度報名");
+                }
+                if (accountExist != null) // 表示資料表有這筆記錄
+                {
+                    throw new Exception("帳號已經報名過了, 請更改帳號註冊");
+                }
+
+
+
+
+
+                if (ModelState.IsValid)
+                {
+                    storePrincipal = storePrincipalCreateVM.ToStorePrincipal();
+                    storePrincipal.RegistrationTime = DateTime.Now;
+
+                    _context.Add(storePrincipal);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+
+
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipal.AccountStatusId);
-            return View(storePrincipal);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+
+            };
+
+
+            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipalCreateVM.AccountStatusId);
+            return View(storePrincipalCreateVM);
         }
 
         // GET: StorePrincipals/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.StorePrincipals == null)
+            //if (id == null || _context.StorePrincipals == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //var storePrincipal = await _context.StorePrincipals.FindAsync(id);
+            //if (storePrincipal == null)
+            //{
+            //    return NotFound();
+            //}
+
+
+            var storePrincipalInDb = await _context.StorePrincipals.FindAsync(id);
+            if (storePrincipalInDb == null)
             {
                 return NotFound();
             }
 
-            var storePrincipal = await _context.StorePrincipals.FindAsync(id);
-            if (storePrincipal == null)
-            {
-                return NotFound();
-            }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipal.AccountStatusId);
-            return View(storePrincipal);
+            StorePrincipalEditVM storePrincipalEditVM = storePrincipalInDb.ToStorePrincipalEditVM();
+
+
+            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipalEditVM.AccountStatusId);
+            //StorePrincipalVM storePrincipalVM = storePrincipal.ToStorePrincipaVM();
+            return View(storePrincipalEditVM);
         }
 
         // POST: StorePrincipals/Edit/5
@@ -92,35 +140,98 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AccountStatusId,FirstName,LastName,Phone,Gender,Birthday,Email,Account,Password,RegistrationTime")] StorePrincipal storePrincipal)
+        public async Task<IActionResult> Edit(int id, StorePrincipalEditVM storePrincipalEditVM)
         {
-            if (id != storePrincipal.Id)
+            try
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
+
+                    //try
+                    //{
+                    //    storePrincipal.RegistrationTime = _context2.StorePrincipals.Find(id).RegistrationTime;
+
+                    //    _context.Update(storePrincipal);
+                    //    await _context.SaveChangesAsync();
+                    //}
+                    //catch (DbUpdateConcurrencyException)
+                    //{
+                    //    if (!StorePrincipalExists(storePrincipal.Id))
+                    //    {
+                    //        return NotFound();
+                    //    }
+                    //    else
+                    //    {
+                    //        throw;
+                    //    }
+                    //}
+
+
+
+                    //必須呼叫另一個資料庫
+                    AppDbContext _context2 = new AppDbContext();
+
+
+                    StorePrincipal storePrincipal = storePrincipalEditVM.ToStorePrincipal();
+                    storePrincipal.Account = _context2.StorePrincipals.Find(id).Account;
+                    storePrincipal.Password = _context2.StorePrincipals.Find(id).Password;
+                    storePrincipal.RegistrationTime = _context2.StorePrincipals.Find(id).RegistrationTime;
+
+                    var emailExist = _context2.StorePrincipals.FirstOrDefault(x => x.Email == storePrincipal.Email);
+
+
+                    if (emailExist != null) // 表示資料表有這筆記錄
+                    {
+                        if (storePrincipal.Email!= _context2.StorePrincipals.Find(id).Email)
+                        {
+                            throw new Exception("Email已經報名過了,請更改");
+                        }
+                    }
                     _context.Update(storePrincipal);
                     await _context.SaveChangesAsync();
+
+
+                    //try
+                    //{
+
+                    //    var emailExist = _context.StorePrincipals.FirstOrDefault(x => x.Email == storePrincipal.Email);
+
+                    //    if (emailExist != null) // 表示資料表有這筆記錄
+                    //    {
+                    //        throw new Exception("Email已經報名過了, 無法再度報名");
+                    //    }
+
+
+                    //    _context.Update(storePrincipal);
+                    //    await _context.SaveChangesAsync();
+                    //}
+                    //catch (DbUpdateConcurrencyException)
+                    //{
+                    //    if (!StorePrincipalExists(storePrincipal.Id))
+                    //    {
+                    //        return NotFound();
+                    //    }
+                    //    else
+                    //    {
+                    //        throw;
+                    //    }
+                    //}
+
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StorePrincipalExists(storePrincipal.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipal.AccountStatusId);
-            return View(storePrincipal);
+            catch (Exception ex)
+            {
+
+                ModelState.AddModelError(string.Empty, ex.Message);
+            }
+
+
+
+
+            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Status", storePrincipalEditVM.AccountStatusId);
+            return View(storePrincipalEditVM);
         }
 
         // GET: StorePrincipals/Delete/5
@@ -156,14 +267,14 @@ namespace FoodDlvProject2.Controllers
             {
                 _context.StorePrincipals.Remove(storePrincipal);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StorePrincipalExists(int id)
         {
-          return _context.StorePrincipals.Any(e => e.Id == id);
+            return _context.StorePrincipals.Any(e => e.Id == id);
         }
     }
 }

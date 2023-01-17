@@ -2,6 +2,8 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace FoodDlvProject2.EFModels
 {
@@ -14,13 +16,20 @@ namespace FoodDlvProject2.EFModels
         }
 
         public long Id { get; set; }
+        [Display(Name = "店家")]
         public int StoreId { get; set; }
+        [Display(Name = "商品名稱")]
         public string ProductName { get; set; }
-        public byte[] Photo { get; set; }
+		[Display(Name = "圖片")]
+		public byte[] Photo { get; set; }
+        [Display(Name = "商品內容")]
         public string ProductContent { get; set; }
+        [Display(Name = "狀態")]
         public bool? Status { get; set; }
+        [Display(Name = "單價")]
         public int UnitPrice { get; set; }
 
+        [Display(Name = "店家")]
         public virtual Store Store { get; set; }
         public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
