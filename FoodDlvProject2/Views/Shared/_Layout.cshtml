@@ -56,8 +56,11 @@
             <div class="sidebar-heading">管人</div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed"
+            @{
+                if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link collapsed"
                    href="#"
                    data-toggle="collapse"
                    data-target="#collapseTwo"
@@ -85,10 +88,15 @@
                     </div>
                 </div>
             </li>
+            }
+            }
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed"
+            @{
+                if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link collapsed"
                    href="#"
                    data-toggle="collapse"
                    data-target="#collapseUtilities"
@@ -109,8 +117,13 @@
                     </div>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed"
+            }
+            }
+            @{
+                if (User.IsInRole("Administrator") || User.IsInRole("HR"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link collapsed"
                    href="#"
                    data-toggle="collapse"
                    data-target="#collapseStaffs"
@@ -128,7 +141,9 @@
                         <a class="collapse-item" href="/Staffs/Index">員工管理</a>
                     </div>
                 </div>
-            </li>
+                    </li>
+                }
+            }
 
             <!-- Divider -->
             <hr class="sidebar-divider" />
@@ -137,8 +152,11 @@
             <div class="sidebar-heading">管東西</div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed"
+            @{
+                if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link collapsed"
                    href="#"
                    data-toggle="collapse"
                    data-target="#collapsePages"
@@ -168,11 +186,16 @@
 
                     </div>
                 </div>
-            </li>
+                    </li>
+                }
+            }
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed"
+            @{
+                if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link collapsed"
                    href="#"
                    data-toggle="collapse"
                    data-target="#collapseOrders"
@@ -191,6 +214,8 @@
                     </div>
                 </div>
             </li>
+            }
+            }
             <li class="nav-item">
                 <a class="nav-link collapsed"
                    href="#"
@@ -216,10 +241,9 @@
                         <a class="collapse-item" href="/ComplaintStatus/Index">處理狀態</a>
                         <h6 class="collapse-header">客服聊天室</h6>
                         <a class="collapse-item" href="/chat/Index">聊天室</a>
-                        
-
                     </div>
                 </div>
+               </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">

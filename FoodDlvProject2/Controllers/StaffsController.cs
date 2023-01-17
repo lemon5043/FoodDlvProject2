@@ -22,6 +22,7 @@ using System.Drawing.Drawing2D;
 
 namespace FoodDlvProject2.Controllers
 {
+    [Authorize(Roles = "Administrator,PowerUser")]
     public class StaffsController : Controller
     {
 
@@ -80,55 +81,77 @@ namespace FoodDlvProject2.Controllers
             return View(staff);
         }
 
-        // GET: Staffs/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+		// GET: Staffs/Create
+		public IActionResult Create()
+		{
+			return View();
+		}
 
-        //// POST: Staffs/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Account,EncryptedPassword,Title,Role,RegistrationTime,Photo,Email,Birthday")] StaffVM model)
-        //{
-        //        string uniqueFileName = await UploadedFile(model);
+		// POST: Staffs/Create
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Account,EncryptedPassword,Title,Role,RegistrationTime,Email,birthday")] Staff staff)
+		{
+			if (ModelState.IsValid)
+			{
+				_context.Add(staff);
+				await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(Index));
+			}
+			return View(staff);
+		}
 
-        //        var staff = new StaffVM
-        //        {
-        //            FirstName = model.FirstName,
-        //            LastName = model.LastName,
-        //            Account = model.Account,
-        //            EncryptedPassword = model.EncryptedPassword,
-        //            Title = model.Title,
-        //            Role = model.Role,
-        //            RegistrationTime = DateTime.Now,
-        //            Email = model.Email,
-        //            Birthday = model.Birthday,
-        //            Photo = uniqueFileName
-        //        };
-        //        _context.Add(staff);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //}
+		// GET: Staffs/Create
+		//public IActionResult Create()
+		//{
+		//    return View();
+		//}
 
-        public async Task<string> UploadedFile(StaffVM model)
-        {
-            string uniqueFileName = null;
+		//// POST: Staffs/Create
+		//// To protect from overposting attacks, enable the specific properties you want to bind to.
+		//// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Account,EncryptedPassword,Title,Role,RegistrationTime,Photo,Email,Birthday")] StaffVM model)
+		//{
+		//        string uniqueFileName = await UploadedFile(model);
 
-                //save image to wwwroot/Image/Staff
-                string wwwRootPath = webHostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(model.PhotoFile.FileName);
-                string extension = Path.GetExtension(model.PhotoFile.FileName);
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName + extension;
-                string path = Path.Combine(wwwRootPath + "/img/", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await model.PhotoFile.CopyToAsync(fileStream);
-                }
-            return uniqueFileName;
-        }
+		//        var staff = new StaffVM
+		//        {
+		//            FirstName = model.FirstName,
+		//            LastName = model.LastName,
+		//            Account = model.Account,
+		//            EncryptedPassword = model.EncryptedPassword,
+		//            Title = model.Title,
+		//            Role = model.Role,
+		//            RegistrationTime = DateTime.Now,
+		//            Email = model.Email,
+		//            Birthday = model.Birthday,
+		//            Photo = uniqueFileName
+		//        };
+		//        _context.Add(staff);
+		//        await _context.SaveChangesAsync();
+		//        return RedirectToAction(nameof(Index));
+		//}
+
+		//public async Task<string> UploadedFile(StaffVM model)
+  //      {
+  //          string uniqueFileName = null;
+
+  //              //save image to wwwroot/Image/Staff
+  //              string wwwRootPath = webHostEnvironment.WebRootPath;
+  //              string fileName = Path.GetFileNameWithoutExtension(model.PhotoFile.FileName);
+  //              string extension = Path.GetExtension(model.PhotoFile.FileName);
+  //              uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName + extension;
+  //              string path = Path.Combine(wwwRootPath + "/img/", fileName);
+  //              using (var fileStream = new FileStream(path, FileMode.Create))
+  //              {
+  //                  await model.PhotoFile.CopyToAsync(fileStream);
+  //              }
+  //          return uniqueFileName;
+  //      }
 
         // GET: Staffs/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -274,7 +297,7 @@ namespace FoodDlvProject2.Controllers
             return this.View(model);
         }
 
-
+        [AllowAnonymous]
         public async Task<IActionResult> LogOut()
         {
             

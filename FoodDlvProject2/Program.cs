@@ -20,6 +20,12 @@ namespace FoodDlvProject2
                 options.LoginPath = "/Staffs/Login";
             });
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Staffs", policy =>
+                      policy.RequireRole("Administrator", "PowerUser"));
+            });
+
             // Add services to the container.
 
             var FoodDeliveryConnectionString = builder.Configuration.GetConnectionString("FoodDelivery");
@@ -33,6 +39,17 @@ namespace FoodDlvProject2
             builder.Services.AddSignalR();
 
             var app = builder.Build();
+
+            //404­¶­±
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Request.Path = "/Home/Error404";
+                    await next();
+                }
+            });
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
