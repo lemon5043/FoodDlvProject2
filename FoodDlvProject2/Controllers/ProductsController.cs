@@ -56,10 +56,19 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StoreId,ProductName,Photo,ProductContent,Status,UnitPrice")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,StoreId,ProductName,Photo,ProductContent,Status,UnitPrice")] Product product, IFormFile myimg)
         {
             if (ModelState.IsValid)
             {
+
+                if (myimg != null)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        myimg.CopyTo(ms);
+                        product.Photo = ms.ToArray();
+                    }
+                }
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -90,7 +99,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,StoreId,ProductName,Photo,ProductContent,Status,UnitPrice")] Product product)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,StoreId,ProductName,Photo,ProductContent,Status,UnitPrice")] Product product, IFormFile myimg)
         {
             if (id != product.Id)
             {
@@ -101,6 +110,19 @@ namespace FoodDlvProject2.Controllers
             {
                 try
                 {
+
+
+                    if (myimg != null)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            myimg.CopyTo(ms);
+                            product.Photo = ms.ToArray();
+                        }
+                    }
+
+
+
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }

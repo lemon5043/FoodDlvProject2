@@ -4,19 +4,17 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>新增</h1>
+<h1>新增商品</h1>
 
 <h4>@ViewBag.Name</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateP">
+        <form asp-action="CreateP"enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 @*<label asp-for="StoreId" class="control-label"></label>*@
                 @*<select asp-for="StoreId" class ="form-control" asp-items="ViewBag.StoreId"></select>*@
-
-
 
                 <input asp-for="StoreId" class="form-control" type="text" value="@ViewBag.StoreId" readonly hidden />
             </div>
@@ -25,19 +23,31 @@
                 <input asp-for="ProductName" class="form-control" />
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Photo" class="control-label"></label>
-                <input asp-for="Photo" class="form-control" />
-                <span asp-validation-for="Photo" class="text-danger"></span>
+                        <div class="form-group">
+                <label class="control-label"></label>
+                <input type="file" name="myimg" class="form-control-file">
+                @*<span asp-validation-for="Photo" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <label asp-for="ProductContent" class="control-label"></label>
                 <input asp-for="ProductContent" class="form-control" />
                 <span asp-validation-for="ProductContent" class="text-danger"></span>
             </div>
+
+              <div class="form-group">
+                <label class="radioOfStatus">
+                    <label>@Html.RadioButtonFor(x => x.Status, true) 販賣中</label>
+                    <label>@Html.RadioButtonFor(x => x.Status, false) 未販賣</label>
+                </label>
+
+            </div>
+
+
+
+
             <div class="form-group">
                 <label asp-for="UnitPrice" class="control-label"></label>
-                <input asp-for="UnitPrice" class="form-control" />
+                <input asp-for="UnitPrice" class="form-control" min="0" />
                 <span asp-validation-for="UnitPrice" class="text-danger"></span>
             </div>
             <div class="form-group">

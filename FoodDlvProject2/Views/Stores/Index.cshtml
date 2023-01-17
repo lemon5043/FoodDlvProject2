@@ -1,121 +1,169 @@
 ﻿@model IEnumerable<FoodDlvProject2.EFModels.Store>
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
 @section DatatableStyle
-    {
-    <!-- Custom styles for this page -->
-    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
-      rel="stylesheet" />
+	{
+	<!-- Custom styles for this page -->
+	<link href="~/vendor/datatables/dataTables.bootstrap4.min.css"
+	  rel="stylesheet" />
 }
 
-    @section DatatableScript
-    {
-    <!-- Page level plugins -->
-    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+@section DatatableScript
+	{
+	<!-- Page level plugins -->
+	<script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+	<script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="~/js/demo/datatables-demo.js"></script>
+	<!-- Page level custom scripts -->
+	<script src="~/js/demo/datatables-demo.js"></script>
 	}
-    <h1>店家管理</h1>
-    <div class="container-fluid">
+<h1>店家管理</h1>
+<div class="container-fluid">
 
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">
-                    <a asp-action="Create">新增</a>
-                </h6>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered"
-                       id="dataTable"
-                       width="100%"
-                       cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.StoreName)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Address)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ContactNumber)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.StorePrincipal.Account)
-                                </th>
-                                <th>
-                                    商品
-                                </th>
-                             
-                              
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.StoreName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Address)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ContactNumber)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.StorePrincipal.Account)
-                                </td>
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary">
+				<a asp-action="Create">新增店家</a>
+			</h6>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-bordered"
+					   id="dataTable"
+					   width="100%"
+					   cellspacing="0">
+					<thead>
+						<tr>
+
+							<th>
+								店家圖片
+							</th>
+							<th>
+								@Html.DisplayNameFor(model => model.StoreName)
+							</th>
+							<th>
+								@Html.DisplayNameFor(model => model.Address)
+							</th>
+							<th>
+								@Html.DisplayNameFor(model => model.ContactNumber)
+							</th>
+							<th>
+								@Html.DisplayNameFor(model => model.StorePrincipal.Account)
+							</th>
+							<th>
+								商品
+							</th>
 
 
-                                <td>
-                                    <table class="table table-bordered">
-                                        <tr class="active">
-                                            <td>品名</td>
-                                            <td>單價</td>
-                                        </tr>
-                                        @foreach (var p in item.Products)
-                                        {
-                                            <tr class="active">
-                                                <td>@p.ProductName</td>
-                                                <td>@p.UnitPrice</td>
-                                                <td>
-                                                    <a asp-action="EditP" asp-route-id="@p.Id">Edit</a> |
-                                                    <a asp-action="DetailsP" asp-route-id="@p.Id">Details</a> |
-                                                    <a asp-action="DeleteP" asp-route-id="@p.Id">Delete</a>
-                                                </td>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model)
+						{
+							<tr>
+								<td>
+									@{
+										var imgSrc = "";
+										if (item.Photo != null)
+										{
+											var base64String = Convert.ToBase64String(item.Photo);
+											imgSrc = $"data:image/png;base64,{base64String}";
+											
 
-                                            </tr>
+										}
+										else
+										{
+											imgSrc = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
 
+														}
 
-                                        }
-
-
-                                    </table>
-                                    <a asp-action="CreateP" asp-route-id="@item.Id">新增商品</a>
-                                </td>
+									}
 
 
 
+									<img src="@imgSrc" width="100px" height="100px" >
+								</td>
+								<td>
+									@Html.DisplayFor(modelItem => item.StoreName)
+								</td>
+								<td>
+									@Html.DisplayFor(modelItem => item.Address)
+								</td>
+								<td>
+									@Html.DisplayFor(modelItem => item.ContactNumber)
+								</td>
+								<td>
+									@Html.DisplayFor(modelItem => item.StorePrincipal.Account)
+								</td>
+
+
+								<td>
+									<table class="table table-bordered">
+										<tr class="active">
+											<td>品名</td>
+											<td>單價</td>
+										</tr>
+										@foreach (var p in item.Products)
+										{
+											<tr class="active">
+												<td>
+													@{
+														var imgSrcP = "";
+														if (p.Photo != null)
+														{
+															var base64StringP = Convert.ToBase64String(p.Photo);
+															imgSrcP = $"data:image/png;base64,{base64StringP}";
+															
+
+														}
+														else
+														{
+															imgSrcP = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
+
+														}
+
+													}
 
 
 
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id">修改</a> |
-                                    <a asp-action="Details" asp-route-id="@item.Id">詳細內容</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.Id">刪除</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+													<img src="@imgSrcP" width="100px" height="100px">
+												</td>
+												<td>@p.ProductName</td>
+												<td>@p.UnitPrice</td>
+												<td>
+													<a asp-action="EditP" asp-route-id="@p.Id">商品編輯</a> |
+													<a asp-action="DetailsP" asp-route-id="@p.Id">商品詳細資料</a> |
+													<a asp-action="DeleteP" asp-route-id="@p.Id">商品刪除</a>
+												</td>
+
+											</tr>
+
+
+										}
+
+
+									</table>
+									<a asp-action="CreateP" asp-route-id="@item.Id">新增商品</a>
+								</td>
+
+
+
+
+
+
+								<td>
+									<a asp-action="Edit" asp-route-id="@item.Id">店家修改</a> |
+									<a asp-action="Details" asp-route-id="@item.Id">店家詳細內容</a> |
+									<a asp-action="Delete" asp-route-id="@item.Id">店家刪除</a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>

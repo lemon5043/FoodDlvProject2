@@ -22,7 +22,7 @@ namespace FoodDlvProject2.EFModels
         public string ProductName { get; set; }
         [Display(Name = "照片")]
         public byte[] Photo { get; set; }
-        [Display(Name = "商品簡介")]
+        [Display(Name = "商品內容")]
         public string ProductContent { get; set; }
         [Display(Name = "狀態")]
         public bool? Status { get; set; }

@@ -4,13 +4,13 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>編輯商品</h1>
 
-<h4>Product</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="EditP">
+        <form asp-action="EditP" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -24,23 +24,33 @@
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Photo" class="control-label"></label>
-                <input asp-for="Photo" class="form-control" />
-                <span asp-validation-for="Photo" class="text-danger"></span>
+                <label class="control-label"></label>
+                <input type="file" name="myimg" class="form-control-file">
+                @*<span asp-validation-for="Photo" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <label asp-for="ProductContent" class="control-label"></label>
                 <input asp-for="ProductContent" class="form-control" />
                 <span asp-validation-for="ProductContent" class="text-danger"></span>
             </div>
+
+              <div class="form-group">
+                <label class="radioOfStatus">
+                    <label>@Html.RadioButtonFor(x => x.Status, true) 販賣中</label>
+                    <label>@Html.RadioButtonFor(x => x.Status, false) 未販賣</label>
+                </label>
+
+            </div>
+
+@*
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 <input asp-for="Status" class="form-control" />
                 <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="UnitPrice" class="control-label"></label>
-                <input asp-for="UnitPrice" class="form-control" />
+                <input asp-for="UnitPrice" class="form-control" min="0" />
                 <span asp-validation-for="UnitPrice" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -52,13 +52,21 @@ namespace FoodDlvProject2.EFModels
         public virtual StoreViolationRecord StoreViolationRecord { get; set; }
         [Display(Name = "店家錢包")]
         public virtual StoreWallet StoreWallet { get; set; }
+        [Display(Name = "購物車")]
         public virtual ICollection<Cart> Carts { get; set; }
+        [Display(Name = "訂單")]
         public virtual ICollection<Order> Orders { get; set; }
+        [Display(Name = "商品")]
         public virtual ICollection<Product> Products { get; set; }
+        [Display(Name = "店家營業時間")]
         public virtual ICollection<StoreBusinessHour> StoreBusinessHours { get; set; }
+
+        [Display(Name = "店家取消紀錄")]
         public virtual ICollection<StoreCancellationRecord> StoreCancellationRecords { get; set; }
+        [Display(Name = "店家類別列表")]
         public virtual ICollection<StoresCategoriesList> StoresCategoriesLists { get; set; }
-        
+        [Display(Name = "會員")]
+
         public virtual ICollection<Member> Members { get; set; }
     }
 }
