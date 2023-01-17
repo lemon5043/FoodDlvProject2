@@ -186,22 +186,24 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,OrderId,,DriverName,ViolationId,ViolationDate")] DeliveryViolationRecordCreateVM DeliveryViolationRecord)
+        public async Task<IActionResult> Create([Bind("Id,DriverId,OrderId,ViolationId,ViolationDate")] DeliveryViolationRecordCreateVM DeliveryViolationRecord)
         {
             ModelState.Remove("DriverName");
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var EFModel = DeliveryViolationRecord.ToEFModels();
-                    _context.Attach(EFModel);
-                    string[] updateModel = { "DeliveryDriversId", "OrderId", "ViolationId", "ViolationDate" };
+					_context.Add(DeliveryViolationRecord.ToEFModels());
+                    await _context.SaveChangesAsync();                   
+                    //var EFModel = DeliveryViolationRecord.ToEFModels();
+                    //_context.Attach(EFModel);
+                    //string[] updateModel = { "DeliveryDriversId", "OrderId", "ViolationId", "ViolationDate" };
 
-                    foreach (var property in updateModel)
-                    {
-                        _context.Entry(EFModel).Property(property).IsModified = true;
-                    }
-                    await _context.SaveChangesAsync();
+                    //foreach (var property in updateModel)
+                    //{
+                    //    _context.Entry(EFModel).Property(property).IsModified = true;
+                    //}
+                    //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {

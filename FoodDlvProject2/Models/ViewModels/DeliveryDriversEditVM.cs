@@ -27,9 +27,9 @@ namespace FoodDlvProject2.Models.ViewModels
         [Required(ErrorMessage ="請輸入{0}")]
         [Display(Name = "銀行帳戶")]
         public string BankAccount { get; set; }
-        [Required(ErrorMessage = "請輸入{0}")]
-        [Display(Name = "身分證")]
-        public IFormFile Idcard { get; set; }
+        //[Required(ErrorMessage = "請輸入{0}")]
+        //[Display(Name = "身分證")]
+        //public IFormFile Idcard { get; set; }
         [Required(ErrorMessage = "請輸入{0}")]
         [Display(Name = "生日")]
         [DateNowAttribute(ErrorMessage = "{}不可大於今日")]
@@ -37,12 +37,12 @@ namespace FoodDlvProject2.Models.ViewModels
         [Display(Name = "電子郵件")]
         [EmailAddress(ErrorMessage ="輸入的{0}格式不正確")]
         public string Email { get; set; }
-        [Required(ErrorMessage ="請輸入{0}")]
-        [Display(Name = "行照")]
-        public IFormFile VehicleRegistration { get; set; }
-        [Required(ErrorMessage = "請輸入{0}")]
-        [Display(Name = "駕照")]
-        public IFormFile DriverLicense { get; set; }
+        //[Required(ErrorMessage ="請輸入{0}")]
+        //[Display(Name = "行照")]
+        //public IFormFile VehicleRegistration { get; set; }
+        //[Required(ErrorMessage = "請輸入{0}")]
+        //[Display(Name = "駕照")]
+        //public IFormFile DriverLicense { get; set; }
     }
     public static class DeliveryDriversEditVMExts
 	{
@@ -79,9 +79,9 @@ namespace FoodDlvProject2.Models.ViewModels
                 BankAccount = source.BankAccount,
                 Birthday = source.Birthday,
                 Email = source.Email,
-                Idcard = source.Idcard.FileName,
-                VehicleRegistration = source.VehicleRegistration.FileName,
-                DriverLicense = source.DriverLicense.FileName,
+                //Idcard = source.Idcard.FileName,
+                //VehicleRegistration = source.VehicleRegistration.FileName,
+                //DriverLicense = source.DriverLicense.FileName,
             };
         }
     }
