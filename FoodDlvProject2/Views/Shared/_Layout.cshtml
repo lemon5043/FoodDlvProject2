@@ -20,6 +20,7 @@
     <!-- Custom styles for this template-->
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet" />
     @RenderSection("DatatableStyle", false)
+    @RenderSection("Customize", false)
 </head>
 
 <body id="page-top">
@@ -554,5 +555,6 @@
     <script src="https://kit.fontawesome.com/7bd2923cd4.js" crossorigin="anonymous"></script>
     @RenderSection("DatatableScript", false)
     @RenderSection("Chart", false)
+    @RenderSection("scripts", false)
 </body>
 </html>

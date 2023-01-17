@@ -1,86 +1,148 @@
-﻿@model IEnumerable<FoodDlvProject2.Models.ViewModels.OrderVM>
-@*@model IEnumerable<FoodDlvProject2.Models.EFModels.Order>*@
-
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core.Fluent
+@using X.PagedList.Web.Common
+@using FoodDlvProject2.EFModels
+@using FoodDlvProject2
+@model IEnumerable<FoodDlvProject2.Models.ViewModels.OrderVM>
 @{
     ViewData["Title"] = "Index";
+    var dateStart = ViewBag.start as DateTime?;
+    var dateEnd = ViewBag.end as DateTime?;
+    var keyWord = ViewBag.KeyWord as string;
 }
 
-<h1>Index</h1>
+@section Customize {
+    <link href="~/css/orders-index.css" rel="stylesheet" />
+  }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                訂單成立時間
-                @*@Html.DisplayNameFor(model => model.OrderSchedules.FirstOrDefault(x => x.StatusId == 1).MarkTime)*@
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MemberId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StoreId)
-            </th>
-            <th>
-                商品明細
-            </th>
-            <th>
-                訂單總價
-                @*@Html.DisplayNameFor(model => model.FinalTotal)*@
-            </th>           
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MemberId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StoreId)
-            </td>
-                <td>
-                    <table class="table table-bordered">
-                        <tr class="active">
-                            <td width="200">商品編號</td>
-                            <td>名稱</td>
-                            <td>數量</td>
-                            <td>單價</td>
-                            @*<td>總價</td>*@                      
-                        </tr>
 
-                        @*@foreach (var od in item.OrderDetails)
-                        {
-                            <tr class="active">
-                                <td>@od.ProductId</td>
-                                <td>@od.Product.ProductName</td>
-                                <td>@od.Count</td>
-                                <td>@od.UnitPrice</td>
-                                @*<td>@od.Count * UnitPrice</td>
+    <div class="container-fluid">
+        <h1>訂單管理</h1>
+        <form method="get">
+            <div class="card mb-4 py-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-lg-2 col-xxl-1 pt-1">
+                            訂單時間:
+                        </div>
+                        <div class="col-12 col-sm-4 col-xl-2">
+                            <input type="datetime-local"
+                               name="dateStart"
+                               class="form-control" />
+                        </div>
+                        <div class="col-12 col-sm-4 col-xl-2">
+                            <input type="datetime-local"
+                               name="dateEnd"
+                               class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-lg-2 col-xxl-1 pt-1 mt-3">
+                            關鍵字搜尋:
+                        </div>
+                        <div class="col-12 col-sm-8 col-xl-4 mt-3">
+                            <input type="text"
+                               name="keyWord"
+                               class="form-control"
+                               value="@keyWord" />
+                        </div>
+                        <div class="col-1 text-center mt-3">
+                            <input type="submit"
+                               class="btn btn-primary"
+                               value="Search" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    @foreach (var item in Model)
+    {
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div>
+                    <table class="table table-bordered"
+                       id="dataTable"
+                       width="100%"
+                       cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Id)</th>
+                                <th>@Html.DisplayNameFor(model => model.OrderTime)</th>
+                                <th>@Html.DisplayNameFor(model => model.MemberName)</th>
+                                <th>@Html.DisplayNameFor(model => model.StoreName)</th>
+                                <th>@Html.DisplayNameFor(model => model.DeliveryFee)</th>
+                                <th>@Html.DisplayNameFor(model => model.Total)</th>
+                                <th>@Html.DisplayNameFor(model => model.DeliveryAddress)</th>
                             </tr>
-                        }*@
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                <td>@Html.DisplayFor(modelItem => item.OrderTime)</td>
+                                <td>@Html.DisplayFor(modelItem => item.MemberName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.StoreName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.DeliveryFee)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Total)</td>
+                                <td>@Html.DisplayFor(modelItem => item.DeliveryAddress)</td>
+                            </tr>
+                        </tbody>
+                        <p>
+                            <a class="btn btn-primary"
+                           data-bs-toggle="collapse"
+                           href="#collapse-@item.Id"
+                           role="button"
+                           aria-expanded="false"
+                           aria-controls="collapse-@item.Id">
+                                狀態進度
+                            </a>
+                            <button type="button"
+                                class="btn btn-primary"
+                                onclick="window.open('/Orders/DetailIndex/@item.Id','_blank','location=yes, height=700, width=1000, scrollbars=yes, status=yes')">
+                                訂單明細
+                            </button>
+                        </p>
+                        <div class="collapse" id="collapse-@item.Id">
+                            <div class="card card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="timeline-steps">
+                                            @foreach (var schdule in item.orderSchedule)
+                                            {
+                                                <div class="timeline-step">
+                                                    <div class="timeline-content"
+                                                 data-toggle="popover"
+                                                 data-trigger="hover"
+                                                 data-placement="top"
+                                                 title=""
+                                                 data-content="@schdule.Status"
+                                                 data-original-title="@schdule.MarkTime">
+                                                        <div class="inner-circle"></div>
+                                                        <p class="h6 mt-3 mb-1">@schdule.MarkTime</p>
+                                                        <p class="h6 text-muted mb-0 mb-lg-0">@schdule.Status</p>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </table>
-                </td>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.FinalTotal)*@
-            </td>
-            <td>
-                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                <a asp-action="Details" asp-route-id="@item.Id">明細</a> |
-                @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                </div>
+            </div>
+        </div>
+    }
+    @Html.PagedListPager((IPagedList)Model, page =>
+    Url.Action("Index", new { pageNumber = page }),
+    new PagedListRenderOptions {
+    LiElementClasses = new string[] { "page-item" },
+    PageClasses = new string[] { "page-link" }
+    })
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
