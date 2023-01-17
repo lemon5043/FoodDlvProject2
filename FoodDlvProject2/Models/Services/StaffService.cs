@@ -14,6 +14,9 @@ namespace FoodDlvProject2.Models.Services
             this.repo = repo;
         }
 
+        //public IEnumerable<StaffDto> Search(int? categoryId, string productName)
+        //    => repo.Search(categoryId, productName, true);
+
         /// <summary>
         /// 登入功能BLL層，判斷帳密是否符合
         /// </summary>

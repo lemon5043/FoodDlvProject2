@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using System.Security.Principal;
 using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace FoodDlvProject2.Controllers
 {
@@ -39,7 +40,19 @@ namespace FoodDlvProject2.Controllers
         // GET: Staffs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Staffs.ToListAsync());
+            var data = await _context.Staffs.Select(x => new StaffDisplayVM
+            {
+                Id= x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Title = x.Title,
+                Role = x.Role,
+                RegistrationTime = x.RegistrationTime,
+                Email = x.Email,
+                Birthday = x.Birthday,
+                Photo = x.Photo,
+            }).ToListAsync();
+            return View(data);
         }
 
         // GET: Staffs/Details/5
