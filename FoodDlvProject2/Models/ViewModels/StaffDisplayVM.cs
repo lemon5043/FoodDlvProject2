@@ -6,6 +6,7 @@ namespace FoodDlvProject2.Models.ViewModels
     public class StaffDisplayVM
     {
         public int Id { get; set; }
+        public string Photo { get; set; }
 
         [Required]
         [StringLength(20)]
@@ -34,8 +35,6 @@ namespace FoodDlvProject2.Models.ViewModels
         [Required]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime RegistrationTime { get; set; }
-        
-        public string Photo { get; set; }
 
         [Required]
         [StringLength(256)]

@@ -7,6 +7,8 @@ namespace FoodDlvProject2.Models.ViewModels
 
         public int Id { get; set; }
 
+        public IFormFile Photo { get; set; }
+
         [Required]
         [StringLength(20)]
         public string FirstName { get; set; }
@@ -33,8 +35,6 @@ namespace FoodDlvProject2.Models.ViewModels
 
         [Required]
         public DateTime RegistrationTime { get; set; }
-
-        public IFormFile Photo { get; set; }
 
         [Required]
         [StringLength(256)]
