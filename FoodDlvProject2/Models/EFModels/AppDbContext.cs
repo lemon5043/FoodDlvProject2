@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 using FoodDlvProject2.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using FoodDlvProject2.Models.ViewModels;
 
 namespace FoodDlvProject2.EFModels
 {
@@ -875,5 +876,7 @@ namespace FoodDlvProject2.EFModels
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
         public DbSet<FoodDlvProject2.Models.ViewModels.DeliveryMonthlyDetailRecordVM> DeliveryReDeliveryMonthlyDetailRecordVMcordVM { get; set; }
+
+        public DbSet<FoodDlvProject2.Models.ViewModels.StaffVM> StaffVM { get; set; }
     }
 }

@@ -180,7 +180,7 @@ namespace FoodDlvProject2.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login()
         {
-            return View();
+            return await Task.Run(() => View());
         }
 
         [HttpPost]
