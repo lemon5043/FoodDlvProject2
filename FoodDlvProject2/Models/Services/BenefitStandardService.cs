@@ -3,6 +3,7 @@ using FoodDlvProject2.EFModels;
 using FoodDlvProject2.Models.DTOs;
 using FoodDlvProject2.Models.Services.Interfaces;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FoodDlvProject2.Models.Services
 {
@@ -25,7 +26,7 @@ namespace FoodDlvProject2.Models.Services
 		{
 			int[] bonusThreshold = { model.BonusThreshold1, model.BonusThreshold2, model.BonusThreshold3 };
 
-			if (!Equals(bonusThreshold, bonusThreshold.OrderBy(x => x).ToArray())) throw new ArgumentOutOfRangeException("應依小至大輸入門檻");
+			if (!bonusThreshold.SequenceEqual(bonusThreshold.OrderBy(x => x).ToArray())) throw new ArgumentOutOfRangeException("應依小至大輸入門檻");
 
             if (model.Selected == true)
             {
@@ -38,7 +39,7 @@ namespace FoodDlvProject2.Models.Services
 		{
 			int[] bonusThreshold = { model.BonusThreshold1, model.BonusThreshold2, model.BonusThreshold3 };
 
-			if (!Equals(bonusThreshold, bonusThreshold.OrderBy(x => x).ToArray())) throw new ArgumentOutOfRangeException("應依小至大輸入門檻");
+			if (!bonusThreshold.SequenceEqual(bonusThreshold.OrderBy(x => x).ToArray())) throw new ArgumentOutOfRangeException("應依小至大輸入門檻");
 
 			if (model.Selected == false && model.Id == _repository.FindSelectBenefitStandard())
 			{
