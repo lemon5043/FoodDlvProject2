@@ -1,0 +1,7 @@
+﻿body {
+}
+
+tr:hover {
+    background-color: #ECECEC;
+    cursor: pointer;
+}

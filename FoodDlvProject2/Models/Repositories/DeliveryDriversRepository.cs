@@ -50,7 +50,7 @@ namespace FoodDlvProject2.Models.Repositories
                 AccountStatus = x.AccountStatus.Status,
                 WorkStatuse = x.WorkStatuse.Status,
                 WorkStatuseId=x.WorkStatuseId,
-                DeliveryViolationRecords = x.DeliveryViolationRecords.Sum(x => x.DeliveryDriversId),
+                DeliveryViolationRecords = x.DeliveryViolationRecords.Count(),
                 DriverRating = x.Orders.Average(x => x.DriverRating),
                 RegistrationTime = x.RegistrationTime,
                 Idcard = x.Idcard,

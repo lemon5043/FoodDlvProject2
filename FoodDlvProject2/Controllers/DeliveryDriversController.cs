@@ -107,6 +107,7 @@ namespace FoodDlvProject2.Controllers
                 catch (Exception ex)
                 {
                     TempData["ErrorMessage"] = ex.Message;
+                    return View(deliveryDriver);
                 }
                 return RedirectToAction(nameof(Index));
             }

@@ -41,7 +41,7 @@ namespace FoodDlvProject2.Models.Repositories
             //關鍵字搜尋
             if (!string.IsNullOrEmpty(keyWord))
             {
-                 query = query.Where(o => (o.Member.FirstName + " " + o.Member.LastName).Contains(keyWord)
+                 query = query.Where(o => (o.Member.LastName + o.Member.FirstName).Contains(keyWord)
                     || o.Store.StoreName.Contains(keyWord)
                     || o.DeliveryAddress.Contains(keyWord));
             }

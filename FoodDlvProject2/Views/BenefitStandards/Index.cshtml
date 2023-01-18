@@ -21,10 +21,12 @@
 }
 
 <h1>分潤條件管理</h1>
-
+@if (User.IsInRole("Administrator"))
+  {
 <p>
 	<a asp-action="Create">Create New</a>
 </p>
+  }
 @if (TempData["ErrorMessage"] != null)
 {
 	<div class="alert alert-danger">@TempData["ErrorMessage"]</div>
@@ -106,9 +108,12 @@
 								@selected
 							</td>
 							<td>
-								<a asp-action="Edit" asp-route-id="@item.Id">維護</a> |
-								<a asp-action="Details" asp-route-id="@item.Id">檢視</a> |
+								<a asp-action="Details" asp-route-id="@item.Id">檢視</a> 
+								@if (User.IsInRole("Administrator"))
+								{
+								<a asp-action="Edit" asp-route-id="@item.Id">維護</a>
 								<a asp-action="Delete" asp-route-id="@item.Id">刪除</a>
+								}
 							</td>
 						</tr>
 					}

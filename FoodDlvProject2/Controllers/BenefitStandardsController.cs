@@ -11,6 +11,8 @@ using FoodDlvProject2.Models.Services.Interfaces;
 using FoodDlvProject2.Models.Services;
 using FoodDlvProject2.Models.ViewModels;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FoodDlvProject2.Controllers
 {
@@ -49,6 +51,7 @@ namespace FoodDlvProject2.Controllers
 		}
 
         // GET: BenefitStandards/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -57,6 +60,7 @@ namespace FoodDlvProject2.Controllers
         // POST: BenefitStandards/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,PerOrder,PerMilage,BonusThreshold1,BonusThreshold2," +
@@ -79,6 +83,7 @@ namespace FoodDlvProject2.Controllers
             return View(benefitStandardVM);
         }
 
+        [Authorize(Roles = "Administrator,PowerUser")]
         // GET: BenefitStandards/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -99,7 +104,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PerOrder,PerMilage,BonusThreshold1,BonusThreshold2," +
             "BonusThreshold3,Bouns1,Bouns2,Bouns3,Selected")] BenefitStandardEditVM benefitStandardVM)
         {
@@ -120,6 +125,7 @@ namespace FoodDlvProject2.Controllers
         }
 
         // GET: BenefitStandards/Delete/5
+        [Authorize(Roles = "Administrator,PowerUser")]
         public async Task<IActionResult> Delete(int? id)
         {
 			try
@@ -140,6 +146,7 @@ namespace FoodDlvProject2.Controllers
         // POST: BenefitStandards/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator,PowerUser")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             TempData["Result"] = await benefitStandardService.DeleteAsync(id);

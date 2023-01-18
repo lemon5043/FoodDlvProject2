@@ -1,5 +1,11 @@
 ﻿@model IEnumerable<FoodDlvProject2.Models.ViewModels.StaffVM>
 
+@section Customize 
+    {
+    <link href="~/css/Table.css"
+      rel="stylesheet" />
+    }
+
 @section DatatableStyle
     {
     <!-- Custom styles for this page -->
@@ -16,6 +22,11 @@
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
     }
+
+@section Scripts 
+{
+    <script src="~/js/app.js"></script>
+}
 
 <div class="container-fluid">
     <h1 class="h3 mb-2">員工管理</h1>
@@ -60,7 +71,7 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
+                            <tr id="row-@item.Id">
                             <td>
                                 @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
                             </td>

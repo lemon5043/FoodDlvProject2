@@ -24,10 +24,10 @@ namespace FoodDlvProject2.Models.Services
 
         public void Edit(DeliveryDriverEditDTO model)
         {
-            if (model.Idcard == null || model.VehicleRegistration == null || model.DriverLicense == null)
-            {
-                if (model.AccountStatusId == 2) throw new Exception("文件未備齊的帳號不能授權啟用，請再次檢查帳號狀態");
-            }
+            //if (model.Idcard == null || model.VehicleRegistration == null || model.DriverLicense == null)
+            //{
+            //    if (model.AccountStatusId == 2) throw new Exception("文件未備齊的帳號不能授權啟用，請再次檢查帳號狀態");
+            //}
             _repository.Edit(model);
         }
 
