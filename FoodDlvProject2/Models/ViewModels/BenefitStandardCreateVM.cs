@@ -12,27 +12,27 @@ namespace FoodDlvProject2.Models.ViewModels
 		
         [Required(ErrorMessage ="請輸入{0}")]
         [Display(Name = "送餐費")]
-        [Range(1, 100, ErrorMessage = "請輸入{1}~{2}之間的數字")]
+        [Range(1, 10000, ErrorMessage = "請輸入{1}~{2}之間的數字")]
         public int PerOrder { get; set; }
         [Display(Name = "距離費")]
         [Required(ErrorMessage = "請輸入{0}")]
-        [Range(1, 100, ErrorMessage = "請輸入{1}~{2}之間的數字")]
+        [Range(1, 10000, ErrorMessage = "請輸入{1}~{2}之間的數字")]
         public int PerMilage { get; set; }
         [Display(Name = "達標門檻1")]
         [Required(ErrorMessage = "請輸入{0}")]
-        [Range(1, 100, ErrorMessage = "請輸入{1}~{2}之間的數字")]
+        [Range(1, 10000, ErrorMessage = "請輸入{1}~{2}之間的數字")]
         public int BonusThreshold1 { get; set; }
         [Display(Name = "達標門檻2")]
         [Required(ErrorMessage = "請輸入{0}")]
-        [Range(1, 100, ErrorMessage = "請輸入{1}~{2}之間的數字")]
+        [Range(1, 10000, ErrorMessage = "請輸入{1}~{2}之間的數字")]
         public int BonusThreshold2 { get; set; }
         [Display(Name = "達標門檻3")]
         [Required(ErrorMessage = "請輸入{0}")]
-        [Range(1, 100, ErrorMessage = "請輸入{1}~{2}之間的數字")]
+        [Range(1, 10000, ErrorMessage = "請輸入{1}~{2}之間的數字")]
         public int BonusThreshold3 { get; set; }
         [Display(Name = "達標獎勵1")]
         [Required(ErrorMessage = "請輸入{0}")]
-        [Range(1, 100, ErrorMessage = "請輸入{1}~{2}之間的數字")]
+        [Range(1, 10000, ErrorMessage = "請輸入{1}~{2}之間的數字")]
         public int Bouns1 { get; set; }
         [Display(Name = "達標獎勵2")]
         [Required(ErrorMessage = "請輸入{0}")]
@@ -40,7 +40,7 @@ namespace FoodDlvProject2.Models.ViewModels
         public int Bouns2 { get; set; }
         [Display(Name = "達標獎勵3")]
         [Required(ErrorMessage = "請輸入{0}")]
-        [Range(1, 100, ErrorMessage = "請輸入{1}~{2}之間的數字")]
+        [Range(1, 10000, ErrorMessage = "請輸入{1}~{2}之間的數字")]
         public int Bouns3 { get; set; }
         //public double HolidayBouns { get; set; }
         //public double RushHoursBouns { get; set; }
