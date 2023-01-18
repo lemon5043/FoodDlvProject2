@@ -24,7 +24,7 @@ namespace FoodDlvProject2.Models.Services
 
 		public async Task<string> CreateAsync(BenefitStandardDTO model)
 		{
-			int[] bonusThreshold = { model.BonusThreshold1, model.BonusThreshold2, model.BonusThreshold3 };
+			int?[] bonusThreshold = { model.BonusThreshold1, model.BonusThreshold2, model.BonusThreshold3 };
 
 			if (!bonusThreshold.SequenceEqual(bonusThreshold.OrderBy(x => x).ToArray())) throw new ArgumentOutOfRangeException("應依小至大輸入門檻");
 
@@ -37,7 +37,7 @@ namespace FoodDlvProject2.Models.Services
 		
 		public async Task<string> EditAsync(BenefitStandardDTO model)
 		{
-			int[] bonusThreshold = { model.BonusThreshold1, model.BonusThreshold2, model.BonusThreshold3 };
+			int?[] bonusThreshold = { model.BonusThreshold1, model.BonusThreshold2, model.BonusThreshold3 };
 
 			if (!bonusThreshold.SequenceEqual(bonusThreshold.OrderBy(x => x).ToArray())) throw new ArgumentOutOfRangeException("應依小至大輸入門檻");
 

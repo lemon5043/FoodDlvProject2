@@ -9,21 +9,21 @@ namespace FoodDlvProject2.Models.ViewModels
 	{
         public int Id { get; set; }
         [Display(Name = "送餐費")]
-        public int PerOrder { get; set; }
+        public int? PerOrder { get; set; }
         [Display(Name = "距離費")]
-        public int PerMilage { get; set; }
+        public int? PerMilage { get; set; }
         [Display(Name = "達標門檻1")]
-        public int BonusThreshold1 { get; set; }
+        public int? BonusThreshold1 { get; set; }
         [Display(Name = "達標門檻2")]
-        public int BonusThreshold2 { get; set; }
+        public int? BonusThreshold2 { get; set; }
         [Display(Name = "達標門檻3")]
-        public int BonusThreshold3 { get; set; }
+        public int? BonusThreshold3 { get; set; }
         [Display(Name = "達標獎勵1")]
-        public int Bouns1 { get; set; }
+        public int? Bouns1 { get; set; }
         [Display(Name = "達標獎勵2")]
-        public int Bouns2 { get; set; }
+        public int? Bouns2 { get; set; }
         [Display(Name = "達標獎勵3")]
-        public int Bouns3 { get; set; }
+        public int? Bouns3 { get; set; }
         //public double HolidayBouns { get; set; }
         //public double RushHoursBouns { get; set; }
         //public TimeSpan RushHoursStart1 { get; set; }

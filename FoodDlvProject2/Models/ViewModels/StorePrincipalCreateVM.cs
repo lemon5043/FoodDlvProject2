@@ -34,7 +34,7 @@ namespace FoodDlvProject2.Models.ViewModels
         [Display(Name = "生日")]
         [Required(ErrorMessage = "生日必填")]
         [DataType(DataType.Date)]
-        [Range(typeof(DateTime), "1/1/1900", "1/1/2100")]
+        
         public DateTime Birthday { get; set; }
 
         [Required(ErrorMessage = "{0}必填")]
@@ -56,7 +56,7 @@ namespace FoodDlvProject2.Models.ViewModels
         [Display(Name = "確認密碼")]
         [Required(ErrorMessage = "{0}必填")]
         [DataType(DataType.Password)]
-        [Compare("Password")]
+        [Compare("Password", ErrorMessage = "{0}與密碼不相符")]
         [StringLength(30)]
         public string ConfirmPassword { get; set; }
 
