@@ -39,6 +39,7 @@ namespace FoodDlvProject2.Models.ViewModels
         public string Role { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime RegistrationTime { get; set; }
 
         [Required]
@@ -46,6 +47,7 @@ namespace FoodDlvProject2.Models.ViewModels
         public string Email { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime Birthday { get; set; }
     }
 }
