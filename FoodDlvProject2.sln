@@ -7,7 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDlvProject2", "FoodDlvP
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "方案項目", "方案項目", "{97C18555-AFAD-4BFA-A69E-9877E7C70090}"
 	ProjectSection(SolutionItems) = preProject
-		readme.txt = readme.txt
+		Order_readme.txt = Order_readme.txt
+		Dlivery_readme.txt = Dlivery_readme.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat", "Chat\Chat.csproj", "{940E70E6-E7F2-4C21-AC50-418B80645DCD}"
