@@ -8,10 +8,19 @@ namespace FoodDlvProject2.Models.Services
 {
     public class OrderService
     {
+        //Field
         private readonly IOrderRepository _repository;
-        public OrderService(IOrderRepository repository)
+
+		//Constructor
+		public OrderService(IOrderRepository repository)
         {
             _repository = repository;
+        }
+
+        public async Task<IEnumerable<OrderMainDto>> OrderMain(string revenueRange, string exceptionOrderRange, string completedOrderRange)
+        {
+            var data = _repository.GetOrderMain(revenueRange, exceptionOrderRange, completedOrderRange);
+            return data;
         }
 
         public async Task<IEnumerable<OrderDto>> SearchAsync(DateTime? start, DateTime? end, string keyWord)

@@ -13,16 +13,26 @@ namespace FoodDlvProject2.Controllers
 {
     public class OrdersController : Controller
     {
+		//Field
         private OrderService orderService;
-
         private readonly AppDbContext _context;
 
+		//Constructor
         public OrdersController(AppDbContext context)
         {
             _context = context;            
             IOrderRepository repo = new OrderRepository(_context);
             this.orderService = new OrderService(repo);
         }
+
+		//OrderMain
+		public async Task<IActionResult> OrderMain(string revenueRange, string exceptionOrderRange, string completedOrderRange)
+		{
+			var data = await orderService.OrderMain(revenueRange, exceptionOrderRange, completedOrderRange);
+			return View();
+		}
+
+
 
 		//GET: Orders
 		[HttpGet]

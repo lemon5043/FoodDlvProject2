@@ -18,6 +18,11 @@ namespace FoodDlvProject2.Models.Repositories
         {
             _context = context;
         }
+
+        public Task<OrderMainDto> GetOrderMain(string revenueRange, string exceptionOrderRange, string completedOrderRange)
+        {
+            return null;
+        }
                 
         public Task<IEnumerable<OrderDto>> SearchAsync(DateTime? start, DateTime? end, string keyWord)
         {
