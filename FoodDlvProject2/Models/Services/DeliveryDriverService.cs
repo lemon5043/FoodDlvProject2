@@ -14,24 +14,26 @@ namespace FoodDlvProject2.Models.Services
             _repository = repository;
         }
 
-        public IEnumerable<DeliveryDriverDTO> GetDelivers()
-            => _repository.GetDrivers();
+        public async Task<List<DeliveryDriverDTO>> GetDeliversAsync()
+            => await _repository.GetDriversAsync();
 
-        public DeliveryDriverDTO GetOne(int? id)
-        {
-            return _repository.GetOne(id);
-        }
+        public async Task<DeliveryDriverDTO> GetOneAsync(int? id)
+            => await _repository.GetOneAsync(id);
+        
 
-        public void Edit(DeliveryDriverEditDTO model)
+		public async Task<DeliveryDriverDTO> GetEditAsync(int? id)
+			=> await _repository.GetEditAsync(id);
+
+		public async Task<string> EditAsync(DeliveryDriverEditDTO model)
         {
             //if (model.Idcard == null || model.VehicleRegistration == null || model.DriverLicense == null)
             //{
             //    if (model.AccountStatusId == 2) throw new Exception("文件未備齊的帳號不能授權啟用，請再次檢查帳號狀態");
             //}
-            _repository.Edit(model);
+            return await _repository.EditAsync(model);
         }
 
-        public (IEnumerable<AccountStatueDTO>, IEnumerable<DeliveryDriverWorkStatusDTO>) GetList()
-            => _repository.GetList();
+        public async Task<(List<AccountStatueDTO>, List<DeliveryDriverWorkStatusDTO>)> GetListAsync()
+            => await _repository.GetListAsync();
     }
 }

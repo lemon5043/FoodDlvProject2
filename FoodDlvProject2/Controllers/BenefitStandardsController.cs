@@ -31,8 +31,7 @@ namespace FoodDlvProject2.Controllers
 		public async Task<IActionResult> Index()
         {
             var data = await benefitStandardService.GetBenefitStandardsAsync();
-            var VM = data.Select(x => x.ToBenefitStandardsIndexVM());
-            return View(VM);
+            return View(data.Select(x => x.ToBenefitStandardsIndexVM()));
         }
 
         // GET: BenefitStandards/Details/5

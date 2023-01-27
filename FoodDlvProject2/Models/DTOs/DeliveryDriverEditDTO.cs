@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FoodDlvProject2.Models.DTOs
 {
@@ -13,11 +14,13 @@ namespace FoodDlvProject2.Models.DTOs
         public string Phone { get; set; }
         public bool Gender { get; set; }
         public string BankAccount { get; set; }
-        public string Idcard { get; set; }
+        [NotMapped]
+        public IFormFile Idcard { get; set; }
         public DateTime Birthday { get; set; }
         public string Email { get; set; }
-        public string VehicleRegistration { get; set; }
-        public string DriverLicense { get; set; }
-
+        [NotMapped]
+        public IFormFile VehicleRegistration { get; set; }
+        [NotMapped]
+        public IFormFile DriverLicense { get; set; }
     }
 }

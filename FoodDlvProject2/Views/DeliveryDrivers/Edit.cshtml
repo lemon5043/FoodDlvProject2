@@ -5,11 +5,14 @@
 }
 
 <h1>個人基本資料修改</h1>
-
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -59,28 +62,25 @@
                 <input asp-for="BankAccount" class="form-control" />
                 <span asp-validation-for="BankAccount" class="text-danger"></span>
             </div>
-           @* @using (Html.BeginForm("Edit", "DeliveryDrivers", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                <div class="form-group">
-                    <label asp-for="Idcard" class="control-label"></label>
-                    <input type="file" asp-for="Idcard" class="form-control" />
-                    @Html.ValidationMessageFor(model => model.Idcard, "", new { @class = "text-danger" })
-                    <span asp-validation-for="Idcard" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="VehicleRegistration" class="control-label"></label>
-                    <input type="file" asp-for="VehicleRegistration" class="form-control" />
-                    @Html.ValidationMessageFor(model => model.VehicleRegistration, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label asp-for="Idcard" class="control-label"></label>
+                <input type="file" asp-for="Idcard" class="form-control" />
+                @Html.ValidationMessageFor(model => model.Idcard, "", new { @class = "text-danger" })
+                <span asp-validation-for="Idcard" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VehicleRegistration" class="control-label"></label>
+                <input type="file" asp-for="VehicleRegistration" class="form-control" />
+                @Html.ValidationMessageFor(model => model.VehicleRegistration, "", new { @class = "text-danger" })
 
-                    <span asp-validation-for="VehicleRegistration" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DriverLicense" class="control-label"></label>
-                    <input type="file" asp-for="DriverLicense" class="form-control" />
-                    @Html.ValidationMessageFor(model => model.DriverLicense, "", new { @class = "text-danger" })
-                    <span asp-validation-for="DriverLicense" class="text-danger"></span>
-                </div>
-            }*@
+                <span asp-validation-for="VehicleRegistration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DriverLicense" class="control-label"></label>
+                <input type="file" asp-for="DriverLicense" class="form-control" />
+                @Html.ValidationMessageFor(model => model.DriverLicense, "", new { @class = "text-danger" })
+                <span asp-validation-for="DriverLicense" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
