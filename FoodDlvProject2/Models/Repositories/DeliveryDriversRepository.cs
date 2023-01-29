@@ -67,7 +67,7 @@ namespace FoodDlvProject2.Models.Repositories
         public async Task<DeliveryDriverDTO> GetEditAsync(int? id)
         {
             if (db.DeliveryDrivers == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
-            string path = "~/img/DeliveyDriver/";
+            //string path = "~/img/DeliveyDriver/";
             var query = await db.DeliveryDrivers.Select(x => new DeliveryDriverDTO
             {
                 Id = x.Id,
@@ -81,9 +81,9 @@ namespace FoodDlvProject2.Models.Repositories
                 BankAccount = x.BankAccount,
                 AccountStatusId = x.AccountStatusId,
                 WorkStatuseId = x.WorkStatuseId,
-                //Idcard = path + "Idcard/" + x.Idcard,
-                //VehicleRegistration = path + "VehicleRegistration/" + x.VehicleRegistration,
-                //DriverLicense = path + "DriverLicense/" + x.DriverLicense,
+                Idcard = x.Idcard,
+                VehicleRegistration = x.VehicleRegistration,
+                DriverLicense = x.DriverLicense,
             }).FirstOrDefaultAsync(m => m.Id == id);
 
             if (query == null) throw new Exception("很抱歉找不到相關的資料");
