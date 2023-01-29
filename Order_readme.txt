@@ -40,3 +40,13 @@ ver1.0
 
 ver1.0.1
 1. 新增OrderMain相關物件
+
+ver1.1
+***架構與Order-layout重新設計(實作中)
+1. OrderTracking(訂單搜尋系統)
+	1-1. OrderController-index => OrderController-OrderTracking
+	1-2. Order-View-index => Order-View-OrderTracking
+	1-3. 關鍵字搜尋改版 => 可以針對欄位做格別關鍵字搜尋
+	1-4. 新增訂單狀態顯示 => 可以顯示每筆訂單當下狀態, 依據每種狀態變換badge顯示顏色
+	1-5. OrderSchedule狀態時間線獨立Partial View, 使用ajax呼叫來達成非同步顯示
+	1-6. PageList功能移至repository, 實現資料傳遞效率提升

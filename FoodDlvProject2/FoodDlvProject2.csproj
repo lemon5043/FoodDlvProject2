@@ -32,6 +32,7 @@
     <Folder Include="wwwroot\img\DeliveyDriver\DriverLicense\" />
     <Folder Include="wwwroot\img\DeliveyDriver\Idcard\" />
     <Folder Include="wwwroot\img\DeliveyDriver\VehicleRegistration\" />
+    <Folder Include="wwwroot\img\Orders\" />
     <Folder Include="wwwroot\img\Staff\" />
     <Folder Include="Models\Repositories\" />
     <Folder Include="Models\Infrastructures\" />

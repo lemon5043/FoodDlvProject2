@@ -25,31 +25,44 @@ namespace FoodDlvProject2.Controllers
             this.orderService = new OrderService(repo);
         }
 
-		//OrderMain
+		//OrderMain(未完成)
 		public async Task<IActionResult> OrderMain(string revenueRange, string exceptionOrderRange, string completedOrderRange)
 		{
 			var data = await orderService.OrderMain(revenueRange, exceptionOrderRange, completedOrderRange);
 			return View();
 		}
 
-
-
-		//GET: Orders
+		//OrderTracking
 		[HttpGet]
-        public async Task<IActionResult> Index(DateTime? dateStart, DateTime? dateEnd, string keyWord, int pageNumber = 1)
+        public async Task<IActionResult> OrderTracking(DateTime? dateStart, DateTime? dateEnd, 
+														string searchItem, string keyWord, 
+														int pageSize = 5 ,int pageNumber = 1)
         {
-			int pageSize = 5;
-			pageNumber = pageNumber > 0 ? pageNumber : 1;
+			
+			ViewBag.SearchItem = orderService.GetOrderTrackingSearchOptions(searchItem);
+			ViewBag.KeyWord = keyWord;
+			ViewBag.PageSize = pageSize;
 
-			var data = await orderService.SearchAsync(dateStart, dateEnd, keyWord);
-            var dataAsync = data.Select(x => x.ToOrderVM()).ToPagedList(pageNumber, pageSize);
+			var data = (await orderService.OrderTrackingAsync(dateStart, dateEnd, searchItem, keyWord, pageSize, pageNumber))
+				.Select(ot => ot.ToOrderTrackingVM());
 
-            return View(dataAsync);					
+            return View(data);					
 
 		}
 
+		//OrderTracking-OrderSchedule
+		public async Task<IActionResult> OrderSchedule(long id)
+		{
+			var data = (await orderService.OrderScheduleAsync(id))
+				.Select(os => os.ToOrderScheduleVM());
+
+			return View(data);
+		}
+
+
+
 		[HttpGet]
-		//GET: OrderDetails
+		//GET: OrderDetails(待修改)
 		public IActionResult DetailIndex(long Id)
 		{
 			var data = orderService.DetailSearch(Id)
@@ -59,7 +72,7 @@ namespace FoodDlvProject2.Controllers
 		}
 
 		[HttpGet]
-		//GET: OrderProducts
+		//GET: OrderProducts(待修改)
 		public IActionResult ProductDetails(long Id)
 		{
 			var data = orderService.ProductSearch(Id)
