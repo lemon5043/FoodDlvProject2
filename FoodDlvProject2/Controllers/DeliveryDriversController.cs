@@ -13,6 +13,7 @@ using FoodDlvProject2.Models.Services.Interfaces;
 using FoodDlvProject2.Models.Repositories;
 using System.Security.Cryptography.Xml;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace FoodDlvProject2.Controllers
 {
@@ -78,13 +79,14 @@ namespace FoodDlvProject2.Controllers
 
         // GET: DeliveryDrivers/Edit/5
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id,InputFileChangeEventArgs e)
         {
             var data = await deliveryDriverService.GetEditAsync(id);
             if (data == null) return NotFound();
             var selectList = await deliveryDriverService.GetListAsync();
             ViewData["AccountStatusId"] = new SelectList(selectList.Item1, "Id", "Status", data.AccountStatusId);
             ViewData["WorkStatuseId"] = new SelectList(selectList.Item2, "Id", "Status", data.WorkStatuseId);
+            // to do https://ithelp.ithome.com.tw/articles/10267909 圖片顯示可能的解答?
             return View(data.ToDeliveryDriversEditVM());
         }
 
