@@ -94,48 +94,51 @@
                                 <td>@Html.DisplayFor(modelItem => item.DeliveryFee)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Total)</td>
                                 <td>
-                                    <!--根據訂單狀態顯示相對應的badge顏色-->
+                                    <!--根據訂單狀態顯示相對應的button顏色-->
                                     @{
                                         string status = item.OrderStatus;
-                                        string badgeColor = "";
+                                        string btnColor = "";
                                         switch (status)
                                         {
                                             case "訂單建立":
-                                                badgeColor = "badge-primary";
+                                                btnColor = "btn-primary";
                                                 break;
                                             case "餐點準備中":
-                                                badgeColor = "badge-secondary";
+                                                btnColor = "btn-secondary";
                                                 break;
                                             case "餐點完成":
-                                                badgeColor = "badge-success";
+                                                btnColor = "btn-success";
                                                 break;
                                             case "配送中":
-                                                badgeColor = "badge-warning";
+                                                btnColor = "btn-warning";
                                                 break;
                                             case "配送到達":
-                                                badgeColor = "badge-danger";
+                                                btnColor = "btn-danger";
                                                 break;
                                             case "訂單完成":
-                                                badgeColor = "badge-info";
+                                                btnColor = "btn-info";
                                                 break;
                                         }
                                         //賦予訂單狀態button屬性與collapse功能
                                         //讓collapse帶入OrderId的值, 使其顯示相對應的OrderSchedule partial view
-                                        <a role="button"
-                                       class="badge rounded-pill @badgeColor OrderSchedule"
-                                       data-toggle="collapse"
-                                       data-target="#collapse-@item.Id"
-                                       data-orderId="@item.Id"
-                                       aria-expanded="false">
+                                            <button class="btn @btnColor" 
+                                            type="button" 
+                                            data-toggle="collapse" 
+                                            data-target="#collapse-@item.Id" 
+                                            aria-expanded="false" 
+                                            aria-controls="collapse-@item.Id" 
+                                            orderId="@item.Id" 
+                                            id="orderSchedule">
                                             @status
-                                        </a>
+                                            </button>
+                                       
                                     }
                                 </td>
                             </tr>
                             <tr>
                                 <!--顯示OrderSchedule partial view-->
                                 <td colspan="7">
-                                    <div id="collapse-@item.Id" class="collapse orderSchedulePartialView"></div>
+                                    <div id="collapse-@item.Id" class="collapse">partial view</div>
                                 </td>
                             </tr>
                         }
@@ -157,14 +160,15 @@
     <script>
         //呼叫Action OrderSchedule, 輸入id取得相對應的partial view
         //使用class選擇器選擇OrderSchedule,注入click事件
-        $(".OrderSchedule").on("click", function () {
-            let id = $(this).attr("data-orderId");
+        $("#orderSchedule").on("click", function () {
+            let id = $(this).attr("orderId");
             $.ajax({
                 type: "GET",
                 url: `https://localhost:7046/Orders/OrderSchedule?id=${id}`
             }).done(function (data) {
                 //把data(partial view)帶入class-orderSchedulePartialView
-                $(".orderSchedulePartialView").html(data);
+                console.log(data);
+                //$(".collapse").html(data);
 
             }).fail(function (error) {
                 alert(error.statusText)
