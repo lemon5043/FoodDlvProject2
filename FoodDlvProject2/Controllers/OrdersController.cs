@@ -53,10 +53,9 @@ namespace FoodDlvProject2.Controllers
 		//OrderTracking-OrderSchedule
 		public async Task<IActionResult> OrderSchedule(long id)
 		{
-			var data = (await orderService.OrderScheduleAsync(id))
-				.Select(os => os.ToOrderScheduleVM());
+			var data = (await orderService.OrderScheduleAsync(id));
 
-			return View(data);
+			return Json(data);
 		}
 
 
