@@ -79,7 +79,7 @@ namespace FoodDlvProject2.Controllers
 
         // GET: DeliveryDrivers/Edit/5
 
-        public async Task<IActionResult> Edit(int? id,InputFileChangeEventArgs e)
+        public async Task<IActionResult> Edit(int? id)
         {
             var data = await deliveryDriverService.GetEditAsync(id);
             if (data == null) return NotFound();
