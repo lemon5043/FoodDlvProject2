@@ -64,21 +64,21 @@
             </div>
             <div class="form-group">
                 <label asp-for="Idcard" class="control-label"></label>
-                <img src="~/img/DeliveyDriver/Idcard/@(Model.OriginIdcard)" alt="image" />
+                <img src="~/img/DeliveyDriver/Idcard/@ViewBag.Idcard" alt="image" />
                 <input type="file" asp-for="Idcard" class="form-control" />
                 @Html.ValidationMessageFor(model => model.Idcard, "", new { @class = "text-danger" })
                 <span asp-validation-for="Idcard" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="VehicleRegistration" class="control-label"></label>
-                <img src="~/img/DeliveyDriver/VehicleRegistration/@(Model.OriginVehicleRegistration)" alt="image" />
+                <img src="~/img/DeliveyDriver/VehicleRegistration/@ViewBag.VehicleRegistration" alt="image" />
                 <input type="file" asp-for="VehicleRegistration" class="form-control" />
                 @Html.ValidationMessageFor(model => model.VehicleRegistration, "", new { @class = "text-danger" })
                 <span asp-validation-for="VehicleRegistration" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DriverLicense" class="control-label"></label>
-                <img src="~/img/DeliveyDriver/DriverLicense/@(Model.OriginDriverLicense)" alt="image" />
+                <img src="~/img/DeliveyDriver/DriverLicense/@ViewBag.DriverLicense" alt="image" />
                 <input type="file" asp-for="DriverLicense" class="form-control" />
                 @Html.ValidationMessageFor(model => model.DriverLicense, "", new { @class = "text-danger" })
                 <span asp-validation-for="DriverLicense" class="text-danger"></span>

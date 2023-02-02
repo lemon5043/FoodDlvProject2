@@ -83,11 +83,14 @@ namespace FoodDlvProject2.Controllers
         {
             var data = await deliveryDriverService.GetEditAsync(id);
             if (data == null) return NotFound();
-            var selectList = await deliveryDriverService.GetListAsync();
-            ViewData["AccountStatusId"] = new SelectList(selectList.Item1, "Id", "Status", data.AccountStatusId);
-            ViewData["WorkStatuseId"] = new SelectList(selectList.Item2, "Id", "Status", data.WorkStatuseId);
-            // to do https://ithelp.ithome.com.tw/articles/10267909 圖片顯示可能的解答?
-            return View(data.ToDeliveryDriversEditVM());
+
+            await GetlistAsync(data.AccountStatusId, data.WorkStatuseId);
+
+            ViewBag.Idcard = data.Idcard;
+            ViewBag.DriverLicense = data.DriverLicense;
+            ViewBag.VehicleRegistration = data.VehicleRegistration;
+			// to do https://ithelp.ithome.com.tw/articles/10267909 圖片顯示可能的解答?
+			return View(data.ToDeliveryDriversEditVM());
         }
 
         // POST: DeliveryDrivers/Edit/5
@@ -110,21 +113,23 @@ namespace FoodDlvProject2.Controllers
                 {
                     TempData["ErrorMessage"] = ex.Message;
 
-                    var selectList1 = await deliveryDriverService.GetListAsync();
-                    ViewData["AccountStatusId"] = new SelectList(selectList1.Item1, "Id", "Status", deliveryDriver.AccountStatusId);
-                    ViewData["WorkStatuseId"] = new SelectList(selectList1.Item2, "Id", "Status", deliveryDriver.WorkStatuseId);
-
+					await GetlistAsync(deliveryDriver.AccountStatusId, deliveryDriver.WorkStatuseId);
+					
                     return View(deliveryDriver);
                 }
                 return RedirectToAction(nameof(Index));
             }
-            var selectList = await deliveryDriverService.GetListAsync();
-            ViewData["AccountStatusId"] = new SelectList(selectList.Item1, "Id", "Status", deliveryDriver.AccountStatusId);
-            ViewData["WorkStatuseId"] = new SelectList(selectList.Item2, "Id", "Status", deliveryDriver.WorkStatuseId);
 
-            return View(deliveryDriver);
-        }
+			await GetlistAsync(deliveryDriver.AccountStatusId, deliveryDriver.WorkStatuseId);
 
+			return View(deliveryDriver);
+        }       
+        private async Task GetlistAsync(int AccountStatusId,int WorkStatuseId)
+        {
+			var selectList = await deliveryDriverService.GetListAsync();
+			ViewData["AccountStatusId"] = new SelectList(selectList.Item1, "Id", "Status", AccountStatusId);
+			ViewData["WorkStatuseId"] = new SelectList(selectList.Item2, "Id", "Status", WorkStatuseId);
+		}
         //// GET: DeliveryDrivers/Delete/5
         //public async Task<IActionResult> Delete(int? id)
         //{
