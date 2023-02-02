@@ -39,7 +39,6 @@ namespace FoodDlvProject2.Models.ViewModels
         [ExtensionAttribute(".jpg",".png",".jepg",ErrorMessage = "{0}的格式必須為.jpg、.png或.jepg格式")]
         [Display(Name = "身分證")]
 		public IFormFile? Idcard { get; set; }
-        public string OriginIdcard { get; set; }
 
         [Required(ErrorMessage = "請輸入{0}")]
         [Display(Name = "生日")]
@@ -52,11 +51,9 @@ namespace FoodDlvProject2.Models.ViewModels
         
         [Display(Name = "行照")]		
 		public IFormFile? VehicleRegistration { get; set; }
-		public string OriginVehicleRegistration { get; set; }
 
         [Display(Name = "駕照")]
         public IFormFile? DriverLicense { get; set; }
-        public string OriginDriverLicense { get; set; }
     }
     public static class DeliveryDriversEditVMExts
 	{
@@ -74,9 +71,7 @@ namespace FoodDlvProject2.Models.ViewModels
                 BankAccount = source.BankAccount,
                 Birthday = source.Birthday,             
                 Email = source.Email,
-                OriginIdcard = source.Idcard,
-                OriginVehicleRegistration = source.VehicleRegistration,
-                OriginDriverLicense = source.DriverLicense,
+
             };
         }
         public static DeliveryDriverEditDTO ToDeliveryDriverEditDTO(this DeliveryDriversEditVM source)

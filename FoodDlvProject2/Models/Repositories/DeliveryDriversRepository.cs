@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NuGet.Versioning;
 using System.IO;
+using System.Web.Razor.Generator;
 
 namespace FoodDlvProject2.Models.Repositories
 {
@@ -171,7 +172,7 @@ namespace FoodDlvProject2.Models.Repositories
             {
                 string extension = Path.GetExtension(file.FileName);
                 string newFileName = id.ToString() + extension;
-                string filePath = Path.GetFullPath($"D:\\VS2022\\source\\repos\\Vailllanti\\FoodDlvProject2\\FoodDlvProject2\\wwwroot\\img\\DeliveyDriver\\{folder}");
+                string filePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/img/DeliveyDriver",folder));
                 string path = Path.Combine(filePath, newFileName);
                 using var fileStream = new FileStream(path, FileMode.Create);
                 await file.CopyToAsync(fileStream);
@@ -179,5 +180,6 @@ namespace FoodDlvProject2.Models.Repositories
             }
             return null;
         }
+		
     }
 }
