@@ -1,18 +1,4 @@
-﻿/** {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: sans-serif;
-}
-
-body {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: whitesmoke;
-}*/
-
+﻿
 .container {
     display: flex;
     flex-direction: column;
@@ -42,7 +28,7 @@ body {
     border-radius: 50%;
     background: whitesmoke;
     border: 4px solid gainsboro;
-    z-index: 3;
+    z-index: 2;
 }
 
 /*藉由控制class active來顯示狀態點是否被選取*/
@@ -57,7 +43,7 @@ body {
     width: 100%;
     background: gainsboro;
     /*控制進度條於狀態點上層或下層*/
-    z-index: 2;
+    z-index: 1;
 }
 
 .progress-bar .indicator {

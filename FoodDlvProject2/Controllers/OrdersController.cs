@@ -51,6 +51,7 @@ namespace FoodDlvProject2.Controllers
 		}
 
 		//OrderTracking-OrderSchedule
+		[HttpGet]
 		public async Task<IActionResult> OrderSchedule(long id)
 		{
 			var data = (await orderService.OrderScheduleAsync(id));
@@ -61,27 +62,24 @@ namespace FoodDlvProject2.Controllers
 
 
 		[HttpGet]
-		//GET: OrderDetails(待修改)
-		public IActionResult DetailIndex(long Id)
+		//OrderTracking-OrderDetail
+		public async Task<IActionResult> OrderDetail(long id)
 		{
-			var data = orderService.DetailSearch(Id)
+			var data = (await orderService.OrderDetailAsync(id))
 				.Select(x => x.ToOrderDetailVM());
 
 			return View(data);
 		}
 
 		[HttpGet]
-		//GET: OrderProducts(待修改)
-		public IActionResult ProductDetails(long Id)
+		//OrderTracking-OrderDetail-OrderProductDetail
+		public async Task<IActionResult> OrderProductDetail(long productId)
 		{
-			var data = orderService.ProductSearch(Id)
+			var data =(await orderService.OrderProductDetailAsync(productId))
 				.Select(x => x.ToOrderProductVM()).FirstOrDefault();
 						
 			return View(data);
-		}			
-
-		
-
+		}				
 	}
 }
 

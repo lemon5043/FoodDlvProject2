@@ -23,7 +23,7 @@ namespace FoodDlvProject2.Models.Services
 			var data = _repository.GetOrderMain(revenueRange, exceptionOrderRange, completedOrderRange);
 			return null;
 		}
-
+				
 		public async Task<IPagedList<OrderTrackingDto>> OrderTrackingAsync(DateTime? dateStart, DateTime? dateEnd,
 																		   string searchItem, string keyWord,
 																		   int pageSize, int pageNumber)
@@ -59,14 +59,16 @@ namespace FoodDlvProject2.Models.Services
 			return await data;
 		}
 
-		public IEnumerable<OrderDetailDto> DetailSearch(long orderId)
+		public async Task<IEnumerable<OrderDetailDto>> OrderDetailAsync(long id)
 		{
-			return _repository.DetailSearch(orderId);
+			var data = _repository.GetOrderDetailAsync(id);
+			return await data;
 		}
 
-		public IEnumerable<OrderProductDto> ProductSearch(long productId)
+		public async Task<IEnumerable<OrderProductDetailDto>> OrderProductDetailAsync(long productId)
 		{
-			return _repository.ProductSearch(productId);
+			var data = _repository.GetOrderProductDetailAsync(productId);
+			return await data;
 		}
 
 		//把orderSchedule每一筆資料取出, 放到新的List<OrderScheduleDto>,

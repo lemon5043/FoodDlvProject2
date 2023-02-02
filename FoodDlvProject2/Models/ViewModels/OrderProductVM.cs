@@ -26,7 +26,7 @@ namespace FoodDlvProject2.Models.ViewModels
 
 	public static partial class OrderProductDtoExts
 	{
-		public static OrderProductVM ToOrderProductVM(this OrderProductDto source)
+		public static OrderProductVM ToOrderProductVM(this OrderProductDetailDto source)
 		{
 			return new OrderProductVM
 			{

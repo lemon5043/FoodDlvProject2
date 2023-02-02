@@ -17,7 +17,7 @@ namespace FoodDlvProject2.Models.Services.Interfaces
 		Task<OrderMainDto> GetOrderMain(string revenueRange, string exceptionOrderRange, string completedOrderRange);
 
 		/// <summary>
-		/// 獲取OrderTracking資訊
+		/// 獲取OrderTracking訂單查詢資訊
 		/// </summary>
 		/// <param name="dateStart">搜尋條件:起始時間</param>
 		/// <param name="dateEnd">搜尋條件:結束時間</param>
@@ -37,20 +37,18 @@ namespace FoodDlvProject2.Models.Services.Interfaces
 		/// <returns></returns>
 		Task<IEnumerable<OrderScheduleDto>> GetOrderScheduleAsync(long id);
 
-
+		/// <summary>
+		/// 獲取OrderDetail訂單明細資訊
+		/// </summary>
+		/// <param name="id">搜尋條件:訂單id</param>
+		/// <returns></returns>
+		Task<IEnumerable<OrderDetailDto>> GetOrderDetailAsync(long id);
 
 		/// <summary>
-		/// 查詢訂單明細
+		/// 獲取OrderProductDetail訂單產品資訊
 		/// </summary>
-		/// <param name="orderId"></param>
+		/// <param name="productId">搜尋條件:產品id</param>
 		/// <returns></returns>
-		IEnumerable<OrderDetailDto> DetailSearch(long orderId);
-
-		/// <summary>
-		/// 查詢商品資料
-		/// </summary>
-		/// <param name="productId"></param>
-		/// <returns></returns>
-		IEnumerable<OrderProductDto> ProductSearch(long productId);
+		Task<IEnumerable<OrderProductDetailDto>> GetOrderProductDetailAsync(long productId);
 	}
 }

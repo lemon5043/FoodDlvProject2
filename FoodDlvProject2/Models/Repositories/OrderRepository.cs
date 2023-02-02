@@ -5,6 +5,7 @@ using FoodDlvProject2.Models.ViewModels;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.VisualBasic;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
@@ -87,7 +88,7 @@ namespace FoodDlvProject2.Models.Repositories
 				OrderStatus = o.OrderSchedules.OrderBy(os => os.StatusId).LastOrDefault().Status.Status,
 			});
 
-			return await data.ToPagedListAsync(pageNumber, pageSize);				
+			return await data.ToPagedListAsync(pageNumber, pageSize);
 		}
 
 		//計算單筆訂單明細
@@ -99,16 +100,16 @@ namespace FoodDlvProject2.Models.Repositories
 				.Sum();
 		}
 
-		
+
 		public async Task<IEnumerable<OrderScheduleDto>> GetOrderScheduleAsync(long id)
 		{
-			var data = _context.OrderSchedules				
+			var data = _context.OrderSchedules
 				.Include(os => os.Status)
 				.Include(os => os.Order)
 				.ThenInclude(o => o.Store)
 				.Include(os => os.Order)
 				.ThenInclude(o => o.DeliveryDrivers)
-				.Where(os => os.OrderId == id)				
+				.Where(os => os.OrderId == id)
 				.Select(os => new OrderScheduleDto
 				{
 					StoreId = os.Order.StoreId,
@@ -126,11 +127,11 @@ namespace FoodDlvProject2.Models.Repositories
 		}
 
 
-		public IEnumerable<OrderDetailDto> DetailSearch(long orderId)
+		public async Task<IEnumerable<OrderDetailDto>> GetOrderDetailAsync(long id)
 		{
-			IEnumerable<OrderDetailDto> query = _context.OrderDetails
+			var data = _context.OrderDetails
 				.Include(od => od.Product)
-				.Where(od => od.OrderId == orderId)
+				.Where(od => od.OrderId == id)
 				.Select(od => new OrderDetailDto
 				{
 					Id = od.Id,
@@ -139,18 +140,18 @@ namespace FoodDlvProject2.Models.Repositories
 					ProductName = od.Product.ProductName,
 					UnitPrice = od.UnitPrice,
 					Count = od.Count,
-					SubTotal = OrderDetailClac(orderId)
+					SubTotal = OrderDetailClac(id)
 				});
 
-			return query;
+			return await data.ToListAsync();
 		}
 
-		public IEnumerable<OrderProductDto> ProductSearch(long productId)
+		public async Task<IEnumerable<OrderProductDetailDto>> GetOrderProductDetailAsync(long productId)
 		{
-			IEnumerable<OrderProductDto> query = _context.Products
+			var data = _context.Products
 				.Include(p => p.Store)
 				.Where(p => p.Id == productId)
-				.Select(p => new OrderProductDto
+				.Select(p => new OrderProductDetailDto
 				{
 					Id = p.Id,
 					StoreId = p.StoreId,
@@ -161,7 +162,7 @@ namespace FoodDlvProject2.Models.Repositories
 					ProductContent = p.ProductContent,
 				});
 
-			return query;
+			return await data.ToListAsync();
 		}
 	}
 }

@@ -122,8 +122,8 @@
 												btnColor = "btn-info";
 												break;
 										}
-												//賦予訂單狀態button屬性與collapse功能
-												//讓collapse帶入OrderId的值, 使其顯示相對應的OrderSchedule partial view
+										//賦予訂單狀態button屬性與collapse功能
+										//讓collapse帶入OrderId的值, 使其顯示相對應的OrderSchedule partial view
 										<button class="btn @btnColor status"
 											type="button"
 											data-toggle="collapse"
@@ -133,7 +133,6 @@
 											orderId="@item.Id">
 											@status
 										</button>
-
 									}
 								</td>
 							</tr>
@@ -141,30 +140,31 @@
 								<!--顯示OrderSchedule partial view-->
 								<td colspan="7">
 									<div id="collapse-@item.Id" class="collapse container">
+										<div class="scheduleInfo"></div>
 										<div class="steps">
 											<div>
 												<div class="schedule active">1</div>
-												<div class="statusData" id="status1"></div>
+												<div id="status1"></div>
 											</div>
 											<div>
 												<div class="schedule">2</div>
-												<div class="statusData" id="status2"></div>
+												<div id="status2"></div>
 											</div>
 											<div>
 												<div class="schedule">3</div>
-												<div class="statusData" id="status3"></div>
+												<div id="status3"></div>
 											</div>
 											<div>
 												<div class="schedule">4</div>
-												<div class="statusData"id="status4"></div>
+												<div id="status4"></div>
 											</div>
 											<div>
 												<div class="schedule">5</div>
-												<div class="statusData" id="status5"></div>
+												<div id="status5"></div>
 											</div>
 											<div>
 												<div class="schedule">6</div>
-												<div class="statusData" id="status6"></div>
+												<div id="status6"></div>
 											</div>
 											<div class="progress-bar">
 												<span class="indicator"></span>
@@ -190,31 +190,38 @@
 
 @section scripts {
 	<script>
+		//Fields
+		let scheduleData;
+		
 		//呼叫Action OrderSchedule, 輸入id取得相對應的json
-		//使用class選擇器選擇status, 注入click事件
+		//使用class選擇器選擇.status, 注入click事件, 資料來源使用id控制
 		$(".status").on("click", function () {
 			let id = $(this).attr("orderId");
 			$.ajax({
 				type: "GET",
 				url: `https://localhost:7046/Orders/OrderSchedule?id=${id}`
 			}).done(function (data) {
-				for(let i=0; i<data.length; i++){
-					let htmlstring = ``;
-					let statusData = document.querySelector(`#status${i + 1}`);
-					console.log(data[i].scheduleStatus.status);
-					let template =
-					`
-						<div>${data[i].scheduleStatus.status}</div>
-						<div>${data[i].scheduleStatus.markTime}</div>
-					`;
-					htmlstring += template;
-					statusData.innerHTML = htmlstring;
-				}
-				//$(".container").html(data);
+				scheduleData = data;
+				setScheduleData(id);
 			}).fail(function (error) {
 				alert(error.statusText)
-			})
-		})
+			});
+		});
+		
+		//function:把json資料呈現在html
+		function setScheduleData(id){
+			let htmlstring = "";
+			for (let i = 0; i < scheduleData.length; i++) {
+				let statusData = document.querySelector(`#collapse-${id} #status${i + 1}`);					
+				let template =
+					`
+						<div>${scheduleData[i].scheduleStatus.status}</div>
+						<div>${scheduleData[i].scheduleStatus.markTime}</div>
+					`;
+				htmlstring = template;
+				statusData.innerHTML = htmlstring;
+			}					
+		}				
 	</script>
 }
 
