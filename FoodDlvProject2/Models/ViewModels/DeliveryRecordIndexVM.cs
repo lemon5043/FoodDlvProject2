@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.DTOs;
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace FoodDlvProject2.Models.ViewModels
@@ -18,4 +20,20 @@ namespace FoodDlvProject2.Models.ViewModels
 
 		public int DeliveryDriversId { get; set; }
 	}
+
+    public static partial class DeliveryRecordDTOExts
+    {
+        public static DeliveryRecordIndexVM ToDeliveryRecordIndexVM(this DeliveryRecordDTO source)
+        {
+            return new DeliveryRecordIndexVM
+            {
+                Id = source.Id,               
+				OrderDate= source.OrderDate,
+				Milage= source.Milage,
+				Status= source.Status,
+                DriverName = source.DriverName,
+                DeliveryDriversId = source.DeliveryDriversId,
+            };
+        }
+    }
 }

@@ -172,7 +172,7 @@ namespace FoodDlvProject2.Models.Repositories
             {
                 string extension = Path.GetExtension(file.FileName);
                 string newFileName = id.ToString() + extension;
-                string filePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/img/DeliveyDriver",folder));
+                string filePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/DeliveyDriver", folder));
                 string path = Path.Combine(filePath, newFileName);
                 using var fileStream = new FileStream(path, FileMode.Create);
                 await file.CopyToAsync(fileStream);
@@ -180,6 +180,6 @@ namespace FoodDlvProject2.Models.Repositories
             }
             return null;
         }
-		
+
     }
 }
