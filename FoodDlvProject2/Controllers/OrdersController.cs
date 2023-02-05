@@ -39,14 +39,14 @@ namespace FoodDlvProject2.Controllers
 														int pageSize = 5 ,int pageNumber = 1)
         {
 			
-			ViewBag.SearchItem = orderService.GetOrderTrackingSearchOptions(searchItem);
+			ViewBag.SearchItem = await orderService.GetOrderTrackingSearchOptions(searchItem);
 			ViewBag.KeyWord = keyWord;
 			ViewBag.PageSize = pageSize;
 
-			var data = (await orderService.OrderTrackingAsync(dateStart, dateEnd, searchItem, keyWord, pageSize, pageNumber))
-				.Select(ot => ot.ToOrderTrackingVM());
+			var dataAsync = await orderService.OrderTrackingAsync(dateStart, dateEnd, searchItem, keyWord, pageSize, pageNumber);
+			var data = dataAsync.Select(ot => ot.ToOrderTrackingVM());
 
-            return View(data);					
+            return View(data);		
 
 		}
 

@@ -35,7 +35,7 @@ namespace FoodDlvProject2.Models.Services
 		}
 
 		
-		public IEnumerable<SelectListItem> GetOrderTrackingSearchOptions(string searchItem)
+		public async Task<IEnumerable<SelectListItem>> GetOrderTrackingSearchOptions(string searchItem)
 		{
 			var searchOption = new List<SelectListItem>
 			{
@@ -50,9 +50,11 @@ namespace FoodDlvProject2.Models.Services
 				var selectItem = searchOption.SingleOrDefault(sli => sli.Value == searchItem);
 				if(selectItem != null) selectItem.Selected = true;
 			}
+
+			await Task.CompletedTask;
 			return searchOption;
 		}
-
+			
 		public async Task<IEnumerable<OrderScheduleDto>> OrderScheduleAsync(long id)
 		{
 			var data = _repository.GetOrderScheduleAsync(id);

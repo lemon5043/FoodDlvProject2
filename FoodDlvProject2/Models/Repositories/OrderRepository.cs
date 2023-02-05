@@ -3,13 +3,16 @@ using FoodDlvProject2.Models.DTOs;
 using FoodDlvProject2.Models.Services.Interfaces;
 using FoodDlvProject2.Models.ViewModels;
 using Microsoft.CodeAnalysis;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.VisualBasic;
+using NuGet.Protocol;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using X.PagedList;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FoodDlvProject2.Models.Repositories
 {
@@ -33,10 +36,11 @@ namespace FoodDlvProject2.Models.Repositories
 		{
 			//連線到資料庫選取資料範圍
 			IEnumerable<Order> query = _context.Orders
+				.Include(o => o.OrderDetails)
 				.Include(o => o.Member)
 				.Include(o => o.Store)
 				.Include(o => o.OrderSchedules)
-				.ThenInclude(os => os.Status);
+				.ThenInclude(os => os.Status);				
 
 			//日期範圍搜尋
 			if (dateStart.HasValue)
@@ -84,7 +88,7 @@ namespace FoodDlvProject2.Models.Repositories
 				StoreName = o.Store.StoreName,
 				OrderTime = o.OrderSchedules.FirstOrDefault(os => os.StatusId == 1).MarkTime,
 				DeliveryFee = o.DeliveryFee,
-				Total = OrderDetailClac(o.Id) + o.DeliveryFee,
+				Total = o.OrderDetails.Sum(od => od.Count * od.UnitPrice) + o.DeliveryFee,
 				OrderStatus = o.OrderSchedules.OrderBy(os => os.StatusId).LastOrDefault().Status.Status,
 			});
 
@@ -92,13 +96,15 @@ namespace FoodDlvProject2.Models.Repositories
 		}
 
 		//計算單筆訂單明細
-		private int OrderDetailClac(long id)
-		{
-			return _context.OrderDetails
-				.Where(od => od.OrderId == id)
-				.Select(od => od.UnitPrice * od.Count)
-				.Sum();
-		}
+		//private int OrderDetailClac(long id)
+		//{
+		//	var data = _context.OrderDetail
+		//	.Where(od => od.OrderId == id)
+		//	.Select(od => od.UnitPrice * od.Count)
+		//	.Sum();
+
+		//	return data;
+		//}
 
 
 		public async Task<IEnumerable<OrderScheduleDto>> GetOrderScheduleAsync(long id)
@@ -140,7 +146,7 @@ namespace FoodDlvProject2.Models.Repositories
 					ProductName = od.Product.ProductName,
 					UnitPrice = od.UnitPrice,
 					Count = od.Count,
-					SubTotal = OrderDetailClac(id)
+					SubTotal = od.UnitPrice * od.Count,
 				});
 
 			return await data.ToListAsync();
