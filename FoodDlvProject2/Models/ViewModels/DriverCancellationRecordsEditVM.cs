@@ -1,4 +1,5 @@
 ﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.DTOs;
 using FoodDlvProject2.Models.Infrastructures.ExtensionMethods;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,14 +24,27 @@ namespace FoodDlvProject2.Models.ViewModels
 
     public static class DriverCancellationRecordsEditVMExts
     {
-        public static DriverCancellationRecord ToEFModels(this DriverCancellationRecordsEditVM source)
+        public static DriverCancellationRecordDTO ToDriverCancellationRecordDTO(this DriverCancellationRecordsEditVM source)
         {
-            return new DriverCancellationRecord
-            {
+            return new DriverCancellationRecordDTO
+			{
                 Id = source.Id,
                 CancellationId = source.CancellationId,
                 CancellationDate = source.CancellationDate,
             };
         }
-    }
+
+		public static DriverCancellationRecordsEditVM ToDriverCancellationRecordsEditVM(this DriverCancellationRecordDTO source)
+		{
+			return new DriverCancellationRecordsEditVM
+			{
+				Id = source.Id,
+				OrderId = source.OrderId,
+				DriverId = source.DriverId,
+				DriverName = source.DriverName,
+                CancellationId= source.CancellationId,
+				CancellationDate = source.CancellationDate,
+			};
+		}
+	}
 }

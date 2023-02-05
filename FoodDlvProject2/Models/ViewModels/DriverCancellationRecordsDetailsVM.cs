@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FoodDlvProject2.Models.DTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-    class DriverCancellationRecordsDetailsVM
+    public class DriverCancellationRecordsDetailsVM
     {
         public int Id { get; set; }
         [Display(Name = "訂單編號")]
@@ -18,4 +19,21 @@ namespace FoodDlvProject2.Models.ViewModels
         [Display(Name = "取消日期")]
         public DateTime CancellationDate { get; set; }
     }
+
+	public static class DriverCancellationRecordsDetailsVMExts
+	{
+		public static DriverCancellationRecordsDetailsVM ToDeliveryViolationRecordsIndexVM(this DriverCancellationRecordDTO source)
+		{
+			return new DriverCancellationRecordsDetailsVM
+			{
+				Id = source.Id,
+				OrderId = source.OrderId,
+				DriverId = source.DriverId,
+				DriverName = source.DriverName,
+				Reason = source.Reason,
+                Context= source.Context,
+				CancellationDate = source.CancellationDate,
+			};
+		}
+	}
 }
