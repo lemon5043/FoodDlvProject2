@@ -23,15 +23,27 @@ namespace FoodDlvProject2.Models.ViewModels
     }
     public static class DeliveryViolationRecordEditVMExts
     {
-        public static DeliveryViolationRecord ToEFModels(this DeliveryViolationRecordEditVM source)
+        public static DeliveryViolationRecordEditVM ToDeliveryViolationRecordEditVM(this DeliveryViolationRecordDTO source)
         {
-            return new DeliveryViolationRecord
+            return new DeliveryViolationRecordEditVM
+            {
+                Id = source.Id,
+                OrderId=source.OrderId,
+                DriverId=source.DeliveryDriversId,
+                ViolationId = source.ViolationId,
+                DriverName =source.DriverName,
+                ViolationDate = source.ViolationDate,
+            };
+        }
+
+        public static DeliveryViolationRecordDTO ToDeliveryViolationRecordDTO(this DeliveryViolationRecordEditVM source)
+        {
+            return new DeliveryViolationRecordDTO
             {
                 Id=source.Id,
 				ViolationId=source.ViolationId,
 				ViolationDate=source.ViolationDate,
 			};
 		}
-
 	}
 }

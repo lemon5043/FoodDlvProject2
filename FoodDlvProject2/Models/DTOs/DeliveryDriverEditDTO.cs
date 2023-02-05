@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Query;
+﻿using FoodDlvProject2.EFModels;
+using Microsoft.EntityFrameworkCore.Query;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FoodDlvProject2.Models.DTOs
 {
-    
+
     public class DeliveryDriverEditDTO
     {
         public int Id { get; set; }
@@ -23,4 +24,24 @@ namespace FoodDlvProject2.Models.DTOs
         [NotMapped]
         public IFormFile DriverLicense { get; set; }
     }
+    public static class DeliveryDriverEditDTOExts
+    {
+        public static DeliveryDriver ToEFModle(this DeliveryDriverEditDTO model)
+        {
+            return new DeliveryDriver
+            {
+                Id = model.Id,
+                AccountStatusId = model.AccountStatusId,
+                WorkStatuseId = model.WorkStatuseId,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Phone = model.Phone,
+                Gender = model.Gender,
+                BankAccount = model.BankAccount,
+                Birthday = model.Birthday,
+                Email = model.Email,
+            };
+        }
+    }
+
 }

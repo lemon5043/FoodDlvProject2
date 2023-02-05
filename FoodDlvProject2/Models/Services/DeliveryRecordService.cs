@@ -1,11 +1,10 @@
 ﻿using FoodDlvProject2.EFModels;
 using FoodDlvProject2.Models.DTOs;
-using FoodDlvProject2.Models.Repositories;
 using FoodDlvProject2.Models.Services.Interfaces;
 
 namespace FoodDlvProject2.Models.Services
 {
-	public class DeliveryRecordService
+    public class DeliveryRecordService
 	{
 		private readonly IDeliveryRecordsRepository _repository;
 

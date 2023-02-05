@@ -100,7 +100,7 @@ namespace FoodDlvProject2.Models.Repositories
             try
             {
                 //db.Update(model);
-                var EFModel = ToEFModle(model);
+                var EFModel = model.ToEFModle();
                 List<string> updateModel = new List<string> { "LastName", "FirstName", "Gender", "Birthday", "Phone", "Email",
                     "BankAccount", "AccountStatusId","WorkStatuseId"};
 
@@ -133,6 +133,7 @@ namespace FoodDlvProject2.Models.Repositories
             {
                 if (!DeliveryDriverExists(model.Id)) throw new Exception("在更新資料時發生衝突。這可能是因為其他使用者已經更新了相同的資料，請重新載入頁面後再進行修改。");
             }
+
             return "修改成功";
         }
 
@@ -147,23 +148,6 @@ namespace FoodDlvProject2.Models.Repositories
             var query = await db.AccountStatues.Select(x => x.ToEntity()).ToListAsync();
             var query2 = await db.DeliveryDriverWorkStatuses.Select(x => x.ToEntity()).ToListAsync();
             return (query, query2);
-        }
-
-        public DeliveryDriver ToEFModle(DeliveryDriverEditDTO model)
-        {
-            return new DeliveryDriver
-            {
-                Id = model.Id,
-                AccountStatusId = model.AccountStatusId,
-                WorkStatuseId = model.WorkStatuseId,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Phone = model.Phone,
-                Gender = model.Gender,
-                BankAccount = model.BankAccount,
-                Birthday = model.Birthday,
-                Email = model.Email,
-            };
         }
 
         public async Task<string?> UploadFile(IFormFile file, string folder, int id)

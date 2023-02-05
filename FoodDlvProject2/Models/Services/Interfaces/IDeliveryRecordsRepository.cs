@@ -1,6 +1,6 @@
 ﻿using FoodDlvProject2.Models.DTOs;
 
-namespace FoodDlvProject2.Models.Repositories
+namespace FoodDlvProject2.Models.Services.Interfaces
 {
     public interface IDeliveryRecordsRepository
     {

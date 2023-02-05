@@ -10,7 +10,7 @@ using NuGet.Versioning;
 
 namespace FoodDlvProject2.Controllers
 {
-	public class DeliveryRecordsController : Controller
+    public class DeliveryRecordsController : Controller
 	{
         private readonly DeliveryRecordService deliveryRecordService;
 

@@ -1,4 +1,4 @@
-﻿@model FoodDlvProject2.Models.ViewModels.DeliveryViolationRecordVM
+﻿@model FoodDlvProject2.Models.ViewModels.DeliveryViolationRecordDeleteVM
 
 @{
     ViewData["Title"] = "Delete";
@@ -11,28 +11,34 @@
 
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OrderId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OrderId)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DriverId)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DriverId)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DriverName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DriverName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Violation)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ViolationContent)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Violation)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ViolationContent)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Content)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Content)
         </dd>
         <dt class="col-sm-2">
@@ -42,7 +48,7 @@
             @Html.DisplayFor(model => model.ViolationDate)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

@@ -127,8 +127,8 @@ namespace FoodDlvProject2.Controllers
         private async Task GetlistAsync(int AccountStatusId,int WorkStatuseId)
         {
 			var selectList = await deliveryDriverService.GetListAsync();
-			ViewData["AccountStatusId"] = new SelectList(selectList.Item1, "Id", "Status", AccountStatusId);
-			ViewData["WorkStatuseId"] = new SelectList(selectList.Item2, "Id", "Status", WorkStatuseId);
+			ViewData["AccountStatusId"] = new SelectList(selectList.Item1.Select(x=>x.ToAccountStatuesVM()), "Id", "Status", AccountStatusId);
+			ViewData["WorkStatuseId"] = new SelectList(selectList.Item2.Select(x=>x.ToDeliveryDriverWorkStatusVM()), "Id", "Status", WorkStatuseId);
 		}
         //// GET: DeliveryDrivers/Delete/5
         //public async Task<IActionResult> Delete(int? id)
