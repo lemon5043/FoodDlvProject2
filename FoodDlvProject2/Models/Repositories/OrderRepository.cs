@@ -35,53 +35,8 @@ namespace FoodDlvProject2.Models.Repositories
 															int pageSize, int pageNumber)
 		{
 			//連線到資料庫選取資料範圍
-			IEnumerable<Order> query = _context.Orders
-				.Include(o => o.OrderDetails)
-				.Include(o => o.Member)
-				.Include(o => o.Store)
-				.Include(o => o.OrderSchedules)
-				.ThenInclude(os => os.Status);				
-
-			//日期範圍搜尋
-			if (dateStart.HasValue)
-			{
-				query = query.Where(o => o.OrderSchedules.Any(os => os.MarkTime >= dateStart));
-			}
-			if (dateEnd.HasValue)
-			{
-				query = query.Where(o => o.OrderSchedules.Any(os => os.MarkTime <= dateEnd));
-			}
-
-			//關鍵字搜尋          
-			if (string.IsNullOrEmpty(keyWord) == false)
-			{
-				switch (searchItem)
-				{
-					case "0":
-						query = query.Where(o => o.Id.ToString().Contains(keyWord)
-										|| (o.Member.LastName + o.Member.FirstName).Contains(keyWord)
-										|| o.Store.StoreName.Contains(keyWord));
-						break;
-
-					case "Id":
-						query = query.Where(o => o.Id.ToString().Contains(keyWord));
-						break;
-
-					case "MemberName":
-						query = query.Where(o => (o.Member.LastName + o.Member.FirstName).Contains(keyWord));
-						break;
-
-					case "StoreName":
-						query = query.Where(o => o.Store.StoreName.Contains(keyWord));
-						break;
-				}
-			}
-
-			//分頁處理
-			pageNumber = pageNumber > 0 ? pageNumber : 1;
-
-			//把搜尋結果轉換成Dto格式
-			var data = query.Select(o => new OrderTrackingDto
+			var query = _context.Orders
+				.Select(o => new OrderTrackingDto
 			{
 				Id = o.Id,
 				MemberName = o.Member.LastName + o.Member.FirstName,
@@ -92,30 +47,63 @@ namespace FoodDlvProject2.Models.Repositories
 				OrderStatus = o.OrderSchedules.OrderBy(os => os.StatusId).LastOrDefault().Status.Status,
 			});
 
-			return await data.ToPagedListAsync(pageNumber, pageSize);
-		}
+			//日期範圍搜尋
+			if (dateStart.HasValue)
+			{
+				query = query.Where(OTD => OTD.OrderTime >= dateStart);
+			}
+			if (dateEnd.HasValue)
+			{
+				query = query.Where(OTD => OTD.OrderTime <= dateEnd);
+			}
 
-		//計算單筆訂單明細
-		//private int OrderDetailClac(long id)
-		//{
-		//	var data = _context.OrderDetail
-		//	.Where(od => od.OrderId == id)
-		//	.Select(od => od.UnitPrice * od.Count)
-		//	.Sum();
+			//關鍵字搜尋          
+			if (string.IsNullOrEmpty(keyWord) == false)
+			{
+				switch (searchItem)
+				{
+					case "0":
+						query = query.Where(OTD => OTD.Id.ToString().Contains(keyWord)
+										|| (OTD.MemberName).Contains(keyWord)
+										|| OTD.StoreName.Contains(keyWord));
+						break;
 
-		//	return data;
-		//}
+					case "Id":
+						query = query.Where(OTD => OTD.Id.ToString().Contains(keyWord));
+						break;
 
+					case "MemberName":
+						query = query.Where(OTD => (OTD.MemberName).Contains(keyWord));
+						break;
+
+					case "StoreName":
+						query = query.Where(OTD => OTD.StoreName.Contains(keyWord));
+						break;
+				}
+			}
+
+			//分頁處理
+			pageNumber = pageNumber > 0 ? pageNumber : 1;
+
+			//把搜尋結果轉換成Dto格式
+			//var data = query.Select(o => new OrderTrackingDto
+			//{
+			//	Id = o.Id,
+			//	MemberName = o.Member.LastName + o.Member.FirstName,
+			//	StoreName = o.Store.StoreName,
+			//	OrderTime = o.OrderSchedules.FirstOrDefault(os => os.StatusId == 1).MarkTime,
+			//	DeliveryFee = o.DeliveryFee,
+			//	Total = o.OrderDetails.Sum(od => od.Count * od.UnitPrice) + o.DeliveryFee,
+			//	OrderStatus = o.OrderSchedules.OrderBy(os => os.StatusId).LastOrDefault().Status.Status,
+			//});
+
+			return await query.ToPagedListAsync(pageNumber, pageSize);
+		}		
 
 		public async Task<IEnumerable<OrderScheduleDto>> GetOrderScheduleAsync(long id)
 		{
 			var data = _context.OrderSchedules
-				.Include(os => os.Status)
-				.Include(os => os.Order)
-				.ThenInclude(o => o.Store)
-				.Include(os => os.Order)
-				.ThenInclude(o => o.DeliveryDrivers)
-				.Where(os => os.OrderId == id)
+				.Where(o => o.OrderId == id)
 				.Select(os => new OrderScheduleDto
 				{
 					StoreId = os.Order.StoreId,
@@ -136,8 +124,7 @@ namespace FoodDlvProject2.Models.Repositories
 		public async Task<IEnumerable<OrderDetailDto>> GetOrderDetailAsync(long id)
 		{
 			var data = _context.OrderDetails
-				.Include(od => od.Product)
-				.Where(od => od.OrderId == id)
+				.Where(o => o.OrderId == id)
 				.Select(od => new OrderDetailDto
 				{
 					Id = od.Id,
@@ -155,7 +142,6 @@ namespace FoodDlvProject2.Models.Repositories
 		public async Task<IEnumerable<OrderProductDetailDto>> GetOrderProductDetailAsync(long productId)
 		{
 			var data = _context.Products
-				.Include(p => p.Store)
 				.Where(p => p.Id == productId)
 				.Select(p => new OrderProductDetailDto
 				{
