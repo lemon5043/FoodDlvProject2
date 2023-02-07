@@ -64,22 +64,28 @@
             </div>
             <div class="form-group">
                 <label asp-for="Idcard" class="control-label"></label>
-                <img src="~/img/DeliveyDriver/Idcard/@ViewBag.Idcard" alt="image" />
-                <input type="file" asp-for="Idcard" class="form-control" />
+                <div id="IdcardfileContent">
+                    <img src="~/img/DeliveyDriver/Idcard/@ViewBag.Idcard" alt="image" />
+                </div>
+                <input type="file" asp-for="Idcard" accept="image/*" class="form-control" id="IdcardfileInput" />
                 @Html.ValidationMessageFor(model => model.Idcard, "", new { @class = "text-danger" })
                 <span asp-validation-for="Idcard" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="VehicleRegistration" class="control-label"></label>
-                <img src="~/img/DeliveyDriver/VehicleRegistration/@ViewBag.VehicleRegistration" alt="image" />
-                <input type="file" asp-for="VehicleRegistration" class="form-control" />
+                <div id="fileContent">
+                    <img src="~/img/DeliveyDriver/VehicleRegistration/@ViewBag.VehicleRegistration" alt="image" />
+                </div>                
+                <input type="file" asp-for="VehicleRegistration" accept="image/*" class="form-control" />
                 @Html.ValidationMessageFor(model => model.VehicleRegistration, "", new { @class = "text-danger" })
                 <span asp-validation-for="VehicleRegistration" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DriverLicense" class="control-label"></label>
-                <img src="~/img/DeliveyDriver/DriverLicense/@ViewBag.DriverLicense" alt="image" />
-                <input type="file" asp-for="DriverLicense" class="form-control" />
+                <div id="fileContent">
+                    <img src="~/img/DeliveyDriver/DriverLicense/@ViewBag.DriverLicense" alt="image" />
+                </div>          
+                <input type="file" asp-for="DriverLicense" accept="image/*" class="form-control" />
                 @Html.ValidationMessageFor(model => model.DriverLicense, "", new { @class = "text-danger" })
                 <span asp-validation-for="DriverLicense" class="text-danger"></span>
             </div>
@@ -93,5 +99,25 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+<script>
+    window.onload = function() {
+        var fileInput = document.getElementById('IdcardfileInput');
+        var fileContent = document.getElementById('IdcardfileContent');
+        fileInput.addEventListener('change', function(e) {
+            var file = fileInput.files[0];
+            var imageType = "image.*";
+            if (file.type.match(imageType)) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var img = new Image();
+                    img.src = reader.result;
+                    fileContent.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            } else {
+                fileContent.innerHTML = "File not supported!";
+            }
+        });
+    }
+</script>
 

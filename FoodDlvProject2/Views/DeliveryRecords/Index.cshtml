@@ -22,18 +22,19 @@
 
 <h1>外送員管理</h1>
 <h2>外送紀錄</h2>
-<a class="collapse-item" href="/DeliveryDrivers/Index">基本資料</a>
-<a class="collapse-item" href="/Pays/Index">薪資資料</a>
-<a class="collapse-item" href="/DeliveryViolationRecords/Index">違規紀錄</a>
-<a class="collapse-item" href="/DriverCancellationRecords/Index">取消訂單紀錄</a>
 
-<table class="table">
-   
-</table>
+@if (TempData["ErrorMessage"] != null)
+{
+	<div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
 <div class="card shadow mb-4">
               <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
-                  DataTables Example
+            <a class="collapse-item" href="/DeliveryDrivers/Index">基本資料</a>
+            <a class="collapse-item" href="/Pays/Index">薪資資料</a>
+            <a class="collapse-item" href="/DeliveryViolationRecords/Index">違規紀錄</a>
+            <a class="collapse-item" href="/DriverCancellationRecords/Index">取消訂單紀錄</a>
                 </h6>
               </div>
               <div class="card-body">

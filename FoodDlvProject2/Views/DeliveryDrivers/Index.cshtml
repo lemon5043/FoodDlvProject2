@@ -19,7 +19,14 @@
 <div class="container-fluid">
 	<h1>外送員管理</h1>
 	<h2>基本資料</h2>
-
+	@if (TempData["ErrorMessage"] != null)
+	{
+		<div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+	}
+	@if (TempData["Result"] != null)
+	{
+		<div class="alert alert-danger">@TempData["Result"]</div>
+	}
 <div class="card shadow mb-4">
               <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">

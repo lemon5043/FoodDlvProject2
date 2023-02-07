@@ -22,15 +22,15 @@
 
 <h1>個人取消訂單紀錄</h1>
 <p>@Html.DisplayNameFor(model => model.DriverName):@ViewBag.DriverName</p>
-<a class="collapse-item" href="/DeliveryDrivers/Details/@ViewBag.DriverId">個人基本資料</a>
-<a class="collapse-item" href="/Pays/MonthlyDetails/@ViewBag.DriverId">個人薪水紀錄</a>
-<a class="collapse-item" href="/DeliveryRecords/MonthlyDetails/@ViewBag.DriverId">個人外送紀錄</a>
-<a class="collapse-item" href="/DeliveryViolationRecords/PersonalDetails/@ViewBag.DriverId">個人違規紀錄</a>
+
 
 <div class="card shadow mb-4">
 	<div class="card-header py-3">
 		<h6 class="m-0 font-weight-bold text-primary">
-			DataTables Example
+            <a class="collapse-item" href="/DeliveryDrivers/Details/@ViewBag.DriverId">個人基本資料</a>
+            <a class="collapse-item" href="/Pays/MonthlyDetails/@ViewBag.DriverId">個人薪水紀錄</a>
+            <a class="collapse-item" href="/DeliveryRecords/MonthlyDetails/@ViewBag.DriverId">個人外送紀錄</a>
+            <a class="collapse-item" href="/DeliveryViolationRecords/PersonalDetails/@ViewBag.DriverId">個人違規紀錄</a>
 		</h6>
 	</div>
 	<div class="card-body">
