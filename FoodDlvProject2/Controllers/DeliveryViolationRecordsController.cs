@@ -69,14 +69,7 @@ namespace FoodDlvProject2.Controllers
         // GET: DeliveryViolationRecords/Edit/5
         public async Task<IActionResult> Edit(int? Id)
         {
-            var data = await deliveryViolationRecordService.GetEditAsync(Id);
-            var VM = data.ToDeliveryViolationRecordEditVM();
-
-            var selectList = await deliveryViolationRecordService.GetListAsync();
-            ViewData["ViolationId"] =
-                new SelectList(selectList.Select(x => x.ToDeliveryViolationTypesVM()), "Id", "ViolationContent", VM.ViolationId);
-
-            return View(VM);
+            return View(await GetEditAsync(Id,null));
         }
 
         // POST: DeliveryViolationRecords/Edit/5
@@ -177,12 +170,13 @@ namespace FoodDlvProject2.Controllers
             }       
         }
 
-        private async Task<DeliveryViolationRecordEditVM> GetEditAsync(int? id, int ViolationId)
+        private async Task<DeliveryViolationRecordEditVM> GetEditAsync(int? id, int? ViolationId)
         {
             var data = await deliveryViolationRecordService.GetEditAsync(id);
             var VM = data.ToDeliveryViolationRecordEditVM();
             var selectList = await deliveryViolationRecordService.GetListAsync();
-            ViewData["ViolationId"] = new SelectList(selectList.Select(x => x.ToDeliveryViolationTypesVM()), "Id", "ViolationContent", ViolationId);
+            int VId = (int)(ViolationId == null ? VM.ViolationId : ViolationId);
+            ViewData["ViolationId"] = new SelectList(selectList.Select(x => x.ToDeliveryViolationTypesVM()), "Id", "ViolationContent", VId);
 
             return VM;
         }
