@@ -26,6 +26,7 @@ namespace FoodDlvProject2.EFModels
         [Display(Name = "性別")]
         public bool Gender { get; set; }
         [Display(Name = "生日")]
+        [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
         public string Email { get; set; }
         [Display(Name = "帳號")]
