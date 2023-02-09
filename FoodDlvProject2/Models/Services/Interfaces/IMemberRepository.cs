@@ -1,6 +1,14 @@
-﻿namespace FoodDlvProject2.Models.Services.Interfaces
+﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.DTOs;
+using FoodDlvProject2.Models.Repositories;
+
+namespace FoodDlvProject2.Models.Services.Interfaces
 {
-	public class IMemberRepository
-	{
-	}
+    public interface IMemberRepository
+    {
+        bool MemberExists(int id);
+        void Edit(MemberEditDTO model);
+        IEnumerable<MemberDTO> GetMembers();
+        MemberDTO GetOnly(int? id);
+    }
 }

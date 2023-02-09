@@ -6,83 +6,46 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.Services;
+using FoodDlvProject2.Models.Repositories;
+using FoodDlvProject2.Models.Services.Interfaces;
+using FoodDlvProject2.Models.ViewModels;
 
 namespace FoodDlvProject2.Controllers
 {
     public class MembersController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly MembersService membersService;
 
-        public MembersController(AppDbContext context)
+        public MembersController()
         {
-            _context = context;
+            var db = new AppDbContext();
+            IMemberRepository repository = new MemberRepository(db);
+            this.membersService = new MembersService(repository);
         }
 
         // GET: Members
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Members.Include(m => m.AccountStatus);
-            return View(await appDbContext.ToListAsync());
+            var data = membersService.GetMembers().Select(m => m.ToMemberIndexVM());
+            return await Task.Run(() => View(data));
+
         }
 
         // GET: Members/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Members == null)
-            {
-                return NotFound();
-            }
-
-            var member = await _context.Members
-                .Include(m => m.AccountStatus)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (member == null)
-            {
-                return NotFound();
-            }
-
-            return View(member);
-        }
-
-        // GET: Members/Create
-        public IActionResult Create()
-        {
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id");
-            return View();
-        }
-
-        // POST: Members/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AccountStatusId,FirstName,LastName,Phone,Gender,Birthday,Email,Balance,Account,Password,RegistrationTime")] Member member)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(member);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id", member.AccountStatusId);
-            return View(member);
+            var data = membersService.GetOnly(id).ToMemberIndexVM();
+            return await Task.Run(() => View(data));
         }
 
         // GET: Members/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Members == null)
-            {
-                return NotFound();
-            }
-
-            var member = await _context.Members.FindAsync(id);
-            if (member == null)
-            {
-                return NotFound();
-            }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id", member.AccountStatusId);
-            return View(member);
+            var data = membersService.GetOnly(id).ToMemberEditVM();
+            if (data == null) return NotFound();
+          
+            return View(data);
         }
 
         // POST: Members/Edit/5
@@ -90,78 +53,66 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AccountStatusId,FirstName,LastName,Phone,Gender,Birthday,Email,Balance,Account,Password,RegistrationTime")] Member member)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,AccountStatusId,FirstName,LastName,Phone,Gender,Birthday,Email,Balance,Account,Password,RegistrationTime")] MemberEditVM member)
         {
-            if (id != member.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(member);
-                    await _context.SaveChangesAsync();
+                    membersService.Edit(member.ToMemberEditDTO());
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
-                    if (!MemberExists(member.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    TempData["ErrorMessage"] = ex.Message;
+                    return View(member);
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountStatusId"] = new SelectList(_context.AccountStatues, "Id", "Id", member.AccountStatusId);
-            return View(member);
+           
+            return View(membersService);
         }
 
         // GET: Members/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Members == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null || _context.Members == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var member = await _context.Members
-                .Include(m => m.AccountStatus)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (member == null)
-            {
-                return NotFound();
-            }
+        //    var member = await _context.Members
+        //        .Include(m => m.AccountStatus)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (member == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(member);
-        }
+        //    return View(member);
+        //}
 
-        // POST: Members/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Members == null)
-            {
-                return Problem("Entity set 'AppDbContext.Members'  is null.");
-            }
-            var member = await _context.Members.FindAsync(id);
-            if (member != null)
-            {
-                _context.Members.Remove(member);
-            }
+        //// POST: Members/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.Members == null)
+        //    {
+        //        return Problem("Entity set 'AppDbContext.Members'  is null.");
+        //    }
+        //    var member = await _context.Members.FindAsync(id);
+        //    if (member != null)
+        //    {
+        //        _context.Members.Remove(member);
+        //    }
             
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
-        private bool MemberExists(int id)
-        {
-          return _context.Members.Any(e => e.Id == id);
-        }
+        //private bool MemberExists(int id)
+        //{
+        //  return _context.Members.Any(e => e.Id == id);
+        //}
     }
 }

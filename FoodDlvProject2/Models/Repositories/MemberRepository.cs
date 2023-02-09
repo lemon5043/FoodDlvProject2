@@ -1,12 +1,13 @@
 ﻿using FoodDlvProject2.EFModels;
 using FoodDlvProject2.Models.DTOs;
 using FoodDlvProject2.Models.Infrastructures.ExtensionMethods;
+using FoodDlvProject2.Models.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodDlvProject2.Models.Repositories
 {
-	public class MemberRepository
-	{
+	public class MemberRepository: IMemberRepository
+    {
 		private readonly AppDbContext db;
 
 		public MemberRepository(AppDbContext db)
@@ -45,7 +46,7 @@ namespace FoodDlvProject2.Models.Repositories
 				Password = x.Password,
 				RegistrationTime = x.RegistrationTime,
 
-			}).FirstOrDefault(m => m.Id == id);
+			}).FirstOrDefault(x => x.Id == id);
 
 			if (query == null) throw new Exception("找不到資料");
 
@@ -55,10 +56,10 @@ namespace FoodDlvProject2.Models.Repositories
 		{
 			try
 			{
-				var EFModel = ToEFModle(model);
+				var EFModel = ToEFModel(model);
 				db.Attach(EFModel);
 				string[] updateModel = { "FirstName","LastName",  "Gender", "Birthday", "Phone", "Email",
-					"Account", "Password" };
+					"Account" };
 
 				foreach (var property in updateModel)
 				{
@@ -73,9 +74,29 @@ namespace FoodDlvProject2.Models.Repositories
 			}
 		}
 
-		private bool MemberExists(int id)
+
+
+        public bool MemberExists(int id)
 		{
 			return db.Members.Any(m => m.Id == id);
 		}
-	}
+        public Member ToEFModel(MemberEditDTO model)
+        {
+			return new Member
+			{
+				Id = model.Id,
+				AccountStatusId = model.AccountStatusId,
+				FirstName = model.FirstName,
+				LastName = model.LastName,
+				Phone = model.Phone,
+				Gender = model.Gender,
+				Birthday = model.Birthday,
+				Email = model.Email,
+                Balance=model.Balance,
+                Account = model.Account,
+				Password = model.Password,
+
+			};
+        }
+    }
 }

@@ -8,15 +8,15 @@ namespace FoodDlvProject2.Models.Services
 {
 	public class MembersService
 	{
-		private readonly MemberRepository _repository;
-		public IEnumerable<MemberDTO> GetMembers()
-		   => _repository.GetMembers();
+		private readonly IMemberRepository _repository;
+		
 		public MembersService(IMemberRepository repository)
 		{
 			_repository = repository;
 		}
-
-		public MemberDTO GetOne(int? id)
+        public IEnumerable<MemberDTO> GetMembers()
+           => _repository.GetMembers();
+        public MemberDTO GetOnly(int? id)
 		{
 			return _repository.GetOnly(id);
 		}
@@ -27,8 +27,7 @@ namespace FoodDlvProject2.Models.Services
 			_repository.Edit(model);
 		}
 
-		public (IEnumerable<AccountStatueDTO>, IEnumerable<DeliveryDriverWorkStatusDTO>) GetList()
-			=> _repository.GetList();
+	
 	}
 }
-}
+
