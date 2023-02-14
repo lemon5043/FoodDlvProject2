@@ -2,6 +2,7 @@
 using FoodDlvProject2.Models.DTOs;
 using FoodDlvProject2.Models.Infrastructures.ExtensionMethods;
 using FoodDlvProject2.Models.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodDlvProject2.Models.Repositories
@@ -45,7 +46,6 @@ namespace FoodDlvProject2.Models.Repositories
 				Account = x.Account,
 				Password = x.Password,
 				RegistrationTime = x.RegistrationTime,
-
 			}).FirstOrDefault(x => x.Id == id);
 
 			if (query == null) throw new Exception("找不到資料");
@@ -98,5 +98,6 @@ namespace FoodDlvProject2.Models.Repositories
 
 			};
         }
-    }
+		
+}
 }

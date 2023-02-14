@@ -26,8 +26,13 @@ namespace FoodDlvProject2.Models.Services
 		
 			_repository.Edit(model);
 		}
+		public void Delete(Member model)
+		{
 
-	
+			_repository.Delete(model);
+		}
+
+
 	}
 }
 

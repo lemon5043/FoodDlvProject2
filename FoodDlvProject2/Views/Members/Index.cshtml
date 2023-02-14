@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FoodDlvProject2.EFModels.Member>
+﻿@model IEnumerable<FoodDlvProject2.Models.ViewModels.MemberIndexVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -38,32 +38,22 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstName)
+                                @Html.DisplayNameFor(model => model.Id)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.LastName)
+                                @Html.DisplayNameFor(model => model.AccountStatusId)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Phone)
+                                @Html.DisplayNameFor(model => model.MemberName)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Gender)
+                                    @Html.DisplayNameFor(model => model.Account)
                             </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Birthday)
+                                <th>
+                                    
+                                    @Html.DisplayNameFor(model => model.RegistrationTime)
                             </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Email)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Balance)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.RegistrationTime)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.AccountStatus)
-                            </th>
+                            
                             <th></th>
                         </tr>
                     </thead>
@@ -72,44 +62,22 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                    @Html.DisplayFor(modelItem => item.Id)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.LastName)
+                                    @Html.DisplayFor(modelItem => item.AccountStatusId)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Phone)
+                                    @Html.DisplayFor(modelItem => item.MemberName)
                                 </td>
+                                
                                 <td>
-                                    @{
-                                        var sex = "";
-
-                                        if (item.Gender == true)
-                                        {
-                                            sex = "男";
-                                        }
-                                        else
-                                        {
-                                            sex = "女";
-                                        }
-                                    }
-                                    @sex
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Birthday)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Email)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Balance)
+                                    @Html.DisplayFor(modelItem => item.Account)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.RegistrationTime)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.AccountStatus.Id)
-                                </td>
+                                
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |
                                     <a asp-action="Details" asp-route-id="@item.Id">查詢</a> |

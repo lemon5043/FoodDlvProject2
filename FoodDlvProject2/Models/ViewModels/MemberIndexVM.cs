@@ -21,7 +21,7 @@ namespace FoodDlvProject2.Models.ViewModels
         [Display(Name = "註冊時間")]
         public DateTime RegistrationTime { get; set; }
     }
-    public static partial class MemberIndexVMExts 
+    public static partial class MemberIndexDtoExts 
     {
         public static MemberIndexVM ToMemberIndexVM(this MemberDTO source)
         {
@@ -29,7 +29,7 @@ namespace FoodDlvProject2.Models.ViewModels
             {
                 Id = source.Id,
                 AccountStatusId=source.AccountStatusId,
-                MemberName=source.FirstName+source.LastName,
+                MemberName= source.LastName+source.FirstName,
                 Account=source.Account,
                 RegistrationTime=source.RegistrationTime,
 

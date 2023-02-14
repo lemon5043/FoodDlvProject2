@@ -19,8 +19,8 @@ namespace FoodDlvProject2.Controllers
 
         public MembersController()
         {
-            var db = new AppDbContext();
-            IMemberRepository repository = new MemberRepository(db);
+            var membercontext = new AppDbContext();
+            IMemberRepository repository = new MemberRepository(membercontext);
             this.membersService = new MembersService(repository);
         }
 
@@ -28,15 +28,15 @@ namespace FoodDlvProject2.Controllers
         public async Task<IActionResult> Index()
         {
             var data = membersService.GetMembers().Select(m => m.ToMemberIndexVM());
-            return await Task.Run(() => View(data));
+            return View(data);
 
         }
 
         // GET: Members/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            var data = membersService.GetOnly(id).ToMemberIndexVM();
-            return await Task.Run(() => View(data));
+            var data = membersService.GetOnly(id).ToMemberDetailVM();
+            return View(data);
         }
 
         // GET: Members/Edit/5
@@ -44,7 +44,7 @@ namespace FoodDlvProject2.Controllers
         {
             var data = membersService.GetOnly(id).ToMemberEditVM();
             if (data == null) return NotFound();
-          
+
             return View(data);
         }
 
@@ -53,7 +53,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AccountStatusId,FirstName,LastName,Phone,Gender,Birthday,Email,Balance,Account,Password,RegistrationTime")] MemberEditVM member)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,AccountStatusId,FirstName,LastName,Phone,Gender,Account" , "Birthday,Email")] MemberEditVM member)
         {
             if (ModelState.IsValid)
             {
@@ -68,51 +68,52 @@ namespace FoodDlvProject2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-           
-            return View(membersService);
+
+            return View(member);
         }
 
-        // GET: Members/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null || _context.Members == null)
-        //    {
-        //        return NotFound();
-        //    }
+        //GET: Members/Delete/5
+		public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || DbContext.Members == null)
+            {
+                return NotFound();
+            }
 
-        //    var member = await _context.Members
-        //        .Include(m => m.AccountStatus)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (member == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var member = await _context.Members
+                .Include(m => m.AccountStatus)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (member == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(member);
-        //}
+            return View(member);
+        }
 
-        //// POST: Members/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    if (_context.Members == null)
-        //    {
-        //        return Problem("Entity set 'AppDbContext.Members'  is null.");
-        //    }
-        //    var member = await _context.Members.FindAsync(id);
-        //    if (member != null)
-        //    {
-        //        _context.Members.Remove(member);
-        //    }
-            
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        //POST: Members/Delete/5
+		[HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.Members == null)
+            {
+                return Problem("Entity set 'AppDbContext.Members'  is null.");
+            }
+            var member = await _context.Members.FindAsync(id);
+            if (member != null)
+            {
+                _context.Members.Remove(member);
+            }
 
-        //private bool MemberExists(int id)
-        //{
-        //  return _context.Members.Any(e => e.Id == id);
-        //}
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool MemberExists(int id)
+        {
+            return _context.Members.Any(e => e.Id == id);
+        }
     }
+}
 }

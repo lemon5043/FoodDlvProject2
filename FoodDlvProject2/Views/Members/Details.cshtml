@@ -1,4 +1,4 @@
-﻿@model FoodDlvProject2.EFModels.Member
+﻿@model FoodDlvProject2.Models.ViewModels.MemberDetailVM
 
 @{
     ViewData["Title"] = "Details";
@@ -10,17 +10,17 @@
     <h4>會員</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AccountStatusId)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AccountStatusId)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MemberName)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MemberName)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Phone)
@@ -58,12 +58,12 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
-        <dt class = "col-sm-2">
+       @* <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Balance)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Balance)
-        </dd>
+        </dd>*@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Account)
         </dt>
@@ -76,18 +76,13 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Password)
         </dd>
-        <dt class = "col-sm-2">
+      @*  <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RegistrationTime)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.RegistrationTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AccountStatus)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AccountStatus.Id)
-        </dd>
+        </dd>*@
+       
     </dl>
 </div>
 <div>

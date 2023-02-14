@@ -10,5 +10,6 @@ namespace FoodDlvProject2.Models.Services.Interfaces
         void Edit(MemberEditDTO model);
         IEnumerable<MemberDTO> GetMembers();
         MemberDTO GetOnly(int? id);
+       void Delete(Member model);
     }
 }
