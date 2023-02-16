@@ -7,3 +7,12 @@
 #docs-root {
   --theme-color: #ededed;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide vertical scrollbar */
+::-webkit-scrollbar-track {
+  display: none;
+}
