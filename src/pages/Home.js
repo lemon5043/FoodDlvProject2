@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import "tw-elements";
+import HomeCard from "../components/HomeCard";
 import Macu from "../images/macu.jpg";
 import PrinceValley from "../images/王子神谷.jpg";
 import Threemom from "../images/threemom.jpeg";
@@ -8,93 +9,46 @@ import Table from "../images/table.jpg";
 import Honmono from "../images/honmono.jpg";
 
 const Home = () => {
-  let images = [];
+  // 測試用 array，等 API 寫好後會採用隨機店家挑選
+  const stores = [
+    {
+      image: Macu,
+      title: "麻古茶坊-中壢中正店",
+      type: "飲料",
+      time: 25,
+    },
+    {
+      image: PrinceValley,
+      title: "王子神谷",
+      type: "甜點",
+      time: 50,
+    },
+    {
+      image: Threemom,
+      title: "三媽臭臭鍋-實踐店",
+      type: "火鍋",
+      time: 35,
+    },
+    {
+      image: Mcdonald,
+      title: "麥當勞-中壢新生店",
+      type: "飲料",
+      time: 30,
+    },
+    {
+      image: Honmono,
+      title: "本物洋食",
+      type: "義式",
+      time: 50,
+    },
+  ];
+
   return (
     <div>
       <div className="flex flex-row mt-20 justify-center overflow-x-auto">
-        <div className="flex-shrink-0 w-80 p-4">
-          <div className="bg-white h-96 shadow-lg rounded-lg overflow-hidden">
-            <img
-              className="w-full h-48 object-cover object-center"
-              src={Macu}
-              alt="food recommendation"
-            />
-            <div className="p-4">
-              <h3 className="font-bold text-gray-800 text-xl mb-2">
-                麻古茶坊-中壢新生店
-              </h3>
-              <p className="text-gray-600 text-sm">飲料</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex-shrink-0 w-80 p-4">
-          <div className="bg-white  h-96 shadow-lg rounded-lg overflow-hidden">
-            <img
-              className="w-full h-48 object-cover object-center"
-              src={PrinceValley}
-              alt="food recommendation"
-            />
-            <div className="p-4">
-              <h3 className="font-bold text-gray-800 text-xl mb-2">Card 2</h3>
-              <p className="text-gray-600 text-sm">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex-shrink-0 w-80 p-4">
-          <div className="bg-white  h-96 shadow-lg rounded-lg overflow-hidden">
-            <img
-              className="w-full h-48 object-cover object-center"
-              src={Threemom}
-              alt="food recommendation"
-            />
-            <div className="p-4">
-              <h3 className="font-bold text-gray-800 text-xl mb-2">Card 3</h3>
-              <p className="text-gray-600 text-sm">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex-shrink-0 w-80 p-4">
-          <div className="bg-white  h-96 shadow-lg rounded-lg overflow-hidden">
-            <img
-              className="w-full h-48 object-cover object-center"
-              src={Mcdonald}
-              alt="food recommendation"
-            />
-            <div className="p-4">
-              <h3 className="font-bold text-gray-800 text-xl mb-2">Card 4</h3>
-              <p className="text-gray-600 text-sm">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex-shrink-0 w-80 p-4">
-          <div className="bg-white  h-96 shadow-lg rounded-lg overflow-hidden">
-            <img
-              className="w-full h-48 object-cover object-center"
-              src={Honmono}
-              alt="food recommendation"
-            />
-            <div className="p-4">
-              <h3 className="font-bold text-gray-800 text-xl mb-2">Card 5</h3>
-              <p className="text-gray-600 text-sm">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
-            </div>
-          </div>
-        </div>
+        {stores.map((d) => {
+          return <HomeCard store={d} />;
+        })}
       </div>
       <div>
         <div className="flex">
