@@ -10,6 +10,22 @@ module.exports = {
       colors: {
         "theme-color": "var(--theme-color)",
       },
+      fontFamily: {
+        nunito: [
+          "Nunito",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
+          "sans-serif",
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+          "Segoe UI Symbol",
+          "Noto Color Emoji",
+        ],
+      },
     },
   },
   plugins: [require("tw-elements/dist/plugin")],

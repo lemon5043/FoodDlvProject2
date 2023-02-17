@@ -1,14 +1,15 @@
 import React from "react";
 import "tw-elements";
 import Macu from "../images/macu.jpg";
-import PrinceValley from "../images/本物洋食.png";
+import PrinceValley from "../images/王子神谷.jpg";
 import Threemom from "../images/threemom.jpeg";
 import Mcdonald from "../images/mcdonald.jpg";
 import Table from "../images/table.jpg";
+import Honmono from "../images/honmono.jpg";
 
 const Home = () => {
+  let images = [];
   return (
-    // recommend restaurant carousel
     <div>
       <div className="flex flex-row mt-20 justify-center overflow-x-auto">
         <div className="flex-shrink-0 w-80 p-4">
@@ -22,7 +23,7 @@ const Home = () => {
               <h3 className="font-bold text-gray-800 text-xl mb-2">
                 麻古茶坊-中壢新生店
               </h3>
-              <p className="text-gray-600 text-sm">飲料、</p>
+              <p className="text-gray-600 text-sm">飲料</p>
             </div>
           </div>
         </div>
@@ -82,7 +83,7 @@ const Home = () => {
           <div className="bg-white  h-96 shadow-lg rounded-lg overflow-hidden">
             <img
               className="w-full h-48 object-cover object-center"
-              src="https://source.unsplash.com/random/800x600"
+              src={Honmono}
               alt="food recommendation"
             />
             <div className="p-4">
