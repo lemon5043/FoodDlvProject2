@@ -15,10 +15,14 @@ namespace FoodDlvProject2.Controllers
 {
     public class MembersController : Controller
     {
+        //伯翰+ㄉ
+        private readonly AppDbContext _context;
         private readonly MembersService membersService;
 
-        public MembersController()
+        public MembersController(AppDbContext context)
         {
+            //伯翰+ㄉ
+            _context = context;
             var membercontext = new AppDbContext();
             IMemberRepository repository = new MemberRepository(membercontext);
             this.membersService = new MembersService(repository);
@@ -75,7 +79,9 @@ namespace FoodDlvProject2.Controllers
         //GET: Members/Delete/5
 		public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || DbContext.Members == null)
+            //伯翰+ㄉ
+            //if (id == null || DbContext.Members == null)
+            if (id == null || _context.Members == null)
             {
                 return NotFound();
             }
@@ -116,4 +122,5 @@ namespace FoodDlvProject2.Controllers
         }
     }
 }
-}
+//伯翰+ㄉ
+//}
