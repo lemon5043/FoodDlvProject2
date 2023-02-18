@@ -98,6 +98,10 @@ namespace FoodDlvProject2.Models.Repositories
 
 			};
         }
-		
-}
+
+        public void Delete(Member model)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
