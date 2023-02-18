@@ -5,6 +5,8 @@ using FoodDlvProject2.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NuGet.Versioning;
+using System.IO;
+using System.Web.Razor.Generator;
 
 namespace FoodDlvProject2.Models.Repositories
 {
@@ -17,7 +19,7 @@ namespace FoodDlvProject2.Models.Repositories
             this.db = db;
         }
 
-        public IEnumerable<DeliveryDriverDTO> GetDrivers()
+        public async Task<List<DeliveryDriverDTO>> GetDriversAsync()
         {
             var query = db.DeliveryDrivers.Select(x => new DeliveryDriverDTO
             {
@@ -28,14 +30,14 @@ namespace FoodDlvProject2.Models.Repositories
                 AccountStatus = x.AccountStatus.Status,
                 WorkStatuse = x.WorkStatuse.Status,
             });
-            return query.Select(x => x.ToEntity());
+            return await query.Select(x => x.ToEntity()).ToListAsync();
         }
 
-        public DeliveryDriverDTO GetOne(int? id)
+        public async Task<DeliveryDriverDTO> GetOneAsync(int? id)
         {
-            if (db.DeliveryDrivers == null)throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+            if (db.DeliveryDrivers == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
-            var query = db.DeliveryDrivers.Select(x => new DeliveryDriverDTO
+            var query = await db.DeliveryDrivers.Select(x => new DeliveryDriverDTO
             {
                 Id = x.Id,
                 Account = x.Account,
@@ -46,44 +48,93 @@ namespace FoodDlvProject2.Models.Repositories
                 Phone = x.Phone,
                 Email = x.Email,
                 BankAccount = x.BankAccount,
-                AccountStatusId=x.AccountStatusId,
+                AccountStatusId = x.AccountStatusId,
                 AccountStatus = x.AccountStatus.Status,
                 WorkStatuse = x.WorkStatuse.Status,
-                WorkStatuseId=x.WorkStatuseId,
+                WorkStatuseId = x.WorkStatuseId,
                 DeliveryViolationRecords = x.DeliveryViolationRecords.Count(),
                 DriverRating = x.Orders.Average(x => x.DriverRating),
                 RegistrationTime = x.RegistrationTime,
                 Idcard = x.Idcard,
                 VehicleRegistration = x.VehicleRegistration,
                 DriverLicense = x.DriverLicense,
-            }).FirstOrDefault(m => m.Id == id);
+            }).FirstOrDefaultAsync(m => m.Id == id);
 
             if (query == null) throw new Exception("很抱歉找不到相關的資料");
-            
+
             return query;
         }
 
-        public void Edit(DeliveryDriverEditDTO model)
+        public async Task<DeliveryDriverDTO> GetEditAsync(int? id)
         {
+            if (db.DeliveryDrivers == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+            //string path = "~/img/DeliveyDriver/";
+            var query = await db.DeliveryDrivers.Select(x => new DeliveryDriverDTO
+            {
+                Id = x.Id,
+                Account = x.Account,
+                LastName = x.LastName,
+                FirstName = x.FirstName,
+                Gender = x.Gender,
+                Birthday = x.Birthday,
+                Phone = x.Phone,
+                Email = x.Email,
+                BankAccount = x.BankAccount,
+                AccountStatusId = x.AccountStatusId,
+                WorkStatuseId = x.WorkStatuseId,
+                Idcard = x.Idcard,
+                VehicleRegistration = x.VehicleRegistration,
+                DriverLicense = x.DriverLicense,
+            }).FirstOrDefaultAsync(m => m.Id == id);
+
+            if (query == null) throw new Exception("很抱歉找不到相關的資料");
+
+            return query;
+        }
+
+        public async Task<string> EditAsync(DeliveryDriverEditDTO model)
+        {
+            string? idCard = await UploadFile(model.Idcard, "Idcard", model.Id);
+            string? VehicleRegistration = await UploadFile(model.VehicleRegistration, "VehicleRegistration", model.Id);
+            string? DriverLicense = await UploadFile(model.DriverLicense, "DriverLicense", model.Id);
             try
             {
                 //db.Update(model);
-                var EFModel = ToEFModle(model);
+                var EFModel = model.ToEFModle();
+                List<string> updateModel = new List<string> { "LastName", "FirstName", "Gender", "Birthday", "Phone", "Email",
+                    "BankAccount", "AccountStatusId","WorkStatuseId"};
+
+                if (idCard != null)
+                {
+                    EFModel.Idcard = idCard;
+                    updateModel.Add("IdCard");
+                }
+                if (VehicleRegistration != null)
+                {
+                    EFModel.VehicleRegistration = VehicleRegistration;
+                    updateModel.Add("VehicleRegistration");
+                }
+                if (DriverLicense != null)
+                {
+                    EFModel.DriverLicense = DriverLicense;
+                    updateModel.Add("DriverLicense");
+                }
                 db.Attach(EFModel);
-                string[] updateModel = { "LastName", "FirstName", "Gender", "Birthday", "Phone", "Email",
-                    "BankAccount", "AccountStatusId","WorkStatuseId" };
+
 
                 foreach (var property in updateModel)
                 {
                     db.Entry(EFModel).Property(property).IsModified = true;
                 }
 
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!DeliveryDriverExists(model.Id)) throw new Exception("在更新資料時發生衝突。這可能是因為其他使用者已經更新了相同的資料，請重新載入頁面後再進行修改。");
             }
+
+            return "修改成功";
         }
 
         public bool DeliveryDriverExists(int id)
@@ -91,32 +142,28 @@ namespace FoodDlvProject2.Models.Repositories
             return db.DeliveryDrivers.Any(e => e.Id == id);
         }
 
-        public (IEnumerable<AccountStatueDTO>,
-            IEnumerable<DeliveryDriverWorkStatusDTO>) GetList()
+        public async Task<(List<AccountStatueDTO>,
+            List<DeliveryDriverWorkStatusDTO>)> GetListAsync()
         {
-            var query = db.AccountStatues.Select(x=>x.ToEntity());
-            var query2 = db.DeliveryDriverWorkStatuses.Select(x => x.ToEntity());
+            var query = await db.AccountStatues.Select(x => x.ToEntity()).ToListAsync();
+            var query2 = await db.DeliveryDriverWorkStatuses.Select(x => x.ToEntity()).ToListAsync();
             return (query, query2);
         }
 
-        public DeliveryDriver ToEFModle(DeliveryDriverEditDTO model)
+        public async Task<string?> UploadFile(IFormFile file, string folder, int id)
         {
-            return new DeliveryDriver
+            if (file != null)
             {
-                Id = model.Id,
-                AccountStatusId = model.AccountStatusId,
-                WorkStatuseId = model.WorkStatuseId,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Phone = model.Phone,
-                Gender = model.Gender,
-                BankAccount = model.BankAccount,
-                Birthday = model.Birthday,
-                Email = model.Email,
-                Idcard = model.Idcard,
-                VehicleRegistration = model.VehicleRegistration,
-                DriverLicense = model.DriverLicense,
-            };
+                string extension = Path.GetExtension(file.FileName);
+                string newFileName = id.ToString() + extension;
+                string filePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/DeliveyDriver", folder));
+                string path = Path.Combine(filePath, newFileName);
+                using var fileStream = new FileStream(path, FileMode.Create);
+                await file.CopyToAsync(fileStream);
+                return newFileName;
+            }
+            return null;
         }
+
     }
 }

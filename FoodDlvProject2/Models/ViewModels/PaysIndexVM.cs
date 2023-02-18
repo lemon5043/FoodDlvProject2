@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FoodDlvProject2.Models.DTOs;
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-    internal class PaysIndexVM
+    public class PaysIndexVM
     {
         public int Id { get; set; }
         [Display(Name = "外送員編號")]
@@ -21,4 +22,23 @@ namespace FoodDlvProject2.Models.ViewModels
         [Display(Name = "結算月份")]
         public DateTime SettlementMonth { get; set; }
     }
+
+	public static class PaysIndexVMExts
+	{
+		public static PaysIndexVM ToPaysIndexVM(this PaysDTO source)
+		{
+			return new PaysIndexVM
+			{
+				Id = source.Id,
+				DeliveryDriversId = source.DeliveryDriversId,
+				DriversName = source.DriversName,
+				DeliveryCount = source.DeliveryCount,
+				TotalMilage = source.TotalMilage,
+				Bouns = source.Bouns,
+				TotalPay = source.TotalPay,
+				SettlementMonth = source.SettlementMonth,
+			};
+		}
+	}
+
 }

@@ -25,9 +25,9 @@ namespace FoodDlvProject2.Models.ViewModels
     }
     public static class DeliveryViolationRecordCreateVMExts
     {
-        public static DeliveryViolationRecord ToEFModels(this DeliveryViolationRecordCreateVM source)
+        public static DeliveryViolationRecordDTO ToDeliveryViolationRecordDTO(this DeliveryViolationRecordCreateVM source)
         {
-            return new DeliveryViolationRecord
+            return new DeliveryViolationRecordDTO
             {
                 Id = source.Id,
                 OrderId = source.OrderId,

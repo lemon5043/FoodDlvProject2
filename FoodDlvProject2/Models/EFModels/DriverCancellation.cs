@@ -15,9 +15,9 @@ namespace FoodDlvProject2.EFModels
         }
 
         public int Id { get; set; }
-        [Display(Name = "取消原因")]
+        
         public string Reason { get; set; }
-        [Display(Name = "原因簡述")]
+        
         public string Content { get; set; }
 
         public virtual ICollection<DriverCancellationRecord> DriverCancellationRecords { get; set; }

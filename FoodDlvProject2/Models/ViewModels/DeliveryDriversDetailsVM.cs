@@ -1,4 +1,5 @@
 ﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
@@ -28,7 +29,7 @@ namespace FoodDlvProject2.Models.ViewModels
         [Display(Name = "違規次數")]
         public int? DeliveryViolationRecords { get; set; }
         [Display(Name = "外送評分")]
-        public double? DriverRating { get; set; }
+        public string? DriverRating { get; set; }
         [Display(Name = "註冊時間")]
         public DateTime RegistrationTime { get; set; }
         [Display(Name = "身分證")]
@@ -55,7 +56,7 @@ namespace FoodDlvProject2.Models.ViewModels
                 AccountStatus = source.AccountStatus,
                 WorkStatuse = source.WorkStatuse,
                 DeliveryViolationRecords = source.DeliveryViolationRecords,
-                DriverRating = source.DriverRating,
+                DriverRating = string.IsNullOrEmpty(string.Format("{0:N1}",source.DriverRating))?"0.0": string.Format("{0:N1}", source.DriverRating),
                 RegistrationTime = source.RegistrationTime,
                 Idcard = source.Idcard,
                 VehicleRegistration = source.VehicleRegistration,
@@ -64,3 +65,4 @@ namespace FoodDlvProject2.Models.ViewModels
         }
     }
 }
+

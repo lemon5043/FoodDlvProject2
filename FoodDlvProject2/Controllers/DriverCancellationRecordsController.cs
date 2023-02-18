@@ -1,4 +1,7 @@
 ﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.Repositories;
+using FoodDlvProject2.Models.Services.Interfaces;
+using FoodDlvProject2.Models.Services;
 using FoodDlvProject2.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -7,145 +10,83 @@ using System.Drawing;
 
 namespace FoodDlvProject2.Controllers
 {
-    public class DriverCancellationRecordsController : Controller
-    {
-        private readonly AppDbContext _context;
+	public class DriverCancellationRecordsController : Controller
+	{
+		private readonly DeliveryCancellationRecordService deliveryCancellationRecordService;
 
-        public DriverCancellationRecordsController(AppDbContext context)
-        {
-            _context = context;
-        }
-        // GET: DeliveryDrivers
-        public async Task<IActionResult> Index()
-        {
-            var appDbContext = _context.DriverCancellationRecords
-                .Select(x => new DriverCancellationRecordsIndexVM
-                {
-                    Id = x.Id,
-                    OrderId = x.OrderId,
-                    DriverId = x.DeliveryDriversId,
-                    DriverName = x.DeliveryDrivers.LastName + x.DeliveryDrivers.FirstName,
-                    Reason = x.Cancellation.Reason,
-                    CancellationDate = x.CancellationDate,
-                });
-            return View(await appDbContext.ToListAsync());
-        }
+		public DriverCancellationRecordsController()
+		{
+			var db = new AppDbContext();
+			IDeliveryCancellationRecordRepository repository = new DeliveryCancellationRecordRepository(db);
+			this.deliveryCancellationRecordService = new DeliveryCancellationRecordService(repository);
+		}
+		// GET: DeliveryDrivers
+		public async Task<IActionResult> Index()
+		{
+			var data = await deliveryCancellationRecordService.GetCancellationRecordsAsync();
+			return View(data.Select(x => x.ToDriverCancellationRecordsIndexVM()));
+		}
 
-        // GET: DeliveryDrivers/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.DeliveryDrivers == null)
-            {
-                return NotFound();
-            }
+		// GET: DeliveryDrivers/Details/5
+		public async Task<IActionResult> Details(int? id)
+		{
+			try
+			{
+				var data = await deliveryCancellationRecordService.GetPersonalCancellationRecordsAsync(id);
 
-            var DeliveryRecords = _context.DriverCancellationRecords
-                .Where(m => m.DeliveryDriversId == id)
-                .Select(x => new DriverCancellationRecordsDetailsVM
-                {
-                    Id = x.Id,
-                    OrderId = x.OrderId,
-                    DriverId = x.DeliveryDriversId,
-                    DriverName = x.DeliveryDrivers.LastName + x.DeliveryDrivers.FirstName,
-                    Reason = x.Cancellation.Reason,
-                    Context = x.Cancellation.Content,
-                    CancellationDate = x.CancellationDate,
-                });
+				ViewBag.DriverId = id;
+				ViewBag.DriverName = data.Select(x => x.DriverName).FirstOrDefault();
 
-            if (DeliveryRecords == null)
-            {
-                return NotFound();
-            }
-            ViewBag.DriverId = id;
-            ViewBag.DriverName = DeliveryRecords.Select(x => x.DriverName).FirstOrDefault();
-            return View(await DeliveryRecords.ToListAsync());
-        }
-        // GET: DeliveryDrivers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.DriverCancellationRecords == null)
-            {
-                return NotFound();
-            }
+				return View(data.Select(x=>x.ToDeliveryViolationRecordsIndexVM()));
+			}
+			catch (Exception ex)
+			{
+				TempData["ErrorMessage"] = ex.Message;
+				return RedirectToAction(nameof(Index));
+			}
+		}
+		// GET: DeliveryDrivers/Edit/5
+		public async Task<IActionResult> Edit(int? id)
+		{
+			var data = await deliveryCancellationRecordService.GetEditAsync(id);
+			var VM = data.ToDriverCancellationRecordsEditVM();
 
-            var DriverCancellationRecords = await _context.DriverCancellationRecords
-                .Where(i => i.Id == id)
-                .Select(x => new DriverCancellationRecordsEditVM
-                {
-                    Id = x.Id,
-                    OrderId = x.OrderId,
-                    DriverId = x.DeliveryDriversId,
-                    DriverName = x.DeliveryDrivers.LastName + x.DeliveryDrivers.FirstName,
-                    CancellationId = x.CancellationId,
-                    CancellationDate = x.CancellationDate,
-                })
-                .FirstOrDefaultAsync();
-            if (DriverCancellationRecords == null)
-            {
-                return NotFound();
-            }
-            ViewData["CancellationId"] = new SelectList(_context.DriverCancellations, "Id", "Reason", DriverCancellationRecords.CancellationId);
-            return View(DriverCancellationRecords);
-        }
+			ViewData["CancellationId"] = await deliveryCancellationRecordService.GetListAsync(VM.CancellationId);
 
-        // POST: DeliveryDrivers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CancellationId,CancellationDate")] DriverCancellationRecordsEditVM DriverCancellationRecords)
-        {
-            if (id != DriverCancellationRecords.Id)
-            {
-                return NotFound();
-            }
-            ModelState.Remove("DriverName");
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var EFModel = DriverCancellationRecords.ToEFModels();
-                    _context.Attach(EFModel);
-                    string[] updateModel = { "CancellationId", "CancellationDate" };
+			return View(VM);
+		}
 
-                    foreach (var property in updateModel)
-                    {
-                        _context.Entry(EFModel).Property(property).IsModified = true;
-                    }
+		// POST: DeliveryDrivers/Edit/5
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, [Bind("Id,CancellationId,CancellationDate")] DriverCancellationRecordsEditVM DriverCancellationRecords)
+		{
+			ModelState.Remove("DriverName");
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					TempData["Result"] = await deliveryCancellationRecordService.EditAsync(DriverCancellationRecords.ToDriverCancellationRecordDTO());
+				}
+				catch (Exception ex)
+				{
+					TempData["ErrorMessage"] = ex.Message;
+					ViewData["CancellationId"] = await deliveryCancellationRecordService.GetListAsync(DriverCancellationRecords.CancellationId);
+					return View(await GetEditAsync(id));
+				}
+				return RedirectToAction(nameof(Index));
+			}
+			ViewData["CancellationId"] = await deliveryCancellationRecordService.GetListAsync(DriverCancellationRecords.CancellationId);
+			return View(await GetEditAsync(id));
+		}
 
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CancellationRecordsExists(DriverCancellationRecords.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            var data = await _context.DriverCancellationRecords
-                .Where(i => i.Id == id)
-                .Select(x => new DriverCancellationRecordsEditVM
-                {
-                    Id = x.Id,
-                    OrderId = x.OrderId,
-                    DriverId = x.DeliveryDriversId,
-                    DriverName = x.DeliveryDrivers.LastName + x.DeliveryDrivers.FirstName,
-                    CancellationId = DriverCancellationRecords.CancellationId,
-                    CancellationDate = DriverCancellationRecords.CancellationDate,
-                })
-                .FirstOrDefaultAsync();
-            ViewData["CancellationId"] = new SelectList(_context.DriverCancellations, "Id", "Reason", DriverCancellationRecords.CancellationId);
-            return View(data);
-        }
-        private bool CancellationRecordsExists(int id)
-        {
-            return _context.DriverCancellationRecords.Any(e => e.Id == id);
-        }
-    }
+		private async Task<DriverCancellationRecordsEditVM> GetEditAsync(int? id)
+		{
+			var data = await deliveryCancellationRecordService.GetEditAsync(id);
+			var VM = data.ToDriverCancellationRecordsEditVM();
+			return VM;
+		}
+	}
 }

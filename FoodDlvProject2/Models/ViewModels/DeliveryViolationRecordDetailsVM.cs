@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FoodDlvProject2.EFModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-    internal class DeliveryViolationRecordDetailsVM
+    public class DeliveryViolationRecordDetailsVM
     {
         public int Id { get; set; }
         [Display(Name = "訂單編號")]
@@ -15,5 +16,21 @@ namespace FoodDlvProject2.Models.ViewModels
         public string Content { get; set; }
         [Display(Name = "違規日期")]
         public DateTime ViolationDate { get; set; }
+    }
+
+    public static class DeliveryViolationRecordDetailsVMExts
+    {
+        public static DeliveryViolationRecordDetailsVM ToDeliveryViolationRecordDetailsVM(this DeliveryViolationRecordDTO source)
+        {
+            return new DeliveryViolationRecordDetailsVM
+            {
+                Id = source.Id,
+                OrderId = source.OrderId,
+                DriverName = source.DriverName,
+                ViolationContent = source.ViolationContent,
+                Content = source.Content,
+                ViolationDate = source.ViolationDate,
+            };
+        }
     }
 }

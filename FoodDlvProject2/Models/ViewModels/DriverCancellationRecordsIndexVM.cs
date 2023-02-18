@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FoodDlvProject2.EFModels;
+using FoodDlvProject2.Models.DTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-    internal class DriverCancellationRecordsIndexVM
+    public class DriverCancellationRecordsIndexVM
     {
         public int Id { get; set; }
         [Display(Name = "訂單編號")]
@@ -16,4 +18,20 @@ namespace FoodDlvProject2.Models.ViewModels
         [Display(Name = "取消日期")]
         public DateTime CancellationDate { get; set; }
     }
+
+	public static  class DriverCancellationRecordsIndexVMExts
+	{
+		public static DriverCancellationRecordsIndexVM ToDriverCancellationRecordsIndexVM(this DriverCancellationRecordDTO source)
+		{
+			return new DriverCancellationRecordsIndexVM
+			{
+				Id = source.Id,
+				OrderId = source.OrderId,
+				DriverId = source.DriverId,
+				DriverName = source.DriverName,				
+				Reason = source.Reason,
+				CancellationDate = source.CancellationDate,
+			};
+		}
+	}
 }

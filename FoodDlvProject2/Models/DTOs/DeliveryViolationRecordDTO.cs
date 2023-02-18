@@ -8,11 +8,24 @@ namespace FoodDlvProject2.EFModels
         public int ViolationId { get; set; }
         public long OrderId { get; set; }
         public DateTime ViolationDate { get; set; }
+        public string DriverName { get; internal set; }
+        public string ViolationContent { get; internal set; }
+        public string Content { get; internal set; }
     }
     public static class DeliveryViolationRecordExts
     {
-        public static DeliveryViolationRecordDTO ToEntity(this DeliveryViolationRecordDTO source)
+        public static DeliveryViolationRecordDTO ToEntity(this DeliveryViolationRecord source)
             => new DeliveryViolationRecordDTO
+            {
+                Id = source.Id,
+                DeliveryDriversId = source.DeliveryDriversId,
+                ViolationId = source.ViolationId,
+                OrderId = source.OrderId,
+                ViolationDate = source.ViolationDate,
+            };
+
+        public static DeliveryViolationRecord ToEFModel(this DeliveryViolationRecordDTO source)
+            => new DeliveryViolationRecord
             {
                 Id = source.Id,
                 DeliveryDriversId = source.DeliveryDriversId,
