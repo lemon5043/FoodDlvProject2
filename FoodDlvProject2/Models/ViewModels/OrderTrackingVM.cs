@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-    public class OrderVM
+    public class OrderTrackingVM
     {
                
         [Display(Name = "訂單編號")]
@@ -22,39 +22,33 @@ namespace FoodDlvProject2.Models.ViewModels
 		[Display(Name = "訂單成立時間")]
 		public DateTime OrderTime { get; set; }
 
-
-		public List<OrderScheduleDto> orderSchedule { get; set; }
-
-
-		[Display(Name = "訂單狀態時間")]
-		public DateTime MarkTime { get; set; }
-
-		[Display(Name = "外送地址")]
-        public string DeliveryAddress { get; set; }
-
         [Display(Name = "外送費")]
         public int DeliveryFee { get; set; }
 
         [Display(Name = "訂單總價")]
         public int Total { get; set; }
-                
-    }
 
-    public static partial class OrderDtoExts
+        [Display(Name = "訂單狀態")]
+        public string OrderStatus { get; set; }
+
+		
+
+
+	}
+
+	public static partial class OrderTrackingDtoExts
     {
-        public static OrderVM ToOrderVM(this OrderDto source)
+        public static OrderTrackingVM ToOrderTrackingVM(this OrderTrackingDto source)
         {
-            return new OrderVM
+            return new OrderTrackingVM
             {
                 Id = source.Id,
                 OrderTime = source.OrderTime,
                 MemberName = source.MemberName,
-                StoreName = source.StoreName,
-                orderSchedule = source.orderSchedule,
-                MarkTime = source.MarkTime,
-                DeliveryAddress = source.DeliveryAddress,
+                StoreName = source.StoreName,               
                 DeliveryFee = source.DeliveryFee,
-                Total = source.Total,                
+                Total = source.Total,
+                OrderStatus = source.OrderStatus,               
             };
         }
     }

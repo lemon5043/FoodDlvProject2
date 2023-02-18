@@ -11,7 +11,6 @@ namespace FoodDlvProject2.EFModels
         public long OrderId { get; set; }
         public int StatusId { get; set; }
         public DateTime MarkTime { get; set; }
-
         public virtual Order Order { get; set; }
         public virtual OrderStatue Status { get; set; }
     }

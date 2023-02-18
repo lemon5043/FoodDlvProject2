@@ -1,0 +1,55 @@
+﻿
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    max-width: 800px;
+    width: 100%;
+}
+
+    .container .steps {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+    }
+
+.steps .schedule {
+    position: relative;   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    font-size: 22px;
+    font-weight: 500;
+    border-radius: 50%;
+    background: whitesmoke;
+    border: 4px solid gainsboro;
+    z-index: 2;
+}
+
+/*藉由控制class active來顯示狀態點是否被選取*/
+.steps .schedule.active {
+    border-color: blue;
+    color: blue;
+}
+
+.steps .progress-bar {
+    position: absolute;
+    height: 4px;
+    width: 100%;
+    background: gainsboro;
+    /*控制進度條於狀態點上層或下層*/
+    z-index: 1;
+}
+
+.progress-bar .indicator {
+    position: absolute;
+    height: 100%;
+    /*使用寬度來顯示或隱藏進度條*/
+    width: 0%;
+    background: blue;      
+}

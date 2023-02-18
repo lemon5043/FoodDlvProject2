@@ -5,7 +5,7 @@ using System.Xml.Linq;
 namespace FoodDlvProject2.Models.DTOs
 {
     
-    public class OrderProductDto
+    public class OrderProductDetailDto
     {		
 		public long Id { get; set; }
 				
@@ -24,9 +24,9 @@ namespace FoodDlvProject2.Models.DTOs
 
     public static partial class ProductExts
     {
-        public static OrderProductDto ToOrderProductDto(this Product source)
+        public static OrderProductDetailDto ToOrderProductDto(this Product source)
         {
-            return new OrderProductDto
+            return new OrderProductDetailDto
 			{
 				Id = source.Id, 
 				StoreId = source.StoreId,
