@@ -1,0 +1,204 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "AppDbContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "FoodDlvAPI",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[AccountAddress]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AccountStatues]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AppealRecord]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BenefitStandard]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CartCustomizationItems]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Carts]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CommonReplies]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ComplaintStatus]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ComplaintType]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CreditCards]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DeliveryDrivers]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DeliveryDriverWorkStatuses]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DeliveryViolationRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DeliveryViolationTypes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DriverCancellationRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DriverCancellations]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Favourites]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Members]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MemberViolationRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MemberViolationTypes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OrderAssItems]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OrderCustomizationItems]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OrderDetails]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Orders]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OrderSchedules]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OrderStatues]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Pays]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProcessingStatues]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Products]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QA]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QACategory]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Staffs]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreBusinessHour]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreCancellationRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreCancellationTypes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreCategories]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StorePrincipals]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Stores]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoresCategoriesLists]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreViolationRecords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreViolationTypes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreWallet]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "fuen25group2.FoodDelivery",
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
