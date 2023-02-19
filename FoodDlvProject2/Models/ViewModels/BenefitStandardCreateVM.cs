@@ -1,12 +1,11 @@
-﻿using FoodDlvProject2.EFModels;
-using FoodDlvProject2.Models.DTOs;
+﻿using FoodDlvProject2.Models.DTOs;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-	public class BenefitStandardCreateVM
+    public class BenefitStandardCreateVM
 	{
 		public int Id { get; set; }
 		

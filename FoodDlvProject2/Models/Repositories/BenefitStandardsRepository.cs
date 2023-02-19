@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FoodDlvProject2.Models.Repositories
 {
-	public class BenefitStandardsRepository : IBenefitStandardsRepository
+    public class BenefitStandardsRepository : IBenefitStandardsRepository
 	{
 		private readonly AppDbContext db;
 

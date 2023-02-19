@@ -7,13 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDlvProject2", "FoodDlvP
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "方案項目", "方案項目", "{97C18555-AFAD-4BFA-A69E-9877E7C70090}"
 	ProjectSection(SolutionItems) = preProject
-		Dlivery_readme.txt = Dlivery_readme.txt
-		Order_readme.txt = Order_readme.txt
+		food-dlv-website\src\App.js = food-dlv-website\src\App.js
+		food-dlv-website\package-lock.json = food-dlv-website\package-lock.json
+		food-dlv-website\package.json = food-dlv-website\package.json
+		food-dlv-website\tailwind.config.js = food-dlv-website\tailwind.config.js
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat", "Chat\Chat.csproj", "{940E70E6-E7F2-4C21-AC50-418B80645DCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDlvAPI", "FoodDlvAPI\FoodDlvAPI.csproj", "{6469AE3A-D88B-4AEB-B10A-1667BDE71957}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDlvAPI", "FoodDlvAPI\FoodDlvAPI.csproj", "{6469AE3A-D88B-4AEB-B10A-1667BDE71957}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

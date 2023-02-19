@@ -1,5 +1,4 @@
-﻿using FoodDlvProject2.EFModels;
-using FoodDlvProject2.Models.DTOs;
+﻿using FoodDlvProject2.Models.DTOs;
 
 namespace FoodDlvProject2.Models.Services.Interfaces
 {

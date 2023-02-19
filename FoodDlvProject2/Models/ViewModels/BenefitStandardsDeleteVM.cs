@@ -1,11 +1,10 @@
-﻿using FoodDlvProject2.EFModels;
-using FoodDlvProject2.Models.DTOs;
+﻿using FoodDlvProject2.Models.DTOs;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-	public class BenefitStandardsDeleteVM
+    public class BenefitStandardsDeleteVM
 	{
         public int Id { get; set; }
         [Display(Name = "送餐費")]

@@ -1,0 +1,47 @@
+DeliveryDrivers
+
+2023/01/07
+[v]建立readme
+[v]完成appsettings連線字串
+[v]EntityFrameworkCore.Tools,EntityFrameworkCore.SqlSever,EntityFrameworkCore.Desin安裝完成
+[v]建立EFModels
+[v]刪除AppDbContext內的連線字串
+[v]在Program.cs內註冊AppDbContext
+[v]建立DeliveryDriversController
+[v]修改DeliveryDrivers:Index
+2023/01/08
+[v]修改DeliveryDriversController
+    [v]建立Index.cshtml
+    [v]建立Details.cshtml
+    [v]建立Create.cshtml
+    [v]建立Edit.cshtml
+    [v]建立Delete.cshtml
+[v]建立DeliveryRecrodesController
+    [v]建立Index.cshtml
+    [v]建立Details.cshtml
+    [v]建立Edit.cshtml
+        [v]Edit表單嵌值完成待測試
+[v]建立DeliveryViolationRecordsController
+    [v]建立Index
+    [v]建立Details
+[v]建立DeliveryCancellationRecordsController
+    [v]建立Index
+    [v]建立Details
+
+    todo
+[]DeliveryDriversController
+    []Edit無法正常改動，原因不明
+[]DeliveryRecrodesController
+    []建立Create
+    []建立Delete
+    []Details內的公里數需要以月計算
+    []Edit存入DB
+[]DeliveryViolationRecordsController
+    []建立Create
+    []建立Edit
+    []建立Delete
+[]DeliveryCancellationRecordsController
+    []建立Create
+    []建立Edit
+    []建立Delete
+
