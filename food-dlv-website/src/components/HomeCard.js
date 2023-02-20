@@ -1,7 +1,6 @@
 import React from "react";
 
 const HomeCard = ({ store }) => {
-  console.log(store);
   return (
     <div className="flex-shrink-0 w-80 p-4">
       <div className="bg-white h-96 shadow-lg rounded-lg overflow-hidden">

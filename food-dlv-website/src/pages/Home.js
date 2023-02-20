@@ -44,14 +44,22 @@ const Home = () => {
   ];
 
   return (
-    <div>
-      <div className="flex flex-row mt-20 justify-center overflow-x-auto">
+    <div className="bg-theme-color">
+      <div className="flex flex-row pt-20 justify-center overflow-x-auto">
         {stores.map((d) => {
           return <HomeCard store={d} />;
         })}
       </div>
       <div>
         <div className="flex">
+          <div className="slogan absolute bottom-36 left-24">
+            <h1 className=" text-4xl">想點什麼呢?</h1>
+            <h5>
+              以上的推薦您滿意嗎?
+              <br />
+              如不符合您需求請點這裡
+            </h5>
+          </div>
           <img className="w-1/5 m-auto" src={Table} alt="" />
         </div>
       </div>

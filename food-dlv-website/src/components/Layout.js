@@ -11,7 +11,7 @@ const Layout = () => {
         <ul className="flex justify-between w-full mr-4">
           {/* logo與文字 */}
           <li>
-            <Link to="/" className="text-2xl flex items-center p-4">
+            <Link to="/" className="text-2xl flex items-center px-4 py-1">
               <div className="text-4xl">
                 <img src={Logo} alt="logo.svg" className="w-14 -rotate-12" />
               </div>
@@ -20,15 +20,20 @@ const Layout = () => {
           </li>
           {/* 導覽列右側 nav */}
           <li className="flex items-center">
-            {/* 會員及設定超連結*/}
-            <div className="p-4">
-              <Link to="/user" className="text-2xl">
-                <i className="fa-solid fa-user"></i>
+            {/* (沒登入)登入超連結*/}
+            <div className="pr-4">
+              <Link
+                to="/login"
+                className="text-base bg-zinc-300 hover:bg-zinc-400 font-semibold py-2 px-4 rounded-full"
+              >
+                <i className="fa-solid  fa-user pr-2"></i>
+                登入/ 註冊
               </Link>
             </div>
+            {/* (有登入)會員及設定，等會認證後再說 */}
             {/* 購物車超連結 */}
             <div className="p-4">
-              <Link to="/cart" className="text-2xl">
+              <Link to="/cart" className="text-base">
                 <i className="fa-solid fa-bag-shopping"></i>
               </Link>
             </div>

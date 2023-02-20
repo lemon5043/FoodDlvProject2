@@ -5,6 +5,7 @@ import User from "./pages/User";
 import Error from "./pages/Error";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
+import Login from "./pages/Login";
 import "./styles/tailwind.css";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route index element={<Home />}></Route>
           <Route path="user" element={<User />}></Route>
           <Route path="cart" element={<Cart />}></Route>
+          <Route path="login" element={<Login />}></Route>
           <Route path="*" element={<Error />}></Route>
         </Route>
       </Routes>

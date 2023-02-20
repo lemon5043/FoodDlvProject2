@@ -62,6 +62,7 @@ namespace FoodDlvProject2.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 if (myimg != null)
                 {
                     using (var ms = new MemoryStream())
