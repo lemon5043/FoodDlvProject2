@@ -12,30 +12,35 @@ const Home = () => {
   // 測試用 array，等 API 寫好後會採用隨機店家挑選
   const stores = [
     {
+      id: 1,
       image: Macu,
       title: "麻古茶坊-中壢中正店",
       type: "飲料",
       time: 25,
     },
     {
+      id: 2,
       image: PrinceValley,
       title: "王子神谷",
       type: "甜點",
       time: 50,
     },
     {
+      id: 3,
       image: Threemom,
       title: "三媽臭臭鍋-實踐店",
       type: "火鍋",
       time: 35,
     },
     {
+      id: 4,
       image: Mcdonald,
       title: "麥當勞-中壢新生店",
       type: "飲料",
       time: 30,
     },
     {
+      id: 5,
       image: Honmono,
       title: "本物洋食",
       type: "義式",
@@ -47,7 +52,7 @@ const Home = () => {
     <div className="bg-theme-color">
       <div className="flex flex-row pt-20 justify-center overflow-x-auto">
         {stores.map((d) => {
-          return <HomeCard store={d} />;
+          return <HomeCard store={d} key={d.id} />;
         })}
       </div>
       <div>
