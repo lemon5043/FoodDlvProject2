@@ -18,7 +18,7 @@ namespace FoodDlvProject2.Models.ViewModels
 		public int UnitPrice { get; set; }
 
 		[Display(Name = "產品圖片")]
-		public byte[] Photo { get; set; }
+		public string Photo { get; set; }
 
 		[Display(Name = "產品說明")]
 		public string ProductContent { get; set; }

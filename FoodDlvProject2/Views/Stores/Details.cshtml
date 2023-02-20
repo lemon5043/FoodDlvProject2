@@ -32,7 +32,7 @@
 			@Html.DisplayNameFor(model => model.Photo)
 		</dt>
 		<dd class="col-sm-10">
-			@{
+		@*	@{
 				var imgSrc = "";
 				if (Model.Photo != null)
 				{
@@ -51,7 +51,7 @@
 
 
 
-			<img src="@imgSrc" width="100px" height="100px">
+			<img src="@imgSrc" width="100px" height="100px">*@
 		</dd>
 		<dt class="col-sm-2">
 			@Html.DisplayNameFor(model => model.StorePrincipal.Account)
@@ -101,25 +101,25 @@
 
 								<td>
 									@{
-										var imgSrcP = "";
-										if (p.Photo != null)
-										{
-											var base64StringP = Convert.ToBase64String(p.Photo);
-											imgSrcP = $"data:image/png;base64,{base64StringP}";
+									//	var imgSrcP = "";
+									//	if (p.Photo != null)
+									//	{
+									//		var base64StringP = Convert.ToBase64String(p.Photo);
+									//		imgSrcP = $"data:image/png;base64,{base64StringP}";
 
 
-										}
-										else
-										{
-											imgSrcP = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
+									//	}
+									//	else
+									//	{
+									//		imgSrcP = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
 
-										}
-
+									//	}
+													//< img src = "@imgSrcP" width = "100px" height = "100px" >
 									}
 
 
 
-									<img src="@imgSrcP" width="100px" height="100px">
+									
 
 
 								</td>

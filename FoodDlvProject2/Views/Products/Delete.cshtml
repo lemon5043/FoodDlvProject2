@@ -22,22 +22,22 @@
         </dt>
         <dd class = "col-sm-10">
             @{
-                var imgSrc = "";
-                if (Model.Photo != null)
-                {
-                    var base64String = Convert.ToBase64String(Model.Photo);
-                    imgSrc = $"data:image/png;base64,{base64String}";
+                //var imgSrc = "";
+                //if (Model.Photo != null)
+                //{
+                //    var base64String = Convert.ToBase64String(Model.Photo);
+                //    imgSrc = $"data:image/png;base64,{base64String}";
 
 
-                }
-                else
-                {
-                    imgSrc = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
+                //}
+                //else
+                //{
+                //    imgSrc = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
 
-                }
-
+                //}
+                //<img src="@imgSrc" width="100px" height="100px">
             }
-            <img src="@imgSrc" width="100px" height="100px">
+           
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ProductContent)
