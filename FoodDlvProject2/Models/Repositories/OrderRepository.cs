@@ -82,19 +82,7 @@ namespace FoodDlvProject2.Models.Repositories
 			}
 
 			//分頁處理
-			pageNumber = pageNumber > 0 ? pageNumber : 1;
-
-			//把搜尋結果轉換成Dto格式
-			//var data = query.Select(o => new OrderTrackingDto
-			//{
-			//	Id = o.Id,
-			//	MemberName = o.Member.LastName + o.Member.FirstName,
-			//	StoreName = o.Store.StoreName,
-			//	OrderTime = o.OrderSchedules.FirstOrDefault(os => os.StatusId == 1).MarkTime,
-			//	DeliveryFee = o.DeliveryFee,
-			//	Total = o.OrderDetails.Sum(od => od.Count * od.UnitPrice) + o.DeliveryFee,
-			//	OrderStatus = o.OrderSchedules.OrderBy(os => os.StatusId).LastOrDefault().Status.Status,
-			//});
+			pageNumber = pageNumber > 0 ? pageNumber : 1;			
 
 			return await query.ToPagedListAsync(pageNumber, pageSize);
 		}		

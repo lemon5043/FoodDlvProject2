@@ -19,14 +19,25 @@ namespace FoodDlvAPI.Controllers
         public CartController(AppDbContext context)
         {
             _context = context;
-            ICartRepository repo = new CartRepository(_context);
-            this._cartService = new CartService(repo);
+            ICartRepository cartRepo = new CartRepository(_context);
+            IProductRepository productRepo = new ProductRepository(_context);
+            this._cartService = new CartService(cartRepo, productRepo);
+        }
+
+        public int MemberAccount
+        {
+            get
+            {
+                int memberId;
+                int.TryParse(User.Identity.Name, out memberId);
+                return memberId;
+            }
         }
 
         [HttpPost]
         public IActionResult ItemToCart(CartVM request)
         {
-            var data = _cartService.ItemToCart(request);
+            _cartService.ItemToCart(MemberAccount, request);
 
             return new EmptyResult();
         }

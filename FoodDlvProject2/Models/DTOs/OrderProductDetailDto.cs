@@ -17,7 +17,7 @@ namespace FoodDlvProject2.Models.DTOs
 
 		public int UnitPrice { get; set; }
 
-		public byte[] Photo { get; set; }
+		public string Photo { get; set; }
 
 		public string ProductContent { get; set; }
 	}

@@ -22,9 +22,21 @@ namespace FoodDlvAPI.Services
         public void ItemToCart(CartVM request)
         {
             var cart = Current(request.MemberId);
-            
+
             var product = _productRepository.Load(request.ProductId, true);
             var cartPord = new CartProductDTO
+            {
+                ProductId = request.ProductId,
+                CustomizationItem = new ProductCustomizationItemDTO
+                {
+                    Id = request.customizationItem.Id,
+                    ItemName = request.customizationItem.ItemName,
+                    CustomizationItemPrice = request.customizationItem.CustomizationItemPrice,
+                },
+                Price = product.UnitPrice + request.customizationItem.CustomizationItemPrice,
+            };
+
+            //ADD
         }
 
         public CartDTO Current(int memberId)
