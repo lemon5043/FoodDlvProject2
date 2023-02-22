@@ -3,7 +3,7 @@ import React from "react";
 const Login = () => {
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className=" w-full p-6 m-auto bg-white rounded-md shadow-lg shadow-gray-900-600/40 ring ring-2 ring-neutral-700 max-w-md">
+      <div className=" w-full p-6 m-auto bg-white rounded-md shadow-lg shadow-gray-900-600/40 ring ring-neutral-700 max-w-md">
         <form className="mt-6">
           <div className="mb-2">
             <label

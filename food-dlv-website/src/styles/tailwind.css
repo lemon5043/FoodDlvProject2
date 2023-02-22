@@ -19,3 +19,12 @@
 ::-webkit-scrollbar-track {
   display: none;
 }
+
+.slick-prev {
+  left: 3%;
+  z-index: 1;
+}
+.slick-next {
+  right: 3%;
+  z-index: 1;
+}

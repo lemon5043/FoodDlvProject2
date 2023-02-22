@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import Slider from "react-slick";
 import "tw-elements";
 import HomeCard from "../components/HomeCard";
 import Macu from "../images/macu.jpg";
@@ -7,8 +8,52 @@ import Threemom from "../images/threemom.jpeg";
 import Mcdonald from "../images/mcdonald.jpg";
 import Table from "../images/table.jpg";
 import Honmono from "../images/honmono.jpg";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Home = () => {
+  const settings = {
+    arrows: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 2,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    responsive: [
+      {
+        breakpoint: 1500,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 3,
+        },
+      },
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 900,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          centerMode: true,
+        },
+      },
+    ],
+  };
   // 測試用 array，等 API 寫好後會採用隨機店家挑選
   const stores = [
     {
@@ -35,14 +80,49 @@ const Home = () => {
     {
       id: 4,
       image: Mcdonald,
-      title: "麥當勞-中壢新生店",
+      title: "麥當勞-中壢新生店cxc",
       type: "飲料",
       time: 30,
     },
     {
       id: 5,
       image: Honmono,
-      title: "本物洋食",
+      title: "本物洋食cxcz",
+      type: "義式",
+      time: 50,
+    },
+    {
+      id: 6,
+      image: Macu,
+      title: "麻古茶坊-中壢中正店cxzc",
+      type: "飲料",
+      time: 25,
+    },
+    {
+      id: 7,
+      image: PrinceValley,
+      title: "王子神谷cxcz",
+      type: "甜點",
+      time: 50,
+    },
+    {
+      id: 8,
+      image: Threemom,
+      title: "三媽臭臭鍋-實踐店cxzc",
+      type: "火鍋",
+      time: 35,
+    },
+    {
+      id: 9,
+      image: Mcdonald,
+      title: "麥當勞-中壢新生店ccxz",
+      type: "飲料",
+      time: 30,
+    },
+    {
+      id: 10,
+      image: Honmono,
+      title: "本物洋食cxzcz",
       type: "義式",
       time: 50,
     },
@@ -50,10 +130,12 @@ const Home = () => {
 
   return (
     <div className="bg-theme-color">
-      <div className="flex flex-row pt-20 justify-center overflow-x-auto">
-        {stores.map((d) => {
-          return <HomeCard store={d} key={d.id} />;
-        })}
+      <div className="pt-20">
+        <Slider {...settings}>
+          {stores.map((d) => {
+            return <HomeCard store={d} key={d.id} />;
+          })}
+        </Slider>
       </div>
       <div>
         <div className="flex">
