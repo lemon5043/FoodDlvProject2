@@ -35,6 +35,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[CartDetails]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Carts]",
          "ObjectType": 0
       },
@@ -95,10 +99,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[OrderAssItems]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[OrderCustomizationItems]",
          "ObjectType": 0
       },
@@ -124,6 +124,10 @@
       },
       {
          "Name": "[dbo].[ProcessingStatues]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProductCustomizationItems]",
          "ObjectType": 0
       },
       {

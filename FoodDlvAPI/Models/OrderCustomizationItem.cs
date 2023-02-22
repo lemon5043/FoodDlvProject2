@@ -7,19 +7,15 @@ namespace FoodDlvAPI.Models
 {
     public partial class OrderCustomizationItem
     {
-        public OrderCustomizationItem()
-        {
-            CartCustomizationItems = new HashSet<CartCustomizationItem>();
-            OrderAssItems = new HashSet<OrderAssItem>();
-        }
-
         public int Id { get; set; }
-        public long ProuctId { get; set; }
-        public string ItemName { get; set; }
-        public int UnitPrice { get; set; }
+        public int CustomizationItemId { get; set; }
+        public long ProductId { get; set; }
+        public long OrderDetailId { get; set; }
+        public int Count { get; set; }
+        public int IdentifyNum { get; set; }
 
-        public virtual Product Prouct { get; set; }
-        public virtual ICollection<CartCustomizationItem> CartCustomizationItems { get; set; }
-        public virtual ICollection<OrderAssItem> OrderAssItems { get; set; }
+        public virtual ProductCustomizationItem CustomizationItem { get; set; }
+        public virtual OrderDetail OrderDetail { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace FoodDlvAPI.Models
         public virtual DbSet<BenefitStandard> BenefitStandards { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<CartCustomizationItem> CartCustomizationItems { get; set; }
+        public virtual DbSet<CartDetail> CartDetails { get; set; }
         public virtual DbSet<CommonReply> CommonReplies { get; set; }
         public virtual DbSet<ComplaintStatus> ComplaintStatuses { get; set; }
         public virtual DbSet<ComplaintType> ComplaintTypes { get; set; }
@@ -38,7 +39,6 @@ namespace FoodDlvAPI.Models
         public virtual DbSet<MemberViolationRecord> MemberViolationRecords { get; set; }
         public virtual DbSet<MemberViolationType> MemberViolationTypes { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<OrderAssItem> OrderAssItems { get; set; }
         public virtual DbSet<OrderCustomizationItem> OrderCustomizationItems { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<OrderSchedule> OrderSchedules { get; set; }
@@ -46,6 +46,7 @@ namespace FoodDlvAPI.Models
         public virtual DbSet<Pay> Pays { get; set; }
         public virtual DbSet<ProcessingStatue> ProcessingStatues { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductCustomizationItem> ProductCustomizationItems { get; set; }
         public virtual DbSet<Qa> Qas { get; set; }
         public virtual DbSet<Qacategory> Qacategories { get; set; }
         public virtual DbSet<Staff> Staffs { get; set; }
@@ -60,15 +61,12 @@ namespace FoodDlvAPI.Models
         public virtual DbSet<StoreWallet> StoreWallets { get; set; }
         public virtual DbSet<StoresCategoriesList> StoresCategoriesLists { get; set; }
 
-
-        //由這裡讀取 appsettings.json 定義的 database 連線名稱及帳密，如此帳密資料就不會被外洩
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("FoodDelivery"));
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=fuen25group2.database.windows.net;Initial Catalog=FoodDelivery;Persist Security Info=True;User ID=FoodDiv;Password=Food1234");
             }
         }
 
@@ -135,34 +133,25 @@ namespace FoodDlvAPI.Models
                 entity.HasOne(d => d.Member)
                     .WithMany(p => p.Carts)
                     .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Carts_Members");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Carts)
-                    .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Carts_Products");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Carts)
                     .HasForeignKey(d => d.StoreId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Carts_Stores");
             });
 
-            modelBuilder.Entity<CartCustomizationItem>(entity =>
+            modelBuilder.Entity<CartDetail>(entity =>
             {
                 entity.HasOne(d => d.Cart)
-                    .WithMany(p => p.CartCustomizationItems)
+                    .WithMany(p => p.CartDetails)
                     .HasForeignKey(d => d.CartId)
-                    .HasConstraintName("FK_CartCustomizationItems_Carts");
+                    .HasConstraintName("FK_CartDetails_CartDetails");
 
-                entity.HasOne(d => d.CustomizationItem)
-                    .WithMany(p => p.CartCustomizationItems)
-                    .HasForeignKey(d => d.CustomizationItemId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CartCustomizationItems_CustomizationItems");
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.CartDetails)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_CartDetails_Products");
             });
 
             modelBuilder.Entity<CommonReply>(entity =>
@@ -463,32 +452,25 @@ namespace FoodDlvAPI.Models
                     .HasConstraintName("FK_Orders_Stores");
             });
 
-            modelBuilder.Entity<OrderAssItem>(entity =>
+            modelBuilder.Entity<OrderCustomizationItem>(entity =>
             {
                 entity.HasOne(d => d.CustomizationItem)
-                    .WithMany(p => p.OrderAssItems)
+                    .WithMany(p => p.OrderCustomizationItems)
                     .HasForeignKey(d => d.CustomizationItemId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrderAssItems_CustomizationItems");
 
                 entity.HasOne(d => d.OrderDetail)
-                    .WithMany(p => p.OrderAssItems)
+                    .WithMany(p => p.OrderCustomizationItems)
                     .HasForeignKey(d => d.OrderDetailId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrderAssItems_OrderDetails");
-            });
 
-            modelBuilder.Entity<OrderCustomizationItem>(entity =>
-            {
-                entity.Property(e => e.ItemName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.HasOne(d => d.Prouct)
+                entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderCustomizationItems)
-                    .HasForeignKey(d => d.ProuctId)
+                    .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderCustomizationItems_Products");
+                    .HasConstraintName("FK_OrderAssItems_Products");
             });
 
             modelBuilder.Entity<OrderDetail>(entity =>
@@ -552,6 +534,8 @@ namespace FoodDlvAPI.Models
 
             modelBuilder.Entity<Product>(entity =>
             {
+                entity.Property(e => e.Photo).HasMaxLength(50);
+
                 entity.Property(e => e.ProductContent).HasMaxLength(100);
 
                 entity.Property(e => e.ProductName)
@@ -567,6 +551,19 @@ namespace FoodDlvAPI.Models
                     .HasForeignKey(d => d.StoreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProductInformations_Stores");
+            });
+
+            modelBuilder.Entity<ProductCustomizationItem>(entity =>
+            {
+                entity.Property(e => e.ItemName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.Prouct)
+                    .WithMany(p => p.ProductCustomizationItems)
+                    .HasForeignKey(d => d.ProuctId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrderCustomizationItems_Products");
             });
 
             modelBuilder.Entity<Qa>(entity =>
@@ -647,6 +644,8 @@ namespace FoodDlvAPI.Models
                 entity.Property(e => e.ContactNumber)
                     .IsRequired()
                     .HasMaxLength(10);
+
+                entity.Property(e => e.Photo).HasMaxLength(50);
 
                 entity.Property(e => e.StoreName)
                     .IsRequired()
