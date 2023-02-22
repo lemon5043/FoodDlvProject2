@@ -26,13 +26,12 @@ namespace FoodDlvAPI.Repositories
         {
             if(_context.Carts.SingleOrDefault(c => c.MemberId == memberAccount) != null)
             {
-                return true; 
+                return true;
             }
             else
             {
                 return false;
-            }
-            
+            }            
         }
 
         /// <summary>
@@ -42,11 +41,11 @@ namespace FoodDlvAPI.Repositories
         /// <returns></returns>
         public CartDTO Load(int memberAccount)
         {
-            var data = _context.Carts
-                .AsNoTracking()
-                .Where(c => c.MemberId == memberAccount);                
+            var data = _context.Carts               
+                .SingleOrDefault(c => c.MemberId == memberAccount);
+            if (data == null) return null;
 
-            return (CartDTO)data;
+            return data.ToCartDTO();
         }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace FoodDlvAPI.Repositories
             _context.SaveChanges();
         }
 
-        public void AddItem(CartProductDTO product, int qty) 
+        public void AddItem(CartDetailDTO product, int qty) 
         { 
             if(product == null)
             {

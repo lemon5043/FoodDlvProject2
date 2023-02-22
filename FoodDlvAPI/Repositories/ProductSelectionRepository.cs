@@ -16,25 +16,25 @@ namespace FoodDlvAPI.Repositories
             _context = context;
         }
 
-        public IEnumerable<ProductSelectionDTO> GetProductSelection(long productId)
+        public IEnumerable<ProductDTO> GetProductSelection(long productId)
         {
             var data = _context.Products
-                .Select(p => new ProductSelectionDTO
+                .Select(p => new ProductDTO
                 {
                     ProductId = p.Id,
                     ProductName = p.ProductName,
                     ProductContent = p.ProductContent,
                     StoreId = p.StoreId,
-                    //ProductPhoto = p.Photo,
-                    ProductStatus = p.Status,
+                    Photo = p.Photo,
+                    Status = p.Status,
                     UnitPrice = p.UnitPrice,
-                    customizationItem = p.OrderCustomizationItems
-                        .Select(OCI => new ProductCustomizationItemDTO
+                    customizationItem = p.ProductCustomizationItems
+                        .Select(pci => new ProductCustomizationItemDTO
                         {
-                            ProuctId = OCI.Id,
-                            Id = OCI.Id,
-                            ItemName = OCI.ItemName,
-                            CustomizationItemPrice = OCI.UnitPrice,
+                            ProuctId = p.Id,
+                            Id = pci.Id,
+                            ItemName = pci.ItemName,
+                            CustomizationItemPrice = pci.UnitPrice,
                         })
                 })
                 .Where(p => p.ProductId == productId);

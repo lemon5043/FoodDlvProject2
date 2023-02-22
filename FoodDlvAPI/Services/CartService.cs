@@ -24,7 +24,7 @@ namespace FoodDlvAPI.Services
             var cart = Current(request.MemberId);
 
             var product = _productRepository.Load(request.ProductId, true);
-            var cartPord = new CartProductDTO
+            var cartPord = new CartDetailDTO
             {
                 ProductId = request.ProductId,
                 CustomizationItem = new ProductCustomizationItemDTO
