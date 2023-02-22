@@ -7,10 +7,10 @@ namespace FoodDlvAPI.DTOs
         public long ProductId { get; set; }
         public string? ProductName { get; set; }
         public int StoreId { get; set; }        
-        public byte[]? ProductPhoto { get; set; }
-        public string? ProductContent { get; set; }
-        public bool? ProductStatus { get; set; }
+        public string? ProductPhoto { get; set; }
+        public string? Content { get; set; }
+        public bool? Status { get; set; }
         public int UnitPrice { get; set; }
-        public IEnumerable<ProductCustomizationItemDTO>? customizationItem { get; set; }
+        public virtual IEnumerable<ProductCustomizationItemDTO>? customizationItem { get; set; }
     }
 }
