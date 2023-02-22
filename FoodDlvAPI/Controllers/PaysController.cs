@@ -26,22 +26,20 @@ namespace FoodDlvAPI.Controllers
 		}
 
         // GET: Pays/IndividualMonthly/5
-        public async Task<IActionResult> MonthlyDetails(int? id)
+        public async Task<IEnumerable<PaysMonthlyDetailsVM>> MonthlyDetails(int? id)
         {
 			var data = await paysService.GetMonthlyDetailsAsync(id);
-			var VM = data.Select(x => x.ToPaysMonthlyDetailsVM());
+			//ViewBag.DriverId = id;
+			//ViewBag.DriverName = VM.Select(x=>x.DriversName).FirstOrDefault();
 
-			ViewBag.DriverId = id;
-			ViewBag.DriverName = VM.Select(x=>x.DriversName).FirstOrDefault();
-
-			return View(VM);
+			return data.Select(x => x.ToPaysMonthlyDetailsVM());
         }
 
         // GET: Pays/IndividualMonthly/5
-        public async Task<IActionResult> IndividualMonthlyDetails(int? year, int? month, int? id)
+        public async Task<PaysIndividualMonthlyDetailsVM> IndividualMonthlyDetails(int? year, int? month, int? id)
 		{
 			var data = await paysService.GetIndividualMonthlyDetailsAsync(year, month, id);				
-			return View(data.ToPaysIndividualMonthlyDetailsVM());
+			return data.ToPaysIndividualMonthlyDetailsVM();
 		}
 
 	}

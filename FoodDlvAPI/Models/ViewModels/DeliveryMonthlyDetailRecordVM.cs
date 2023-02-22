@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace FoodDlvProject2.Models.ViewModels
+namespace FoodDlvAPI.Models.ViewModels
 {
     public class DeliveryMonthlyDetailRecordVM
     {

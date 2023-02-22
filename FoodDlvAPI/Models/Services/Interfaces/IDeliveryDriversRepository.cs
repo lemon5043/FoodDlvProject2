@@ -10,6 +10,7 @@ namespace FoodDlvAPI.Models.Services.Interfaces
         Task<DeliveryDriverDTO> GetOneAsync(int? id);
         Task<DeliveryDriverDTO> GetEditAsync(int? id);
         Task<string> CreateAsync(DeliveryDriverEntity model);
-        Task<bool> Login(string account, string password);
+        DeliveryDriverEntity Load(string account);
+        DeliveryDriverEntity GetByAccount(string account)
     }
 }

@@ -70,5 +70,24 @@ namespace FoodDlvAPI.Models.Entitys
                 RegistrationTime = model.RegistrationTime,
             };
         }
+        public static DeliveryDriverEntity ToEntity(this DeliveryDriver entity)
+        {
+            if (entity == null) return null;
+
+            return new DeliveryDriverEntity
+            {
+                Id = entity.Id,
+                Account = entity.Account,
+                Password = entity.Password,
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+                Phone = entity.Phone,
+                Gender = entity.Gender,
+                BankAccount = entity.BankAccount,
+                Birthday = entity.Birthday,
+                Email = entity.Email,
+                RegistrationTime = entity.RegistrationTime,
+            };
+        }
     }
 }

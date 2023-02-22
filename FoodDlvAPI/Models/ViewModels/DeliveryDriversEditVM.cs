@@ -74,9 +74,9 @@ namespace FoodDlvAPI.Models.ViewModels
                 DriverLicensePath = source.DriverLicense,
             };
         }
-        public static DeliveryDriverEditEntity ToDeliveryDriverEntity(this DeliveryDriversEditVM source)
+        public static DeliveryDriverEntity ToDeliveryDriverEntity(this DeliveryDriversEditVM source)
         {
-            return new DeliveryDriverEditEntity
+            return new DeliveryDriverEntity
             {
                 Id = source.Id,
                 FirstName = source.FirstName,

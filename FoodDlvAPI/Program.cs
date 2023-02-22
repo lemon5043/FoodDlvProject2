@@ -1,7 +1,11 @@
+using FoodDlvAPI.Hubs;
 using FoodDlvAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//加入 SignalR
+builder.Services.AddSignalR();
 
 // Add services to the container.
 
@@ -35,5 +39,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+//加入 Hub
+app.MapHub<OrderHub>("/OrderHub");
 
 app.Run();

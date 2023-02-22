@@ -15,6 +15,10 @@ using FoodDlvAPI.Models.Repositories;
 using FoodDlvAPI.Models;
 using FoodDlvAPI.Models.ViewModels;
 using FoodDlvAPI.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace FoodDlvAPI.Controllers
 {
@@ -29,11 +33,57 @@ namespace FoodDlvAPI.Controllers
             this.deliveryDriverService = new DeliveryDriverService(repository);
         }
 
-        public async Task<bool> Login(LoginVM model)
+        [HttpPost]
+        public async Task<string> Login(LoginVM model)
         {
-            LoginResponse response = deliveryDriverService.Login(model.Account, model.Password);
+            LoginResponse response = await deliveryDriverService.Login(model.Account, model.Password);
 
-            return await deliveryDriverService.Login(model.Account,model.Password);
+            if (response.IsSuccess)
+            {
+                // 記住登入成功的會員，
+                var rememberMe = true;
+
+                var member = deliveryDriverService.GetByAccount(model.Account);
+                //string roles = member.Role;
+
+                var claims = new List<Claim>
+                {
+                     new Claim(ClaimTypes.Name, member.FirstName),
+                     //new Claim(ClaimTypes.Role, roles),
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = rememberMe,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(3),
+                };
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity), authProperties);
+
+                var url = LocalRedirect("/Home/Index");
+                return url.ToString();
+            }
+
+            ModelState.AddModelError(string.Empty, response.ErrorMessage);
+
+            return response.ErrorMessage;
+        }
+
+
+
+        [AllowAnonymous]
+        public async Task<IActionResult> LogOut()
+        {
+
+            // Clear the existing external cookie
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var url = LocalRedirect("/Staffs/Login");
+            return url;
         }
 
         // GET: DeliveryDrivers/Details/5

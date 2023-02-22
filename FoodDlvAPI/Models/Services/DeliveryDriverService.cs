@@ -38,23 +38,22 @@ namespace FoodDlvAPI.Models.Services
 
         public async Task<LoginResponse> Login(string account, string password)
         {
-            DeliveryDriverEntity member = _repository.Load(account);
+            DeliveryDriverEntity Driver = _repository.Load(account);
 
-            if (member == null)
+            if (Driver == null)
             {
                 return LoginResponse.Fail("帳密有誤");
             }
 
-            if (!member.IsConfirmed)
-            {
-                return LoginResponse.Fail("會員資格尚未確認");
-            }
+            string encryptedPwd = HashUtility.ToSHA256(password, DeliveryDriverEntity.SALT);
 
-            string encryptedPwd = HashUtility.ToSHA256(password, MemberEntity.SALT);
-
-            return (String.CompareOrdinal(member.Password, encryptedPwd) == 0)
+            return (String.CompareOrdinal(Driver.Password, encryptedPwd) == 0)
                 ? LoginResponse.Success()
                 : LoginResponse.Fail("帳密有誤");
         }
+
+        public DeliveryDriverEntity GetByAccount(string account)
+            =>  _repository.GetByAccount(account);
+
     }
 }

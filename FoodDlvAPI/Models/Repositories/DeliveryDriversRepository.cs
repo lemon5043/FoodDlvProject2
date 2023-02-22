@@ -18,9 +18,13 @@ namespace FoodDlvAPI.Models.Repositories
             this.db = db;
         }
 
-        public async Task<bool> IDeliveryDriversRepository.Login(string account, string password)
+        public DeliveryDriverEntity Load(string account)
+            => db.DeliveryDrivers
+                .SingleOrDefault(x => x.Account == account).ToEntity();
+
+        public DeliveryDriverEntity GetByAccount(string account)
         {
-            throw new NotImplementedException();
+            return db.DeliveryDrivers.SingleOrDefault(x => x.Account == account).ToEntity();
         }
 
         public async Task<DeliveryDriverDTO> GetOneAsync(int? id)
