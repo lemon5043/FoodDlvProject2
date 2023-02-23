@@ -37,9 +37,9 @@ namespace FoodDlvAPI.Models.Repositories
                    Status = s.Status.ToString(),
                    DriverName = s.LastName + s.FirstName,
                    DeliveryDriversId = s.DeliveryDriversId
-               });
+               }).ToList();
 
-            return await query.ToListAsync();
+            return query;
         }
 
         public async Task<List<DeliveryRecordDTO>> GetMonthlyRecordAsync(int? id)
@@ -74,11 +74,11 @@ namespace FoodDlvAPI.Models.Repositories
                    TotalDelievery = s.Count(),
                    OrderDate = s.Min(x => x.OrderDate),
                    DriverName = s.Select(x => x.DriverName).FirstOrDefault(),
-               });
+               }).ToList();
 
             if (query == null) throw new Exception("很抱歉找不到相關的資料");
 
-            return await query.ToListAsync();
+            return query;
         }
 
         public async Task<List<DeliveryRecordDTO>> GetIndividualMonthlyRecordAsync(int? year, int? month, int? id)
@@ -109,11 +109,11 @@ namespace FoodDlvAPI.Models.Repositories
                     Milage = s.Milage,
                     Status = s.Status.ToString(),
                     DriverName = s.LastName + s.FirstName,
-                });
+                }).ToList();
 
             if (query == null) throw new Exception("很抱歉找不到相關的資料");
 
-            return await query.ToListAsync();
+            return query;
         }
     }
 }

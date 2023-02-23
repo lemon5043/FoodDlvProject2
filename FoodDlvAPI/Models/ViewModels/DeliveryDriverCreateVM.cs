@@ -1,4 +1,5 @@
 ﻿using FoodDlvAPI.Models.DTOs;
+using FoodDlvAPI.Models.Entitys;
 using FoodDlvAPI.Models.Infrastructures.ExtensionMethods;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
@@ -60,9 +61,9 @@ namespace FoodDlvAPI.Models.ViewModels
     }
     public static class DeliveryDriverCreateVMExts
     {
-        public static DeliveryDriverCreateEntity ToDeliveryDriverEditDTO(this DeliveryDriverCreateVM source)
+        public static DeliveryDriverEntity ToDeliveryDriverEditDTO(this DeliveryDriverCreateVM source)
         {
-            return new DeliveryDriverCreateEntity
+            return new DeliveryDriverEntity
             {
                 Id = source.Id,
                 Account= source.Account,
