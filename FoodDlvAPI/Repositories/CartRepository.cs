@@ -26,13 +26,12 @@ namespace FoodDlvAPI.Repositories
         {
             if(_context.Carts.SingleOrDefault(c => c.MemberId == memberAccount) != null)
             {
-                return true; 
+                return true;
             }
             else
             {
                 return false;
-            }
-            
+            }            
         }
 
         /// <summary>
@@ -42,11 +41,10 @@ namespace FoodDlvAPI.Repositories
         /// <returns></returns>
         public CartDTO Load(int memberAccount)
         {
-            var data = _context.Carts
-                .AsNoTracking()
-                .Where(c => c.MemberId == memberAccount);                
+            var data = _context.Carts               
+                .SingleOrDefault(c => c.MemberId == memberAccount);            
 
-            return (CartDTO)data;
+            return data.ToCartDTO();
         }
 
         /// <summary>
@@ -75,7 +73,7 @@ namespace FoodDlvAPI.Repositories
             _context.SaveChanges();
         }
 
-        public void AddItem(CartProductDTO product, int qty) 
+        public void AddItem(CartDetailDTO product, int qty) 
         { 
             if(product == null)
             {
@@ -86,9 +84,9 @@ namespace FoodDlvAPI.Repositories
                 throw new ArgumentOutOfRangeException(nameof(qty));
             }
 
-            var item = _context.Carts
-                .SingleOrDefault(x => (x.ProductId == product.ProductId)
-                && (x.CartCustomizationItems.Id == product.CustomizationItem.Id));
+            //var item = _context.Carts
+            //    .SingleOrDefault(x => (x.ProductId == product.ProductId)
+            //    && (x.CartCustomizationItems.Id == product.CustomizationItem.Id));
         }
     }
 }

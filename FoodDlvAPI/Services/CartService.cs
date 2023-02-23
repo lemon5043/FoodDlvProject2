@@ -1,6 +1,7 @@
 ﻿using FoodDlvAPI.DTOs;
 using FoodDlvAPI.Interfaces;
 using FoodDlvAPI.ViewModels;
+using NuGet.Protocol.Core.Types;
 
 namespace FoodDlvAPI.Services
 {
@@ -19,35 +20,43 @@ namespace FoodDlvAPI.Services
             _productRepository = productRepository;
         }
 
-        public void ItemToCart(CartVM request)
+        public void ItemToCart(int memberAccount, CartVM request)
         {
-            var cart = Current(request.MemberId);
+            var cart = Current(memberAccount);
 
-            var product = _productRepository.Load(request.ProductId, true);
-            var cartPord = new CartProductDTO
-            {
-                ProductId = request.ProductId,
-                CustomizationItem = new ProductCustomizationItemDTO
-                {
-                    Id = request.customizationItem.Id,
-                    ItemName = request.customizationItem.ItemName,
-                    CustomizationItemPrice = request.customizationItem.CustomizationItemPrice,
-                },
-                Price = product.UnitPrice + request.customizationItem.CustomizationItemPrice,
-            };
+            var product = _productRepository.Load(request.ProductId, request.customizationItem.Id, true);
+            var cartDetail = new CartDetailDTO(product.ProductId, request.Qty, cart.Id);
+            //int identifyNum = product.IdentifyNumSelector();
 
-            //ADDITEM
+
+            //var cartCustomizationItem = product.ProductCustomizationItems
+            //    .Select(pci => new CartCustomizationItemDTO
+            //    (
+            //        pci.Id,
+            //        pci.ProuctId,
+            //        cartDetail.Id,
+            //        request.Qty,
+            //        identifyNum
+            //    ));
+
+            //cart.AddItem(request.Qty);
+            //_cartRepository.Save(cart);
         }
 
-        public CartDTO Current(int memberId)
+        //public int IdentifyNumSelector()
+        //{
+
+        //}
+
+        public CartDTO Current(int memberAccount)
         {
-            if (_cartRepository.IsExists(memberId))
+            if (_cartRepository.IsExists(memberAccount))
             {
-                return _cartRepository.Load(memberId);
+                return _cartRepository.Load(memberAccount);
             }
             else
             {
-                return _cartRepository.CreateNewCart(memberId);
+                return _cartRepository.CreateNewCart(memberAccount);
             }
         }
     }

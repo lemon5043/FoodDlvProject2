@@ -28,9 +28,9 @@ namespace FoodDlvAPI.Controllers
         /// <param name="productId">搜尋條件-產品Id</param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult ProductSelection(int productId)
+        public IActionResult ProductSelection(int productId, bool? status)
         {
-            var data = _productSelectionService.ProductSelection(productId);
+            var data = _productSelectionService.ProductSelection(productId, status);
 
             return Json(data);
         }
