@@ -5,6 +5,7 @@ namespace FoodDlvAPI.Hubs
 {
     public class OrderHub : Hub
     {
+
         /// <summary>
         /// 將使用者加入Hub群組，方便建立連線
         /// </summary>

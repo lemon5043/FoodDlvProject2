@@ -28,7 +28,7 @@ namespace FoodDlvAPI.Models.ViewModels
         [Display(Name = "違規次數")]
         public int? DeliveryViolationRecords { get; set; }
         [Display(Name = "外送評分")]
-        public string? DriverRating { get; set; }
+        public double? DriverRating { get; set; }
         [Display(Name = "註冊時間")]
         public DateTime RegistrationTime { get; set; }
         [Display(Name = "身分證")]
@@ -52,7 +52,7 @@ namespace FoodDlvAPI.Models.ViewModels
                 Phone = source.Phone,
                 Email = source.Email,
                 BankAccount = source.BankAccount,
-                DriverRating = string.IsNullOrEmpty(string.Format("{0:N1}", source.DriverRating)) ? "0.0" : string.Format("{0:N1}", source.DriverRating),
+                DriverRating = source.DriverRating,
                 RegistrationTime = source.RegistrationTime,
                 Idcard = source.Idcard,
                 VehicleRegistration = source.VehicleRegistration,
