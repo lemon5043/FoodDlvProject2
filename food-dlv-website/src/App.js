@@ -3,10 +3,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import User from "./pages/User";
 import Error from "./pages/Error";
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
-import "./styles/tailwind.css";
+import "./assets/styles/tailwind.css";
 
 function App() {
   return (

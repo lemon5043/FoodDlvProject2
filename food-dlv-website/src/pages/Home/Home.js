@@ -1,17 +1,18 @@
 import React from "react";
 import Slider from "react-slick";
-import "tw-elements";
-import HomeCard from "../components/HomeCard";
-import Macu from "../images/macu.jpg";
-import PrinceValley from "../images/王子神谷.jpg";
-import Threemom from "../images/threemom.jpeg";
-import Mcdonald from "../images/mcdonald.jpg";
-import Table from "../images/table.jpg";
-import Honmono from "../images/honmono.jpg";
+import About from "./About";
+import HomeCard from "./HomeCard";
+import Macu from "../../assets/images/macu.jpg";
+import PrinceValley from "../../assets/images/王子神谷.jpg";
+import Threemom from "../../assets/images/threemom.jpeg";
+import Mcdonald from "../../assets/images/mcdonald.jpg";
+import Table from "../../assets/images/table.jpg";
+import Honmono from "../../assets/images/honmono.jpg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const Home = () => {
+  // slick 設定
   const settings = {
     arrows: false,
     infinite: true,
@@ -147,9 +148,10 @@ const Home = () => {
               如不符合您需求請點這裡
             </h5>
           </div>
-          <img className="w-1/5 m-auto" src={Table} alt="" />
+          <img className="w-80 mx-auto mt-8" src={Table} alt="" />
         </div>
       </div>
+      <About />
     </div>
   );
 };
