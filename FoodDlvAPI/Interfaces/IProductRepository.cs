@@ -10,6 +10,6 @@ namespace FoodDlvAPI.Interfaces
         /// <param name="productId"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        ProductDTO Load(long productId, bool? status);
+        ProductDTO Load(long productId, int itemId, bool? status);
     }
 }

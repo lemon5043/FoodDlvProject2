@@ -32,6 +32,6 @@ namespace FoodDlvAPI.Interfaces
         /// <param name="memberId"></param>
         void EmptyCart(int memberId);
 
-        void Save(CartDTO cart);
+        //void Save(CartDTO cart);
     }
 }

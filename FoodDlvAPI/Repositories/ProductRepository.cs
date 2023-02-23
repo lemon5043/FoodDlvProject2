@@ -2,6 +2,7 @@
 using FoodDlvAPI.Interfaces;
 using FoodDlvAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FoodDlvAPI.Repositories
 {
@@ -16,31 +17,19 @@ namespace FoodDlvAPI.Repositories
             _context = context;
         }
 
-        public ProductDTO Load(long productId, bool? status)
+        public ProductDTO Load(long productId, int itemId, bool? status)
         {
-            var query = _context.Products
-                .AsNoTracking()
-                .Include(p => p.ProductCustomizationItems.Where(pci => pci.ProuctId == productId))
-                .Where(p => p.Id == productId);
-            if(status.HasValue)
-            {
-                query = query.Where(p => p.Status == status);
-            }
+            var product = _context.Products
+                .SingleOrDefault(p => p.Id == productId && (status == null || p.Status == status));
+            if (product == null || status == false) throw new Exception("無此商品或商品已下架");                        
+            
+            var customizationItem = _context.ProductCustomizationItems
+                .Where(pci => pci.Id == itemId).ToList();                
+            //if (customizationItem == null) throw new Exception("無此客製化選項");
 
-            var product = query.FirstOrDefault();
-            var items = product.ProductCustomizationItems.Select(p => new ProductCustomizationItemDTO()
-            {
-
-            });
-
-            if(product == null) 
-            {
-                return null;
-            }
-            else
-            {
-                return product.ToProductDTO(items);
-            }
+            var loadData = product.ToProductDTO(customizationItem);                                                      
+           
+            return loadData;            
         }
     }
 }

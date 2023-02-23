@@ -1,6 +1,7 @@
 ﻿using FoodDlvAPI.DTOs;
 using FoodDlvAPI.Interfaces;
 using FoodDlvAPI.Models;
+using FoodDlvAPI.ViewModels;
 using Microsoft.CodeAnalysis;
 
 namespace FoodDlvAPI.Repositories
@@ -16,30 +17,18 @@ namespace FoodDlvAPI.Repositories
             _context = context;
         }
 
-        public IEnumerable<ProductDTO> GetProductSelection(long productId)
+        public ProductDTO GetProductSelection(long productId, bool? status)
         {
-            var data = _context.Products
-                .Select(p => new ProductDTO
-                {
-                    ProductId = p.Id,
-                    ProductName = p.ProductName,
-                    ProductContent = p.ProductContent,
-                    StoreId = p.StoreId,
-                    Photo = p.Photo,
-                    Status = p.Status,
-                    UnitPrice = p.UnitPrice,
-                    customizationItem = p.ProductCustomizationItems
-                        .Select(pci => new ProductCustomizationItemDTO
-                        {
-                            ProuctId = p.Id,
-                            Id = pci.Id,
-                            ItemName = pci.ItemName,
-                            CustomizationItemPrice = pci.UnitPrice,
-                        })
-                })
-                .Where(p => p.ProductId == productId);
+            var product = _context.Products
+                .SingleOrDefault(p => p.Id == productId && (status == null || p.Status == status));
+            if (product == null || status == false) throw new Exception("無此商品或商品已下架");
 
-            return data;
+            var customizationItem = _context.ProductCustomizationItems
+                .Where(pci => pci.ProuctId == productId).ToList();              
+
+            var productSelectionData = product.ToProductDTO(customizationItem);
+
+            return productSelectionData;
         }
     }
 }

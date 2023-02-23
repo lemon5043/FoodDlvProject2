@@ -9,6 +9,6 @@ namespace FoodDlvAPI.Interfaces
         /// </summary>
         /// <param name="productId"></param>
         /// <returns></returns>
-        IEnumerable<ProductDTO> GetProductSelection(long productId);
+        ProductDTO GetProductSelection(long productId, bool? status);
     }
 }
