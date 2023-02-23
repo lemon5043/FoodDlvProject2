@@ -15,7 +15,7 @@ namespace FoodDlvAPI.Services
             _repository = repository;
         }
                 
-        public IEnumerable<ProductDTO> ProductSelection(int productId, bool? status)
+        public ProductDTO ProductSelection(int productId, bool? status)
         {
             var data = _repository.GetProductSelection(productId, status);
 
