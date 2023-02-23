@@ -7,6 +7,7 @@ import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import "./assets/styles/tailwind.css";
+import Delivery from "./pages/Delivery/Delivery";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="login" element={<Login />}></Route>
           <Route path="*" element={<Error />}></Route>
         </Route>
+        <Route path="delivery" element={<Delivery />}></Route>
       </Routes>
     </BrowserRouter>
   );
