@@ -18,9 +18,9 @@ namespace FoodDlvAPI.Repositories
         }
 
         
-        public bool IsExists(int memberAccount)
+        public bool IsExists(int memberAccount, int storeId)
         {
-            if(_context.Carts.SingleOrDefault(c => c.MemberId == memberAccount) != null)
+            if(_context.Carts.SingleOrDefault(c => c.MemberId == memberAccount && c.StoreId == storeId) != null)
             {
                 return true;
             }
@@ -30,21 +30,25 @@ namespace FoodDlvAPI.Repositories
             }            
         }
                 
-        public CartDTO Load(int memberAccount)
+        public CartDTO Load(int memberAccount, int storeId)
         {
             var data = _context.Carts               
-                .SingleOrDefault(c => c.MemberId == memberAccount);            
+                .SingleOrDefault(c => c.MemberId == memberAccount && c.StoreId == storeId);            
 
             return data.ToCartDTO();
         }
         
-        public CartDTO CreateNewCart(int memberAccount)
+        public CartDTO CreateNewCart(int memberAccount, int storeId)
         {
-            var cart = new Cart { MemberId = memberAccount };
+            var cart = new Cart
+            {
+                MemberId = memberAccount,
+                StoreId = storeId
+            };
             _context.Carts.Add(cart);
             _context.SaveChanges();
 
-            return Load(memberAccount);
+            return Load(memberAccount, storeId);
         }
        
         public void EmptyCart(int memberAccount)
@@ -87,7 +91,6 @@ namespace FoodDlvAPI.Repositories
                 _context.CartCustomizationItems.Add(cartCustomizationItemEntity);
             }
             _context.SaveChanges();
-
         }
     }
 }

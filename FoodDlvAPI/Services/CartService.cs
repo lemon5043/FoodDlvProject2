@@ -25,7 +25,7 @@ namespace FoodDlvAPI.Services
         {
             if (request.Qty <= 0) throw new Exception("商品數量不可小於1");
 
-            var cart = Current(memberAccount);
+            var cart = Current(memberAccount, request.StoreId);
 
             var product = _productRepository.Load(request.ProductId, request.customizationItem.Id, true);
             var cartDetail = new CartDetailDTO(product.ProductId, request.Qty, cart.Id);
@@ -45,18 +45,30 @@ namespace FoodDlvAPI.Services
         }
         
 
-        public CartDTO Current(int memberAccount)
+        public CartDTO Current(int memberAccount, int storeId)
         {
-            if (_cartRepository.IsExists(memberAccount))
+            if (_cartRepository.IsExists(memberAccount, storeId))
             {
-                return _cartRepository.Load(memberAccount);
+                return _cartRepository.Load(memberAccount, storeId);
             }
             else
             {
-                return _cartRepository.CreateNewCart(memberAccount);
+                return _cartRepository.CreateNewCart(memberAccount, storeId);
             }
         }
 
-        
+        //public void UpdateCart(int memberAccount, CartVM request) 
+        //{ 
+        //    if(request.Qty <= 0)
+        //    {
+        //        request.Qty = 0;
+        //    }
+        //    else
+        //    {
+        //        request.Qty = request.Qty;
+        //    }            
+        //    var cart = Current(memberAccount);           
+            
+        //}
     }
 }

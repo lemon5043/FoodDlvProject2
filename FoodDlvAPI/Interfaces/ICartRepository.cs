@@ -10,21 +10,21 @@ namespace FoodDlvAPI.Interfaces
         /// </summary>
         /// <param name="memberId"></param>
         /// <returns></returns>
-        bool IsExists(int memberId);
+        bool IsExists(int memberId, int storeId);
 
         /// <summary>
         /// 建立該會員專屬的購物車主檔紀錄
         /// </summary>
         /// <param name="memberId"></param>
         /// <returns></returns>
-        CartDTO CreateNewCart(int memberId);
+        CartDTO CreateNewCart(int memberId, int storeId);
 
         /// <summary>
         /// 讀取目前購物車的內容
         /// </summary>
         /// <param name="memberId"></param>
         /// <returns></returns>
-        CartDTO Load(int memberId);
+        CartDTO Load(int memberId, int storeId);
         
         /// <summary>
         /// 清空購物車, 並刪除Database中的購物車主檔與明細檔

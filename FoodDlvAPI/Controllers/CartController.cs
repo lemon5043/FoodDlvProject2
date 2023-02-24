@@ -30,7 +30,8 @@ namespace FoodDlvAPI.Controllers
             {
                 int memberId;
                 int.TryParse(User.Identity.Name, out memberId);
-                return memberId;
+                int testId = 2;
+                return testId;
             }
         }
 
@@ -38,17 +39,22 @@ namespace FoodDlvAPI.Controllers
         public IActionResult ItemToCart(CartVM request)
         {
             _cartService.ItemToCart(MemberAccount, request);
-
             return new EmptyResult();
         }
 
         [HttpGet]
-
-        public IActionResult ShowCart()
+        public IActionResult ShowCart(CartVM? request)
         {
-            var CartData = _cartService.Current(MemberAccount);
-
+            var CartData = _cartService.Current(MemberAccount, request.StoreId);
             return Json(CartData);
         }
+
+        //public IActionResult UpdateCart(CartVM request)
+        //{
+        //    _cartService.UpdateCart(MemberAccount, request);
+        //    return new EmptyResult();   
+        //}
+
+
     }
 }
