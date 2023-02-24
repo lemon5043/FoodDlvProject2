@@ -6,6 +6,7 @@ using FoodDlvAPI.Models.Services.Interfaces;
 using FoodDlvAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using NuGet.Protocol;
 using System.Data;
 
 namespace FoodDlvAPI.Controllers
@@ -51,7 +52,7 @@ namespace FoodDlvAPI.Controllers
         //訂單指派，商家完成訂單後觸發
         //像前端發送請求
         //AasignmentOrderVM傳送簡單的訂單資訊
-        [HttpGet]//可能是?
+        //[HttpGet("{orderId}")]可能是?
         public async Task<AasignmentOrderVM> OrderAasignment(int orderId)
         {
             var data = await deliveryService.GetOrderDetail(orderId);
@@ -60,19 +61,27 @@ namespace FoodDlvAPI.Controllers
 
         //
         //接受or取消請求
-        public async Task OrderAasignment(bool reply, int orderId)
+        [HttpGet("{reply}/{orderId}")]
+        public async Task<AasignmentOrderVM> OrderAasignment(bool reply, int orderId)
         {
+
+            //接受訂單
             if (reply)
             {
-                deliveryService.NavigationToStore(orderId);
+                var data = await deliveryService.NavigationToStore(orderId);
+                return data.ToAasignmentOrderVM();
             }
-            //todo 回報給店家        
+            //取消接單
+            //todo 通知店家重新尋單
+            //await _hubContext.Groups()
+
         }
 
         [HttpGet("{orderId}")]
         public async Task<string> MealConfirmation(int orderId)
         {
-            return await deliveryService.NavigationToCustomer(orderId); ;
+            var data = deliveryService.NavigationToCustomer(orderId);
+            return await data;
         }
 
         public async Task DeliveryArrive(int orderId)

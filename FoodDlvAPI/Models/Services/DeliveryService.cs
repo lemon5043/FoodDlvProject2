@@ -1,6 +1,7 @@
 ﻿using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Models.Services.Interfaces;
 using FoodDlvAPI.Models.ViewModels;
+using NuGet.Protocol;
 using System.Net;
 
 namespace FoodDlvAPI.Models.Services
@@ -23,7 +24,10 @@ namespace FoodDlvAPI.Models.Services
         public async Task<AasignmentOrderDTO> GetOrderDetail(int orderId)
             => await _repository.GetOrderDetail(orderId);
 
-
+        public void NavigationToStore(int orderId)
+        {
+            throw new NotImplementedException();
+        }
 
 
         public async Task<string> NavigationToCustomer(int orderId)
@@ -40,10 +44,10 @@ namespace FoodDlvAPI.Models.Services
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             Stream dataStream = response.GetResponseStream();
             // Open the stream using a StreamReader for easy access.
-            StreamReader reader = new StreamReader(dataStream);
+            StreamReader reader = new StreamReader(dataStream);          
             // Read the content.
             string responseFromServer = reader.ReadToEnd();
-
+          
             // Cleanup the streams and the response.
             reader.Close();
             dataStream.Close();
@@ -51,12 +55,6 @@ namespace FoodDlvAPI.Models.Services
 
             return responseFromServer;
         }
-
-        public void NavigationToStore(int orderId)
-        {
-            throw new NotImplementedException();
-        }
-
         public void OrderArrive(int orderId)
         {
             throw new NotImplementedException();
