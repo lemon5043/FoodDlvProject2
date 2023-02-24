@@ -41,5 +41,14 @@ namespace FoodDlvAPI.Controllers
 
             return new EmptyResult();
         }
+
+        [HttpGet]
+
+        public IActionResult ShowCart()
+        {
+            var CartData = _cartService.Current(MemberAccount);
+
+            return Json(CartData);
+        }
     }
 }

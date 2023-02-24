@@ -24,14 +24,26 @@ namespace FoodDlvAPI.DTOs
     {
         public static CartDTO ToCartDTO(this Cart source)
         {
-            var toCart = new CartDTO
+            var toCartDTO = new CartDTO
             (
                 source.Id,
                 source.MemberId,
                 source.StoreId,
                 source.CartDetails
             );
-            return toCart;
+            return toCartDTO;
+        }
+
+        public static Cart ToCartEntity(this CartDTO source)
+        {
+            var toCartEntity = new Cart
+            {
+                Id = source.Id,
+                MemberId = source.MemberId,
+                StoreId = source.StoreId,
+                CartDetails = source.CartDetails
+            };
+            return toCartEntity;
         }
     }
 }

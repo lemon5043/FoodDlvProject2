@@ -13,14 +13,14 @@ namespace FoodDlvAPI.Interfaces
         bool IsExists(int memberId);
 
         /// <summary>
-        /// 建立一筆購物車主檔紀錄
+        /// 建立該會員專屬的購物車主檔紀錄
         /// </summary>
         /// <param name="memberId"></param>
         /// <returns></returns>
         CartDTO CreateNewCart(int memberId);
 
         /// <summary>
-        /// 若購物車不存在, 傳回錯誤提示
+        /// 讀取目前購物車的內容
         /// </summary>
         /// <param name="memberId"></param>
         /// <returns></returns>
@@ -32,6 +32,19 @@ namespace FoodDlvAPI.Interfaces
         /// <param name="memberId"></param>
         void EmptyCart(int memberId);
 
-        //void Save(CartDTO cart);
+        /// <summary>
+        /// 監聽"加入購物車", 觸發商品客製化識別號碼的選擇器
+        /// </summary>
+        /// <returns></returns>
+        int IdentifyNumSelector();
+
+        /// <summary>
+        /// 儲存購物車資料Cart, CartDetail, CartCustomizationItem至Database
+        /// </summary>
+        /// <param name="cart"></param>
+        /// <param name="product"></param>
+        /// <param name="item"></param>
+        void Save(CartDTO cart, CartDetailDTO product, IEnumerable<CartCustomizationItemDTO> item);
+        
     }
 }

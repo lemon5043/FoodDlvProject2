@@ -1,4 +1,6 @@
-﻿namespace FoodDlvAPI.DTOs
+﻿using FoodDlvAPI.Models;
+
+namespace FoodDlvAPI.DTOs
 {
     public class CartCustomizationItemDTO
     {
@@ -17,6 +19,23 @@
             this.CartDetailId = cartDetailId;
             this.Count = count;
             this.IdentifyNum = identifyNum;
+        }
+    }
+
+    public static partial class CartCustomizationItemExts
+    {
+        public static CartCustomizationItem ToCartCustomizationItemEntity(this CartCustomizationItemDTO source) 
+        { 
+            var toCartCustomizationItemEntity = new CartCustomizationItem
+            {
+                Id = source.Id,
+                CustomizationItemId = source.CustomizationItemId,
+                ProductId = source.ProductId,
+                CartDetailId = source.CartDetailId,
+                Count = source.Count,
+                IdentifyNum = source.IdentifyNum
+            };
+            return toCartCustomizationItemEntity;
         }
     }
 }

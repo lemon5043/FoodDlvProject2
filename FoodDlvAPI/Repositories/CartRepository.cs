@@ -17,11 +17,7 @@ namespace FoodDlvAPI.Repositories
             _context = context;
         }
 
-        /// <summary>
-        /// 判斷該名會員的購物車是否存在
-        /// </summary>
-        /// <param name="memberAccount"></param>
-        /// <returns></returns>
+        
         public bool IsExists(int memberAccount)
         {
             if(_context.Carts.SingleOrDefault(c => c.MemberId == memberAccount) != null)
@@ -33,12 +29,7 @@ namespace FoodDlvAPI.Repositories
                 return false;
             }            
         }
-
-        /// <summary>
-        /// 讀取目前購物車的內容
-        /// </summary>
-        /// <param name="memberAccount"></param>
-        /// <returns></returns>
+                
         public CartDTO Load(int memberAccount)
         {
             var data = _context.Carts               
@@ -46,12 +37,7 @@ namespace FoodDlvAPI.Repositories
 
             return data.ToCartDTO();
         }
-
-        /// <summary>
-        /// 創建該會員專屬的空白購物車
-        /// </summary>
-        /// <param name="memberAccount"></param>
-        /// <returns></returns>
+        
         public CartDTO CreateNewCart(int memberAccount)
         {
             var cart = new Cart { MemberId = memberAccount };
@@ -60,11 +46,7 @@ namespace FoodDlvAPI.Repositories
 
             return Load(memberAccount);
         }
-
-        /// <summary>
-        /// ???
-        /// </summary>
-        /// <param name="memberAccount"></param>
+       
         public void EmptyCart(int memberAccount)
         {
             var cart = _context.Carts.SingleOrDefault(c => c.MemberId == memberAccount);
@@ -72,21 +54,40 @@ namespace FoodDlvAPI.Repositories
             _context.Carts.Remove(cart);
             _context.SaveChanges();
         }
-
-        public void AddItem(CartDetailDTO product, int qty) 
-        { 
-            if(product == null)
+               
+        public int IdentifyNumSelector()
+        {
+            var selectIdentifyNum = _context.CartCustomizationItems.Select(cci => cci.IdentifyNum);
+            int identifyNum;
+            if (selectIdentifyNum == null)
             {
-                throw new ArgumentNullException(nameof(product));
+                identifyNum = 1;                
             }
-            if (qty <= 0) 
+            else
             {
-                throw new ArgumentOutOfRangeException(nameof(qty));
+                identifyNum = selectIdentifyNum.Max() + 1;               
             }
 
-            //var item = _context.Carts
-            //    .SingleOrDefault(x => (x.ProductId == product.ProductId)
-            //    && (x.CartCustomizationItems.Id == product.CustomizationItem.Id));
+            return identifyNum;
+        }
+
+        public void Save(CartDTO cart, CartDetailDTO product, IEnumerable<CartCustomizationItemDTO> item) 
+        {             
+            var cartEntity = cart.ToCartEntity();
+            _context.Carts.Add(cartEntity);
+            _context.SaveChanges();
+
+            var cartDetailEntity = product.ToCartDetailEntity();
+            _context.CartDetails.Add(cartDetailEntity);
+            _context.SaveChanges();
+
+            foreach (var cartCustomizationItem in item) 
+            {
+                var cartCustomizationItemEntity = cartCustomizationItem.ToCartCustomizationItemEntity();
+                _context.CartCustomizationItems.Add(cartCustomizationItemEntity);
+            }
+            _context.SaveChanges();
+
         }
     }
 }
