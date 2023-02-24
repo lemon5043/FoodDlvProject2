@@ -111,12 +111,12 @@ namespace FoodDlvAPI.Controllers
         }
 
         // GET: api/DeliveryDrivers/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<DeliveryDriversEditVM>> Edit(int? id)
-        {
-            var data = await deliveryDriverService.GetEditAsync(id);
-            return data.ToDeliveryDriversEditVM();
-        }
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<DeliveryDriversEditVM>> Edit(int? id)
+        //{
+        //    var data = await deliveryDriverService.GetEditAsync(id);
+        //    return data.ToDeliveryDriversEditVM();
+        //}
 
         // PUT: api/DeliveryDrivers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.

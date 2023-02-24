@@ -8,6 +8,8 @@
 
 //namespace FoodDlvAPI.Controllers
 //{
+//    [Route("api/[controller]")]
+//    [ApiController]
 //    public class DelieveryController : Controller
 //    {
 //        private readonly DeliveryService deliveryService;
@@ -26,35 +28,38 @@
 //        public async Task Online(int dirverId)
 //        {
 //            deliveryService.ChangeToOnline(dirverId);
-            
+
 //            //建立群組
-//            string role = "driver";
-//            string groupId = role + dirverId.ToString();
-//            await _hubContext.Clients.;
+//            //string role = "driver";
+//            //string groupId = role + dirverId.ToString();
+//            //await _hubContext.Clients.;
 //        }
 
 //        [HttpPost]
 //        public async Task Offline(int dirverId)
 //        {
 //            deliveryService.ChangeToOffline(dirverId);
-            
+
 //            //離開群組
-//            string role = "driver";
-//            string groupId = role + dirverId.ToString();
-//            await _hubContext.Groups.RemoveFromGroupAsync(groupId, role);
+//            //string role = "driver";
+//            //string groupId = role + dirverId.ToString();
+//            //await _hubContext.Groups.RemoveFromGroupAsync(groupId, role);
 //        }
 
-
+//        //訂單指派，商家完成訂單後觸發
+//        //像前端發送請求
 //        public async Task<AasignmentOrderVM> OrderAasignment(int orderId)
 //        {
 //            return deliveryService.GetOrderDetail(orderId).ToAasignmentOrderVM();
 //        }
 
+//        //
+//        //接受or取消請求
 //        public async Task<JsonResult> OrderAasignment(bool reply, int orderId)
 //        {
 //            if (reply)
 //            {
-//                deliveryService.OrderAcceptedNavigationToStore(orderId);
+//                deliveryService.NavigationToStore(orderId);
 //                return;
 //            }
 //            //todo 回報給店家
@@ -65,7 +70,7 @@
 //        {
 //            if (reply)
 //            {
-//                deliveryService.OrderAcceptedNavigationToCustomer(orderId);
+//                deliveryService.NavigationToCustomer(orderId);
 //                return;
 //            }
 //            //todo 回報給店家

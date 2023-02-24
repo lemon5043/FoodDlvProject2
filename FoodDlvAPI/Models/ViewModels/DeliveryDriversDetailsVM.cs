@@ -10,7 +10,11 @@ namespace FoodDlvAPI.Models.ViewModels
         [Display(Name = "帳號")]
         public string Account { get; set; }
         [Display(Name = "姓名")]
-        public string DriverName { get; set; }
+        public string DriverName => LastName + FirstName;
+        [Display(Name = "姓")]
+        public string LastName { get; set; }
+        [Display(Name = "名")]
+        public string FirstName { get; set; }
         [Display(Name = "性別")]
         public bool Gender { get; set; }
         [Display(Name = "生日")]
@@ -38,7 +42,7 @@ namespace FoodDlvAPI.Models.ViewModels
         [Display(Name = "駕照")]
         public string DriverLicense { get; set; }
     }
-    public static partial class DriversDtoExts
+    public static class DriversDtoDeliveryDriversDetailsVMExts
     {
         public static DeliveryDriversDetailsVM ToDeliveryDriversDetailsVM(this DeliveryDriverDTO source)
         {
@@ -46,7 +50,8 @@ namespace FoodDlvAPI.Models.ViewModels
             {
                 Id = source.Id,
                 Account = source.Account,
-                DriverName = source.LastName + source.FirstName,
+                LastName = source.LastName,
+                FirstName= source.FirstName,
                 Gender = source.Gender,
                 Birthday = source.Birthday,
                 Phone = source.Phone,

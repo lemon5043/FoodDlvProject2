@@ -27,6 +27,7 @@ namespace FoodDlvAPI.Controllers
 			this.paysService = new PaysService(repository);
 		}
 
+		[HttpGet("{id}")]
         // GET: Pays/IndividualMonthly/5
         public async Task<IEnumerable<PaysMonthlyDetailsVM>> MonthlyDetails(int? id)
         {
@@ -37,6 +38,7 @@ namespace FoodDlvAPI.Controllers
 			return data.Select(x => x.ToPaysMonthlyDetailsVM());
         }
 
+        [HttpGet("{year}/{month}/{id}")]
         // GET: Pays/IndividualMonthly/5
         public async Task<PaysIndividualMonthlyDetailsVM> IndividualMonthlyDetails(int? year, int? month, int? id)
 		{

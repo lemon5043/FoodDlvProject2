@@ -23,7 +23,7 @@ namespace FoodDlvAPI.Controllers
             IDeliveryRecordsRepository repository = new DeliveryRecordsRepository(db);
             this.deliveryRecordService = new DeliveryRecordService(repository);
         }
-
+        [HttpGet("{id}")]
         // GET: DeliveryRecords/MonthlyDetails/5
         public async Task<IEnumerable<DeliveryMonthlyDetailRecordVM>> MonthlyDetails(int? id)
         {
@@ -36,6 +36,7 @@ namespace FoodDlvAPI.Controllers
 
         }
 
+        [HttpGet("{year}/{month}/{id}")]
         // GET: DeliveryRecords/IndividualMonthlyDetails/5
         public async Task<IEnumerable<DeliveryIndividualDetailsRecordVM>> IndividualMonthlyDetails(int? year, int? month, int? id)
         {
