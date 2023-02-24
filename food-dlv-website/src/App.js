@@ -7,12 +7,13 @@ import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import "./assets/styles/tailwind.css";
-import Delivery from "./pages/Delivery/Delivery";
+import DriverLogin from "./pages/Delivery/DriverLogin";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* 使用者頁面 */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />}></Route>
           <Route path="user" element={<User />}></Route>
@@ -20,7 +21,8 @@ function App() {
           <Route path="login" element={<Login />}></Route>
           <Route path="*" element={<Error />}></Route>
         </Route>
-        <Route path="delivery" element={<Delivery />}></Route>
+        {/* 外送員頁面 */}
+        <Route path="delivery/login" element={<DriverLogin />}></Route>
       </Routes>
     </BrowserRouter>
   );
