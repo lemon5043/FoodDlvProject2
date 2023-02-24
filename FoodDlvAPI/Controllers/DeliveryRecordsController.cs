@@ -11,6 +11,8 @@ using FoodDlvAPI.Models;
 
 namespace FoodDlvAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class DeliveryRecordsController : Controller
     {
         private readonly DeliveryRecordService deliveryRecordService;

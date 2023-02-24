@@ -1,24 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System.Security.Cryptography.Xml;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Components.Forms;
 using FoodDlvAPI.Models.Services;
 using FoodDlvAPI.Models.Services.Interfaces;
 using FoodDlvAPI.Models.Repositories;
 using FoodDlvAPI.Models;
 using FoodDlvAPI.Models.ViewModels;
-using FoodDlvAPI.Models.DTOs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
 
 namespace FoodDlvAPI.Controllers
 {
@@ -90,7 +76,7 @@ namespace FoodDlvAPI.Controllers
 
         // GET: api/DeliveryDrivers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DeliveryDriversDetailsVM>> Details(int? id)
+        public async Task<ActionResult<DeliveryDriversDetailsVM>> Details(int id)
         {
             var data = await deliveryDriverService.GetOneAsync(id);
             return data.ToDeliveryDriversDetailsVM();

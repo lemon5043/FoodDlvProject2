@@ -14,7 +14,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FoodDlvAPI.Controllers
 {
-	public class PaysController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PaysController : Controller
 	{
 		private readonly PaysService paysService;
 
