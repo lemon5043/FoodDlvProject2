@@ -7,7 +7,7 @@ namespace FoodDlvAPI.Models.Services.Interfaces
         void ChangeWorkingStatus(int dirverId);
         //void ChangeToOnline(int dirverId);
         Task<AasignmentOrderDTO> GetOrderDetail(int orderId);
-        AasignmentOrderDTO NavigationToCustomer(int orderId);
+        Task<AasignmentOrderDTO> NavigationToCustomer(int orderId);
         void NavigationToStore(int orderId);
         void OrderArrive(int orderId);
     }
