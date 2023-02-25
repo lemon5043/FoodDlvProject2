@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FoodDlvProject2.EFModels;
+using Microsoft.AspNetCore.Http;
+using FoodDlvProject2.Models.ViewModels;
 
 namespace FoodDlvProject2.Controllers
 {
@@ -58,7 +60,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StorePrincipalId,StoreName,Address,ContactNumber,Photo")] Store store/*, IFormFile? myimg*/)
+        public async Task<IActionResult> Create([Bind("Id,StorePrincipalId,StoreName,Address,ContactNumber,Photo")] StoreCreateVM storeCreateVM)
         {
             if (ModelState.IsValid)
             {
@@ -71,15 +73,37 @@ namespace FoodDlvProject2.Controllers
                 //        store.Photo = ms.ToArray();
                 //    }
                 //}
+                Store store = new Store
+                {
+                    Id = storeCreateVM.Id,
+                    StorePrincipalId = storeCreateVM.StorePrincipalId,
+                    StoreName = storeCreateVM.StoreName,
+                    Address = storeCreateVM.Address,
+                    ContactNumber = storeCreateVM.ContactNumber,
+                    Photo = null
+                };
 
+                if (storeCreateVM.Photo != null)
+                {
+                    var now=DateTime.Now;
+                    var fileName = $"{storeCreateVM.StoreName}{now.Year}{now.Month}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}{storeCreateVM.Address}.jpg";
+                    var filePath = Path.Combine(
+                   Directory.GetCurrentDirectory(), "wwwroot/img/Stores/",
+                   fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                       await storeCreateVM.Photo.CopyToAsync(stream);
+                    }
+                    store.Photo = $"/Stores/{fileName}";
+                }
 
 
                 _context.Add(store);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StorePrincipalId"] = new SelectList(_context.StorePrincipals, "Id", "Account", store.StorePrincipalId);
-            return View(store);
+            ViewData["StorePrincipalId"] = new SelectList(_context.StorePrincipals, "Id", "Account", storeCreateVM.StorePrincipalId);
+            return View(storeCreateVM);
         }
 
         // GET: Stores/Edit/5
