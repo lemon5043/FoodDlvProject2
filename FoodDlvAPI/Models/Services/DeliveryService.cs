@@ -24,18 +24,19 @@ namespace FoodDlvAPI.Models.Services
         public async Task<AasignmentOrderDTO> GetOrderDetail(int orderId)
             => await _repository.GetOrderDetail(orderId);
 
-        public void NavigationToStore(int orderId)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task MarkOrderStatus(int orderId)
+            => await _repository.MarkOrderStatus(orderId);
+
+        public async Task<AasignmentOrderDTO> NavigationToStore(int orderId)
+            => await _repository.NavigationToStore(orderId);
 
 
         public async Task<string> NavigationToCustomer(int orderId)
         {
-            var query = _repository.GetOrderDetail(orderId);
+            var query = await _repository.NavigationToCustomer(orderId);
             string token = "AIzaSyDgJoRvP0mMm-RCym6eWkNH95pWuY1xUlk";
-            string start = "25.0574121,121.5964832";
-            string end = "25.0534121,121.5964832";
+            string start = query.StoreAddress;
+            string end = query.DeliveryAddress;
             // Create a request for the URL. 		
             WebRequest request = WebRequest.Create("https://maps.googleapis.com/maps/api/directions/json?language=zh-TW&origin=" + start + "&destination=" + end + "&key=" + token);
             // If required by the server, set the credentials.
@@ -55,9 +56,6 @@ namespace FoodDlvAPI.Models.Services
 
             return responseFromServer;
         }
-        public void OrderArrive(int orderId)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

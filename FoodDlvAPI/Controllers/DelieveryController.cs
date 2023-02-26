@@ -27,7 +27,7 @@ namespace FoodDlvAPI.Controllers
             this._hubContext = hubContext;
         }
 
-        [HttpPost]
+        [HttpPut("ChangeWorkingStatus/{dirverId}")]
         public async Task Online(int dirverId)
         {
             deliveryService.ChangeWorkingStatus(dirverId);
@@ -38,28 +38,17 @@ namespace FoodDlvAPI.Controllers
             //await _hubContext.Clients.;
         }
 
-        //[HttpPost]
-        //public async Task Offline(int dirverId)
-        //{
-        //    deliveryService.ChangeToOffline(dirverId);
-
-        //    //離開群組
-        //    //string role = "driver";
-        //    //string groupId = role + dirverId.ToString();
-        //    //await _hubContext.Groups.RemoveFromGroupAsync(groupId, role);
-        //}
 
         //訂單指派，商家完成訂單後觸發
         //像前端發送請求
-        //AasignmentOrderVM傳送簡單的訂單資訊
-        //[HttpGet("{orderId}")]可能是?
-        public async Task<AasignmentOrderVM> OrderAasignment(int orderId)
+        //AasignmentOrderVM只回傳店家地址及OrderId避免外送員挑單
+        [HttpGet("OrderAasignment")] //可能是?
+        public async Task<AasignmentOrderVM> OrderAasignment(int orderid)
         {
-            var data = await deliveryService.GetOrderDetail(orderId);
+            var data = await deliveryService.GetOrderDetail(orderid);
             return data.ToAasignmentOrderVM();
         }
-
-        //
+       
         //接受or取消請求
         [HttpGet("{reply}/{orderId}")]
         public async Task<AasignmentOrderVM> OrderAasignment(bool reply, int orderId)
@@ -68,35 +57,42 @@ namespace FoodDlvAPI.Controllers
             //接受訂單
             if (reply)
             {
+                await deliveryService.MarkOrderStatus(orderId);
                 var data = await deliveryService.NavigationToStore(orderId);
                 return data.ToAasignmentOrderVM();
             }
             //取消接單
             //todo 通知店家重新尋單
             //await _hubContext.Groups()
-
+            return null;
         }
 
+        //確認訂單開始外送
         [HttpGet("{orderId}")]
         public async Task<string> MealConfirmation(int orderId)
         {
             var data = deliveryService.NavigationToCustomer(orderId);
             return await data;
+
+            //todo 訂單與餐點不符取消接單?
+            //await _hubContext.Groups()
         }
 
+        [HttpPut("{orderId}")]
         public async Task DeliveryArrive(int orderId)
         {
+            await deliveryService.MarkOrderStatus(orderId);
             //todo 回報給客戶
-            deliveryService.OrderArrive(orderId);
+           
 
         }
 
-        //todo 未能達成外送?
+        ////todo 未能達成外送?
 
 
-        public async Task CancelOrder(CancellationVM cancellation)
-        {
-            //todo 回報給店家
-        }
+        //public async Task CancelOrder(CancellationVM cancellation)
+        //{
+        //    //todo 回報給店家
+        //}
     }
 }
