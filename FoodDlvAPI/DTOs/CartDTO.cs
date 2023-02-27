@@ -7,29 +7,30 @@ namespace FoodDlvAPI.DTOs
         public long Id { get; set; }
         public int MemberId { get; set; }
         public int StoreId { get; set; }
-       
-        public virtual ICollection<CartDetail> CartDetails { get; set; }        
+        public IEnumerable<CartDetailDTO> CartDetails { get; set; }
+        public IEnumerable<CartCustomizationItemDTO> Items { get; set; }
 
-        public CartDTO(long id, int memberId, int storeId, 
-                        ICollection<CartDetail> CartDetails) 
+        public CartDTO(int memberId, int storeId)
+        {
+            this.MemberId = memberId;
+            this.StoreId = storeId;
+        }
+        public CartDTO(long id, int memberId, int storeId)
         {
             this.Id = id;
             this.MemberId = memberId;
             this.StoreId = storeId;
-            this.CartDetails = CartDetails;
         }
     }
-
     public static class CartExts
     {
         public static CartDTO ToCartDTO(this Cart source)
-        {
+        {            
             var toCartDTO = new CartDTO
-            (
+            (         
                 source.Id,
                 source.MemberId,
-                source.StoreId,
-                source.CartDetails
+                source.StoreId               
             );
             return toCartDTO;
         }
@@ -37,11 +38,9 @@ namespace FoodDlvAPI.DTOs
         public static Cart ToCartEntity(this CartDTO source)
         {
             var toCartEntity = new Cart
-            {
-                Id = source.Id,
+            {               
                 MemberId = source.MemberId,
-                StoreId = source.StoreId,
-                CartDetails = source.CartDetails
+                StoreId = source.StoreId,                
             };
             return toCartEntity;
         }

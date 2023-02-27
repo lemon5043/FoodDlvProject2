@@ -13,7 +13,7 @@ namespace FoodDlvAPI.DTOs
         public int IdentifyNum { get; set; }
 
         public CartCustomizationItemDTO(int customizationItemId, long productId, int cartDetailId, int count, int identifyNum)
-        {            
+        {                       
             this.CustomizationItemId = customizationItemId;
             this.ProductId = productId;
             this.CartDetailId = cartDetailId;
@@ -24,11 +24,22 @@ namespace FoodDlvAPI.DTOs
 
     public static partial class CartCustomizationItemExts
     {
+        public static CartCustomizationItemDTO ToCartCustomizationItemDTO(this CartCustomizationItem source)
+        {
+            var toCartCustomizationItemDTO = new CartCustomizationItemDTO
+            (                
+                source.CustomizationItemId,
+                source.ProductId,
+                source.CartDetailId,
+                source.Count,
+                source.IdentifyNum
+            );
+            return toCartCustomizationItemDTO;
+        }
         public static CartCustomizationItem ToCartCustomizationItemEntity(this CartCustomizationItemDTO source) 
         { 
             var toCartCustomizationItemEntity = new CartCustomizationItem
-            {
-                Id = source.Id,
+            {                
                 CustomizationItemId = source.CustomizationItemId,
                 ProductId = source.ProductId,
                 CartDetailId = source.CartDetailId,

@@ -21,39 +21,44 @@ namespace FoodDlvAPI.Services
             _productRepository = productRepository;
         }
 
-        public void ItemToCart(int memberAccount, CartVM request)
-        {
-            if (request.Qty <= 0) throw new Exception("商品數量不可小於1");
+        public void AddToCart(CartVM request)
+        {   
+            //找尋或新增一台cart
+            var cart = Current(request.RD_MemberId, request.RD_StoreId);
 
-            var cart = Current(memberAccount, request.StoreId);
+            //查詢該筆Prodct與其ProductCustomizationItem資料
+            var product = _productRepository.Load(request.RD_ProductId, request.RD_Item, true);
 
-            var product = _productRepository.Load(request.ProductId, request.customizationItem.Id, true);
-            var cartDetail = new CartDetailDTO(product.ProductId, request.Qty, cart.Id);
-            int identifyNum = _cartRepository.IdentifyNumSelector();
+            //連接product與cart到cartDetail
+            var cartDetail = _cartRepository.AddCartDetail(product.ProductId, request.RD_Qty, cart.Id);
 
-            var cartCustomizationItem = product.ProductCustomizationItems
-                .Select(pci => new CartCustomizationItemDTO
-                (
-                    pci.Id,
-                    pci.ProuctId,
-                    cartDetail.Id,
-                    request.Qty,
-                    identifyNum
-                ));
+            //連接product內的ProductCustomizationItem資料到cartCustomizationItem
+            _cartRepository.AddCartCustomizationItem(cartDetail, product, request.RD_Qty);
 
-            _cartRepository.Save(cart, cartDetail, cartCustomizationItem);            
+            //int identifyNum = _cartRepository.IdentifyNumSelector();
+            //var cartCustomizationItem = product.ProductCustomizationItems
+            //    .Select(pci => new CartCustomizationItemDTO
+            //    (
+            //        pci.Id,                    
+            //        pci.ProuctId,
+            //        cartDetail.Id,
+            //        request.RD_Qty,
+            //        identifyNum
+            //    ));
+
+            //_cartRepository.Save(cartCustomizationItem);            
         }
         
 
-        public CartDTO Current(int memberAccount, int storeId)
-        {
-            if (_cartRepository.IsExists(memberAccount, storeId))
+        public CartDTO Current(int memberId, int storeId)
+        {            
+            if (_cartRepository.IsExists(memberId, storeId))
             {
-                return _cartRepository.Load(memberAccount, storeId);
+                return _cartRepository.Load(memberId, storeId);
             }
             else
             {
-                return _cartRepository.CreateNewCart(memberAccount, storeId);
+                return _cartRepository.CreateNewCart(memberId, storeId);
             }
         }
 

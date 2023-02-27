@@ -23,30 +23,33 @@ namespace FoodDlvAPI.Controllers
             IProductRepository productRepo = new ProductRepository(_context);
             this._cartService = new CartService(cartRepo, productRepo);
         }
-
-        public int MemberAccount
-        {
-            get
-            {
-                int memberId;
-                int.TryParse(User.Identity.Name, out memberId);
-                int testId = 2;
-                return testId;
-            }
-        }
+                
 
         [HttpPost]
-        public IActionResult ItemToCart(CartVM request)
+        public IActionResult AddToCart(CartVM request)
         {
-            _cartService.ItemToCart(MemberAccount, request);
-            return new EmptyResult();
+            try
+            {
+                _cartService.AddToCart(request);
+                return new EmptyResult();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
 
         [HttpGet]
-        public IActionResult ShowCart(CartVM? request)
+        public IActionResult ShowCart(int memberId, int storeId)
         {
-            var CartData = _cartService.Current(MemberAccount, request.StoreId);
-            return Json(CartData);
+            try
+            {
+                var CartData = _cartService.Current(memberId, storeId);
+                return Json(CartData);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
 
         //public IActionResult UpdateCart(CartVM request)

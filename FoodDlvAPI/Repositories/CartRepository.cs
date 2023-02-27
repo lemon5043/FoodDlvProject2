@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FoodDlvAPI.Repositories
 {
-    public class CartRepository:ICartRepository
+    public class CartRepository : ICartRepository
     {
         //Fields
         private readonly AppDbContext _context;
@@ -17,80 +17,136 @@ namespace FoodDlvAPI.Repositories
             _context = context;
         }
 
-        
-        public bool IsExists(int memberAccount, int storeId)
+
+
+        public bool IsExists(int memberId, int storeId)
         {
-            if(_context.Carts.SingleOrDefault(c => c.MemberId == memberAccount && c.StoreId == storeId) != null)
+            var memberCheck = _context.Members.Any(m => m.Id == memberId);
+            var storeCheck = _context.Stores.Any(m => m.Id == storeId);
+
+            if (memberCheck && storeCheck)
             {
-                return true;
+                var isExists = _context.Carts.Any(c => c.MemberId == memberId && c.StoreId == storeId);
+                return isExists;
             }
             else
             {
-                return false;
-            }            
+                throw new Exception("帳號或商店不存在");
+            }
         }
-                
-        public CartDTO Load(int memberAccount, int storeId)
-        {
-            var data = _context.Carts               
-                .SingleOrDefault(c => c.MemberId == memberAccount && c.StoreId == storeId);            
 
-            return data.ToCartDTO();
-        }
-        
-        public CartDTO CreateNewCart(int memberAccount, int storeId)
+        public CartDTO Load(int memberId, int storeId)
         {
+            var data = _context.Carts
+                .Single(c => c.MemberId == memberId && c.StoreId == storeId)
+                .ToCartDTO();
+
+            return data;
+        }
+
+        public CartDTO LoadCompleteCart(int memberId, int storeId)
+        {
+            var data = _context.Carts
+                .Include(c => c.CartDetails)
+                .ThenInclude(c => c.CartCustomizationItems)
+                .Single(c => c.MemberId == memberId && c.StoreId == storeId)
+                .;
+            return data;
+        }
+
+        public CartDTO CreateNewCart(int memberId, int storeId)
+        {
+            //建立一個空的Cart
             var cart = new Cart
             {
-                MemberId = memberAccount,
-                StoreId = storeId
+                MemberId = memberId,
+                StoreId = storeId,
             };
+
             _context.Carts.Add(cart);
             _context.SaveChanges();
 
-            return Load(memberAccount, storeId);
+            return Load(memberId, storeId);
         }
-       
-        public void EmptyCart(int memberAccount)
+
+        public void EmptyCart(int memberId)
         {
-            var cart = _context.Carts.SingleOrDefault(c => c.MemberId == memberAccount);
+            var cart = _context.Carts.SingleOrDefault(c => c.MemberId == memberId);
             if (cart == null) return;
             _context.Carts.Remove(cart);
             _context.SaveChanges();
         }
-               
+
         public int IdentifyNumSelector()
         {
             var selectIdentifyNum = _context.CartCustomizationItems.Select(cci => cci.IdentifyNum);
+
             int identifyNum;
-            if (selectIdentifyNum == null)
+            if (!selectIdentifyNum.Any())
             {
-                identifyNum = 1;                
+                identifyNum = 1;
             }
             else
             {
-                identifyNum = selectIdentifyNum.Max() + 1;               
+                identifyNum = selectIdentifyNum.Max() + 1;
             }
 
             return identifyNum;
         }
 
-        public void Save(CartDTO cart, CartDetailDTO product, IEnumerable<CartCustomizationItemDTO> item) 
-        {             
-            var cartEntity = cart.ToCartEntity();
-            _context.Carts.Add(cartEntity);
-            _context.SaveChanges();
+        public void Save(IEnumerable<CartCustomizationItemDTO> item)
+        {           
 
-            var cartDetailEntity = product.ToCartDetailEntity();
-            _context.CartDetails.Add(cartDetailEntity);
-            _context.SaveChanges();
-
-            foreach (var cartCustomizationItem in item) 
+            foreach (var cartCustomizationItem in item)
             {
                 var cartCustomizationItemEntity = cartCustomizationItem.ToCartCustomizationItemEntity();
                 _context.CartCustomizationItems.Add(cartCustomizationItemEntity);
             }
             _context.SaveChanges();
+        }
+
+        public CartDetailDTO AddCartDetail(long productId, int qty, long cartId)
+        {
+            var cartDetail = _context.CartDetails
+                .SingleOrDefault(cd => cd.CartId == cartId && cd.ProductId == productId);
+              
+            if (cartDetail == null)
+            {                
+                cartDetail = new CartDetailDTO(productId, qty, cartId).ToCartDetailEntity();
+                _context.CartDetails.Add(cartDetail);               
+            }
+            else
+            {                
+                cartDetail.Qty += qty;
+            }
+
+            _context.SaveChanges();
+            return cartDetail.ToCartDetailDTO();
+        }
+
+        public void AddCartCustomizationItem(CartDetailDTO cartDetail, ProductDTO product, int qty)
+        {
+            int identifyNum = IdentifyNumSelector();         
+            var cartCustomizationItem = product.ProductCustomizationItems
+                .Select(pci => new CartCustomizationItemDTO(pci.Id, pci.ProuctId, cartDetail.Id, qty, identifyNum))
+                .ToList();
+            
+            foreach(var item in cartCustomizationItem)
+            {
+                var existingItem = _context.CartCustomizationItems
+                    .Where(cci => cci.CustomizationItemId == item.CustomizationItemId && cci.CartDetailId == item.CartDetailId)
+                    .SingleOrDefault();
+                if (existingItem == null)
+                {
+                    _context.CartCustomizationItems.Add(item.ToCartCustomizationItemEntity());
+                }
+                else
+                {
+                    existingItem.Count += qty;
+                }
+
+                _context.SaveChanges();
+            }           
         }
     }
 }

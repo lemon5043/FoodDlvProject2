@@ -13,7 +13,7 @@ namespace FoodDlvAPI.Interfaces
         bool IsExists(int memberId, int storeId);
 
         /// <summary>
-        /// 建立該會員專屬的購物車主檔紀錄
+        /// 建立該會員對應商店專屬的空的購物車
         /// </summary>
         /// <param name="memberId"></param>
         /// <returns></returns>
@@ -39,12 +39,29 @@ namespace FoodDlvAPI.Interfaces
         int IdentifyNumSelector();
 
         /// <summary>
-        /// 儲存購物車資料Cart, CartDetail, CartCustomizationItem至Database
+        /// 儲存購物車資料CartDetail, CartCustomizationItem至Database
         /// </summary>
         /// <param name="cart"></param>
         /// <param name="product"></param>
         /// <param name="item"></param>
-        void Save(CartDTO cart, CartDetailDTO product, IEnumerable<CartCustomizationItemDTO> item);
-        
+        void Save(IEnumerable<CartCustomizationItemDTO> item);
+
+        /// <summary>
+        /// 添加購物車明細
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="qty"></param>
+        /// <param name="cartId"></param>
+        /// <returns></returns>
+        CartDetailDTO AddCartDetail(long productId, int qty, long cartId);
+
+        /// <summary>
+        /// 添加購物車客製化選項
+        /// </summary>
+        /// <param name="cartDetail"></param>
+        /// <param name="product"></param>
+        /// <param name="id"></param>
+        /// <param name="qty"></param>
+        void AddCartCustomizationItem(CartDetailDTO cartDetail, ProductDTO product, int qty);
     }
 }

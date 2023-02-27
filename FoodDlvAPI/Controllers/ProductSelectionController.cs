@@ -2,6 +2,7 @@
 using FoodDlvAPI.Models;
 using FoodDlvAPI.Repositories;
 using FoodDlvAPI.Services;
+using FoodDlvAPI.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDlvAPI.Controllers
@@ -30,9 +31,15 @@ namespace FoodDlvAPI.Controllers
         [HttpGet]
         public IActionResult ProductSelection(int productId, bool? status)
         {
-            var data = _productSelectionService.ProductSelection(productId, status);
-
-            return Json(data);
+            try
+            {
+                var data = _productSelectionService.ProductSelection(productId, status).ToProductSelectionVM();
+                return Json(data);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
     }
 }
