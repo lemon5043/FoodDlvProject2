@@ -12,6 +12,7 @@ namespace FoodDlvAPI.DTOs
         public long ProductId { get; set; }
         public int Qty { get; set; }        
         public long CartId { get; set; }
+        
 
         public CartDetailDTO(long productId, int qty, long cartId)
         {            

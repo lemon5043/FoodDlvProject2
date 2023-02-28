@@ -7,9 +7,7 @@ namespace FoodDlvAPI.DTOs
         public long Id { get; set; }
         public int MemberId { get; set; }
         public int StoreId { get; set; }
-        public IEnumerable<CartDetailDTO> CartDetails { get; set; }
-        public IEnumerable<CartCustomizationItemDTO> Items { get; set; }
-
+        
         public CartDTO(int memberId, int storeId)
         {
             this.MemberId = memberId;

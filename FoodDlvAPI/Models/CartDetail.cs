@@ -7,6 +7,11 @@ namespace FoodDlvAPI.Models
 {
     public partial class CartDetail
     {
+        public CartDetail()
+        {
+            CartCustomizationItems = new HashSet<CartCustomizationItem>();
+        }
+
         public int Id { get; set; }
         public long ProductId { get; set; }
         public int Qty { get; set; }
@@ -14,5 +19,6 @@ namespace FoodDlvAPI.Models
 
         public virtual Cart Cart { get; set; }
         public virtual Product Product { get; set; }
+        public virtual ICollection<CartCustomizationItem> CartCustomizationItems { get; set; }
     }
 }

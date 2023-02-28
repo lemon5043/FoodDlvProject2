@@ -12,6 +12,8 @@ namespace FoodDlvAPI.Models
         public long ProductId { get; set; }
         public int CartDetailId { get; set; }
         public int Count { get; set; }
-        public int IdentifyNum { get; set; }        
+        public int IdentifyNum { get; set; }
+
+        public virtual CartDetail CartDetail { get; set; }
     }
 }

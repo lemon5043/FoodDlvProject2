@@ -38,21 +38,21 @@ namespace FoodDlvAPI.Repositories
         public CartDTO Load(int memberId, int storeId)
         {
             var data = _context.Carts
+                .AsNoTracking()
                 .Single(c => c.MemberId == memberId && c.StoreId == storeId)
                 .ToCartDTO();
 
             return data;
         }
 
-        public CartDTO LoadCompleteCart(int memberId, int storeId)
-        {
-            var data = _context.Carts
-                .Include(c => c.CartDetails)
-                .ThenInclude(c => c.CartCustomizationItems)
-                .Single(c => c.MemberId == memberId && c.StoreId == storeId)
-                .;
-            return data;
-        }
+        //public CartDTO LoadCompleteCart(int memberId, int storeId)
+        //{
+        //    var cart = _context.Carts.Single(c => c.MemberId == memberId && c.StoreId == storeId);
+        //    var cartDetail = _context.CartDetails.Where(cd => cd.CartId == cart.Id).ToList();
+        //    var cartCustomizationItem = _context.CartCustomizationItems.Where(cci => cci.CartDetailId == cartDetail.Id);
+
+        //    return ;
+        //}
 
         public CartDTO CreateNewCart(int memberId, int storeId)
         {

@@ -33,22 +33,22 @@ namespace FoodDlvAPI.Services
             var cartDetail = _cartRepository.AddCartDetail(product.ProductId, request.RD_Qty, cart.Id);
 
             //連接product內的ProductCustomizationItem資料到cartCustomizationItem
-            _cartRepository.AddCartCustomizationItem(cartDetail, product, request.RD_Qty);
+            //_cartRepository.AddCartCustomizationItem(cartDetail, product, request.RD_Qty);
 
-            //int identifyNum = _cartRepository.IdentifyNumSelector();
-            //var cartCustomizationItem = product.ProductCustomizationItems
-            //    .Select(pci => new CartCustomizationItemDTO
-            //    (
-            //        pci.Id,                    
-            //        pci.ProuctId,
-            //        cartDetail.Id,
-            //        request.RD_Qty,
-            //        identifyNum
-            //    ));
+            int identifyNum = _cartRepository.IdentifyNumSelector();
+            var cartCustomizationItem = product.ProductCustomizationItems
+                .Select(pci => new CartCustomizationItemDTO
+                (
+                    pci.Id,
+                    pci.ProuctId,
+                    cartDetail.Id,
+                    request.RD_Qty,
+                    identifyNum
+                ));
 
-            //_cartRepository.Save(cartCustomizationItem);            
+            _cartRepository.Save(cartCustomizationItem);            
         }
-        
+
 
         public CartDTO Current(int memberId, int storeId)
         {            
