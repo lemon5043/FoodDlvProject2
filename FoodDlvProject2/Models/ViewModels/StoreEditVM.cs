@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace FoodDlvProject2.Models.ViewModels
 {
-    public class StoreCreateVM
+    public class StoreEditVM
     {
 
         public int Id { get; set; }
