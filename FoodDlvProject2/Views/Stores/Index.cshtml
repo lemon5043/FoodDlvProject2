@@ -65,6 +65,30 @@
 						{
 							<tr>
 								<td>
+									
+									@{
+
+										var imgSrc = "";
+										if (! string.IsNullOrEmpty(item.Photo)||imgSrc.Length<0)
+										{
+									
+											imgSrc = $"/img/Stores/{item.Photo}";
+
+										}
+										else
+										{
+											imgSrc = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
+										}
+									}
+
+
+									<img src="@imgSrc" width="100px" height="100px">
+
+
+
+
+
+
 @*									@{
 										var imgSrc = "";
 										if (item.Photo != null)
