@@ -1,80 +1,50 @@
-import { Outlet, Link } from "react-router-dom";
-import React, { useState } from "react";
+import { Outlet, Link, useResolvedPath, useMatch } from "react-router-dom";
+import React from "react";
 
-const DriverLayout = () => {
-  const [active, setActive] = useState(0);
-  function activeLink(e) {
-    console.log(active);
-    setActive(Number(e.target.value));
-    console.log(e.target);
-  }
+const CustomLink = ({ to, children, setIcon }) => {
+  const resolvePath = useResolvedPath(to);
+  const isActive = useMatch({ path: resolvePath.pathname, end: true });
 
   return (
-    <div>
-      <Outlet />
-      <footer className="flex justify-center items-center min-h-screen bg-black">
+    <li value={0} className={isActive ? "list active" : "list"}>
+      <Link to={to}>
+        <span className="icon">
+          <i className={setIcon}></i>
+        </span>
+        <span className="text">{children}</span>
+      </Link>
+    </li>
+  );
+};
+
+const DriverLayout = () => {
+  return (
+    <div className="h-screen bg-black">
+      <nav></nav>
+      <main style={{ minHeight: "calc(100% - 8rem)" }}>
+        <Outlet />
+      </main>
+      <footer className="flex justify-center items-end h-32 bg-black">
         <div className="driverNav w-96 h-16 relative bg-white rounded-lg flex justify-center items-center">
           <ul className="flex w-80">
-            <li
-              value={0}
-              className={active === 0 ? "list active" : "list"}
-              onClick={activeLink}
+            <CustomLink setIcon="fa-solid fa-user" to="/delivery">
+              狀態
+            </CustomLink>
+            <CustomLink setIcon="fa-solid fa-bicycle" to="/deliveryOrder">
+              訂單
+            </CustomLink>
+            <CustomLink setIcon="fa-regular fa-map" to="/deliveryMap">
+              地圖
+            </CustomLink>
+            <CustomLink
+              setIcon="fa-solid fa-clock-rotate-left"
+              to="/deliveryHistory"
             >
-              <Link to="/delivery">
-                <span className="icon">
-                  <i className="fa-solid fa-user"></i>
-                </span>
-                <span className="text">狀態</span>
-              </Link>
-            </li>
-            <li
-              value={1}
-              className={active === 1 ? "list active" : "list"}
-              onClick={activeLink}
-            >
-              <Link to="/delivery/order">
-                <span className="icon">
-                  <i className="fa-solid fa-bicycle"></i>
-                </span>
-                <span className="text">訂單</span>
-              </Link>
-            </li>
-            <li
-              value={2}
-              className={active === 2 ? "list active" : "list"}
-              onClick={activeLink}
-            >
-              <Link to="/delivery/map">
-                <span className="icon">
-                  <i className="fa-regular fa-map"></i>
-                </span>
-                <span className="text">地圖</span>
-              </Link>
-            </li>
-            <li
-              value={3}
-              className={active === 3 ? "list active" : "list"}
-              onClick={activeLink}
-            >
-              <Link to="/delivery/history">
-                <span className="icon">
-                  <i className="fa-solid fa-clock-rotate-left"></i>
-                </span>
-                <span className="text">紀錄</span>
-              </Link>
-            </li>
-            <li
-              value={4}
-              className={active === 4 ? "list active" : "list"}
-              onClick={activeLink}
-            >
-              <Link to="/delivery/wallet">
-                <span className="icon">
-                  <i className="fa-solid fa-wallet"></i>
-                </span>
-                <span className="text">錢包</span>
-              </Link>
-            </li>
+              紀錄
+            </CustomLink>
+            <CustomLink setIcon="fa-solid fa-wallet" to="/deliveryWallet">
+              錢包
+            </CustomLink>
             <div className="indicator"></div>
           </ul>
         </div>

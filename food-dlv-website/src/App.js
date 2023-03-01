@@ -37,10 +37,10 @@ function App() {
         <Route path="/delivery/login" element={<DriverLogin />}></Route>
         <Route element={<DriverLayout />}>
           <Route path="/delivery" element={<DriverHome />}></Route>
-          <Route path="/delivery/order" element={<DriverOrder />}></Route>
-          <Route path="/delivery/map" element={<DriverMap />}></Route>
-          <Route path="/delivery/history" element={<DriverHistory />}></Route>
-          <Route path="/delivery/wallet" element={<DriverWallet />}></Route>
+          <Route path="/deliveryOrder" element={<DriverOrder />}></Route>
+          <Route path="/deliveryMap" element={<DriverMap />}></Route>
+          <Route path="/deliveryHistory" element={<DriverHistory />}></Route>
+          <Route path="/deliveryWallet" element={<DriverWallet />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
