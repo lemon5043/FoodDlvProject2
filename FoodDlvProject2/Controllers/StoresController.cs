@@ -80,7 +80,6 @@ namespace FoodDlvProject2.Controllers
                     StoreName = storeCreateVM.StoreName,
                     Address = storeCreateVM.Address,
                     ContactNumber = storeCreateVM.ContactNumber,
-                    Photo = null
                 };
 
                 if (storeCreateVM.Photo != null)
@@ -164,7 +163,7 @@ namespace FoodDlvProject2.Controllers
                         var oldFilePath = Path.Combine(
                             Directory.GetCurrentDirectory(), "wwwroot/img/Stores/",
                             store.Photo);
-                       
+
                         if (System.IO.File.Exists(oldFilePath))
                         {
                             System.IO.File.Delete(oldFilePath);
@@ -282,6 +281,18 @@ namespace FoodDlvProject2.Controllers
             return View(product);
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
         // GET: Products/Create
         public IActionResult CreateP(int id)
         {
@@ -300,7 +311,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateP([Bind("StoreId,ProductName,Photo,ProductContent,Status,UnitPrice")] Product product/*, IFormFile? myimg*/)
+        public async Task<IActionResult> CreateP([Bind("StoreId,ProductName,Photo,ProductContent,Status,UnitPrice")] ProductCreateVM productCreateVM/*, IFormFile? myimg*/)
         {
 
 
@@ -318,6 +329,42 @@ namespace FoodDlvProject2.Controllers
                 //}
 
 
+
+                Product product = new Product
+                {
+                    Id = productCreateVM.Id,
+                    StoreId = productCreateVM.StoreId,
+                    ProductName = productCreateVM.ProductName,
+                    ProductContent = productCreateVM.ProductContent,
+                    Status = productCreateVM.Status,
+                    UnitPrice = productCreateVM.UnitPrice,
+                };
+
+                if (productCreateVM.Photo != null)
+                {
+                    var now = DateTime.Now;
+                    var fileName = $"{productCreateVM.ProductName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}.jpg";
+                    var filePath = Path.Combine(
+                   Directory.GetCurrentDirectory(), "wwwroot/img/Products/",
+                   fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await productCreateVM.Photo.CopyToAsync(stream);
+                    }
+                    product.Photo = fileName;
+                }
+
+
+
+
+
+
+
+
+
+
+
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 //return RedirectToAction(nameof(Index));
@@ -326,8 +373,8 @@ namespace FoodDlvProject2.Controllers
 
 
             }
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", product.StoreId);
-            return View(product);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", productCreateVM.StoreId);
+            return View(productCreateVM);
         }
 
         // GET: Products/Edit/5
@@ -343,8 +390,22 @@ namespace FoodDlvProject2.Controllers
             {
                 return NotFound();
             }
+
+
+            var productEditVM = new ProductEditVM
+            {
+                Id = product.Id,
+                StoreId = product.StoreId,
+                ProductName = product.ProductName,
+                ProductContent = product.ProductContent,
+                Status = product.Status,
+                UnitPrice = product.UnitPrice,
+
+            };
+
+
             ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", product.StoreId);
-            return View(product);
+            return View(productEditVM);
         }
 
         // POST: Products/Edit/5
@@ -352,9 +413,9 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditP(long id, [Bind("Id,StoreId,ProductName,Photo,ProductContent,Status,UnitPrice")] Product product/*, IFormFile? myimg*/)
+        public async Task<IActionResult> EditP(long id, [Bind("Id,StoreId,ProductName,Photo,ProductContent,Status,UnitPrice")] ProductEditVM productEditVM)
         {
-            if (id != product.Id)
+            if (id != productEditVM.Id)
             {
                 return NotFound();
             }
@@ -363,15 +424,46 @@ namespace FoodDlvProject2.Controllers
             {
                 try
                 {
+                    var product = _context.Products.FirstOrDefault(x => x.Id == id);
 
-                    //if (myimg != null)
-                    //{
-                    //    using (var ms = new MemoryStream())
-                    //    {
-                    //        myimg.CopyTo(ms);
-                    //        product.Photo = ms.ToArray();
-                    //    }
-                    //}
+                    product.StoreId = productEditVM.StoreId;
+                    product.ProductName = productEditVM.ProductName;
+                    product.ProductContent = productEditVM.ProductContent;
+                    product.Status = productEditVM.Status;
+                    product.UnitPrice = productEditVM.UnitPrice;
+
+                    if (productEditVM.Photo != null)
+                    {
+                        // 刪除舊圖片
+                        var oldFilePath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot/img/Products/",
+                            product.Photo);
+
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
+
+                        var now = DateTime.Now;
+                        var fileName = $"{productEditVM.ProductName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}.jpg";
+                        var filePath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot/img/Products/",
+                            fileName);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await productEditVM.Photo.CopyToAsync(stream);
+                        }
+                        product.Photo = fileName;
+                    }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -380,7 +472,7 @@ namespace FoodDlvProject2.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!ProductExists(productEditVM.Id))
                     {
                         return NotFound();
                     }
@@ -389,10 +481,10 @@ namespace FoodDlvProject2.Controllers
                         throw;
                     }
                 }
-                return Redirect($"~/Stores/Details/{product.StoreId}");
+                return Redirect($"~/Stores/Details/{productEditVM.StoreId}");
             }
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", product.StoreId);
-            return View(product);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "StoreName", productEditVM.StoreId);
+            return View(productEditVM);
         }
 
         // GET: Products/Delete/5
@@ -428,7 +520,14 @@ namespace FoodDlvProject2.Controllers
             {
                 _context.Products.Remove(product);
             }
+            var oldFilePath = Path.Combine(
+Directory.GetCurrentDirectory(), "wwwroot/img/Products/",
+product.Photo);
 
+            if (System.IO.File.Exists(oldFilePath))
+            {
+                System.IO.File.Delete(oldFilePath);
+            }
 
 
 

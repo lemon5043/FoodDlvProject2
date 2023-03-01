@@ -1,4 +1,4 @@
-﻿@model FoodDlvProject2.EFModels.Product
+﻿@model FoodDlvProject2.Models.ViewModels.ProductCreateVM
 
 @{
 	ViewData["Title"] = "Create";
@@ -23,11 +23,19 @@
 				<input asp-for="ProductName" class="form-control" />
 				<span asp-validation-for="ProductName" class="text-danger"></span>
 			</div>
-			<div class="form-group">
+@*			<div class="form-group">
 				<label asp-for="Photo" class="control-label"></label>
 				<input type="file" name="myimg" class="form-control-file" value="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg">
-				@*<span asp-validation-for="Photo" class="text-danger"></span>*@
+				<span asp-validation-for="Photo" class="text-danger"></span>
+			</div>*@
+
+			<div class="form-group">
+				<label asp-for="Photo" class="control-label"></label>
+				<input type="file"asp-for="Photo" class="form-control-file">
+				<span asp-validation-for="Photo" class="text-danger"></span>
 			</div>
+
+
 			<div class="form-group">
 				<label asp-for="ProductContent" class="control-label"></label>
 				<input asp-for="ProductContent" class="form-control" />
