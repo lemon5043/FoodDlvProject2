@@ -1,13 +1,18 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+//用戶介面
 import Layout from "./components/Layout";
 import User from "./pages/User";
 import Error from "./pages/Error";
 import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
-import "./assets/styles/tailwind.css";
+//外送員介面
+import DriverLayout from "./components/DriverLayout";
+import DriverHome from "./pages/Delivery/DriverHome";
 import DriverLogin from "./pages/Delivery/DriverLogin";
+//css
+import "./assets/styles/tailwind.css";
 
 function App() {
   return (
@@ -22,7 +27,10 @@ function App() {
           <Route path="*" element={<Error />}></Route>
         </Route>
         {/* 外送員頁面 */}
-        <Route path="delivery/login" element={<DriverLogin />}></Route>
+        <Route path="driverLogin" element={<DriverLogin />}></Route>
+        <Route path="/delivery" element={<DriverLayout />}>
+          <Route index element={<DriverHome />}></Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );

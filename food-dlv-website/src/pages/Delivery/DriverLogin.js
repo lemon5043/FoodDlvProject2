@@ -1,8 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import Bike from "../../assets/images/delivery/bike.svg";
 
 const DriverLogin = () => {
+  // navigate 是控制重新導向的東西
+  const navigate = useNavigate();
+
+  //判斷是否登入成功
+  const loginHandler = () => {
+    if (true) {
+      navigate("/delivery");
+    }
+  };
+
   return (
     <div>
       <figure className=" flex justify-center pt-3">
@@ -36,7 +46,7 @@ const DriverLogin = () => {
                 密碼
               </label>
               <input
-                name="passwo"
+                name="password"
                 type="password"
                 className="block w-full px-4 py-2 mt-2 text-neutral-700 bg-white border rounded-md focus:border-neutral-400 focus:ring-neutral-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
@@ -45,7 +55,10 @@ const DriverLogin = () => {
               忘記密碼?
             </Link>
             <div className="mt-6">
-              <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-black rounded-md hover:bg-zinc-600 focus:outline-none focus:bg-zinc-600">
+              <button
+                onClick={loginHandler}
+                className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-black rounded-md hover:bg-zinc-600 focus:outline-none focus:bg-zinc-600"
+              >
                 登入
               </button>
             </div>
@@ -53,7 +66,10 @@ const DriverLogin = () => {
           <p className="mt-8 text-sm font-light text-center text-gray-700">
             {" "}
             還沒有帳號嗎?{" "}
-            <Link to="/" className="font-medium text-black hover:underline">
+            <Link
+              to="/delivery"
+              className="font-medium text-black hover:underline"
+            >
               註冊
             </Link>
           </p>
