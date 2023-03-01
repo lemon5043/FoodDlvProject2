@@ -5,35 +5,41 @@ namespace FoodDlvAPI.DTOs
 {
     public class ProductDTO
     {
+        //Fields
+        //private List<ProductCustomizationItemDTO> Items;
+
+        //Properties
         public long ProductId { get; set; }
         public int StoreId { get; set; }
         public string? ProductName { get; set; }
         public string? Photo { get; set; }
         public string? ProductContent { get; set; }
         public bool? Status { get; set; }
-        public int UnitPrice { get; set; }       
-        public virtual IEnumerable<ProductCustomizationItem> ProductCustomizationItems { get; set; }        
+        public int UnitPrice { get; set; }
+        public List<ProductCustomizationItemDTO> Items { get; set; }
+
+
 
         public ProductDTO(long productId, int stordId, string productName,
                         string photo, string productContent, bool? status, int unitPrice,
-                        IEnumerable<ProductCustomizationItem> productCustomizationItems)
+                        List<ProductCustomizationItemDTO> items)
         {
-            this.ProductId = productId;
-            this.StoreId = stordId;
-            this.ProductName = productName;
-            this.Photo = photo;
-            this.ProductContent = productContent;
-            this.Status = status;
-            this.UnitPrice = unitPrice;
-            this.ProductCustomizationItems = productCustomizationItems;
+            ProductId = productId;
+            StoreId = stordId;
+            ProductName = productName;
+            Photo = photo;
+            ProductContent = productContent;
+            Status = status;
+            UnitPrice = unitPrice;
+            Items = items;
         }
     }
 
     public static partial class ProductExts
-    {       
-        public static ProductDTO ToProductDTO(this Product source, IEnumerable<ProductCustomizationItem> productCustomizationItems)
+    {
+        public static ProductDTO ToProductDTO(this Product source)
         {
-            var toProductSelect = new ProductDTO
+            var productDTO = new ProductDTO
             (
                 source.Id,
                 source.StoreId,
@@ -42,9 +48,9 @@ namespace FoodDlvAPI.DTOs
                 source.ProductContent,
                 source.Status,
                 source.UnitPrice,
-                productCustomizationItems
+                source.ProductCustomizationItems.Select(pci => pci.ToProductCustomizationItemDTO()).ToList()
             );
-            return toProductSelect;
+            return productDTO;
         }
     }
 }

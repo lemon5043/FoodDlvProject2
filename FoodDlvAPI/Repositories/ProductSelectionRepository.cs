@@ -19,16 +19,12 @@ namespace FoodDlvAPI.Repositories
 
         public ProductDTO GetProductSelection(long productId, bool? status)
         {
-            var product = _context.Products
-                .SingleOrDefault(p => p.Id == productId && (status == null || p.Status == status));
-            if (product == null || status == false) throw new Exception("無此商品或商品已下架");
+            var query = _context.Products.SingleOrDefault(p => p.Id == productId && p.Status == status);
+            if (query == null) throw new Exception("無此商品");
+            if (status.HasValue && query.Status != status) throw new Exception("商品已下架");
+            var product = query.ToProductDTO();
 
-            var customizationItem = _context.ProductCustomizationItems
-                .Where(pci => pci.ProuctId == productId).ToList();              
-
-            var productSelectionData = product.ToProductDTO(customizationItem);
-
-            return productSelectionData;
+            return product;
         }
     }
 }

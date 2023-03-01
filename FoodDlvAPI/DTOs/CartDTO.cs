@@ -1,46 +1,65 @@
 ﻿using FoodDlvAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodDlvAPI.DTOs
 {
     public class CartDTO
     {
+        //Fields
+        //private List<CartDetailDTO> Details;
+
+        //Properties
         public long Id { get; set; }
         public int MemberId { get; set; }
         public int StoreId { get; set; }
-        
-        public CartDTO(int memberId, int storeId)
+        private List<CartDetailDTO> Details { get; set; }
+        public int Total => Details == null || Details.Count == 0 ? 0 : Details.Sum(cdD => cdD.SubTotal);
+
+        //Constructors
+        public CartDTO(long id, int memberId, int storeId, List<CartDetailDTO> details)
         {
-            this.MemberId = memberId;
-            this.StoreId = storeId;
-        }
-        public CartDTO(long id, int memberId, int storeId)
+            Id = id;
+            MemberId = memberId;
+            StoreId = storeId;
+            Details = details;
+        }               
+
+        //Methods
+        public IEnumerable<CartDetailDTO> GetDetails()
         {
-            this.Id = id;
-            this.MemberId = memberId;
-            this.StoreId = storeId;
+            return Details;
         }
     }
     public static class CartExts
     {
         public static CartDTO ToCartDTO(this Cart source)
-        {            
-            var toCartDTO = new CartDTO
-            (         
+        {
+            var cartDTO = new CartDTO
+            (
                 source.Id,
                 source.MemberId,
-                source.StoreId               
+                source.StoreId,
+                source.CartDetails.Select(cd => new CartDetailDTO
+                    (                        
+                        cd.Product.ToCartProductDTO(), 
+                        cd.Qty, 
+                        cd.CartCustomizationItems.Select(cci => cci.ToCartCustomizationItemDTO()).ToList()
+                    )
+                ).ToList()
             );
-            return toCartDTO;
+            return cartDTO;
         }
 
-        public static Cart ToCartEntity(this CartDTO source)
+        public static Cart ToCartEF(this CartDTO source)
         {
-            var toCartEntity = new Cart
-            {               
+            var cartEF = new Cart
+            {
+                Id = source.Id,
                 MemberId = source.MemberId,
-                StoreId = source.StoreId,                
+                StoreId = source.StoreId,
+                CartDetails = source.GetDetails().Select(cd => cd.ToCartDetailEF(source.Id)).ToList()
             };
-            return toCartEntity;
+            return cartEF;
         }
     }
 }

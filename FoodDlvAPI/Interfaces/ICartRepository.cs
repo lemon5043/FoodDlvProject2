@@ -25,6 +25,8 @@ namespace FoodDlvAPI.Interfaces
         /// <param name="memberId"></param>
         /// <returns></returns>
         CartDTO Load(int memberId, int storeId);
+
+        void AddDetail(CartDTO cart, CartProductDTO cartProduct, int qty);
         
         /// <summary>
         /// 清空購物車, 並刪除Database中的購物車主檔與明細檔

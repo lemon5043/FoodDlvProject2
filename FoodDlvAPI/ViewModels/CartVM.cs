@@ -1,4 +1,4 @@
-﻿using FoodDlvAPI.DTOs;
+﻿
 using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvAPI.ViewModels

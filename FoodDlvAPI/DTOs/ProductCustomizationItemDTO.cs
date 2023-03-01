@@ -11,10 +11,10 @@ namespace FoodDlvAPI.DTOs
 
         public ProductCustomizationItemDTO(int id, long productId, string itemName, int unitPrice)
         {
-            this.Id = id;
-            this.ProuctId = productId;
-            this.ItemName = itemName;
-            this.UnitPrice = unitPrice;
+            Id = id;
+            ProuctId = productId;
+            ItemName = itemName;
+            UnitPrice = unitPrice;
         }
     }
 

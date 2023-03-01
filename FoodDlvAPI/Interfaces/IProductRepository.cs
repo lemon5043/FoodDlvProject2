@@ -3,9 +3,9 @@
 namespace FoodDlvAPI.Interfaces
 {
     public interface IProductRepository
-    {
+    {       
         /// <summary>
-        /// 回傳一筆商品與客製化資料
+        /// 回傳特定商品與被選擇的客製化資料
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="status"></param>

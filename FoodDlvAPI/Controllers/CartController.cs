@@ -4,6 +4,7 @@ using FoodDlvAPI.Repositories;
 using FoodDlvAPI.Services;
 using FoodDlvAPI.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodDlvAPI.Controllers
 {
@@ -13,20 +14,22 @@ namespace FoodDlvAPI.Controllers
     {
         //Fields
         private readonly AppDbContext _context;
-        private CartService _cartService;
+        private CartService _cartService;        
+        
 
         //Constructors
         public CartController(AppDbContext context)
         {
-            _context = context;
+            _context = context;            
             ICartRepository cartRepo = new CartRepository(_context);
             IProductRepository productRepo = new ProductRepository(_context);
+            
             this._cartService = new CartService(cartRepo, productRepo);
         }
                 
 
         [HttpPost]
-        public IActionResult AddToCart(CartVM request)
+        public IActionResult AddItem(CartVM request)
         {
             try
             {
@@ -40,23 +43,30 @@ namespace FoodDlvAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult ShowCart(int memberId, int storeId)
+        public IActionResult Info(int memberId, int storeId)
         {
             try
             {
                 var CartData = _cartService.Current(memberId, storeId);
                 return Json(CartData);
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }            
         }
 
-        //public IActionResult UpdateCart(CartVM request)
-        //{
-        //    _cartService.UpdateCart(MemberAccount, request);
-        //    return new EmptyResult();   
-        //}
+        [HttpPost]
+        public IActionResult UpdateCart(CartVM request)
+        {
+            
+            return new EmptyResult();
+        }
+
+        public IActionResult Checkout()
+        {
+            return View();
+        }
 
 
     }

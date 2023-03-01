@@ -8,51 +8,63 @@ namespace FoodDlvAPI.DTOs
     /// </summary>
     public class CartDetailDTO
     {
-        public int Id { get; set; }
-        public long ProductId { get; set; }
-        public int Qty { get; set; }        
-        public long CartId { get; set; }
-        
+        //Fields
+        private CartProductDTO _Product;        
+        private int _Qty;        
 
-        public CartDetailDTO(long productId, int qty, long cartId)
-        {            
-            this.ProductId = productId;
-            this.Qty = qty;
-            this.CartId = cartId;
+        //Properties
+        public int Id { get; set; }
+        public int Qty
+        {
+            get { return _Qty; }
+            set { _Qty = value > 0 ? value : throw new Exception("Qty需為正數"); }
+        }
+        public CartProductDTO Product
+        {
+            get { return _Product; }
+            set { _Product = value != null ? value : throw new Exception("Product不可為null"); }
+        }
+        public int SubTotal => Product.Price * Qty;
+        public List<CartCustomizationItemDTO> CustomizationItems { get; set; }
+
+        //Constructors
+        public CartDetailDTO(CartProductDTO product, int qty, List<CartCustomizationItemDTO> customizationItems)
+        {
+            Product = product;
+            Qty = qty;
+            CustomizationItems = customizationItems;
         }
 
-        public CartDetailDTO(int id ,long productId, int qty, long cartId)
-        {             
-            this.Id = id;
-            this.ProductId = productId;
-            this.Qty = qty;
-            this.CartId = cartId;
-        }       
+        public CartDetailDTO(CartProductDTO product, int qty)
+        {
+            Product = product;
+            Qty = qty;                    
+        }
     }
 
     public static partial class CartDetailExts
     {
         public static CartDetailDTO ToCartDetailDTO(this CartDetail source)
         {
-            var toCartDetailDTO = new CartDetailDTO
-            (                
-                source.Id,
-                source.ProductId,
-                source.Qty,                
-                source.CartId
-            );
-            return toCartDetailDTO;
+            var items = source.CartCustomizationItems.Select(cci => cci.ToCartCustomizationItemDTO()).ToList();
+            CartProductDTO cartProduct = source.Product.ToCartProductDTO();
+            var cartDetailDTO = new CartDetailDTO(cartProduct, source.Qty, items)
+            {
+                Id = source.Id,
+            };
+            return cartDetailDTO;
         }
 
-        public static CartDetail ToCartDetailEntity(this CartDetailDTO source)
+        public static CartDetail ToCartDetailEF(this CartDetailDTO source, long cartId)
         {
-            var toCartDetailEntity = new CartDetail
-            {                
-                ProductId = source.ProductId,
+            var cartDetailEF = new CartDetail
+            {
+                Id = source.Id,
+                ProductId = source.Product.Id,
                 Qty = source.Qty,
-                CartId = source.CartId,
+                CartId = cartId
             };
-            return toCartDetailEntity;
+            return cartDetailEF;
         }
     }
 }

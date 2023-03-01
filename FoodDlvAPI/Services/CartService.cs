@@ -22,29 +22,35 @@ namespace FoodDlvAPI.Services
         }
 
         public void AddToCart(CartVM request)
-        {   
-            //找尋或新增一台cart
-            var cart = Current(request.RD_MemberId, request.RD_StoreId);
-
-            //查詢該筆Prodct與其ProductCustomizationItem資料
+        {               
+            var cart = Current(request.RD_MemberId, request.RD_StoreId);                        
             var product = _productRepository.Load(request.RD_ProductId, request.RD_Item, true);
+            var cartProduct = new CartProductDTO
+            {
+                Id = request.RD_ProductId,
+                ProductName = product.ProductName,
+                Price = product.UnitPrice,
+                CustomizationItems = product.Items,
+            };
+
+            _cartRepository.AddDetail(cart, cartProduct, request.RD_Qty);
 
             //連接product與cart到cartDetail
-            var cartDetail = _cartRepository.AddCartDetail(product.ProductId, request.RD_Qty, cart.Id);
+            //var cartDetail = _cartRepository.AddCartDetail(product.ProductId, request.RD_Qty, cart.Id);
 
             //連接product內的ProductCustomizationItem資料到cartCustomizationItem
             //_cartRepository.AddCartCustomizationItem(cartDetail, product, request.RD_Qty);
 
-            int identifyNum = _cartRepository.IdentifyNumSelector();
-            var cartCustomizationItem = product.ProductCustomizationItems
-                .Select(pci => new CartCustomizationItemDTO
-                (
-                    pci.Id,
-                    pci.ProuctId,
-                    cartDetail.Id,
-                    request.RD_Qty,
-                    identifyNum
-                ));
+            //int identifyNum = _cartRepository.IdentifyNumSelector();
+            //var cartCustomizationItem = product.ProductCustomizationItems
+            //    .Select(pci => new CartCustomizationItemDTO
+            //    (
+            //        pci.Id,
+            //        pci.ProuctId,
+            //        cartDetail.Id,
+            //        request.RD_Qty,
+            //        identifyNum
+            //    ));
 
             _cartRepository.Save(cartCustomizationItem);            
         }

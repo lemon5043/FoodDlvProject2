@@ -8,17 +8,17 @@ namespace FoodDlvAPI.DTOs
         public int Id { get; set; }
         public int CustomizationItemId { get; set; }
         public long ProductId { get; set; }
-        public int CartDetailId { get; set; }        
+        public int CartDetailId { get; set; }
         public int Count { get; set; }
         public int IdentifyNum { get; set; }
 
         public CartCustomizationItemDTO(int customizationItemId, long productId, int cartDetailId, int count, int identifyNum)
-        {                       
-            this.CustomizationItemId = customizationItemId;
-            this.ProductId = productId;
-            this.CartDetailId = cartDetailId;
-            this.Count = count;
-            this.IdentifyNum = identifyNum;
+        {
+            CustomizationItemId = customizationItemId;
+            ProductId = productId;
+            CartDetailId = cartDetailId;
+            Count = count;
+            IdentifyNum = identifyNum;
         }
     }
 
@@ -27,7 +27,7 @@ namespace FoodDlvAPI.DTOs
         public static CartCustomizationItemDTO ToCartCustomizationItemDTO(this CartCustomizationItem source)
         {
             var toCartCustomizationItemDTO = new CartCustomizationItemDTO
-            (                
+            (
                 source.CustomizationItemId,
                 source.ProductId,
                 source.CartDetailId,
@@ -36,10 +36,10 @@ namespace FoodDlvAPI.DTOs
             );
             return toCartCustomizationItemDTO;
         }
-        public static CartCustomizationItem ToCartCustomizationItemEntity(this CartCustomizationItemDTO source) 
-        { 
+        public static CartCustomizationItem ToCartCustomizationItemEntity(this CartCustomizationItemDTO source)
+        {
             var toCartCustomizationItemEntity = new CartCustomizationItem
-            {                
+            {
                 CustomizationItemId = source.CustomizationItemId,
                 ProductId = source.ProductId,
                 CartDetailId = source.CartDetailId,
