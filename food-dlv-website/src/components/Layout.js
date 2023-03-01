@@ -11,7 +11,7 @@ const Layout = () => {
         <ul className="flex justify-between w-full mr-4">
           {/* logo 標題 搜尋欄 */}
           <li className="flex items-center">
-            <Link to="/" className="text-2xl flex items-center px-4">
+            <Link to="" className="text-2xl flex items-center px-4">
               {/* logo */}
               <div>
                 <img src={Logo} alt="logo.svg" className="w-10 -rotate-12" />

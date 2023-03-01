@@ -8,11 +8,18 @@ import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 //外送員介面
+import DriverLogin from "./pages/Delivery/DriverLogin";
 import DriverLayout from "./components/DriverLayout";
 import DriverHome from "./pages/Delivery/DriverHome";
-import DriverLogin from "./pages/Delivery/DriverLogin";
+import DriverMap from "./pages/Delivery/DriverMap";
+import DriverOrder from "./pages/Delivery/DriverOrder";
+import DriverWallet from "./pages/Delivery/DriverWallet";
+import DriverHistory from "./pages/Delivery/DriverHistory";
 //css
 import "./assets/styles/tailwind.css";
+
+//driver page 的 layout 設定
+const DriverLayoutRoute = <div></div>;
 
 function App() {
   return (
@@ -27,9 +34,13 @@ function App() {
           <Route path="*" element={<Error />}></Route>
         </Route>
         {/* 外送員頁面 */}
-        <Route path="driverLogin" element={<DriverLogin />}></Route>
-        <Route path="/delivery" element={<DriverLayout />}>
-          <Route index element={<DriverHome />}></Route>
+        <Route path="/delivery/login" element={<DriverLogin />}></Route>
+        <Route element={<DriverLayout />}>
+          <Route path="/delivery" element={<DriverHome />}></Route>
+          <Route path="/delivery/order" element={<DriverOrder />}></Route>
+          <Route path="/delivery/map" element={<DriverMap />}></Route>
+          <Route path="/delivery/history" element={<DriverHistory />}></Route>
+          <Route path="/delivery/wallet" element={<DriverWallet />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
