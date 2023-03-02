@@ -7,6 +7,7 @@ import Error from "./pages/Error";
 import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
+import Store from "./pages/Store";
 //外送員介面
 import DriverLogin from "./pages/Delivery/DriverLogin";
 import DriverLayout from "./components/DriverLayout";
@@ -31,6 +32,7 @@ function App() {
           <Route path="user" element={<User />}></Route>
           <Route path="cart" element={<Cart />}></Route>
           <Route path="login" element={<Login />}></Route>
+          <Route path="store" element={<Store />}></Route>
           <Route path="*" element={<Error />}></Route>
         </Route>
         {/* 外送員頁面 */}

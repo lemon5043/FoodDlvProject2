@@ -168,8 +168,8 @@ namespace FoodDlvProject2.Controllers
                         {
                             System.IO.File.Delete(oldFilePath);
                         }
-
-                        var now = DateTime.Now;
+                    }
+                    var now = DateTime.Now;
                         var fileName = $"{storeEditVM.StoreName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}{storeEditVM.Address}.jpg";
                         var filePath = Path.Combine(
                             Directory.GetCurrentDirectory(), "wwwroot/img/Stores/",
@@ -179,7 +179,6 @@ namespace FoodDlvProject2.Controllers
                             await storeEditVM.Photo.CopyToAsync(stream);
                         }
                         store.Photo = fileName;
-                    }
 
                     _context.Update(store);
                     await _context.SaveChangesAsync();

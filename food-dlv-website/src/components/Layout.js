@@ -1,10 +1,24 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import React from "react";
 import Logo from "../assets/images/logo.svg";
 // import index from "../hooks/useAxios";
 
-// 這個檔案是導覽列設定
 const Layout = () => {
+  const navigate = useNavigate();
+
+  const addressHandler = () => {
+    if (true) {
+      navigate("/store");
+    }
+  };
+
+  //搜尋欄，按下 enter 就會自動搜尋
+  const enterHandler = (event) => {
+    if (event.key === "Enter") {
+      navigate("/store");
+    }
+  };
+
   return (
     <div>
       <nav className="bg-theme-color">
@@ -24,12 +38,17 @@ const Layout = () => {
             {/* 搜尋欄 */}
             <div className="relative text-gray-600 flex items-center">
               <input
+                onKeyDown={enterHandler}
                 className="border-2 border-gray-300 bg-white h-10 w-80 px-2 rounded-lg text-sm focus:border-neutral-400 focus:ring-neutral-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 type="address"
                 name="address"
                 placeholder="要送到哪呢"
               />
-              <button type="submit" className="absolute right-0 top-0 mr-3">
+              <button
+                onClick={addressHandler}
+                type="submit"
+                className="absolute right-0 top-0 mr-3"
+              >
                 <i className="fa-solid fa-magnifying-glass py-3"></i>
               </button>
             </div>
