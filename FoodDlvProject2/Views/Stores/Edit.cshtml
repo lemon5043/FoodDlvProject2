@@ -1,4 +1,4 @@
-﻿@model FoodDlvProject2.EFModels.Store
+﻿@model FoodDlvProject2.Models.ViewModels.StoreEditVM
 
 @{
     ViewData["Title"] = "Edit";
@@ -34,9 +34,9 @@
                 <span asp-validation-for="ContactNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label"></label>
-                <input type="file" name="myimg" class="form-control-file">
-                @*<span asp-validation-for="Photo" class="text-danger"></span>*@
+                <label asp-for="Photo"class="control-label"></label>
+                <input type="file" input asp-for="Photo" class="form-control-file">
+                <span asp-validation-for="Photo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

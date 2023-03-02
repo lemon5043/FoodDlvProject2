@@ -39,7 +39,7 @@ namespace FoodDlvProject2.EFModels
         public string ContactNumber { get; set; }
         [Display(Name = "圖片")]
 
-        public string Photo { get; set; }
+        public string? Photo { get; set; }
 
 
 
