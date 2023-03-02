@@ -78,8 +78,15 @@ namespace FoodDlvAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<DeliveryDriversDetailsVM>> Details(int id)
         {
-            var data = await deliveryDriverService.GetOneAsync(id);
-            return data.ToDeliveryDriversDetailsVM();
+            try
+            {
+                var data = await deliveryDriverService.GetOneAsync(id);
+                return data.ToDeliveryDriversDetailsVM();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         // GET: DeliveryDrivers/Create
@@ -104,10 +111,17 @@ namespace FoodDlvAPI.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return ex.ToString();
+                    throw new Exception(ex.Message);
                 }
             }
-            return "輸入資料有誤，請再確認";
+            else
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    ModelState.AddModelError(string.Empty, error.ErrorMessage);
+                }
+                return BadRequest(ModelState);
+            }
         }
 
         // GET: api/DeliveryDrivers/5
@@ -133,12 +147,18 @@ namespace FoodDlvAPI.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return ex.ToString();
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                    return BadRequest(ModelState);
                 }
             }
-            return "輸入資料有誤，請再確認";
+            else
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    ModelState.AddModelError(string.Empty, error.ErrorMessage);
+                }
+                return BadRequest(ModelState);
+            }
         }
-
-
     }
 }

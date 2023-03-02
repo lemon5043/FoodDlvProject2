@@ -30,7 +30,14 @@ namespace FoodDlvAPI.Controllers
         [HttpPut("ChangeWorkingStatus/{dirverId}")]
         public async Task Online(int dirverId)
         {
-            deliveryService.ChangeWorkingStatus(dirverId);
+            try
+            {
+                deliveryService.ChangeWorkingStatus(dirverId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
             //建立群組
             //string role = "driver";
@@ -45,34 +52,46 @@ namespace FoodDlvAPI.Controllers
         [HttpGet("OrderAasignment")] //可能是?
         public async Task<AasignmentOrderVM> OrderAasignment(int orderid)
         {
-            var data = await deliveryService.GetOrderDetail(orderid);
-            return data.ToAasignmentOrderVM();
+            try
+            {
+                var data = await deliveryService.GetOrderDetail(orderid);
+                return data.ToAasignmentOrderVM();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
-       
-        //接受or取消請求
-        [HttpGet("{reply}/{orderId}")]
-        public async Task<AasignmentOrderVM> OrderAasignment(bool reply, int orderId)
-        {
 
-            //接受訂單
-            if (reply)
+        //接受訂單請求
+        [HttpGet("{reply}/{orderId}")]
+        public async Task<AasignmentOrderVM> OrderAccept(int orderId)
+        {
+            try
             {
                 await deliveryService.MarkOrderStatus(orderId);
                 var data = await deliveryService.NavigationToStore(orderId);
                 return data.ToAasignmentOrderVM();
             }
-            //取消接單
-            //todo 通知店家重新尋單
-            //await _hubContext.Groups()
-            return null;
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         //確認訂單開始外送
         [HttpGet("{orderId}")]
         public async Task<string> MealConfirmation(int orderId)
         {
-            var data = deliveryService.NavigationToCustomer(orderId);
-            return await data;
+            try
+            {
+                var data = deliveryService.NavigationToCustomer(orderId);
+                return await data;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
             //todo 訂單與餐點不符取消接單?
             //await _hubContext.Groups()
@@ -81,18 +100,14 @@ namespace FoodDlvAPI.Controllers
         [HttpPut("{orderId}")]
         public async Task DeliveryArrive(int orderId)
         {
-            await deliveryService.MarkOrderStatus(orderId);
-            //todo 回報給客戶
-           
-
+            try
+            {
+                await deliveryService.MarkOrderStatus(orderId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
-
-        ////todo 未能達成外送?
-
-
-        //public async Task CancelOrder(CancellationVM cancellation)
-        //{
-        //    //todo 回報給店家
-        //}
     }
 }

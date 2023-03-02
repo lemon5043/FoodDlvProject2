@@ -27,28 +27,33 @@ namespace FoodDlvAPI.Controllers
         // GET: DeliveryRecords/MonthlyDetails/5
         public async Task<IEnumerable<DeliveryMonthlyDetailRecordVM>> MonthlyDetails(int? id)
         {
+            try
+            {
+                var data = await deliveryRecordService.GetMonthlyRecordAsync(id);
+                //ViewBag.DriverId = id;
+                ViewBag.DriverName = data.Select(x => x.DriverName).FirstOrDefault();
 
-            var data = await deliveryRecordService.GetMonthlyRecordAsync(id);
-            //ViewBag.DriverId = id;
-            ViewBag.DriverName = data.Select(x => x.DriverName).FirstOrDefault();
-
-            return data.Select(x => x.ToDeliveryMonthlyDetailRecordVM());
-
+                return data.Select(x => x.ToDeliveryMonthlyDetailRecordVM());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         [HttpGet("{year}/{month}/{id}")]
         // GET: DeliveryRecords/IndividualMonthlyDetails/5
         public async Task<IEnumerable<DeliveryIndividualDetailsRecordVM>> IndividualMonthlyDetails(int? year, int? month, int? id)
         {
-            var data = await deliveryRecordService.GetIndividualMonthlyRecordAsync(year, month, id);
-
-            //ViewBag.Year = year;
-            //ViewBag.Month = month;
-            //ViewBag.DriverId = id;
-            //ViewBag.DriverName = data.Select(x => x.DriverName).FirstOrDefault();
-
-            return data.Select(x => x.ToDeliveryIndividualDetailsRecordVM());
-
+            try
+            {
+                var data = await deliveryRecordService.GetIndividualMonthlyRecordAsync(year, month, id);
+                return data.Select(x => x.ToDeliveryIndividualDetailsRecordVM());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
