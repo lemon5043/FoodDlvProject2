@@ -10,5 +10,6 @@ namespace FoodDlvAPI.Models.Services.Interfaces
         Task<AasignmentOrderDTO> NavigationToCustomer(int orderId);
         Task<AasignmentOrderDTO> NavigationToStore(int orderId);
         Task MarkOrderStatus(int orderId);
+        void ChangeDeliveryStatus(int dirverId);
     }
 }

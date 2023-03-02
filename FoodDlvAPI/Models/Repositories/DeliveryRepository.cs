@@ -40,13 +40,11 @@ namespace FoodDlvAPI.Models.Repositories
                 int onlineWorkStatusId = 3;
                 query.WorkStatuseId = onlineWorkStatusId;
 
-                string[] updateModel = { "WorkStatuseId", "WorkStatuseId" };
+                string updateModel = "WorkStatuseId" ;
                 db.Attach(query);
 
-                foreach (var property in updateModel) 
-                {
-                    db.Entry(query).Property(property).IsModified= true;
-                }
+                db.Entry(query).Property(updateModel).IsModified = true;
+
                 db.SaveChanges();
                 return;
             }
@@ -58,13 +56,11 @@ namespace FoodDlvAPI.Models.Repositories
 
                 query.WorkStatuseId = offlineWorkStatusId;
 
-                string[] updateModel = { "WorkStatuseId", "WorkStatuseId" };
+                string updateModel =  "WorkStatuseId" ;
                 db.Attach(query);
 
-                foreach (var property in updateModel)
-                {
-                    db.Entry(query).Property(property).IsModified = true;
-                }
+                db.Entry(query).Property(updateModel).IsModified = true;
+
                 db.SaveChanges();
                 return;
             }
@@ -130,6 +126,7 @@ namespace FoodDlvAPI.Models.Repositories
             return query;
         }
 
+        //紀錄外送狀態
         public async Task MarkOrderStatus(int orderId)
         {
             if (db.OrderSchedules == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
@@ -150,6 +147,55 @@ namespace FoodDlvAPI.Models.Repositories
 
             db.Add(query);
             db.SaveChanges();
+        }
+
+        //外送狀態切換
+        public async void ChangeDeliveryStatus(int dirverId)
+        {
+            if (db.DeliveryDrivers == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+
+            var query = await db.DeliveryDrivers
+                .Where(x => x.Id == dirverId)
+                .Select(x => new DeliveryDriver
+                {
+                    Id = x.Id,
+                    WorkStatuseId = x.WorkStatuseId,
+                })
+                .FirstOrDefaultAsync();
+
+            if (query == null) throw new Exception("您的帳號處於未開通或是禁止使用狀態，請聯絡客服了解詳細情況");
+
+            //切換為外送中
+            if (query.WorkStatuseId == 3)
+            {
+                int DeliveringId = 4;
+                query.WorkStatuseId = DeliveringId;
+
+                string updateModel =  "WorkStatuseId";
+                db.Attach(query);
+
+                db.Entry(query).Property(updateModel).IsModified = true;
+
+                db.SaveChanges();
+                return;
+            }
+
+            //切換為等待接單
+            if (query.WorkStatuseId == 4)
+            {
+                int onlineWorkStatusId = 3;
+
+                query.WorkStatuseId = onlineWorkStatusId;
+
+                string updateModel =  "WorkStatuseId" ;
+                db.Attach(query);
+
+                db.Entry(query).Property(updateModel).IsModified = true;
+
+                db.SaveChanges();
+                return;
+            }
+            throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
         }
     }
 }

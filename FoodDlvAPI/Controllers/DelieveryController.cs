@@ -4,6 +4,7 @@ using FoodDlvAPI.Models.Repositories;
 using FoodDlvAPI.Models.Services;
 using FoodDlvAPI.Models.Services.Interfaces;
 using FoodDlvAPI.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using NuGet.Protocol;
@@ -27,6 +28,7 @@ namespace FoodDlvAPI.Controllers
             this._hubContext = hubContext;
         }
 
+        [Authorize(Policy="driverOnly")]
         [HttpPut("ChangeWorkingStatus/{dirverId}")]
         public async Task Online(int dirverId)
         {
@@ -64,7 +66,8 @@ namespace FoodDlvAPI.Controllers
         }
 
         //接受訂單請求
-        [HttpGet("{reply}/{orderId}")]
+        //外送員工作狀態改變
+        [HttpGet("OrderAccept/{orderId}")]
         public async Task<AasignmentOrderVM> OrderAccept(int orderId)
         {
             try
@@ -92,11 +95,10 @@ namespace FoodDlvAPI.Controllers
             {
                 throw new Exception(ex.Message);
             }
-
-            //todo 訂單與餐點不符取消接單?
-            //await _hubContext.Groups()
         }
 
+        //餐點送達回報紀錄
+        //外送員工作狀態改變
         [HttpPut("{orderId}")]
         public async Task DeliveryArrive(int orderId)
         {
