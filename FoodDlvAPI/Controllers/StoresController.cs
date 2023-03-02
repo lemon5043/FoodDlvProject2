@@ -56,12 +56,12 @@ namespace FoodDlvAPI.Controllers
 
 		//2依類別選出商店，點選類別傳入類別ID顯示商店
 
-		[HttpGet("getStoresByCategoryId/{CategoryId?}")]
-		public async Task<ActionResult<IEnumerable<StoreDTO>>> GetStores(int? CategoryId)
+		[HttpGet("getStoresByCategoryId/{categoryId?}")]
+		public async Task<ActionResult<IEnumerable<StoreDTO>>> GetStores(int? categoryId)
 		{
-			if (CategoryId != null)
+			if (categoryId != null)
 			{
-				var getStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Where(x => x.StoresCategoriesLists.Any(scl => scl.CategoryId == CategoryId)).Select(x => new StoreDTO
+				var getStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Where(x => x.StoresCategoriesLists.Any(scl => scl.CategoryId == categoryId)).Select(x => new StoreDTO
 				{
 					Id = x.Id,
 					StorePrincipalId = x.StorePrincipalId,
@@ -71,7 +71,7 @@ namespace FoodDlvAPI.Controllers
 					Photo = x.Photo,
 
 					CategoryName = x.StoresCategoriesLists
-				  .Where(scl => scl.CategoryId == CategoryId)
+				  .Where(scl => scl.CategoryId == categoryId)
 				  .Select(scl => scl.Category.CategoryName)
 				})
 				  .ToListAsync();
@@ -99,8 +99,8 @@ namespace FoodDlvAPI.Controllers
 
 
 
-		//2.1依搜尋字串選出商店名稱、商店類別名稱、商店的商品名稱與搜尋字串有關的商店
-		[HttpGet("search")]
+		//2.1依搜尋字串選出商店名稱、商店類別名稱、商店的商品名稱與搜尋字串有關的商店，如果商品狀態為FALSE則不列出
+		[HttpGet("searchString")]
 		public async Task<ActionResult<IEnumerable<StoreDTO>>> SearchStore(string? searchString)
 		{
 
@@ -152,12 +152,12 @@ namespace FoodDlvAPI.Controllers
 
 		//3進入商店頁面顯示其資訊包含商品資訊
 
-		[HttpGet("StoreDetail/{StoreId}")]
+		[HttpGet("storeDetail/{storeId}")]
 
-		public async Task<ActionResult<IEnumerable<StoreDetailDTO>>> GetStoreDetail(int StoreId)
+		public async Task<ActionResult<IEnumerable<StoreDetailDTO>>> GetStoreDetail(int storeId)
 		{
 
-			var getStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Where(x => x.Id == StoreId).Select(x => new StoreDetailDTO
+			var getStoreDetail = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Include(x => x.Products).Where(x => x.Id == storeId).Select(x => new StoreDetailDTO
 			{
 				Id = x.Id,
 				StorePrincipalId = x.StorePrincipalId,
@@ -184,8 +184,128 @@ namespace FoodDlvAPI.Controllers
 			})
 				  .ToListAsync();
 
-			return getStores;
+			return getStoreDetail;
 
 		}
+
+
+
+
+		//4店家擁有商店
+		[HttpGet("myStores/{storePrincipalId}")]
+
+		public async Task<ActionResult<IEnumerable<Store>>> GetMyStores(int storePrincipalId)
+		{
+			return await _context.Stores.Where(x => x.StorePrincipalId == storePrincipalId).ToListAsync();
+
+		}
+
+
+		//5店家擁有商店頁面
+
+		[HttpGet("myStoreDetail/{storeId}")]
+
+		public async Task<ActionResult<IEnumerable<MyStoreDetailDTO>>> GetMyStoreDetail(int storeId)
+		{
+
+			var getMyStoreDetail = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Where(x => x.StorePrincipalId == storeId).Include(x => x.Products).Select(x => new MyStoreDetailDTO
+			{
+				Id = x.Id,
+				StorePrincipalId = x.StorePrincipalId,
+				StoreName = x.StoreName,
+				Address = x.Address,
+				ContactNumber = x.ContactNumber,
+				Photo = x.Photo,
+
+				CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
+
+			   ,
+				ProductId = x.Products.Select(x => x.Id)
+			   ,
+				ProductName = x.Products.Select(x => x.ProductName)
+			   ,
+				ProductPhoto = x.Products.Select(x => x.Photo)
+				,
+				ProductContent = x.Products.Select(x => x.ProductContent)
+				,
+				ProductStatus = x.Products.Select(x => x.Status)
+				,
+				ProductUnitPrice = x.Products.Select(x => x.UnitPrice)
+
+			})
+				  .ToListAsync();
+
+			return getMyStoreDetail;
+
+		}
+
+		//6商店內部資訊修改
+		[HttpPut("{id}")]
+		public async Task<string> PutStore(int id, Store store)
+		{
+			
+			if (id != store.Id)
+			{
+				return "錯誤";
+			}
+
+			_context.Entry(store).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException ex)
+			{
+				
+				if (!_context.Stores.Any(e => e.Id == id))
+				{
+					return "錯誤找不到此商店";
+				}
+				else
+				{
+					throw new Exception(ex.Message);
+				}
+			}
+			
+			return "修改成功";
+		}
+
+
+
+
+
+		//6.1商店標籤新增
+
+
+
+
+		//6.2商店標籤刪除
+
+
+
+		//7商店內部商品新增
+
+
+
+		//7.1商店內部商品修改
+
+		//7.2商店內部商品刪除
+
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
