@@ -22,14 +22,26 @@ namespace FoodDlvAPI.DTOs
     {
         public static ProductCustomizationItemDTO ToProductCustomizationItemDTO(this ProductCustomizationItem source)
         {
-            var toProductCustomizationItemDTO = new ProductCustomizationItemDTO
+            var productCustomizationItemDTO = new ProductCustomizationItemDTO
                 (
                     source.Id,
                     source.ProuctId,
                     source.ItemName,
                     source.UnitPrice
                 );
-            return toProductCustomizationItemDTO;
+            return productCustomizationItemDTO;
+        }
+
+        public static ProductCustomizationItem ToProductCustomizationItemEF(this ProductCustomizationItemDTO source)
+        {
+            var productCustomizationItemEF = new ProductCustomizationItem
+                { 
+                    Id = source.Id,
+                    ProuctId =  source.ProuctId,
+                    ItemName = source.ItemName,
+                    UnitPrice = source.UnitPrice
+                };
+            return productCustomizationItemEF;
         }
     }
 }

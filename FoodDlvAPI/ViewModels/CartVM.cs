@@ -1,4 +1,5 @@
 ﻿
+using FoodDlvAPI.DTOs;
 using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvAPI.ViewModels
@@ -36,5 +37,19 @@ namespace FoodDlvAPI.ViewModels
 
         [Range(1, int.MaxValue, ErrorMessage = "數量必須為正整數")]
         public int RD_Qty { get; set; } = 1;
+    }
+
+    public static partial class CartVMExts
+    {
+        //public static CartDTO ToCartDTO(this CartVM source) 
+        //{
+        //    var detail = new CartDetailDTO(source.ProductId, source.RD_Item, source.Qty);
+        //    var cartDTO = new CartDTO
+        //    (             
+        //        source.RD_MemberId,
+        //        source.RD_StoreId,
+        //        detail
+        //    );
+        //}
     }
 }

@@ -52,7 +52,7 @@ namespace FoodDlvAPI.ViewModels
                 ProductContent = source.ProductContent,
                 Status = source.Status,
                 UnitPrice = source.UnitPrice,
-                CustomizationItems = source.ProductCustomizationItems.Select(pci => new ProductCustomizationItemVM
+                CustomizationItems = source.Items.Select(pci => new ProductCustomizationItemVM
                 {
                     Id = pci.Id,
                     ProuctId = pci.ProuctId,
@@ -60,7 +60,7 @@ namespace FoodDlvAPI.ViewModels
                     CustomizationItemPrice = pci.UnitPrice,
                 }).ToList(),
             };
-            return toProductSelectionVM;
+            return toProductSelectionVM;           
         }
     }
 }

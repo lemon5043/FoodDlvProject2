@@ -7,10 +7,10 @@ namespace FoodDlvAPI.DTOs
     /// </summary>
     public class CartProductDTO
     {
-        public long Id { get; set; }
-        public string ProductName { get; set; }
-        public int Price { get; set; }
-        public List<ProductCustomizationItemDTO> CustomizationItems { get; set; }
+        public long ProductId { get; set; }
+        public string? ProductName { get; set; }
+        public int ProductPrice { get; set; }  
+        public List<ProductCustomizationItemDTO>? Items { get; set; }        
     }
 
     public static partial class ProdyctExts
@@ -19,11 +19,11 @@ namespace FoodDlvAPI.DTOs
         {
             CartProductDTO cartProductDTO = new CartProductDTO()
             {
-                Id = source.Id,
+                ProductId = source.Id,
                 ProductName = source.ProductName,
-                Price = source.UnitPrice,
-                CustomizationItems = source.ProductCustomizationItems
-                    .Select(pci => new ProductCustomizationItemDTO(pci.Id, pci.ProuctId, pci.ItemName, pci.UnitPrice))
+                ProductPrice = source.UnitPrice,                
+                Items = source.ProductCustomizationItems
+                    .Select(pci => pci.ToProductCustomizationItemDTO())
                     .ToList(),
             };
             return cartProductDTO;

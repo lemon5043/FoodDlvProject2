@@ -26,7 +26,7 @@ namespace FoodDlvAPI.Interfaces
         /// <returns></returns>
         CartDTO Load(int memberId, int storeId);
 
-        void AddDetail(CartDTO cart, CartProductDTO cartProduct, int qty);
+        void AddDetail(CartDTO cart, CartVM request);
         
         /// <summary>
         /// 清空購物車, 並刪除Database中的購物車主檔與明細檔
@@ -39,15 +39,7 @@ namespace FoodDlvAPI.Interfaces
         /// </summary>
         /// <returns></returns>
         int IdentifyNumSelector();
-
-        /// <summary>
-        /// 儲存購物車資料CartDetail, CartCustomizationItem至Database
-        /// </summary>
-        /// <param name="cart"></param>
-        /// <param name="product"></param>
-        /// <param name="item"></param>
-        void Save(IEnumerable<CartCustomizationItemDTO> item);
-
+                
         /// <summary>
         /// 添加購物車明細
         /// </summary>
@@ -56,14 +48,6 @@ namespace FoodDlvAPI.Interfaces
         /// <param name="cartId"></param>
         /// <returns></returns>
         CartDetailDTO AddCartDetail(long productId, int qty, long cartId);
-
-        /// <summary>
-        /// 添加購物車客製化選項
-        /// </summary>
-        /// <param name="cartDetail"></param>
-        /// <param name="product"></param>
-        /// <param name="id"></param>
-        /// <param name="qty"></param>
-        void AddCartCustomizationItem(CartDetailDTO cartDetail, ProductDTO product, int qty);
+               
     }
 }

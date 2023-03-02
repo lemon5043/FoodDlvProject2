@@ -14,31 +14,44 @@ namespace FoodDlvAPI.DTOs
 
         //Properties
         public int Id { get; set; }
+        public int IdentifyNum { get; set; }
+        public long ProductId { get; set; }
+        public int ItemId { get; set; }
         public int Qty
         {
             get { return _Qty; }
             set { _Qty = value > 0 ? value : throw new Exception("Qty需為正數"); }
         }
-        public CartProductDTO Product
-        {
-            get { return _Product; }
-            set { _Product = value != null ? value : throw new Exception("Product不可為null"); }
-        }
-        public int SubTotal => Product.Price * Qty;
-        public List<CartCustomizationItemDTO> CustomizationItems { get; set; }
+        public long CartId { get; set; }
+
+        //public int SubTotal 
+        //{ 
+        //    get 
+        //    {
+        //        var ProductPrice = Product.ProductPrice * Qty;
+        //        var ItmePrice = Product.Items.Sum(item => item.UnitPrice) * Qty;
+        //        return ProductPrice * ItmePrice;
+        //    }
+        //}        
 
         //Constructors
-        public CartDetailDTO(CartProductDTO product, int qty, List<CartCustomizationItemDTO> customizationItems)
+        public CartDetailDTO (int id, int identifyNum, long productId, int itemId, int qty, long cartId)
         {
-            Product = product;
+            Id = id;
+            IdentifyNum = identifyNum;
+            ProductId = productId;
+            ItemId = itemId;
             Qty = qty;
-            CustomizationItems = customizationItems;
+            CartId = cartId;                
         }
 
-        public CartDetailDTO(CartProductDTO product, int qty)
+        public CartDetailDTO(int identifyNum, long productId, int itemId, int qty, long cartId)
         {
-            Product = product;
-            Qty = qty;                    
+            IdentifyNum = identifyNum;
+            ProductId = productId;
+            ItemId = itemId;
+            Qty = qty;
+            CartId = cartId;
         }
     }
 
@@ -46,23 +59,28 @@ namespace FoodDlvAPI.DTOs
     {
         public static CartDetailDTO ToCartDetailDTO(this CartDetail source)
         {
-            var items = source.CartCustomizationItems.Select(cci => cci.ToCartCustomizationItemDTO()).ToList();
-            CartProductDTO cartProduct = source.Product.ToCartProductDTO();
-            var cartDetailDTO = new CartDetailDTO(cartProduct, source.Qty, items)
-            {
-                Id = source.Id,
-            };
+            var cartDetailDTO = new CartDetailDTO
+                (
+                    source.Id,
+                    source.IdentifyNum,
+                    source.ProductId,
+                    source.ItemId,
+                    source.Qty,
+                    source.CartId
+                );           
             return cartDetailDTO;
         }
 
-        public static CartDetail ToCartDetailEF(this CartDetailDTO source, long cartId)
+        public static CartDetail ToCartDetailEF(this CartDetailDTO source)
         {
             var cartDetailEF = new CartDetail
             {
-                Id = source.Id,
-                ProductId = source.Product.Id,
-                Qty = source.Qty,
-                CartId = cartId
+               Id= source.Id,
+               IdentifyNum= source.IdentifyNum,
+               ProductId= source.ProductId,
+               ItemId= source.ItemId,
+               Qty= source.Qty,
+               CartId= source.CartId
             };
             return cartDetailEF;
         }

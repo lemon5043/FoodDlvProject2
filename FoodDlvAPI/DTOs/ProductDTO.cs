@@ -6,7 +6,7 @@ namespace FoodDlvAPI.DTOs
     public class ProductDTO
     {
         //Fields
-        //private List<ProductCustomizationItemDTO> Items;
+        //private List<ProductCustomizationItemDTO>? Items;
 
         //Properties
         public long ProductId { get; set; }
@@ -16,9 +16,7 @@ namespace FoodDlvAPI.DTOs
         public string? ProductContent { get; set; }
         public bool? Status { get; set; }
         public int UnitPrice { get; set; }
-        public List<ProductCustomizationItemDTO> Items { get; set; }
-
-
+        public List<ProductCustomizationItemDTO>? Items { get; set; }     
 
         public ProductDTO(long productId, int stordId, string productName,
                         string photo, string productContent, bool? status, int unitPrice,

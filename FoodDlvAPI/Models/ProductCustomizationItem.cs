@@ -9,7 +9,8 @@ namespace FoodDlvAPI.Models
     {
         public ProductCustomizationItem()
         {
-            OrderCustomizationItems = new HashSet<OrderCustomizationItem>();
+            CartDetails = new HashSet<CartDetail>();
+            OrderDetails = new HashSet<OrderDetail>();
         }
 
         public int Id { get; set; }
@@ -18,6 +19,7 @@ namespace FoodDlvAPI.Models
         public int UnitPrice { get; set; }
 
         public virtual Product Prouct { get; set; }
-        public virtual ICollection<OrderCustomizationItem> OrderCustomizationItems { get; set; }
+        public virtual ICollection<CartDetail> CartDetails { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

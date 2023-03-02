@@ -29,7 +29,7 @@ namespace FoodDlvAPI.Controllers
                 
 
         [HttpPost]
-        public IActionResult AddItem(CartVM request)
+        public IActionResult AddToCart(CartVM request)
         {
             try
             {
@@ -56,17 +56,17 @@ namespace FoodDlvAPI.Controllers
             }            
         }
 
-        [HttpPost]
-        public IActionResult UpdateCart(CartVM request)
-        {
+        //[HttpPost]
+        //public IActionResult UpdateCart(CartVM request)
+        //{
             
-            return new EmptyResult();
-        }
+        //    return new EmptyResult();
+        //}
 
-        public IActionResult Checkout()
-        {
-            return View();
-        }
+        //public IActionResult Checkout()
+        //{
+        //    return View();
+        //}
 
 
     }

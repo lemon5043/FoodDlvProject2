@@ -6,14 +6,14 @@ namespace FoodDlvAPI.DTOs
     public class CartDTO
     {
         //Fields
-        //private List<CartDetailDTO> Details;
+        private List<CartDetailDTO> Details;
 
         //Properties
         public long Id { get; set; }
         public int MemberId { get; set; }
         public int StoreId { get; set; }
-        private List<CartDetailDTO> Details { get; set; }
-        public int Total => Details == null || Details.Count == 0 ? 0 : Details.Sum(cdD => cdD.SubTotal);
+        //private List<CartDetailDTO> Details { get; set; }
+        //public int Total => Details == null || Details.Count == 0 ? 0 : Details.Sum(d => d.SubTotal);
 
         //Constructors
         public CartDTO(long id, int memberId, int storeId, List<CartDetailDTO> details)
@@ -22,7 +22,13 @@ namespace FoodDlvAPI.DTOs
             MemberId = memberId;
             StoreId = storeId;
             Details = details;
-        }               
+        } 
+        public CartDTO(int memberId, int storeId, List<CartDetailDTO> details)
+        {
+            MemberId = memberId;
+            StoreId = storeId;
+            Details = details;
+        }
 
         //Methods
         public IEnumerable<CartDetailDTO> GetDetails()
@@ -39,15 +45,9 @@ namespace FoodDlvAPI.DTOs
                 source.Id,
                 source.MemberId,
                 source.StoreId,
-                source.CartDetails.Select(cd => new CartDetailDTO
-                    (                        
-                        cd.Product.ToCartProductDTO(), 
-                        cd.Qty, 
-                        cd.CartCustomizationItems.Select(cci => cci.ToCartCustomizationItemDTO()).ToList()
-                    )
-                ).ToList()
+                source.CartDetails.Select(cd => cd.ToCartDetailDTO()).ToList()
             );
-            return cartDTO;
+            return cartDTO;            
         }
 
         public static Cart ToCartEF(this CartDTO source)
@@ -57,9 +57,9 @@ namespace FoodDlvAPI.DTOs
                 Id = source.Id,
                 MemberId = source.MemberId,
                 StoreId = source.StoreId,
-                CartDetails = source.GetDetails().Select(cd => cd.ToCartDetailEF(source.Id)).ToList()
+                CartDetails = source.GetDetails().Select(cd => cd.ToCartDetailEF()).ToList()
             };
-            return cartEF;
+            return cartEF;            
         }
     }
 }
