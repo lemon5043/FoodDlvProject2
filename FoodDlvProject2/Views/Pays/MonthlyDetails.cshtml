@@ -40,7 +40,9 @@
                    cellspacing="0">
 				<thead>
 					<tr>
-						
+						<th>
+							@Html.DisplayNameFor(model => model.SettlementMonth)
+						</th>
 						<th>
 							@Html.DisplayNameFor(model => model.DeliveryCount)
 						</th>
@@ -53,18 +55,19 @@
 						<th>
 							@Html.DisplayNameFor(model => model.TotalPay)
 						</th>
-						<th>
-							@Html.DisplayNameFor(model => model.SettlementMonth)
-						</th>
 
-						<th></th>
+
+	@*					<th></th>*@
 					</tr>
 				</thead>
 				<tbody>
 					@foreach (var item in Model)
 					{
 						<tr>
-							
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SettlementMonth.Year )年
+                                @Html.DisplayFor(modelItem => item.SettlementMonth.Month)月
+                            </td>
 							<td>
 								@Html.DisplayFor(modelItem => item.DeliveryCount)
 							</td>
@@ -77,18 +80,15 @@
 							<td>
 								@Html.DisplayFor(modelItem => item.TotalPay)
 							</td>
-							<td>
-								@Html.DisplayFor(modelItem => item.SettlementMonth.Year )年
-								@Html.DisplayFor(modelItem => item.SettlementMonth.Month)月
-							</td>
-							<td>
+
+							@*<td>*@
 								@*<a asp-action="Edit" asp-route-id="@item.Id">修改</a> |*@
-								<a asp-action="IndividualMonthlyDetails"
+@*								<a asp-action="IndividualMonthlyDetails"
 								   asp-route-year="@item.SettlementMonth.Year"
 								   asp-route-month="@item.SettlementMonth.Month"
-									asp-route-id="@item.DeliveryDriversId">檢視</a> 
+									asp-route-id="@item.DeliveryDriversId">檢視</a> *@
 								
-							</td>
+							@*</td>*@
 						</tr>
 					}
 				</tbody>
