@@ -31,10 +31,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[CartCustomizationItems]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[CartDetails]",
          "ObjectType": 0
       },
@@ -96,10 +92,6 @@
       },
       {
          "Name": "[dbo].[MemberViolationTypes]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[OrderCustomizationItems]",
          "ObjectType": 0
       },
       {
@@ -187,10 +179,11 @@
          "ObjectType": 0
       }
    ],
-   "UiHint": "fuen25group2.FoodDelivery",
+   "UiHint": "DESKTOP-PAKSETB.FoodDelivery",
    "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": false,
    "UseDbContextSplitting": false,
    "UseFluentApiOnly": true,
    "UseHandleBars": false,

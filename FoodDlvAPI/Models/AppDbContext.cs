@@ -23,7 +23,6 @@ namespace FoodDlvAPI.Models
         public virtual DbSet<AppealRecord> AppealRecords { get; set; }
         public virtual DbSet<BenefitStandard> BenefitStandards { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
-        public virtual DbSet<CartCustomizationItem> CartCustomizationItems { get; set; }
         public virtual DbSet<CartDetail> CartDetails { get; set; }
         public virtual DbSet<CommonReply> CommonReplies { get; set; }
         public virtual DbSet<ComplaintStatus> ComplaintStatuses { get; set; }
@@ -39,7 +38,6 @@ namespace FoodDlvAPI.Models
         public virtual DbSet<MemberViolationRecord> MemberViolationRecords { get; set; }
         public virtual DbSet<MemberViolationType> MemberViolationTypes { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<OrderCustomizationItem> OrderCustomizationItems { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<OrderSchedule> OrderSchedules { get; set; }
         public virtual DbSet<OrderStatue> OrderStatues { get; set; }
@@ -65,15 +63,14 @@ namespace FoodDlvAPI.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=fuen25group2.database.windows.net;Initial Catalog=FoodDelivery;Persist Security Info=True;User ID=FoodDiv;Password=Food1234");
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("FoodDelivery"));
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.UseCollation("Chinese_Taiwan_Stroke_CI_AS");
-
             modelBuilder.Entity<AccountAddress>(entity =>
             {
                 entity.ToTable("AccountAddress");
@@ -146,7 +143,12 @@ namespace FoodDlvAPI.Models
                 entity.HasOne(d => d.Cart)
                     .WithMany(p => p.CartDetails)
                     .HasForeignKey(d => d.CartId)
-                    .HasConstraintName("FK_CartDetails_CartDetails");
+                    .HasConstraintName("FK_CartDetails_Carts");
+
+                entity.HasOne(d => d.Item)
+                    .WithMany(p => p.CartDetails)
+                    .HasForeignKey(d => d.ItemId)
+                    .HasConstraintName("FK_CartDetails_ProductCustomizationItems");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.CartDetails)
@@ -452,30 +454,12 @@ namespace FoodDlvAPI.Models
                     .HasConstraintName("FK_Orders_Stores");
             });
 
-            modelBuilder.Entity<OrderCustomizationItem>(entity =>
-            {
-                entity.HasOne(d => d.CustomizationItem)
-                    .WithMany(p => p.OrderCustomizationItems)
-                    .HasForeignKey(d => d.CustomizationItemId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderAssItems_CustomizationItems");
-
-                entity.HasOne(d => d.OrderDetail)
-                    .WithMany(p => p.OrderCustomizationItems)
-                    .HasForeignKey(d => d.OrderDetailId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderAssItems_OrderDetails");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.OrderCustomizationItems)
-                    .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderAssItems_Products");
-            });
-
             modelBuilder.Entity<OrderDetail>(entity =>
             {
-                entity.Property(e => e.CustomizationList).HasMaxLength(200);
+                entity.HasOne(d => d.Item)
+                    .WithMany(p => p.OrderDetails)
+                    .HasForeignKey(d => d.ItemId)
+                    .HasConstraintName("FK_OrderDetails_ProductCustomizationItems");
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderDetails)

@@ -3,21 +3,19 @@
 using System;
 using System.Collections.Generic;
 
-namespace FoodDlvAPI.Models
+namespace FoodDlvProject2.EFModels
 {
-    public partial class OrderDetail
+    public partial class CartDetail
     {
         public int Id { get; set; }
         public int IdentifyNum { get; set; }
         public long ProductId { get; set; }
-        public int ProductPrice { get; set; }
-        public int? ItemId { get; set; }
-        public int ItemPrice { get; set; }
+        public int ItemId { get; set; }
         public int Qty { get; set; }
-        public long OrderId { get; set; }
+        public long CartId { get; set; }
 
+        public virtual Cart Cart { get; set; }
         public virtual ProductCustomizationItem Item { get; set; }
-        public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
     }
 }
