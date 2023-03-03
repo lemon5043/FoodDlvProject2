@@ -43,6 +43,34 @@ namespace FoodDlvAPI.Controllers
 		}
 
 
+		//1.01列出所有商店
+		
+		[HttpGet("getSomeStores")]
+		public async Task<ActionResult<IEnumerable<StoreDTO>>> GetSomeStores(int storeNum,int pageNum)
+		{
+			var getSomeStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Select(x => new StoreDTO
+			{
+				Id = x.Id,
+				StorePrincipalId = x.StorePrincipalId,
+				StoreName = x.StoreName,
+				Address = x.Address,
+				ContactNumber = x.ContactNumber,
+				Photo = x.Photo,
+
+
+				CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
+
+			}).Skip((pageNum-1)*storeNum).Take(storeNum).ToListAsync();
+			return getSomeStores;
+		}
+
+
+
+
+
+
+
+
 
 
 		//1.1列出所有類別
