@@ -33,7 +33,7 @@ namespace FoodDlvAPI.Models.Services
             return await _repository.EditAsync(model);
         }
 
-        public async Task<string> CreateAsync(DeliveryDriverEntity model)
+        public async Task<string> RegisterAsync(DeliveryDriverEntity model)
             => await _repository.CreateAsync(model);
 
         public async Task<LoginResponse> Login(string account, string password)
@@ -46,9 +46,9 @@ namespace FoodDlvAPI.Models.Services
             }
 
             string encryptedPwd = HashUtility.ToSHA256(password, DeliveryDriverEntity.SALT);
-
+            
             return (String.CompareOrdinal(Driver.Password, encryptedPwd) == 0)
-                ? LoginResponse.Success()
+                ? LoginResponse.Success(Driver.Id,Driver.LastName+Driver.FirstName,Driver.Password)
                 : LoginResponse.Fail("帳密有誤");
         }
 
