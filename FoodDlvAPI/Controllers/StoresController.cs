@@ -41,12 +41,10 @@ namespace FoodDlvAPI.Controllers
 			}).ToListAsync();
 			return getAllStores;
 		}
-
-
 		//1.01列出所有商店
-		
+
 		[HttpGet("getSomeStores")]
-		public async Task<ActionResult<IEnumerable<StoreDTO>>> GetSomeStores(int storeNum,int pageNum)
+		public async Task<ActionResult<IEnumerable<StoreDTO>>> GetSomeStores(int storeNum, int pageNum)
 		{
 			var getSomeStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Select(x => new StoreDTO
 			{
@@ -60,19 +58,9 @@ namespace FoodDlvAPI.Controllers
 
 				CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
 
-			}).Skip((pageNum-1)*storeNum).Take(storeNum).ToListAsync();
+			}).Skip((pageNum - 1) * storeNum).Take(storeNum).ToListAsync();
 			return getSomeStores;
 		}
-
-
-
-
-
-
-
-
-
-
 		//1.1列出所有類別
 		// GET: api/StoreCategories
 		[HttpGet("getStoreCategories")]
@@ -166,14 +154,6 @@ namespace FoodDlvAPI.Controllers
 						   }).ToListAsync();
 
 			return searchStores;
-
-
-
-
-
-
-
-
 		}
 
 
@@ -259,7 +239,7 @@ namespace FoodDlvAPI.Controllers
 				,
 				ProductUnitPrice = x.Products.Select(x => x.UnitPrice)
 
-				
+
 			})
 				  .ToListAsync();
 
@@ -271,7 +251,7 @@ namespace FoodDlvAPI.Controllers
 		[HttpPut("{id}")]
 		public async Task<string> PutStore(int id, Store store)
 		{
-			
+
 			if (id != store.Id)
 			{
 				return "錯誤";
@@ -285,7 +265,7 @@ namespace FoodDlvAPI.Controllers
 			}
 			catch (DbUpdateConcurrencyException ex)
 			{
-				
+
 				if (!_context.Stores.Any(e => e.Id == id))
 				{
 					return "錯誤找不到此商店";
@@ -295,7 +275,7 @@ namespace FoodDlvAPI.Controllers
 					throw new Exception(ex.Message);
 				}
 			}
-			
+
 			return "修改成功";
 		}
 
