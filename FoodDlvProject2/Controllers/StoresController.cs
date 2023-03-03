@@ -96,7 +96,6 @@ namespace FoodDlvProject2.Controllers
                     store.Photo = fileName;
                 }
 
-
                 _context.Add(store);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -167,7 +167,6 @@ namespace FoodDlvAPI.Controllers
 				Photo = x.Photo,
 
 				CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
-
 			   ,
 				ProductId = x.Products.Select(x => x.Id)
 			   ,
@@ -232,6 +231,7 @@ namespace FoodDlvAPI.Controllers
 				,
 				ProductUnitPrice = x.Products.Select(x => x.UnitPrice)
 
+				
 			})
 				  .ToListAsync();
 
@@ -270,9 +270,6 @@ namespace FoodDlvAPI.Controllers
 			
 			return "修改成功";
 		}
-
-
-
 
 
 		//6.1商店標籤新增
