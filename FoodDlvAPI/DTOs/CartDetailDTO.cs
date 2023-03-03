@@ -46,22 +46,7 @@ namespace FoodDlvAPI.DTOs
             ItemId = itemId;
             Qty = qty;
             CartId = cartId;
-        }
-
-        public CartDetailDTO(int identifyNum, long productId, string? productName, int productPrice, 
-                            int itemId, string itemName, int itemPrice, int qty, int subTotal, int cartId)
-        {
-            IdentifyNum = identifyNum;
-            ProductId = productId;
-            ProductName = productName;
-            ProductPrice = productPrice;
-            ItemId = itemId;
-            ItemName = itemName;
-            ItemPrice = itemPrice;
-            Qty = qty;
-            SubTotal = subTotal;
-            CartId = cartId;
-        }        
+        }                
     }
 
     public static partial class CartDetailExts

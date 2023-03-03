@@ -52,30 +52,25 @@ namespace FoodDlvAPI.ViewModels
 
     public static partial class CartVMExts
     {
-        public static CartVM ToCartVM(this CartDTO source)
+        public static CartVM ToCartVM(this CartInfoDTO source)
         {
             var cartVM = new CartVM
             {
-                MemberId = source.MemberId,
-                StoreId = source.StoreId,
-                ProductId = source,
-                ProductName = source,
-                Price = source,
-                Qty = source,
-                Items = source,
+                
             };
+            return cartVM;
         }
-        public static CartDTO ToCartDTO(this CartVM source)
-        {
-            
+        //public static CartDTO ToCartDTO(this CartVM source)
+        //{
 
-            var cartDTO = new CartDTO
-            (
-                source.RD_MemberId,
-                source.RD_StoreId,
-                details
-            );
-            return cartDTO;
-        }
+
+        //    var cartDTO = new CartDTO
+        //    (
+        //        source.RD_MemberId,
+        //        source.RD_StoreId,
+        //        details
+        //    );
+        //    return cartDTO;
+        //}
     }
 }

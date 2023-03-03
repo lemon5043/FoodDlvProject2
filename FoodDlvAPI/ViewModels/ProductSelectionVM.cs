@@ -27,16 +27,7 @@ namespace FoodDlvAPI.ViewModels
         [Display(Name = "商品單價")]
         public int UnitPrice { get; set; }
 
-        public List<ProductCustomizationItemVM> CustomizationItems { get; set; }
-
-        //[Display(Name = "客製化編號")]
-        //public int Id { get; set; }
-
-        //[Display(Name = "客製化項目")]
-        //public string? ItemName { get; set; }
-
-        //[Display(Name = "客製化價格")]
-        //public int CustomizationItemPrice { get; set; }
+        public List<ProductCustomizationItemVM> CustomizationItems { get; set; }        
     }
 
     public static partial class ProductSelectionVMExts

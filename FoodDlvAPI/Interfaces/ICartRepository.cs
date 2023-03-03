@@ -42,7 +42,7 @@ namespace FoodDlvAPI.Interfaces
 
 
 
-        CartDTO GetCartInfo(CartDTO cart);
+        CartInfoDTO GetCartInfo(CartDTO cart);
 
 
     }

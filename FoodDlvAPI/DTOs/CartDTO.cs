@@ -7,8 +7,8 @@ namespace FoodDlvAPI.DTOs
     {              
         //Properties
         public long Id { get; set; }
-        public int MemberId { get; set; }
-        public int StoreId { get; set; }
+        public int MemberId { get; set; }      
+        public int StoreId { get; set; }       
         public List<CartDetailDTO> Details { get; set; }
         //public int Total => Details == null || Details.Count == 0 ? 0 : Details.Sum(d => d.SubTotal);
 

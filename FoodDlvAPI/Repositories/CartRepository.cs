@@ -4,6 +4,7 @@ using FoodDlvAPI.Models;
 using FoodDlvAPI.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Xml;
+using System.Xml.Schema;
 
 namespace FoodDlvAPI.Repositories
 {
@@ -79,9 +80,13 @@ namespace FoodDlvAPI.Repositories
             if (request.RD_Qty <= 0)
             {
                 throw new Exception("商品數量不可小於0");
-            }               
+            }
+            //if(_context.ProductCustomizationItems.Select(pci => pci.Id).SequenceEqual(request.RD_Item) == false)
+            //{
+            //    throw new Exception("此客製化選項不存在");
+            //}
 
-            var detail = cart.GetDetails().ToList();         
+            var detail = cart.Details.ToList();         
 
             var sameDetail = detail.Select(detail => detail.ItemId).ToList().SequenceEqual(request.RD_Item);
             var identifyNum = IdentifyNumSelector();
@@ -135,9 +140,20 @@ namespace FoodDlvAPI.Repositories
             throw new NotImplementedException();
         }
 
-        public CartDTO GetCartInfo(CartDTO cart)
+        public CartInfoDTO GetCartInfo(CartDTO cart)
         {
+            //var productName = _context.Products.SingleOrDefault(p => p.Id == cart.Details.Select(d.ProductId));
+            //var detail = cart.Details.GroupBy(d => new { d.ProductId, })
+            //var data = new CartInfoDTO
+            //{
+            //    CartId = cart.Id,
+            //    MemberId = cart.MemberId,
+            //    StoreId = cart.StoreId,
+            //    //IdentifyNum = cart.Details.Select(d => d.IdentifyNum),
 
+            //};
+            //return data;
+            throw new NotImplementedException();
         }
 
 

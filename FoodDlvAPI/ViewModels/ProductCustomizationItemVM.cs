@@ -16,9 +16,6 @@ namespace FoodDlvAPI.ViewModels
         public string? ItemName { get; set; }
 
         [Display(Name = "客製化價格")]
-        public int CustomizationItemPrice { get; set; }
-
-        //RequestData
-        public int RD_Id { get; set; }
+        public int CustomizationItemPrice { get; set; }       
     }
 }
