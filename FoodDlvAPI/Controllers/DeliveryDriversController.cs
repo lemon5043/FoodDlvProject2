@@ -117,7 +117,7 @@ namespace FoodDlvAPI.Controllers
 
         [HttpPost("register")]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult<string>> Register(DeliveryDriverCreateVM deliveryDriver)
+        public async Task<ActionResult<string>> Register([FromForm]DeliveryDriverCreateVM deliveryDriver)
         {
             if (ModelState.IsValid)
             {

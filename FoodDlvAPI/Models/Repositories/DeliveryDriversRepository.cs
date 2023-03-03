@@ -83,6 +83,7 @@ namespace FoodDlvAPI.Models.Repositories
 
         public async Task<string> CreateAsync(DeliveryDriverEntity model)
         {
+            model.Id = db.DeliveryDrivers.LastAsync().Id +1;
             string? idCard = await UploadFile(model.Idcard, "Idcard", model.Id);
             string? VehicleRegistration = await UploadFile(model.VehicleRegistration, "VehicleRegistration", model.Id);
             string? DriverLicense = await UploadFile(model.DriverLicense, "DriverLicense", model.Id);
@@ -90,38 +91,37 @@ namespace FoodDlvAPI.Models.Repositories
             {
                 //db.Update(model);
                 var EFModel = model.ToEFModle();
-                List<string> updateModel = new List<string> { "Account","Password","LastName", "FirstName", "Gender", "Birthday", "Phone", "Email",
-                    "BankAccount","RegistrationTime"};
+                //List<string> updateModel = new List<string> { "Account","Password","LastName", "FirstName", "Gender", "Birthday", "Phone", "Email",
+                    //"BankAccount","RegistrationTime"};
 
                 if (idCard != null)
                 {
                     EFModel.Idcard = idCard;
-                    updateModel.Add("IdCard");
+                    //updateModel.Add("Idcard");
                 }
                 if (VehicleRegistration != null)
                 {
                     EFModel.VehicleRegistration = VehicleRegistration;
-                    updateModel.Add("VehicleRegistration");
+                    //updateModel.Add("VehicleRegistration");
                 }
                 if (DriverLicense != null)
                 {
                     EFModel.DriverLicense = DriverLicense;
-                    updateModel.Add("DriverLicense");
+                    //updateModel.Add("DriverLicense");
                 }
-                db.Attach(EFModel);
+                db.AddAsync(EFModel);
 
-
-                foreach (var property in updateModel)
-                {
-                    db.Entry(EFModel).Property(property).IsModified = true;
-                }
+                //foreach (var property in updateModel)
+                //{
+                //    db.Entry(EFModel).Property(property).IsModified = true;
+                //}
 
                 await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AccountExists(model.Account)) throw new Exception("此帳號已被使用，請使用其他帳號");
-                if (!EmailExists(model.Email)) throw new Exception("此信箱已被使用，請使用其他信箱進行申請");
+                if (AccountExists(model.Account)) throw new Exception("此帳號已被使用，請使用其他帳號");
+                if (EmailExists(model.Email)) throw new Exception("此信箱已被使用，請使用其他信箱進行申請");
             }
 
             return "新增成功";

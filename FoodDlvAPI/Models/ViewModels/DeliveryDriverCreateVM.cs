@@ -36,7 +36,7 @@ namespace FoodDlvAPI.Models.ViewModels
         [Display(Name = "銀行帳戶")]
         public string? BankAccount { get; set; }
 
-        [ExtensionAttribute(".jpg", ".png", ".jepg", ErrorMessage = "{0}的格式必須為.jpg、.png或.jepg格式")]
+        //[ExtensionAttribute(".jpg", ".png", ".jepg", ErrorMessage = "{0}的格式必須為.jpg、.png或.jepg格式")]
         [Display(Name = "身分證")]
         public IFormFile? Idcard { get; set; }
 
