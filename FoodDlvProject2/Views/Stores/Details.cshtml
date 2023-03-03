@@ -38,13 +38,12 @@
 				var imgSrc = "";
 				if (!string.IsNullOrEmpty(Model.Photo))
 				{
-					imgSrc = $"/img/Stores/{Model.Photo}";
+					imgSrc = $"../food-dlv-website/src/assets/images/public/Stores/{Model.Photo}";
 				}
 				else
 				{
-					imgSrc = "/img/Stores/noPic.jpg";
+					imgSrc = "./noPic.jpg";
 				}
-			}
 			<img src="@imgSrc" width="100px" height="100px">
 			
 			

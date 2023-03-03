@@ -87,7 +87,7 @@ namespace FoodDlvProject2.Controllers
                     var now = DateTime.Now;
                     var fileName = $"{storeCreateVM.StoreName}{now.Year}{now.Month}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}{storeCreateVM.Address}.jpg";
                     var filePath = Path.Combine(
-                   Directory.GetCurrentDirectory(), "wwwroot/img/Stores/",
+                   Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Stores/",
                    fileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
@@ -157,11 +157,13 @@ namespace FoodDlvProject2.Controllers
                     store.Address = storeEditVM.Address;
                     store.ContactNumber = storeEditVM.ContactNumber;
 
+                    // IFormFile 的值就算沒照片也不會是 null，會直接報錯
+                    //就算有照片，167 行的 store.Photo 也沒被定義，一樣無法修改
                     if (storeEditVM.Photo != null)
                     {
                         // 刪除舊圖片
                         var oldFilePath = Path.Combine(
-                            Directory.GetCurrentDirectory(), "wwwroot/img/Stores/",
+                            Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Stores/",
                             store.Photo);
 
                         if (System.IO.File.Exists(oldFilePath))
@@ -172,7 +174,7 @@ namespace FoodDlvProject2.Controllers
                     var now = DateTime.Now;
                         var fileName = $"{storeEditVM.StoreName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}{storeEditVM.Address}.jpg";
                         var filePath = Path.Combine(
-                            Directory.GetCurrentDirectory(), "wwwroot/img/Stores/",
+                            Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Stores/",
                             fileName);
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
@@ -237,7 +239,7 @@ namespace FoodDlvProject2.Controllers
             }
 
             var oldFilePath = Path.Combine(
-    Directory.GetCurrentDirectory(), "wwwroot/img/Stores/",
+    Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Stores/",
     store.Photo);
 
             if (System.IO.File.Exists(oldFilePath))
@@ -344,7 +346,7 @@ namespace FoodDlvProject2.Controllers
                     var now = DateTime.Now;
                     var fileName = $"{productCreateVM.ProductName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}.jpg";
                     var filePath = Path.Combine(
-                   Directory.GetCurrentDirectory(), "wwwroot/img/Products/",
+                   Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
                    fileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
@@ -435,7 +437,7 @@ namespace FoodDlvProject2.Controllers
                     {
                         // 刪除舊圖片
                         var oldFilePath = Path.Combine(
-                            Directory.GetCurrentDirectory(), "wwwroot/img/Products/",
+                            Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
                             product.Photo);
 
                         if (System.IO.File.Exists(oldFilePath))
@@ -446,7 +448,7 @@ namespace FoodDlvProject2.Controllers
                         var now = DateTime.Now;
                         var fileName = $"{productEditVM.ProductName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}.jpg";
                         var filePath = Path.Combine(
-                            Directory.GetCurrentDirectory(), "wwwroot/img/Products/",
+                            Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
                             fileName);
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
@@ -520,7 +522,7 @@ namespace FoodDlvProject2.Controllers
                 _context.Products.Remove(product);
             }
             var oldFilePath = Path.Combine(
-Directory.GetCurrentDirectory(), "wwwroot/img/Products/",
+Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
 product.Photo);
 
             if (System.IO.File.Exists(oldFilePath))
