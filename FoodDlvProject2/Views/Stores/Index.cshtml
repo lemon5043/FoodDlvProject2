@@ -69,11 +69,11 @@
 										var imgSrc = "";
 										if (! string.IsNullOrEmpty(item.Photo))
 										{
-											imgSrc = $"/noPic.jpg";
+											imgSrc = $"/public/Stores/{item.Photo}";
 										}
 										else
 										{
-											imgSrc = "/img/";
+											imgSrc = "../../food-dlv-website/noPic.jpg";
 										}
 									}
 									<img src="@imgSrc" width="100px" height="100px">
@@ -94,7 +94,6 @@
 								<td>
 									<a asp-action="Edit" asp-route-id="@item.Id">店家修改</a> |
 									<a asp-action="Details" asp-route-id="@item.Id">店家詳細內容</a> |
-									<a asp-action="Delete" asp-route-id="@item.Id">店家刪除</a>
 								</td>
 							</tr>
 						}

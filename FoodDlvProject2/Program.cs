@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using FoodDlvProject2.Hubs;
-
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Authentication;
 
 namespace FoodDlvProject2
 {
@@ -60,7 +61,12 @@ namespace FoodDlvProject2
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(); //path to wwwroot
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.GetFullPath("D:\\FoodDelivery\\FoodDlvProject2\\food-dlv-website\\src\\assets\\images"))
+            }) ;
 
             app.UseRouting();
 

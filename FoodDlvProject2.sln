@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat", "Chat\Chat.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDlvAPI", "FoodDlvAPI\FoodDlvAPI.csproj", "{6469AE3A-D88B-4AEB-B10A-1667BDE71957}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "food-dlv-website", "food-dlv-website\food-dlv-website.esproj", "{2A4910B7-8C8F-40AF-8475-BD2BCCE3C6EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{6469AE3A-D88B-4AEB-B10A-1667BDE71957}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6469AE3A-D88B-4AEB-B10A-1667BDE71957}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6469AE3A-D88B-4AEB-B10A-1667BDE71957}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A4910B7-8C8F-40AF-8475-BD2BCCE3C6EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A4910B7-8C8F-40AF-8475-BD2BCCE3C6EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A4910B7-8C8F-40AF-8475-BD2BCCE3C6EC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2A4910B7-8C8F-40AF-8475-BD2BCCE3C6EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A4910B7-8C8F-40AF-8475-BD2BCCE3C6EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A4910B7-8C8F-40AF-8475-BD2BCCE3C6EC}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
