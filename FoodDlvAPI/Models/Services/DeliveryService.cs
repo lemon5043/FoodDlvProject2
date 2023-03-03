@@ -1,6 +1,7 @@
 ﻿using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Models.Services.Interfaces;
 using FoodDlvAPI.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using System.Net;
 
@@ -24,11 +25,19 @@ namespace FoodDlvAPI.Models.Services
         public async Task<AasignmentOrderDTO> GetOrderDetail(int orderId)
             => await _repository.GetOrderDetail(orderId);
 
-        public async Task MarkOrderStatus(int orderId)
-            => await _repository.MarkOrderStatus(orderId);
+        public async Task<AasignmentOrderDTO> UpdateOrder(int orderId, int driverId)
+        {
+            await _repository.UpdateOrder(orderId, driverId);
+            await _repository.MarkOrderStatus(orderId);
+            await _repository.ChangeDeliveryStatus(driverId);
+            return await _repository.NavigationToStore(orderId);
+        }
 
-        public async Task<AasignmentOrderDTO> NavigationToStore(int orderId)
-            => await _repository.NavigationToStore(orderId);
+        public async Task MarkOrderStatus(int orderId, int driverId)
+        {
+            await _repository.MarkOrderStatus(orderId);
+            await _repository.ChangeDeliveryStatus(driverId);
+        }
 
 
         public async Task<string> NavigationToCustomer(int orderId)
@@ -45,10 +54,10 @@ namespace FoodDlvAPI.Models.Services
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             Stream dataStream = response.GetResponseStream();
             // Open the stream using a StreamReader for easy access.
-            StreamReader reader = new StreamReader(dataStream);          
+            StreamReader reader = new StreamReader(dataStream);
             // Read the content.
             string responseFromServer = reader.ReadToEnd();
-          
+
             // Cleanup the streams and the response.
             reader.Close();
             dataStream.Close();
@@ -57,5 +66,11 @@ namespace FoodDlvAPI.Models.Services
             return responseFromServer;
         }
 
+        public async Task<IEnumerable<DriverCancellationsDTO>> GetListAsync()
+             => await _repository.GetListAsync();
+
+
+        public async Task<ActionResult<string>> SaveCancellationRecord(DriverCancellationRecordsDTO driverCancellation)
+            => await _repository.SaveCancellationRecord(driverCancellation);
     }
 }

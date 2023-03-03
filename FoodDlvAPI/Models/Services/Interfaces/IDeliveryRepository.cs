@@ -1,4 +1,6 @@
 ﻿using FoodDlvAPI.Models.DTOs;
+using FoodDlvAPI.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDlvAPI.Models.Services.Interfaces
 {
@@ -10,6 +12,9 @@ namespace FoodDlvAPI.Models.Services.Interfaces
         Task<AasignmentOrderDTO> NavigationToCustomer(int orderId);
         Task<AasignmentOrderDTO> NavigationToStore(int orderId);
         Task MarkOrderStatus(int orderId);
-        void ChangeDeliveryStatus(int dirverId);
+        Task ChangeDeliveryStatus(int dirverId);
+        Task UpdateOrder(int orderId, int driverId);
+        Task<ActionResult<string>> SaveCancellationRecord(DriverCancellationRecordsDTO driverCancellation);
+        Task<IEnumerable<DriverCancellationsDTO>> GetListAsync();
     }
 }

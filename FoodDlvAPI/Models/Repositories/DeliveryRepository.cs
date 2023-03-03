@@ -1,6 +1,8 @@
 ﻿using FoodDlvAPI.Models;
 using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Models.Services.Interfaces;
+using FoodDlvAPI.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodDlvAPI.Models.Repositories
@@ -14,7 +16,7 @@ namespace FoodDlvAPI.Models.Repositories
             this.db = db;
         }
 
-        //外送員切換工作狀態
+        //外送員切換上下線狀態
         public async void ChangeWorkingStatus(int dirverId)
         {
             if (db.DeliveryDrivers == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
@@ -40,7 +42,7 @@ namespace FoodDlvAPI.Models.Repositories
                 int onlineWorkStatusId = 3;
                 query.WorkStatuseId = onlineWorkStatusId;
 
-                string updateModel = "WorkStatuseId" ;
+                string updateModel = "WorkStatuseId";
                 db.Attach(query);
 
                 db.Entry(query).Property(updateModel).IsModified = true;
@@ -56,7 +58,7 @@ namespace FoodDlvAPI.Models.Repositories
 
                 query.WorkStatuseId = offlineWorkStatusId;
 
-                string updateModel =  "WorkStatuseId" ;
+                string updateModel = "WorkStatuseId";
                 db.Attach(query);
 
                 db.Entry(query).Property(updateModel).IsModified = true;
@@ -67,6 +69,7 @@ namespace FoodDlvAPI.Models.Repositories
             throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
         }
 
+        //回傳訂單
         public async Task<AasignmentOrderDTO> GetOrderDetail(int orderId)
         {
             if (db.Orders == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
@@ -85,8 +88,39 @@ namespace FoodDlvAPI.Models.Repositories
             return query;
         }
 
+        public async Task<IEnumerable<DriverCancellationsDTO>> GetListAsync()
+        {
+            if (db.DriverCancellations == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+            var query = await db.DriverCancellations.Select(x=> new DriverCancellationsDTO
+            {
+                Id= x.Id,
+                Reason= x.Reason,
+                Content= x.Content,
+            }).ToListAsync();
 
-        
+            return query;
+        }
+
+        public async Task<ActionResult<string>> SaveCancellationRecord(DriverCancellationRecordsDTO model)
+        {
+            try
+            {
+                db.Add(model.ToEFModel());
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CancellationRecordExists(model.OrderId)) throw new Exception("在更新資料時發生衝突。這可能是因為已經更新了相同的資料，請重新載入頁面後再進行修改。");
+            }
+
+            return "新增成功";
+        }
+
+        private bool CancellationRecordExists(long id)
+        {
+            return db.DriverCancellationRecords.Any(e => e.OrderId == id);
+        }
+
         //傳送店家資料
         public Task<AasignmentOrderDTO> NavigationToStore(int orderId)
         {
@@ -108,7 +142,7 @@ namespace FoodDlvAPI.Models.Repositories
             return query;
         }
 
-
+        //取出外送、店家地址
         public async Task<AasignmentOrderDTO> NavigationToCustomer(int orderId)
         {
             if (db.Orders == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
@@ -126,7 +160,29 @@ namespace FoodDlvAPI.Models.Repositories
             return query;
         }
 
-        //紀錄外送狀態
+        //外送員確認接單後，更新訂單
+        public async Task UpdateOrder(int orderId, int driverId)
+        {
+            if (db.Orders == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+            var query = await db.Orders
+                .Where(x => x.Id == orderId)
+                .Select(x => new Order
+                {
+                    Id = x.Id,
+                    DeliveryDriversId = driverId,
+                })
+                .FirstOrDefaultAsync();
+            
+            string updateModel = "DeliveryDriversId";
+            
+            db.Attach(query);
+
+            db.Entry(query).Property(updateModel).IsModified = true;
+
+            db.SaveChanges();
+        }
+
+        //更新訂單狀態
         public async Task MarkOrderStatus(int orderId)
         {
             if (db.OrderSchedules == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
@@ -143,14 +199,14 @@ namespace FoodDlvAPI.Models.Repositories
             if (query.StatusId < 3 || query.StatusId > 5) throw new Exception("抱歉，指定為不可外送狀態，請重新確認訂單狀態");
 
             query.StatusId++;
-            query.MarkTime= DateTime.UtcNow;
+            query.MarkTime = DateTime.UtcNow;
 
             db.Add(query);
             db.SaveChanges();
         }
 
         //外送狀態切換
-        public async void ChangeDeliveryStatus(int dirverId)
+        public async Task ChangeDeliveryStatus(int dirverId)
         {
             if (db.DeliveryDrivers == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
@@ -171,7 +227,7 @@ namespace FoodDlvAPI.Models.Repositories
                 int DeliveringId = 4;
                 query.WorkStatuseId = DeliveringId;
 
-                string updateModel =  "WorkStatuseId";
+                string updateModel = "WorkStatuseId";
                 db.Attach(query);
 
                 db.Entry(query).Property(updateModel).IsModified = true;
@@ -187,7 +243,7 @@ namespace FoodDlvAPI.Models.Repositories
 
                 query.WorkStatuseId = onlineWorkStatusId;
 
-                string updateModel =  "WorkStatuseId" ;
+                string updateModel = "WorkStatuseId";
                 db.Attach(query);
 
                 db.Entry(query).Property(updateModel).IsModified = true;
