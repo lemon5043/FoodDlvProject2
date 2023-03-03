@@ -24,8 +24,14 @@ namespace FoodDlvAPI.Services
         public void AddToCart(CartVM request)
         {               
             var cart = Current(request.RD_MemberId, request.RD_StoreId);                 
-            _cartRepository.AddDetail(cart, request);
-                        
+            _cartRepository.AddDetail(cart, request);                        
+        }
+
+        public CartDTO CartInfo(int memberId, int storeId)
+        {
+            var cart = Current(memberId, storeId);
+            var cartInfo = _cartRepository.GetCartInfo(cart);
+            return cartInfo;
         }
 
 

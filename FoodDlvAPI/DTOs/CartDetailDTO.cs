@@ -8,32 +8,26 @@ namespace FoodDlvAPI.DTOs
     /// </summary>
     public class CartDetailDTO
     {
-        //Fields
-        private CartProductDTO _Product;        
-        private int _Qty;        
+        //Fields                
+        private int _Qty;
 
         //Properties
         public int Id { get; set; }
         public int IdentifyNum { get; set; }
         public long ProductId { get; set; }
-        public int ItemId { get; set; }
+        public string? ProductName { get; set; }
+        public int ProductPrice { get; set; }
+        public int ItemId { get; set; } = 0;
+        public string? ItemName { get; set; }
+        public int ItemPrice { get; set; } = 0;
         public int Qty
         {
             get { return _Qty; }
             set { _Qty = value > 0 ? value : throw new Exception("Qty需為正數"); }
         }
         public long CartId { get; set; }
-
-        //public int SubTotal 
-        //{ 
-        //    get 
-        //    {
-        //        var ProductPrice = Product.ProductPrice * Qty;
-        //        var ItmePrice = Product.Items.Sum(item => item.UnitPrice) * Qty;
-        //        return ProductPrice * ItmePrice;
-        //    }
-        //}        
-
+        public int SubTotal { get; set; }
+            
         //Constructors
         public CartDetailDTO (int id, int identifyNum, long productId, int itemId, int qty, long cartId)
         {
@@ -53,6 +47,21 @@ namespace FoodDlvAPI.DTOs
             Qty = qty;
             CartId = cartId;
         }
+
+        public CartDetailDTO(int identifyNum, long productId, string? productName, int productPrice, 
+                            int itemId, string itemName, int itemPrice, int qty, int subTotal, int cartId)
+        {
+            IdentifyNum = identifyNum;
+            ProductId = productId;
+            ProductName = productName;
+            ProductPrice = productPrice;
+            ItemId = itemId;
+            ItemName = itemName;
+            ItemPrice = itemPrice;
+            Qty = qty;
+            SubTotal = subTotal;
+            CartId = cartId;
+        }        
     }
 
     public static partial class CartDetailExts

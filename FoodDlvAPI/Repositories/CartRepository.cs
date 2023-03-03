@@ -21,7 +21,7 @@ namespace FoodDlvAPI.Repositories
         public bool IsExists(int memberId, int storeId)
         {
             var memberCheck = _context.Members.Any(m => m.Id == memberId);
-            var storeCheck = _context.Stores.Any(m => m.Id == storeId);
+            var storeCheck = _context.Stores.Any(s => s.Id == storeId);
 
             if (memberCheck && storeCheck)
             {
@@ -67,15 +67,23 @@ namespace FoodDlvAPI.Repositories
         }
 
         public void AddDetail(CartDTO cart, CartVM request)
-        {
-            if (request.ProductId == null) throw new ArgumentNullException(nameof(request.ProductId));
-            if (request.RD_Qty <= 0) throw new ArgumentOutOfRangeException(nameof(request.RD_Qty));
+        {         
+            if (_context.Stores.Any(m => m.Id == request.RD_StoreId) == false)
+            {
+                throw new Exception("此商店不存在");
+            }                 
+            if (_context.Products.Any(p => p.StoreId == request.RD_StoreId && p.Id == request.RD_ProductId) == false)
+            {
+                throw new Exception("商店無此商品");
+            }                
+            if (request.RD_Qty <= 0)
+            {
+                throw new Exception("商品數量不可小於0");
+            }               
 
-            var detail = cart.GetDetails().ToList();
-            var aaa = detail.Select(detail => detail.ItemId).ToList();
-            var bbb = request.RD_Item;
+            var detail = cart.GetDetails().ToList();         
 
-            var sameDetail = detail.Select(detail => detail.ItemId).ToList() == request.RD_Item;
+            var sameDetail = detail.Select(detail => detail.ItemId).ToList().SequenceEqual(request.RD_Item);
             var identifyNum = IdentifyNumSelector();
 
             if (sameDetail == true)
@@ -123,35 +131,18 @@ namespace FoodDlvAPI.Repositories
         }
 
         public void Save()
+        {            
+            throw new NotImplementedException();
+        }
+
+        public CartDTO GetCartInfo(CartDTO cart)
         {
 
-            
-            throw new NotImplementedException();
         }
 
 
 
-        public CartDetailDTO AddCartDetail(long productId, int qty, long cartId)
-        {
-            //var cartDetail = _context.CartDetails
-            //    .SingleOrDefault(cd => cd.CartId == cartId && cd.ProductId == productId);
 
-            //if (cartDetail == null)
-            //{
-            //    cartDetail = new CartDetailEntity(productId, qty, cartId).ToCartDetailEntity();
-            //    _context.CartDetails.Add(cartDetail);
-            //}
-            //else
-            //{
-            //    cartDetail.Qty += qty;
-            //}
-
-            //_context.SaveChanges();
-            //return cartDetail.ToCartDetailDTO();
-            throw new NotImplementedException();
-        }
-
-        
         //public void RemoveDetail(int productId)
         //{
         //    var detail = Details.SingleOrDefault(cde => cde.Product.Id == productId);

@@ -9,7 +9,8 @@ namespace FoodDlvAPI.DTOs
     {
         public long ProductId { get; set; }
         public string? ProductName { get; set; }
-        public int ProductPrice { get; set; }  
+        public int ProductPrice { get; set; }
+        public int Qty { get; set; }
         public List<ProductCustomizationItemDTO>? Items { get; set; }        
     }
 

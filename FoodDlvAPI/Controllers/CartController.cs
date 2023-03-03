@@ -43,11 +43,11 @@ namespace FoodDlvAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Info(int memberId, int storeId)
+        public IActionResult CartInfo(int memberId, int storeId)
         {
             try
             {
-                var CartData = _cartService.Current(memberId, storeId);
+                var CartData = _cartService.CartInfo(memberId, storeId).ToCartVM();
                 return Json(CartData);
             }
             catch(Exception ex)

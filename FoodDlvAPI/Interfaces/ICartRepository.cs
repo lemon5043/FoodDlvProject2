@@ -39,15 +39,11 @@ namespace FoodDlvAPI.Interfaces
         /// </summary>
         /// <returns></returns>
         int IdentifyNumSelector();
-                
-        /// <summary>
-        /// 添加購物車明細
-        /// </summary>
-        /// <param name="productId"></param>
-        /// <param name="qty"></param>
-        /// <param name="cartId"></param>
-        /// <returns></returns>
-        CartDetailDTO AddCartDetail(long productId, int qty, long cartId);
-               
+
+
+
+        CartDTO GetCartInfo(CartDTO cart);
+
+
     }
 }

@@ -4,15 +4,12 @@ using Microsoft.EntityFrameworkCore;
 namespace FoodDlvAPI.DTOs
 {
     public class CartDTO
-    {
-        //Fields
-        private List<CartDetailDTO> Details;
-
+    {              
         //Properties
         public long Id { get; set; }
         public int MemberId { get; set; }
         public int StoreId { get; set; }
-        //private List<CartDetailDTO> Details { get; set; }
+        public List<CartDetailDTO> Details { get; set; }
         //public int Total => Details == null || Details.Count == 0 ? 0 : Details.Sum(d => d.SubTotal);
 
         //Constructors
@@ -22,19 +19,13 @@ namespace FoodDlvAPI.DTOs
             MemberId = memberId;
             StoreId = storeId;
             Details = details;
-        } 
+        }
         public CartDTO(int memberId, int storeId, List<CartDetailDTO> details)
         {
             MemberId = memberId;
             StoreId = storeId;
             Details = details;
-        }
-
-        //Methods
-        public IEnumerable<CartDetailDTO> GetDetails()
-        {
-            return Details;
-        }
+        }                      
     }
     public static class CartExts
     {
@@ -57,7 +48,7 @@ namespace FoodDlvAPI.DTOs
                 Id = source.Id,
                 MemberId = source.MemberId,
                 StoreId = source.StoreId,
-                CartDetails = source.GetDetails().Select(cd => cd.ToCartDetailEF()).ToList()
+                CartDetails = source.Details.Select(cd => cd.ToCartDetailEF()).ToList()
             };
             return cartEF;            
         }
