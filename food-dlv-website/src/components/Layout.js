@@ -31,12 +31,12 @@ const Layout = () => {
                 <img src={Logo} alt="logo.svg" className="w-10 -rotate-12" />
               </div>
               {/* 標題 */}
-              <div className="text-2xl pl-4 pr-16 font-extrabold font-nunito">
+              <div className="text-2xl pl-4 font-extrabold font-nunito">
                 FASPAN
               </div>
             </Link>
             {/* 搜尋欄 */}
-            <div className="relative text-gray-600 flex items-center">
+            <div className="pl-16 relative text-gray-600 flex items-center">
               <input
                 onKeyDown={enterHandler}
                 className="border-2 border-gray-300 bg-white h-10 w-80 px-2 rounded-lg text-sm focus:border-neutral-400 focus:ring-neutral-300 focus:outline-none focus:ring focus:ring-opacity-40"

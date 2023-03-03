@@ -19,9 +19,6 @@ import DriverHistory from "./pages/Delivery/DriverHistory";
 //css
 import "./assets/styles/tailwind.css";
 
-//driver page 的 layout 設定
-const DriverLayoutRoute = <div></div>;
-
 function App() {
   return (
     <BrowserRouter>
