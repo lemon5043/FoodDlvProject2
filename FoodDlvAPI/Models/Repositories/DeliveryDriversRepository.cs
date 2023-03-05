@@ -45,7 +45,7 @@ namespace FoodDlvAPI.Models.Repositories
                 AccountStatusId = x.AccountStatusId,
                 DriverRating = x.Orders.Average(x => x.DriverRating),
                 RegistrationTime = x.RegistrationTime,
-                Idcard = x.Idcard,
+                Idcard = x.IDCard,
                 VehicleRegistration = x.VehicleRegistration,
                 DriverLicense = x.DriverLicense,
             }).FirstOrDefaultAsync(m => m.Id == id);
@@ -71,7 +71,7 @@ namespace FoodDlvAPI.Models.Repositories
                 Email = x.Email,
                 BankAccount = x.BankAccount,
                 AccountStatusId = x.AccountStatusId,
-                Idcard = x.Idcard,
+                Idcard = x.IDCard,
                 VehicleRegistration = x.VehicleRegistration,
                 DriverLicense = x.DriverLicense,
             }).FirstOrDefaultAsync(m => m.Id == id);
@@ -83,20 +83,19 @@ namespace FoodDlvAPI.Models.Repositories
 
         public async Task<string> CreateAsync(DeliveryDriverEntity model)
         {
-            model.Id = db.DeliveryDrivers.LastAsync().Id +1;
-            string? idCard = await UploadFile(model.Idcard, "Idcard", model.Id);
-            string? VehicleRegistration = await UploadFile(model.VehicleRegistration, "VehicleRegistration", model.Id);
-            string? DriverLicense = await UploadFile(model.DriverLicense, "DriverLicense", model.Id);
+            string? idCard = await UploadFile(model.Idcard, "Idcard", null);
+            string? VehicleRegistration = await UploadFile(model.VehicleRegistration, "VehicleRegistration", null);
+            string? DriverLicense = await UploadFile(model.DriverLicense, "DriverLicense", null);
             try
             {
                 //db.Update(model);
                 var EFModel = model.ToEFModle();
                 //List<string> updateModel = new List<string> { "Account","Password","LastName", "FirstName", "Gender", "Birthday", "Phone", "Email",
-                    //"BankAccount","RegistrationTime"};
+                //"BankAccount","RegistrationTime"};
 
                 if (idCard != null)
                 {
-                    EFModel.Idcard = idCard;
+                    EFModel.IDCard = idCard;
                     //updateModel.Add("Idcard");
                 }
                 if (VehicleRegistration != null)
@@ -109,7 +108,7 @@ namespace FoodDlvAPI.Models.Repositories
                     EFModel.DriverLicense = DriverLicense;
                     //updateModel.Add("DriverLicense");
                 }
-                db.AddAsync(EFModel);
+                db.DeliveryDrivers.Add(EFModel);
 
                 //foreach (var property in updateModel)
                 //{
@@ -140,7 +139,7 @@ namespace FoodDlvAPI.Models.Repositories
 
                 if (idCard != null)
                 {
-                    EFModel.Idcard = idCard;
+                    EFModel.IDCard = idCard;
                     updateModel.Add("IdCard");
                 }
                 if (VehicleRegistration != null)
@@ -153,7 +152,7 @@ namespace FoodDlvAPI.Models.Repositories
                     EFModel.DriverLicense = DriverLicense;
                     updateModel.Add("DriverLicense");
                 }
-                db.Attach(EFModel);
+                db.DeliveryDrivers.Attach(EFModel);
 
 
                 foreach (var property in updateModel)
@@ -175,6 +174,7 @@ namespace FoodDlvAPI.Models.Repositories
         {
             return db.DeliveryDrivers.Any(e => e.Id == id);
         }
+
         public bool AccountExists(string account)
         {
             return db.DeliveryDrivers.Any(e => e.Account == account);
@@ -193,12 +193,13 @@ namespace FoodDlvAPI.Models.Repositories
             return (query, query2);
         }
 
-        public async Task<string?> UploadFile(IFormFile file, string folder, int id)
+        public async Task<string?> UploadFile(IFormFile file, string folder, int? id)
         {
             if (file != null)
             {
                 string extension = Path.GetExtension(file.FileName);
-                string newFileName = id.ToString() + extension;
+                int ImgId = (int)((id != null) ? id : db.DeliveryDrivers.OrderBy(x => x.Id).Max(x => x.Id) + 1);
+                string newFileName = ImgId.ToString() + extension;
                 string filePath = Path.GetFullPath(Path.Combine("../FoodDlvProject2/wwwroot/img/DeliveyDriver", folder));
                 string path = Path.Combine(filePath, newFileName);
                 using var fileStream = new FileStream(path, FileMode.Create);

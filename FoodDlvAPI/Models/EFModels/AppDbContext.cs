@@ -238,7 +238,7 @@ namespace FoodDlvAPI.Models
                     .IsRequired()
                     .HasMaxLength(20);
 
-                entity.Property(e => e.Idcard)
+                entity.Property(e => e.IDCard)
                     .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("IDCard");

@@ -23,7 +23,7 @@ namespace FoodDlvAPI.Models
         public string Phone { get; set; }
         public bool Gender { get; set; }
         public string BankAccount { get; set; }
-        public string Idcard { get; set; }
+        public string IDCard { get; set; }
         public DateTime RegistrationTime { get; set; }
         public string VehicleRegistration { get; set; }
         public DateTime Birthday { get; set; }
