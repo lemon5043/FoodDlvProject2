@@ -46,33 +46,19 @@
 					imgSrc = "./noPic.jpg";
 				}
 			<img src="@imgSrc" width="100px" height="100px">
-			
-			
+
+			@*	@{
+			var imgSrc = "";
+			if (Model.Photo != null)
+			{
+			var base64String = Convert.ToBase64String(Model.Photo);
+			imgSrc = $"data:image/png;base64,{base64String}";
 			}
+			else
+			{
+			imgSrc = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
 
-
-
-
-
-
-
-
-
-
-		@*	@{
-				var imgSrc = "";
-				if (Model.Photo != null)
-				{
-					var base64String = Convert.ToBase64String(Model.Photo);
-					imgSrc = $"data:image/png;base64,{base64String}";
-
-
-				}
-				else
-				{
-					imgSrc = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
-
-				}
+			}
 
 			}
 			<img src="@imgSrc" width="100px" height="100px">*@
@@ -91,46 +77,82 @@
 			@Html.DisplayFor(model => model.StorePrincipal.FirstName)
 		</dd>
 
-		@*<dt class="col-sm-2">
-		@Html.DisplayNameFor(model => model.StoreBusinessHours)
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.StoreBusinessHours)
 		</dt>
 		<dd class="col-sm-10">
-		@{
-		var SBH = "";
-		foreach (var p in Model.StoreBusinessHours)
-		{
-		SBH = $"{p.OpeningTime}~{p.ClosingTime}";
-
-		}
-		}
-		@SBH
-		</dd>*@
+			<td>
+				<table class="table table-bordered">
+					<tr class="active">
+						<td>星期天</td>
+						<td>星期一</td>
+						<td>星期二</td>
+						<td>星期三</td>
+						<td>星期四</td>
+						<td>星期五</td>
+						<td>星期六</td>
+					</tr>
+					<tr>
+						@{
+							var SBH = "";
+							var SBH0 = "";
+							var SBH1 = "";
+							var SBH2 = "";
+							var SBH3 = "";
+							var SBH4 = "";
+							var SBH5 = "";
+							var SBH6 = "";
+							foreach (var p in Model.StoreBusinessHours)
+							{
+								SBH += $"{p.OpeningTime}~{p.ClosingTime}";
+							}
+							if (Model.StoreBusinessHours.Any(x => x.OpeningDays == 0))
+								SBH0 = SBH;
+							if (Model.StoreBusinessHours.Any(x => x.OpeningDays == 1))
+								SBH1 = SBH;
+							if (Model.StoreBusinessHours.Any(x => x.OpeningDays == 2))
+								SBH2 = SBH;
+							if (Model.StoreBusinessHours.Any(x => x.OpeningDays == 3))
+								SBH3 = SBH;
+							if (Model.StoreBusinessHours.Any(x => x.OpeningDays == 4))
+								SBH4 = SBH;
+							if (Model.StoreBusinessHours.Any(x => x.OpeningDays == 5))
+								SBH5 = SBH;
+							if (Model.StoreBusinessHours.Any(x => x.OpeningDays == 6))
+								SBH6 = SBH;
+						}
+						<td id="tdSBH0">@SBH0<br /><button id="btnSBH0">新增時間</button></td>
+						<td id="tdSBH1">@SBH1<br /><button id="btnSBH1">新增時間</button></td>
+						<td id="tdSBH2">@SBH2<br /><button id="btnSBH2">新增時間</button></td>
+						<td id="tdSBH3">@SBH3<br /><button id="btnSBH3">新增時間</button></td>
+						<td id="tdSBH4">@SBH4<br /><button id="btnSBH4">新增時間</button></td>
+						<td id="tdSBH5">@SBH5<br /><button id="btnSBH5">新增時間</button></td>
+						<td id="tdSBH6">@SBH6<br /><button id="btnSBH6">新增時間</button></td>
+					</tr>
+				</table>
+			</td>
+		</dd>
 		<dt class="col-sm-2">
 			@Html.DisplayNameFor(model => model.Products)
 		</dt>
 		<dd class="col-sm-10">
 			@{
 
-					<td>
-						<table class="table table-bordered">
-							<tr class="active">
-								<td>照片</td>
-								<td>品名</td>
-								<td>單價</td>
-							</tr>
-							@foreach (var p in Model.Products)
+				<td>
+					<table class="table table-bordered">
+						<tr class="active">
+							<td>照片</td>
+							<td>品名</td>
+							<td>單價</td>
+						</tr>
+						@foreach (var p in Model.Products)
 						{
-								<tr class="active">
+							<tr class="active">
 
-
-									<td>
-
-
-
-										@{
-											
-													var imgSrcP = "";
-										if (! string.IsNullOrEmpty(p.Photo))
+								<td>
+									@{
+										var imgSrcP = "";
+										if (!string.IsNullOrEmpty(p.Photo))
 										{
 											imgSrcP = $"/img/Products/{p.Photo}";
 										}
@@ -140,61 +162,24 @@
 										}
 									}
 									<img src="@imgSrcP" width="100px" height="100px">
-
-
-										}
-
-
-
-
-
-
-
-
+								</td>
+								<td>@p.ProductName</td>
+								<td>@p.UnitPrice</td>
+								<td>
+									<a asp-action="EditP" asp-route-id="@p.Id">商品編輯</a> |
+									<a asp-action="DetailsP" asp-route-id="@p.Id">商品詳細資料</a> |
+									<a asp-action="DeleteP" asp-route-id="@p.Id">商品刪除</a>
+								</td>
 
 
 
-
-										@{
-									//	var imgSrcP = "";
-									//	if (p.Photo != null)
-									//	{
-									//		var base64StringP = Convert.ToBase64String(p.Photo);
-									//		imgSrcP = $"data:image/png;base64,{base64StringP}";
-
-
-									//	}
-									//	else
-									//	{
-									//		imgSrcP = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
-
-									//	}
-													//< img src = "@imgSrcP" width = "100px" height = "100px" >
-										}
-
-
-
-										
-
-
-									</td>
-									<td>@p.ProductName</td>
-									<td>@p.UnitPrice</td>
-									<td>
-										<a asp-action="EditP" asp-route-id="@p.Id">商品編輯</a> |
-										<a asp-action="DetailsP" asp-route-id="@p.Id">商品詳細資料</a> |
-										<a asp-action="DeleteP" asp-route-id="@p.Id">商品刪除</a>
-									</td>
-
-
-
-								</tr>
+							</tr>
 
 						}
-							<a asp-action="CreateP" asp-route-id="@Model.Id">新增商品</a>
-						</table>
+						<a asp-action="CreateP" asp-route-id="@Model.Id">新增商品</a>
+					</table>
 
-					</td>
+				</td>
 			}
 
 		</dd>
@@ -227,13 +212,34 @@
 		<dd class="col-sm-10">
 		@Html.DisplayFor(model => model.StoreWallet.Total)
 		</dd>*@
-
-
-
-
 	</dl>
 </div>
 <div>
 	<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
 	<a asp-action="Index">Back to List</a>
 </div>
+
+
+
+@section Scripts
+	{
+	<script>
+
+		//document.getElementById("btnSBH1").addEventListener("click", () => {
+		//	var string1 = "";
+		//	console.log("1");
+		//	string1 += `營業時間<input type="time" />結束時間<input type="time" />`;
+
+		//	document.getElementById("tdSBH1").innerHTML += string1;
+
+		//})
+
+
+
+
+
+	</script>
+
+
+
+		}

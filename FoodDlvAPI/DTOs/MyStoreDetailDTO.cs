@@ -1,4 +1,6 @@
-﻿namespace FoodDlvAPI.DTOs
+﻿using FoodDlvAPI.Models;
+
+namespace FoodDlvAPI.DTOs
 {
 	public class MyStoreDetailDTO
 	{
@@ -21,7 +23,6 @@
 		public IEnumerable<string> ProductContent { get; set; }
 		public IEnumerable<bool?> ProductStatus { get; set; }
 		public IEnumerable<int> ProductUnitPrice { get; set; }
-
 
 	}
 }
