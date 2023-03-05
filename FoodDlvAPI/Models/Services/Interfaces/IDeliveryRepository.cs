@@ -6,7 +6,7 @@ namespace FoodDlvAPI.Models.Services.Interfaces
 {
     public interface IDeliveryRepository
     {
-        void ChangeWorkingStatus(int dirverId);
+        Task ChangeWorkingStatus(LocationDTO location);
         //void ChangeToOnline(int dirverId);
         Task<AasignmentOrderDTO> GetOrderDetail(int orderId);
         Task<AasignmentOrderDTO> NavigationToCustomer(int orderId);
@@ -16,5 +16,6 @@ namespace FoodDlvAPI.Models.Services.Interfaces
         Task UpdateOrder(int orderId, int driverId);
         Task<ActionResult<string>> SaveCancellationRecord(DriverCancellationRecordsDTO driverCancellation);
         Task<IEnumerable<DriverCancellationsDTO>> GetListAsync();
+        Task UpateLocation(LocationDTO location);
     }
 }

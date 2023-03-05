@@ -3,7 +3,9 @@ using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Models.Services.Interfaces;
 using FoodDlvAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata.Ecma335;
 
 namespace FoodDlvAPI.Models.Repositories
 {
@@ -17,12 +19,12 @@ namespace FoodDlvAPI.Models.Repositories
         }
 
         //外送員切換上下線狀態
-        public async void ChangeWorkingStatus(int dirverId)
+        public async Task ChangeWorkingStatus(LocationDTO location)
         {
             if (db.DeliveryDrivers == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
-            var query = await db.DeliveryDrivers
-                .Where(x => x.Id == dirverId)
+            var EFModel = await db.DeliveryDrivers
+                .Where(x => x.Id == location.DriverId)
                 .Select(x => new DeliveryDriver
                 {
                     Id = x.Id,
@@ -31,41 +33,50 @@ namespace FoodDlvAPI.Models.Repositories
                 })
                 .FirstOrDefaultAsync();
 
-            if (query == null) throw new Exception("您的帳號處於未開通或是禁止使用狀態，請聯絡客服了解詳細情況");
+            if (EFModel == null) throw new Exception("您的帳號處於未開通或是禁止使用狀態，請聯絡客服了解詳細情況");
 
             //上線
-            if (query.WorkStatuseId < 3)
+            if (EFModel.WorkStatuseId < 3)
             {
                 int AccountAvailableId = 2;
-                if (query.AccountStatusId != AccountAvailableId) throw new Exception("您的帳號處於未開通或是禁止使用狀態，請聯絡客服了解詳細情況");
+                if (EFModel.AccountStatusId != AccountAvailableId) throw new Exception("您的帳號處於未開通或是禁止使用狀態，請聯絡客服了解詳細情況");
 
                 int onlineWorkStatusId = 3;
-                query.WorkStatuseId = onlineWorkStatusId;
+                EFModel.WorkStatuseId = onlineWorkStatusId;
 
-                string updateModel = "WorkStatuseId";
-                db.Attach(query);
+                string[] updateModel = { "WorkStatuseId","longitude", "latitude" };
+                db.Attach(EFModel);
 
-                db.Entry(query).Property(updateModel).IsModified = true;
+                foreach (var property in updateModel)
+                {
+                    db.Entry(EFModel).Property(property).IsModified = true;
+                }
 
-                db.SaveChanges();
+                await db.SaveChangesAsync();
+
                 return;
             }
 
             //下線
-            if (query.WorkStatuseId == 3)
+            if (EFModel.WorkStatuseId == 3)
             {
                 int offlineWorkStatusId = 2;
 
-                query.WorkStatuseId = offlineWorkStatusId;
+                EFModel.WorkStatuseId = offlineWorkStatusId;
 
-                string updateModel = "WorkStatuseId";
-                db.Attach(query);
+                string[] updateModel = { "WorkStatuseId", "longitude", "latitude" };
+                db.Attach(EFModel);
 
-                db.Entry(query).Property(updateModel).IsModified = true;
+                foreach (var property in updateModel)
+                {
+                    db.Entry(EFModel).Property(property).IsModified = true;
+                }
 
-                db.SaveChanges();
+                await db.SaveChangesAsync();
+
                 return;
             }
+
             throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
         }
 
@@ -91,11 +102,11 @@ namespace FoodDlvAPI.Models.Repositories
         public async Task<IEnumerable<DriverCancellationsDTO>> GetListAsync()
         {
             if (db.DriverCancellations == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
-            var query = await db.DriverCancellations.Select(x=> new DriverCancellationsDTO
+            var query = await db.DriverCancellations.Select(x => new DriverCancellationsDTO
             {
-                Id= x.Id,
-                Reason= x.Reason,
-                Content= x.Content,
+                Id = x.Id,
+                Reason = x.Reason,
+                Content = x.Content,
             }).ToListAsync();
 
             return query;
@@ -172,9 +183,9 @@ namespace FoodDlvAPI.Models.Repositories
                     DeliveryDriversId = driverId,
                 })
                 .FirstOrDefaultAsync();
-            
+
             string updateModel = "DeliveryDriversId";
-            
+
             db.Attach(query);
 
             db.Entry(query).Property(updateModel).IsModified = true;
@@ -210,7 +221,7 @@ namespace FoodDlvAPI.Models.Repositories
         {
             if (db.DeliveryDrivers == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
-            var query = await db.DeliveryDrivers
+            var EFModel = await db.DeliveryDrivers
                 .Where(x => x.Id == dirverId)
                 .Select(x => new DeliveryDriver
                 {
@@ -219,39 +230,61 @@ namespace FoodDlvAPI.Models.Repositories
                 })
                 .FirstOrDefaultAsync();
 
-            if (query == null) throw new Exception("您的帳號處於未開通或是禁止使用狀態，請聯絡客服了解詳細情況");
+            if (EFModel == null) throw new Exception("您的帳號處於未開通或是禁止使用狀態，請聯絡客服了解詳細情況");
 
             //切換為外送中
-            if (query.WorkStatuseId == 3)
+            if (EFModel.WorkStatuseId == 3)
             {
                 int DeliveringId = 4;
-                query.WorkStatuseId = DeliveringId;
+                EFModel.WorkStatuseId = DeliveringId;
 
                 string updateModel = "WorkStatuseId";
-                db.Attach(query);
+                db.Attach(EFModel);
 
-                db.Entry(query).Property(updateModel).IsModified = true;
+                db.Entry(EFModel).Property(updateModel).IsModified = true;
 
                 db.SaveChanges();
                 return;
             }
 
             //切換為等待接單
-            if (query.WorkStatuseId == 4)
+            if (EFModel.WorkStatuseId == 4)
             {
                 int onlineWorkStatusId = 3;
 
-                query.WorkStatuseId = onlineWorkStatusId;
+                EFModel.WorkStatuseId = onlineWorkStatusId;
 
                 string updateModel = "WorkStatuseId";
-                db.Attach(query);
+                db.Attach(EFModel);
 
-                db.Entry(query).Property(updateModel).IsModified = true;
+                db.Entry(EFModel).Property(updateModel).IsModified = true;
 
                 db.SaveChanges();
+
                 return;
             }
             throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+        }
+
+        public async Task UpateLocation(LocationDTO location)
+        {
+            if (db.DeliveryDrivers == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+
+            var query = await db.DeliveryDrivers.Where(x=>x.Id==location.DriverId && x.WorkStatuseId>3).FirstOrDefaultAsync();
+
+            if (query == null) throw new Exception("抱歉，找不到指定外送員獲此外送員為非工作狀態");
+
+            var EFModel = location.ToEFModel();
+
+            string[] updateModel = { "longitude", "latitude" };
+            db.Attach(EFModel);
+
+            foreach (var property in updateModel)
+            {
+                db.Entry(EFModel).Property(property).IsModified = true;
+            }
+
+            await db.SaveChangesAsync();
         }
     }
 }

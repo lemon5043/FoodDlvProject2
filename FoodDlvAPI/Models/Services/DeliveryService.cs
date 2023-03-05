@@ -16,11 +16,8 @@ namespace FoodDlvAPI.Models.Services
             _repository = repository;
         }
 
-        public void ChangeWorkingStatus(int dirverId)
-            => _repository.ChangeWorkingStatus(dirverId);
-
-        //public void ChangeToOffline(int dirverId)
-        //    => _repository.ChangeToOffline(dirverId);
+        public async Task ChangeWorkingStatus(LocationDTO location)     
+           => await _repository.ChangeWorkingStatus(location);
 
         public async Task<AasignmentOrderDTO> GetOrderDetail(int orderId)
             => await _repository.GetOrderDetail(orderId);
@@ -69,8 +66,10 @@ namespace FoodDlvAPI.Models.Services
         public async Task<IEnumerable<DriverCancellationsDTO>> GetListAsync()
              => await _repository.GetListAsync();
 
-
         public async Task<ActionResult<string>> SaveCancellationRecord(DriverCancellationRecordsDTO driverCancellation)
             => await _repository.SaveCancellationRecord(driverCancellation);
+
+        public async Task UpateLocation(LocationDTO location)
+            => await _repository.UpateLocation(location);
     }
 }

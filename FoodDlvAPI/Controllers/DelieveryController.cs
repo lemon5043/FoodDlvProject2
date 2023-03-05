@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.CodeAnalysis;
 using NuGet.Protocol;
 using System.Data;
 
@@ -16,6 +17,7 @@ namespace FoodDlvAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize(Policy = "driverOnly")]
     public class DelieveryController : Controller
     {
         private readonly DeliveryService deliveryService;
@@ -29,30 +31,51 @@ namespace FoodDlvAPI.Controllers
             this.deliveryService = new DeliveryService(repository);
             this._hubContext = hubContext;
         }
-
-        [Authorize(Policy = "driverOnly")]
-        [HttpPut("ChangeWorkingStatus/{dirverId}")]
-        public async Task Online(int dirverId)
+        /// <summary>
+        /// 改變外送員上下線狀態
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        [HttpPut("ChangeWorkingStatus")]
+        public async Task Online(LocationVM location)
         {
             try
             {
-                deliveryService.ChangeWorkingStatus(dirverId);
+                await deliveryService.ChangeWorkingStatus(location.ToLocationDTO());
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-            //建立群組
-            //string role = "driver";
-            //string groupId = role + dirverId.ToString();
-            //await _hubContext.Clients.;
         }
 
+        /// <summary>
+        /// 更新外送員目前位置
+        /// </summary>
+        /// <param name="locationVM"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        [HttpPut("updateLocation")]
+        public async Task UpateLocation(LocationVM location)
+        {
+            try
+            {
+                await deliveryService.UpateLocation(location.ToLocationDTO());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
-        //訂單指派，商家完成訂單後觸發
-        //像前端發送請求
-        //AasignmentOrderVM只回傳店家地址及OrderId避免外送員挑單
+        /// <summary>
+        /// 訂單指派，商家完成訂單後觸發，向前端發送請求，AasignmentOrderVM只回傳店家地址及OrderId避免外送員挑單
+        /// </summary>
+        /// <param name="orderid"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+
         [HttpGet("OrderAasignment")] //可能是?
         public async Task<AasignmentOrderVM> OrderAasignment(int orderid)
         {
@@ -67,8 +90,13 @@ namespace FoodDlvAPI.Controllers
             }
         }
 
-        //接受訂單請求
-        //外送員工作狀態改變
+        /// <summary>
+        /// 接受訂單請求，外送員工作狀態改變
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="driverId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpGet("OrderAccept/{orderId}/{DriverId}")]
         public async Task<AasignmentOrderVM> OrderAccept(int orderId, int driverId)
         {
@@ -83,8 +111,11 @@ namespace FoodDlvAPI.Controllers
             }
         }
 
-        //取消訂單請求
-        //回傳取消原因
+        /// <summary>
+        /// 取消訂單請求，回傳取消原因
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpGet("Cancellation")]
         public async Task<IEnumerable<DriverCancellationsVM>> GetCancellationReason()
         {
@@ -100,7 +131,12 @@ namespace FoodDlvAPI.Controllers
 
         }
 
-        //外送員回報取消原因
+        /// <summary>
+        /// 外送員回報取消原因
+        /// </summary>
+        /// <param name="driverCancellation"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpPost("Cancellation")]
         public async Task<ActionResult<string>> OrderDecline(DriverCancellationRecordsVM driverCancellation)
         {
@@ -125,7 +161,12 @@ namespace FoodDlvAPI.Controllers
             }
         }
 
-        //確認訂單開始外送
+        /// <summary>
+        /// 確認訂單開始外送
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpGet("{orderId}")]
         public async Task<string> MealConfirmation(int orderId)
         {
@@ -140,8 +181,13 @@ namespace FoodDlvAPI.Controllers
             }
         }
 
-        //餐點送達回報紀錄
-        //外送員工作狀態改變
+        /// <summary>
+        /// 餐點送達回報紀錄，外送員工作狀態改變
+        /// </summary>
+        /// <param name="orderId">訂單Id</param>
+        /// <param name="driverId">外送員Id</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpPut("{orderId}/{DriverId}")]
         public async Task DeliveryArrive(int orderId, int driverId)
         {
@@ -155,4 +201,6 @@ namespace FoodDlvAPI.Controllers
             }
         }
     }
+
+
 }
