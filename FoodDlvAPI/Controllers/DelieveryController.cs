@@ -56,7 +56,7 @@ namespace FoodDlvAPI.Controllers
         /// <param name="locationVM"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        [HttpPut("updateLocation")]
+        [HttpPut("UpdateLocation")]
         public async Task UpateLocation(LocationVM location)
         {
             try

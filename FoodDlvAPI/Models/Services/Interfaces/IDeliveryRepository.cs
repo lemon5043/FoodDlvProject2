@@ -17,5 +17,6 @@ namespace FoodDlvAPI.Models.Services.Interfaces
         Task<ActionResult<string>> SaveCancellationRecord(DriverCancellationRecordsDTO driverCancellation);
         Task<IEnumerable<DriverCancellationsDTO>> GetListAsync();
         Task UpateLocation(LocationDTO location);
+        Task<string> GetKey(string APIName);
     }
 }
