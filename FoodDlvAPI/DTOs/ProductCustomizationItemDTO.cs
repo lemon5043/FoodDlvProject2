@@ -2,6 +2,9 @@
 
 namespace FoodDlvAPI.DTOs
 {
+    /// <summary>
+    /// 傳送商品與客製化選項內容
+    /// </summary>
     public class ProductCustomizationItemDTO
     {
         public int Id { get; set; }

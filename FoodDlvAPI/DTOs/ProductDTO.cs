@@ -3,11 +3,11 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace FoodDlvAPI.DTOs
 {
+    /// <summary>
+    /// 傳送商品基礎內容
+    /// </summary>
     public class ProductDTO
-    {
-        //Fields
-        //private List<ProductCustomizationItemDTO>? Items;
-
+    {       
         //Properties
         public long ProductId { get; set; }
         public int StoreId { get; set; }

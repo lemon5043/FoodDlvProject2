@@ -3,7 +3,7 @@
 namespace FoodDlvAPI.DTOs
 {
     /// <summary>
-    /// 供購物車使用的檢視資訊
+    /// 未使用,暫時放置
     /// </summary>
     public class CartInfoDTO
     {

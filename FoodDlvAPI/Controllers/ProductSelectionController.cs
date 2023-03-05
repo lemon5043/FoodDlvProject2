@@ -24,9 +24,9 @@ namespace FoodDlvAPI.Controllers
         }
 
         /// <summary>
-        /// 商品購買介面
+        /// 商品客製化選擇頁面
         /// </summary>
-        /// <param name="productId">搜尋條件-產品Id</param>
+        /// <param name="productId"></param>
         /// <returns></returns>
         [HttpGet]
         public IActionResult ProductSelection(int productId, bool? status)

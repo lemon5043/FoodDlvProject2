@@ -27,7 +27,7 @@ namespace FoodDlvAPI.Services
             _cartRepository.AddDetail(cart, request);                        
         }
 
-        public CartInfoDTO CartInfo(int memberId, int storeId)
+        public CartDTO CartInfo(int memberId, int storeId)
         {
             var cart = Current(memberId, storeId);
             var cartInfo = _cartRepository.GetCartInfo(cart);
@@ -47,18 +47,23 @@ namespace FoodDlvAPI.Services
             }
         }
 
-        //public void UpdateCart(int memberAccount, CartVM request) 
-        //{ 
-        //    if(request.Qty <= 0)
-        //    {
-        //        request.Qty = 0;
-        //    }
-        //    else
-        //    {
-        //        request.Qty = request.Qty;
-        //    }            
-        //    var cart = Current(memberAccount);           
-            
-        //}
+        public void UpdateCart(CartVM request)
+        {
+            _cartRepository.RemoveDetail(request);
+            if (request.RD_Qty >= 1)
+            {
+                AddToCart(request);
+            }            
+        }
+
+        public void RemoveDetail(CartVM request)
+        {
+            _cartRepository.RemoveDetail(request);
+        }
+
+        public void DeleteCart(int memberId, int storeId)
+        {
+            _cartRepository.EmptyCart(memberId, storeId);
+        }
     }
 }

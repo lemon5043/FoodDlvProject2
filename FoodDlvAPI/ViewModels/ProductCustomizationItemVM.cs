@@ -5,7 +5,6 @@ namespace FoodDlvAPI.ViewModels
 {
     public class ProductCustomizationItemVM
     {
-        //ViewInfo
         [Display(Name = "客製化編號")]
         public int Id { get; set; }
 

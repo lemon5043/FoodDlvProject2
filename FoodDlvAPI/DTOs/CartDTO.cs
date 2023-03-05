@@ -3,14 +3,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FoodDlvAPI.DTOs
 {
+    /// <summary>
+    /// 提供購物車使用的購物車資訊載體
+    /// </summary>
     public class CartDTO
     {              
         //Properties
         public long Id { get; set; }
-        public int MemberId { get; set; }      
-        public int StoreId { get; set; }       
+        public int MemberId { get; set; }
+        public string? MemberName { get; set; }
+        public int StoreId { get; set; }
+        public string? StoreName { get; set; }
+        public int DetailQty { get; set; } = 0;
+        public int Total { get; set; } = 0;
         public List<CartDetailDTO> Details { get; set; }
-        //public int Total => Details == null || Details.Count == 0 ? 0 : Details.Sum(d => d.SubTotal);
+        
 
         //Constructors
         public CartDTO(long id, int memberId, int storeId, List<CartDetailDTO> details)
@@ -20,12 +27,8 @@ namespace FoodDlvAPI.DTOs
             StoreId = storeId;
             Details = details;
         }
-        public CartDTO(int memberId, int storeId, List<CartDetailDTO> details)
-        {
-            MemberId = memberId;
-            StoreId = storeId;
-            Details = details;
-        }                      
+        public CartDTO() { }
+                  
     }
     public static class CartExts
     {

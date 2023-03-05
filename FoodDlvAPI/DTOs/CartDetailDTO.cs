@@ -4,27 +4,19 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace FoodDlvAPI.DTOs
 {
     /// <summary>
-    /// 提供購物車使用的商品類別與客製化資訊
+    /// 提供購物車使用的商品與客製化資訊
     /// </summary>
     public class CartDetailDTO
-    {
-        //Fields                
-        private int _Qty;
-
+    {        
         //Properties
         public int Id { get; set; }
         public int IdentifyNum { get; set; }
         public long ProductId { get; set; }
-        public string? ProductName { get; set; }
-        public int ProductPrice { get; set; }
-        public int ItemId { get; set; } = 0;
-        public string? ItemName { get; set; }
-        public int ItemPrice { get; set; } = 0;
-        public int Qty
-        {
-            get { return _Qty; }
-            set { _Qty = value > 0 ? value : throw new Exception("Qty需為正數"); }
-        }
+        public string? ProductName { get; set; }        
+        public int ItemId { get; set; }
+        public List<int> ItemsId { get; set; }
+        public string? ItemName { get; set; }       
+        public int Qty { get; set; }      
         public long CartId { get; set; }
         public int SubTotal { get; set; }
             
@@ -39,14 +31,16 @@ namespace FoodDlvAPI.DTOs
             CartId = cartId;                
         }
 
-        public CartDetailDTO(int identifyNum, long productId, int itemId, int qty, long cartId)
-        {
-            IdentifyNum = identifyNum;
-            ProductId = productId;
-            ItemId = itemId;
-            Qty = qty;
-            CartId = cartId;
-        }                
+        //public CartDetailDTO(int identifyNum, long productId, int itemId, int qty, long cartId)
+        //{
+        //    IdentifyNum = identifyNum;
+        //    ProductId = productId;
+        //    ItemId = itemId;
+        //    Qty = qty;
+        //    CartId = cartId;
+        //}        
+        
+        public CartDetailDTO() { }
     }
 
     public static partial class CartDetailExts
@@ -69,12 +63,12 @@ namespace FoodDlvAPI.DTOs
         {
             var cartDetailEF = new CartDetail
             {
-               Id= source.Id,
-               IdentifyNum= source.IdentifyNum,
-               ProductId= source.ProductId,
-               ItemId= source.ItemId,
-               Qty= source.Qty,
-               CartId= source.CartId
+               Id = source.Id,
+               IdentifyNum = source.IdentifyNum,
+               ProductId = source.ProductId,
+               ItemId = source.ItemId,
+               Qty = source.Qty,
+               CartId = source.CartId
             };
             return cartDetailEF;
         }
