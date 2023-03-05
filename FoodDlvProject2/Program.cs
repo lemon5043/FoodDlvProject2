@@ -65,8 +65,8 @@ namespace FoodDlvProject2
 
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.GetFullPath("D:\\FoodDelivery\\FoodDlvProject2\\food-dlv-website\\src\\assets\\images"))
-            }) ;
+                FileProvider = new PhysicalFileProvider(Path.GetFullPath(Directory.GetParent(Directory.GetCurrentDirectory()) + "\\food-dlv-website\\src\\assets\\images"))
+            });
 
             app.UseRouting();
 
