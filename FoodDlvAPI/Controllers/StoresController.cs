@@ -34,8 +34,6 @@ namespace FoodDlvAPI.Controllers
 				Address = x.Address,
 				ContactNumber = x.ContactNumber,
 				Photo = x.Photo,
-
-
 				CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
 
 			}).ToListAsync();
