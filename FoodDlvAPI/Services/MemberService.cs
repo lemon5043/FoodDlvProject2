@@ -42,7 +42,7 @@ namespace FoodDlvAPI.Services
 			string encryptedPW = HashUtility.ToSHA256(password, MemberRegisterDto.SALT);
 
 			return (String.CompareOrdinal(member.Password, encryptedPW) == 0)
-				? LoginResponse.Success(member.Id, member.Account, member.Password)
+				? LoginResponse.Success(member.Id, member.LastName+member.FirstName, member.Password)
 				: LoginResponse.Fail("帳密有誤");
 		}
 	}
