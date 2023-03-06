@@ -5,6 +5,10 @@ using FoodDlvAPI.Models.Services.Interfaces;
 using FoodDlvAPI.Models.Repositories;
 using FoodDlvAPI.Models;
 using FoodDlvAPI.Models.ViewModels;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using FoodDlvAPI.Models.DTOs;
 
 namespace FoodDlvAPI.Controllers
 {
@@ -13,54 +17,66 @@ namespace FoodDlvAPI.Controllers
     public class DeliveryDriversController : Controller
     {
         private readonly DeliveryDriverService deliveryDriverService;
+        
+        private readonly IConfiguration _configuration;
 
-        public DeliveryDriversController()
+        public DeliveryDriversController(IConfiguration configuration)
         {
             var db = new AppDbContext();
             IDeliveryDriversRepository repository = new DeliveryDriversRepository(db);
             this.deliveryDriverService = new DeliveryDriverService(repository);
+            this._configuration= configuration;
         }
 
-        //[HttpPost]
-        //public async Task<string> Login(LoginVM model)
-        //{
-        //    LoginResponse response = await deliveryDriverService.Login(model.Account, model.Password);
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login(LoginVM model)
+        {
+            LoginResponse response = await deliveryDriverService.Login(model.Account, model.Password);
 
-        //    if (response.IsSuccess)
-        //    {
-        //        // 記住登入成功的會員，
-        //        var rememberMe = true;
+            if (response.IsSuccess)
+            {
+                string token = CreateToken(response);
+                return Ok(token);
 
-        //        var member = deliveryDriverService.GetByAccount(model.Account);
-        //        //string roles = member.Role;
+                //todo?
+                //登入後除了 JWT access token，也生成一個 refresh token
+                //var refreshToken = GenerateRefreshToken();
+                //SetRefreshToken(refreshToken);
+            }
 
-        //        var claims = new List<Claim>
-        //        {
-        //             new Claim(ClaimTypes.Name, member.FirstName),
-        //             //new Claim(ClaimTypes.Role, roles),
-        //        };
+            ModelState.AddModelError(string.Empty, response.ErrorMessage);
 
-        //        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            return response.ErrorMessage;
+        }
 
-        //        var authProperties = new AuthenticationProperties
-        //        {
-        //            IsPersistent = rememberMe,
-        //            ExpiresUtc = DateTimeOffset.UtcNow.AddDays(3),
-        //        };
+        private string CreateToken(LoginResponse response)
+        {
+            //Claim 的中文叫做宣告，代表主體的屬性
+            List<Claim> claims = new List<Claim>
+            {
+                //使用者的名字
+                new Claim(ClaimTypes.Name, response.Username),
+                //身分，在這裡可以是外送員、用戶、店家等等
+                new Claim(ClaimTypes.Role, "DeliveryDriver"),
+                //除此之外，Claim 還可以做非常多事情，請自己去查~
+                new Claim(ClaimTypes.NameIdentifier,response.Id.ToString())
+            };
 
-        //        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-        //        new ClaimsPrincipal(claimsIdentity), authProperties);
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("Appsettings:Token").Value));
 
-        //        var url = LocalRedirect("/Home/Index");
-        //        return url.ToString();
-        //    }
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
-        //    ModelState.AddModelError(string.Empty, response.ErrorMessage);
+            var token = new JwtSecurityToken
+                (
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds
+                );
 
-        //    return response.ErrorMessage;
-        //}
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
-
+            return jwt;
+        }
 
         //[AllowAnonymous]
         //public async Task<IActionResult> LogOut()
@@ -78,8 +94,15 @@ namespace FoodDlvAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<DeliveryDriversDetailsVM>> Details(int id)
         {
-            var data = await deliveryDriverService.GetOneAsync(id);
-            return data.ToDeliveryDriversDetailsVM();
+            try
+            {
+                var data = await deliveryDriverService.GetOneAsync(id);
+                return data.ToDeliveryDriversDetailsVM();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         // GET: DeliveryDrivers/Create
@@ -92,22 +115,29 @@ namespace FoodDlvAPI.Controllers
         //To protect from overposting attacks, enable the specific properties you want to bind to.
         //For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 
-        [HttpPost]
+        [HttpPost("register")]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult<string>> Create(DeliveryDriverCreateVM deliveryDriver)
+        public async Task<ActionResult<string>> Register([FromForm]DeliveryDriverCreateVM deliveryDriver)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    return await deliveryDriverService.CreateAsync(deliveryDriver.ToDeliveryDriverEditDTO());
+                    return await deliveryDriverService.RegisterAsync(deliveryDriver.ToDeliveryDriverEditDTO());
                 }
                 catch (Exception ex)
                 {
-                    return ex.ToString();
+                    throw new Exception(ex.Message);
                 }
             }
-            return "輸入資料有誤，請再確認";
+            else
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    ModelState.AddModelError(string.Empty, error.ErrorMessage);
+                }
+                return BadRequest(ModelState);
+            }
         }
 
         // GET: api/DeliveryDrivers/5
@@ -121,7 +151,7 @@ namespace FoodDlvAPI.Controllers
         // PUT: api/DeliveryDrivers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPut("{id}")]
+        [HttpPut("Edit/{id}")]
         //[ValidateAntiForgeryToken]
         public async Task<ActionResult<string>> Edit(DeliveryDriversEditVM deliveryDriver)
         {
@@ -133,12 +163,18 @@ namespace FoodDlvAPI.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return ex.ToString();
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                    return BadRequest(ModelState);
                 }
             }
-            return "輸入資料有誤，請再確認";
+            else
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    ModelState.AddModelError(string.Empty, error.ErrorMessage);
+                }
+                return BadRequest(ModelState);
+            }
         }
-
-
     }
 }

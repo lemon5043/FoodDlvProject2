@@ -21,7 +21,7 @@ namespace FoodDlvAPI.Hubs
         /// </summary>
         /// <param name="id">自身Id e.g.storeId、MemberId</param>
         /// <param name="role">使用者角色Id e.g.Store、Member ，不分大小寫</param>
-        /// <returns></returns>
+         /// <returns></returns>
         public async Task LeaveGroup(int id, string role)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, role.ToLower() + id.ToString());

@@ -20,6 +20,7 @@ namespace FoodDlvAPI.Models
 
         public virtual DbSet<AccountAddress> AccountAddresses { get; set; }
         public virtual DbSet<AccountStatue> AccountStatues { get; set; }
+        public virtual DbSet<Api> Apis { get; set; }
         public virtual DbSet<AppealRecord> AppealRecords { get; set; }
         public virtual DbSet<BenefitStandard> BenefitStandards { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
@@ -59,6 +60,7 @@ namespace FoodDlvAPI.Models
         public virtual DbSet<StoreWallet> StoreWallets { get; set; }
         public virtual DbSet<StoresCategoriesList> StoresCategoriesLists { get; set; }
 
+        //由這裡讀取 appsettings.json 定義的 database 連線名稱及帳密，如此帳密資料就不會被外洩
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -91,6 +93,21 @@ namespace FoodDlvAPI.Models
                 entity.Property(e => e.Status)
                     .IsRequired()
                     .HasMaxLength(30);
+            });
+
+            modelBuilder.Entity<Api>(entity =>
+            {
+                entity.ToTable("APIs");
+
+                entity.Property(e => e.Apikey)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnName("APIKey");
+
+                entity.Property(e => e.Apiname)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("APIName");
             });
 
             modelBuilder.Entity<AppealRecord>(entity =>
@@ -215,8 +232,6 @@ namespace FoodDlvAPI.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Birthday).HasColumnType("date");
-
                 entity.Property(e => e.DriverLicense)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -231,24 +246,15 @@ namespace FoodDlvAPI.Models
 
                 entity.Property(e => e.Idcard)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .HasColumnName("IDCard");
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
                     .HasMaxLength(20);
 
-                entity.Property(e => e.Latitude)
-                    .HasMaxLength(50)
-                    .HasColumnName("latitude");
-
-                entity.Property(e => e.Longitude)
-                    .HasMaxLength(50)
-                    .HasColumnName("longitude");
-
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.Phone)
                     .IsRequired()
@@ -357,8 +363,6 @@ namespace FoodDlvAPI.Models
 
                 entity.Property(e => e.AccountStatusId).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.Birthday).HasColumnType("date");
-
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -373,7 +377,7 @@ namespace FoodDlvAPI.Models
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.Phone)
                     .IsRequired()
@@ -500,8 +504,6 @@ namespace FoodDlvAPI.Models
 
             modelBuilder.Entity<Pay>(entity =>
             {
-                entity.Property(e => e.SettlementMonth).HasColumnType("date");
-
                 entity.HasOne(d => d.DeliveryDrivers)
                     .WithMany(p => p.Pays)
                     .HasForeignKey(d => d.DeliveryDriversId)
@@ -584,9 +586,7 @@ namespace FoodDlvAPI.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Birthday)
-                    .HasColumnType("date")
-                    .HasColumnName("birthday");
+                entity.Property(e => e.Birthday).HasColumnName("birthday");
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -606,8 +606,6 @@ namespace FoodDlvAPI.Models
                     .HasMaxLength(20);
 
                 entity.Property(e => e.Photo).HasMaxLength(256);
-
-                entity.Property(e => e.RegistrationTime).HasColumnType("date");
 
                 entity.Property(e => e.Role)
                     .IsRequired()
@@ -717,8 +715,6 @@ namespace FoodDlvAPI.Models
 
                 entity.Property(e => e.AccountStatusId).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.Birthday).HasColumnType("date");
-
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -733,7 +729,7 @@ namespace FoodDlvAPI.Models
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.Phone)
                     .IsRequired()

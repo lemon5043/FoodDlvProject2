@@ -40,7 +40,7 @@ namespace FoodDlvAPI.Models.Entitys
         [NotMapped]
         public IFormFile? Idcard { get; set; }
 
-        public DateTime Birthday { get; set; }
+        public DateOnly Birthday { get; set; }
 
         public string? Email { get; set; }
         [NotMapped]

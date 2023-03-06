@@ -83,45 +83,44 @@ namespace FoodDlvAPI.Models.Repositories
 
         public async Task<string> CreateAsync(DeliveryDriverEntity model)
         {
-            string? idCard = await UploadFile(model.Idcard, "Idcard", model.Id);
-            string? VehicleRegistration = await UploadFile(model.VehicleRegistration, "VehicleRegistration", model.Id);
-            string? DriverLicense = await UploadFile(model.DriverLicense, "DriverLicense", model.Id);
+            string? idCard = await UploadFile(model.Idcard, "Idcard", null);
+            string? VehicleRegistration = await UploadFile(model.VehicleRegistration, "VehicleRegistration", null);
+            string? DriverLicense = await UploadFile(model.DriverLicense, "DriverLicense", null);
             try
             {
                 //db.Update(model);
                 var EFModel = model.ToEFModle();
-                List<string> updateModel = new List<string> { "Account","Password","LastName", "FirstName", "Gender", "Birthday", "Phone", "Email",
-                    "BankAccount","RegistrationTime"};
+                //List<string> updateModel = new List<string> { "Account","Password","LastName", "FirstName", "Gender", "Birthday", "Phone", "Email",
+                //"BankAccount","RegistrationTime"};
 
                 if (idCard != null)
                 {
                     EFModel.Idcard = idCard;
-                    updateModel.Add("IdCard");
+                    //updateModel.Add("Idcard");
                 }
                 if (VehicleRegistration != null)
                 {
                     EFModel.VehicleRegistration = VehicleRegistration;
-                    updateModel.Add("VehicleRegistration");
+                    //updateModel.Add("VehicleRegistration");
                 }
                 if (DriverLicense != null)
                 {
                     EFModel.DriverLicense = DriverLicense;
-                    updateModel.Add("DriverLicense");
+                    //updateModel.Add("DriverLicense");
                 }
-                db.Attach(EFModel);
+                db.DeliveryDrivers.Add(EFModel);
 
-
-                foreach (var property in updateModel)
-                {
-                    db.Entry(EFModel).Property(property).IsModified = true;
-                }
+                //foreach (var property in updateModel)
+                //{
+                //    db.Entry(EFModel).Property(property).IsModified = true;
+                //}
 
                 await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AccountExists(model.Account)) throw new Exception("此帳號已被使用，請使用其他帳號");
-                if (!EmailExists(model.Email)) throw new Exception("此信箱已被使用，請使用其他信箱進行申請");
+                if (AccountExists(model.Account)) throw new Exception("此帳號已被使用，請使用其他帳號");
+                if (EmailExists(model.Email)) throw new Exception("此信箱已被使用，請使用其他信箱進行申請");
             }
 
             return "新增成功";
@@ -153,7 +152,7 @@ namespace FoodDlvAPI.Models.Repositories
                     EFModel.DriverLicense = DriverLicense;
                     updateModel.Add("DriverLicense");
                 }
-                db.Attach(EFModel);
+                db.DeliveryDrivers.Attach(EFModel);
 
 
                 foreach (var property in updateModel)
@@ -175,6 +174,7 @@ namespace FoodDlvAPI.Models.Repositories
         {
             return db.DeliveryDrivers.Any(e => e.Id == id);
         }
+
         public bool AccountExists(string account)
         {
             return db.DeliveryDrivers.Any(e => e.Account == account);
@@ -193,12 +193,13 @@ namespace FoodDlvAPI.Models.Repositories
             return (query, query2);
         }
 
-        public async Task<string?> UploadFile(IFormFile file, string folder, int id)
+        public async Task<string?> UploadFile(IFormFile file, string folder, int? id)
         {
             if (file != null)
             {
                 string extension = Path.GetExtension(file.FileName);
-                string newFileName = id.ToString() + extension;
+                int ImgId = (int)((id != null) ? id : db.DeliveryDrivers.OrderBy(x => x.Id).Max(x => x.Id) + 1);
+                string newFileName = ImgId.ToString() + extension;
                 string filePath = Path.GetFullPath(Path.Combine("../FoodDlvProject2/wwwroot/img/DeliveyDriver", folder));
                 string path = Path.Combine(filePath, newFileName);
                 using var fileStream = new FileStream(path, FileMode.Create);

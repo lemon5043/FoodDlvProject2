@@ -16,6 +16,6 @@
 
 		public int TotalPay { get; set; }
 
-		public DateTime SettlementMonth { get; set; }
+		public DateOnly SettlementMonth { get; set; }
 	}
 }

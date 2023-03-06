@@ -18,7 +18,7 @@ namespace FoodDlvAPI.Models.ViewModels
         [Display(Name = "性別")]
         public bool Gender { get; set; }
         [Display(Name = "生日")]
-        public DateTime Birthday { get; set; }
+        public DateOnly Birthday { get; set; }
         [Display(Name = "聯絡電話")]
         public string Phone { get; set; }
         [Display(Name = "電子郵件")]

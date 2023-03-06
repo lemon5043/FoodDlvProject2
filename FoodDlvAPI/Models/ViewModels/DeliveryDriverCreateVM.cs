@@ -36,14 +36,14 @@ namespace FoodDlvAPI.Models.ViewModels
         [Display(Name = "銀行帳戶")]
         public string? BankAccount { get; set; }
 
-        [ExtensionAttribute(".jpg", ".png", ".jepg", ErrorMessage = "{0}的格式必須為.jpg、.png或.jepg格式")]
+        //[ExtensionAttribute(".jpg", ".png", ".jepg", ErrorMessage = "{0}的格式必須為.jpg、.png或.jepg格式")]
         [Display(Name = "身分證")]
         public IFormFile? Idcard { get; set; }
 
         [Required(ErrorMessage = "請輸入{0}")]
         [Display(Name = "生日")]
         [DateNowAttribute(ErrorMessage = "{0}不可大於今日")]
-        public DateTime Birthday { get; set; }
+        public DateOnly Birthday { get; set; }
 
         [Display(Name = "電子郵件")]
         [EmailAddress(ErrorMessage = "輸入的{0}格式不正確")]

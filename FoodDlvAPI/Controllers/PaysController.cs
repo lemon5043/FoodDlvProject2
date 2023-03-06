@@ -17,34 +17,44 @@ namespace FoodDlvAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class PaysController : Controller
-	{
-		private readonly PaysService paysService;
+    {
+        private readonly PaysService paysService;
 
-		public PaysController()
-		{
-			var db = new AppDbContext();
-			IPaysRepository repository = new PaysRepository(db);
-			this.paysService = new PaysService(repository);
-		}
+        public PaysController()
+        {
+            var db = new AppDbContext();
+            IPaysRepository repository = new PaysRepository(db);
+            this.paysService = new PaysService(repository);
+        }
 
-		[HttpGet("{id}")]
+        [HttpGet("{id}")]
         // GET: Pays/IndividualMonthly/5
         public async Task<IEnumerable<PaysMonthlyDetailsVM>> MonthlyDetails(int? id)
         {
-			var data = await paysService.GetMonthlyDetailsAsync(id);
-			//ViewBag.DriverId = id;
-			//ViewBag.DriverName = VM.Select(x=>x.DriversName).FirstOrDefault();
-
-			return data.Select(x => x.ToPaysMonthlyDetailsVM());
+            try
+            {
+                var data = await paysService.GetMonthlyDetailsAsync(id);
+                return data.Select(x => x.ToPaysMonthlyDetailsVM());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         [HttpGet("{year}/{month}/{id}")]
         // GET: Pays/IndividualMonthly/5
-        public async Task<PaysIndividualMonthlyDetailsVM> IndividualMonthlyDetails(int? year, int? month, int? id)
-		{
-			var data = await paysService.GetIndividualMonthlyDetailsAsync(year, month, id);				
-			return data.ToPaysIndividualMonthlyDetailsVM();
-		}
-
-	}
+        public async Task<ActionResult<PaysIndividualMonthlyDetailsVM>> IndividualMonthlyDetails(int? year, int? month, int? id)
+        {
+            try
+            {
+                var data = await paysService.GetIndividualMonthlyDetailsAsync(year, month, id);
+                return data.ToPaysIndividualMonthlyDetailsVM();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+    }
 }
