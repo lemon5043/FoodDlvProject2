@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FoodDlvAPI.Models;
 using FoodDlvAPI.DTOs;
+using Newtonsoft.Json;
+
+
 
 namespace FoodDlvAPI.Controllers
 {
@@ -70,9 +73,92 @@ namespace FoodDlvAPI.Controllers
 		}
 
 
-		//2依類別選出商店，點選類別傳入類別ID顯示商店
 
-		[HttpGet("getStoresByCategoryId/{categoryId?}")]
+
+
+
+
+        [HttpGet("getSomeStoresIfIMAt/{origin}")]
+        public async Task<ActionResult<IEnumerable<Store1DTO>>> GetSomeStoresIfIMAt(int pageNum, int storeNum, string origin)
+        {
+            var getSomeStores = await _context.Stores
+                .Include(s => s.StoresCategoriesLists)
+                .ThenInclude(x => x.Category)
+                .Select(x => new Store1DTO
+                {
+                    Id = x.Id,
+                    StorePrincipalId = x.StorePrincipalId,
+                    StoreName = x.StoreName,
+                    Address = x.Address,
+                    ContactNumber = x.ContactNumber,
+                    Photo = x.Photo,
+                    CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName),
+                })
+                .ToListAsync();
+
+            var getSomeStoresWithDistance = new List<Store1DTO>();
+            foreach (var store in getSomeStores)
+            {
+                var distance = await getDistance(store.Address, origin);
+                store.Distance = distance;
+                getSomeStoresWithDistance.Add(store);
+            }
+
+            var getSomeStoresOrderByDistance = getSomeStoresWithDistance.OrderBy(x => x.Distance).Skip((pageNum - 1) * storeNum).Take(storeNum).ToList();
+            return getSomeStoresOrderByDistance;
+        }
+
+        private async Task<int> getDistance(string storeAddress, string origin)
+        {
+            var Distance = 0;
+            var apiKey = "AIzaSyBuNl8O-71v4iJSFtjDkWtMDY8NJT7INKc";
+            var url = $"https://maps.googleapis.com/maps/api/distancematrix/json?origins={origin}&destinations={storeAddress}&key={apiKey}&mode=driving";
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+            dynamic result = JsonConvert.DeserializeObject(content);
+
+            Distance = result.rows[0].elements[0].distance.value;
+
+            return Distance;
+        }
+
+        //public async Task<IActionResult> GetDistanceAsync(string origin, string destination)
+        //{
+        //    var url = $"https://maps.googleapis.com/maps/api/distancematrix/json?origins={origin}&destinations={destination}&key={_apiKey}&mode=driving";
+        //    using var client = new HttpClient();
+        //    var response = await client.GetAsync(url);
+        //    var content = await response.Content.ReadAsStringAsync();
+
+        //    dynamic result = JsonConvert.DeserializeObject(content);
+        //    var distance = result.rows[0].elements[0].distance.text;
+        //    var duration = result.rows[0].elements[0].duration.text;
+
+        //    return Ok(new { Distance = distance, Duration = duration });
+        //}
+
+
+
+
+        //var getSomeStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Select(x => new StoreDTO
+        //{
+        //    Id = x.Id,
+        //    StorePrincipalId = x.StorePrincipalId,
+        //    StoreName = x.StoreName,
+        //    Address = x.Address,
+        //    ContactNumber = x.ContactNumber,
+        //    Photo = x.Photo,
+        //    CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
+
+        //})                                     .Skip((pageNum - 1) * storeNum).Take(storeNum).ToListAsync();
+        //return getSomeStores;
+
+
+
+
+        //2依類別選出商店，點選類別傳入類別ID顯示商店
+
+        [HttpGet("getStoresByCategoryId/{categoryId?}")]
 		public async Task<ActionResult<IEnumerable<StoreDTO>>> GetStores(int? categoryId)
 		{
 			if (categoryId != null)
