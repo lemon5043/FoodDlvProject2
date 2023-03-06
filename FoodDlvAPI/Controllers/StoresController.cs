@@ -94,21 +94,33 @@ namespace FoodDlvAPI.Controllers
 				getSomeStoresWithDistance.Add(store);
 			}
 
-			var getSomeStoresOrderByDistance = getSomeStoresWithDistance.OrderBy(x => x.Distance).Skip((pageNum - 1) * storeNum).Take(storeNum).ToList();
+			var getSomeStoresOrderByDistance = getSomeStoresWithDistance.Where(x => x.Distance!=-1).OrderBy(x => x.Distance).Skip((pageNum - 1) * storeNum).Take(storeNum).ToList();
 			return getSomeStoresOrderByDistance;
 		}
 
 		private async Task<int> getDistance(string storeAddress, string origin)
 		{
-			var Distance = 0;
-			var apiKey = _context.Apis.Where(x => x.Id == 1).Select(x => x.Apikey);
-			var url = $"https://maps.googleapis.com/maps/api/distancematrix/json?origins={origin}&destinations={storeAddress}&key={apiKey}&mode=driving";
+			var Distance = -1;
+			var apiKey =await _context.Apis.Where(x => x.Id == 1).Select(x => x.Apikey).FirstOrDefaultAsync();
+
+			var url = $"https://maps.googleapis.com/maps/api/distancematrix/json?origins={origin}&destinations={storeAddress}&key={apiKey}&mode=walking";
 			using var client = new HttpClient();
 			var response = await client.GetAsync(url);
 			var content = await response.Content.ReadAsStringAsync();
-			dynamic result = JsonConvert.DeserializeObject(content);
+			if (content == null)
+			{
+				return Distance;
+			}
 
-			Distance = result.rows[0].elements[0].distance.value;
+			dynamic result = JsonConvert.DeserializeObject(content);
+			if (result == null || result.rows == null || result.rows.Count == 0 || result.rows[0].elements == null || result.rows[0].elements.Count == 0 || result.rows[0].elements[0].distance == null)
+			{
+				Distance = -1;
+			}
+			else
+			{
+				Distance = result.rows[0].elements[0].distance.value;
+			}
 
 			return Distance;
 		}
@@ -122,46 +134,6 @@ namespace FoodDlvAPI.Controllers
 		{
 			return await _context.StoreCategories.ToListAsync();
 		}
-
-
-
-
-
-
-		
-
-        //public async Task<IActionResult> GetDistanceAsync(string origin, string destination)
-        //{
-        //    var url = $"https://maps.googleapis.com/maps/api/distancematrix/json?origins={origin}&destinations={destination}&key={_apiKey}&mode=driving";
-        //    using var client = new HttpClient();
-        //    var response = await client.GetAsync(url);
-        //    var content = await response.Content.ReadAsStringAsync();
-
-        //    dynamic result = JsonConvert.DeserializeObject(content);
-        //    var distance = result.rows[0].elements[0].distance.text;
-        //    var duration = result.rows[0].elements[0].duration.text;
-
-        //    return Ok(new { Distance = distance, Duration = duration });
-        //}
-
-
-
-
-        //var getSomeStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Select(x => new StoreDTO
-        //{
-        //    Id = x.Id,
-        //    StorePrincipalId = x.StorePrincipalId,
-        //    StoreName = x.StoreName,
-        //    Address = x.Address,
-        //    ContactNumber = x.ContactNumber,
-        //    Photo = x.Photo,
-        //    CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
-
-        //})                                     .Skip((pageNum - 1) * storeNum).Take(storeNum).ToListAsync();
-        //return getSomeStores;
-
-
-
 
         //2依類別選出商店，點選類別傳入類別ID顯示商店
 
@@ -212,25 +184,6 @@ namespace FoodDlvAPI.Controllers
 		[HttpGet("searchString")]
 		public async Task<ActionResult<IEnumerable<StoreDTO>>> SearchStore(string? searchString)
 		{
-
-			//var searchStores = await _context.Stores.Include(x => x.StoresCategoriesLists).ThenInclude(x => x.Category).Include(x => x.Products).
-			//			   Where(s => s.StoreName.Contains(searchString)
-			//			   || s.StoresCategoriesLists.Any(scl => scl.Category.CategoryName.Contains(searchString))
-			//			   || s.Products.Any(p => p.ProductName.Contains(searchString))).Select(x => new StoreDTO
-			//			   {
-			//				   Id = x.Id,
-			//				   StorePrincipalId = x.StorePrincipalId,
-			//				   StoreName = x.StoreName,
-			//				   Address = x.Address,
-			//				   ContactNumber = x.ContactNumber,
-			//				   Photo = x.Photo,
-
-			//				   CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
-			//			   }).ToListAsync();
-
-			//return searchStores;
-
-
 			var searchStores = await _context.Stores.Include(x => x.StoresCategoriesLists).ThenInclude(x => x.Category).Include(x => x.Products).
 						   Where(s => s.StoreName.Contains(searchString)
 						   || s.StoresCategoriesLists.Any(scl => scl.Category.CategoryName.Contains(searchString))
@@ -374,8 +327,6 @@ namespace FoodDlvAPI.Controllers
 
 
 		//6.1商店標籤新增
-
-
 
 
 		//6.2商店標籤刪除
