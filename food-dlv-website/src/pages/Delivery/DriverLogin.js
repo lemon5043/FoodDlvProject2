@@ -68,7 +68,7 @@ const DriverLogin = () => {
               {" "}
               還沒有帳號嗎?{" "}
               <Link
-                to="/delivery"
+                to="/delivery/register"
                 className="font-medium text-black hover:underline"
               >
                 註冊

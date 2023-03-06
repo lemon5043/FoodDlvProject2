@@ -63,10 +63,7 @@ namespace FoodDlvAPI.Models.Entitys
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Phone = model.Phone,
-                Gender = model.Gender,
                 BankAccount = model.BankAccount,
-                Birthday = model.Birthday,
-                Email = model.Email,
                 RegistrationTime = model.RegistrationTime,
             };
         }
@@ -82,10 +79,7 @@ namespace FoodDlvAPI.Models.Entitys
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
                 Phone = entity.Phone,
-                Gender = entity.Gender,
                 BankAccount = entity.BankAccount,
-                Birthday = entity.Birthday,
-                Email = entity.Email,
                 RegistrationTime = entity.RegistrationTime,
             };
         }

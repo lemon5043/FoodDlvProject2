@@ -20,7 +20,7 @@ const CustomLink = ({ to, children, setIcon }) => {
 
 const DriverLayout = () => {
   return (
-    <div className="flex justify-center bg-black">
+    <div className="flex h-100 justify-center bg-black">
       <div className="h-screen max-w-md bg-slate-900">
         <main style={{ minHeight: "calc(100vh - 8rem)" }}>
           <Outlet />

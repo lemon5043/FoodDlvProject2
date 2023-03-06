@@ -37,10 +37,7 @@ namespace FoodDlvAPI.Models.Repositories
                 Account = x.Account,
                 LastName = x.LastName,
                 FirstName = x.FirstName,
-                Gender = x.Gender,
-                Birthday = x.Birthday,
                 Phone = x.Phone,
-                Email = x.Email,
                 BankAccount = x.BankAccount,
                 AccountStatusId = x.AccountStatusId,
                 DriverRating = x.Orders.Average(x => x.DriverRating),
@@ -65,10 +62,7 @@ namespace FoodDlvAPI.Models.Repositories
                 Account = x.Account,
                 LastName = x.LastName,
                 FirstName = x.FirstName,
-                Gender = x.Gender,
-                Birthday = x.Birthday,
                 Phone = x.Phone,
-                Email = x.Email,
                 BankAccount = x.BankAccount,
                 AccountStatusId = x.AccountStatusId,
                 Idcard = x.Idcard,
@@ -119,8 +113,7 @@ namespace FoodDlvAPI.Models.Repositories
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (AccountExists(model.Account)) throw new Exception("此帳號已被使用，請使用其他帳號");
-                if (EmailExists(model.Email)) throw new Exception("此信箱已被使用，請使用其他信箱進行申請");
+                if (AccountExists(model.Account)) throw new Exception("此信箱已被使用，請使用其他信箱進行申請");
             }
 
             return "新增成功";
@@ -178,11 +171,6 @@ namespace FoodDlvAPI.Models.Repositories
         public bool AccountExists(string account)
         {
             return db.DeliveryDrivers.Any(e => e.Account == account);
-        }
-
-        public bool EmailExists(string email)
-        {
-            return db.DeliveryDrivers.Any(e => e.Email == email);
         }
 
         public async Task<(List<AccountStatueDTO>,
