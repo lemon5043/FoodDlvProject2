@@ -23,15 +23,15 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[APIs]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[AppealRecord]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[BenefitStandard]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[CartCustomizationItems]",
          "ObjectType": 0
       },
       {
@@ -96,10 +96,6 @@
       },
       {
          "Name": "[dbo].[MemberViolationTypes]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[OrderCustomizationItems]",
          "ObjectType": 0
       },
       {
@@ -187,7 +183,7 @@
          "ObjectType": 0
       }
    ],
-   "UiHint": "fuen25group2.FoodDelivery",
+   "UiHint": "desktop-paksetb.FoodDelivery.dbo",
    "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
