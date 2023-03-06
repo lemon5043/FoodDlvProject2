@@ -15,14 +15,8 @@ namespace FoodDlvAPI.Models.ViewModels
         public string LastName { get; set; }
         [Display(Name = "名")]
         public string FirstName { get; set; }
-        [Display(Name = "性別")]
-        public bool Gender { get; set; }
-        [Display(Name = "生日")]
-        public DateTime Birthday { get; set; }
         [Display(Name = "聯絡電話")]
         public string Phone { get; set; }
-        [Display(Name = "電子郵件")]
-        public string Email { get; set; }
         [Display(Name = "銀行帳戶")]
         public string BankAccount { get; set; }
         [Display(Name = "帳號認證狀態")]
@@ -52,10 +46,7 @@ namespace FoodDlvAPI.Models.ViewModels
                 Account = source.Account,
                 LastName = source.LastName,
                 FirstName= source.FirstName,
-                Gender = source.Gender,
-                Birthday = source.Birthday,
                 Phone = source.Phone,
-                Email = source.Email,
                 BankAccount = source.BankAccount,
                 DriverRating = source.DriverRating,
                 RegistrationTime = source.RegistrationTime,
