@@ -184,16 +184,14 @@ namespace FoodDlvAPI.Controllers
         /// <summary>
         /// 餐點送達回報紀錄，外送員工作狀態改變
         /// </summary>
-        /// <param name="orderId">訂單Id</param>
-        /// <param name="driverId">外送員Id</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        [HttpPut("{orderId}/{DriverId}")]
-        public async Task DeliveryArrive(int orderId, int driverId)
+        [HttpPut("DeliveryArrive")]
+        public async Task DeliveryArrive(DeliveryEndVM deliveryEnd)
         {
             try
             {
-                await deliveryService.MarkOrderStatus(orderId, driverId);
+                await deliveryService.MarkOrderStatus(deliveryEnd.ToDeliveryEndDTO());
             }
             catch (Exception ex)
             {

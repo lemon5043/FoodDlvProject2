@@ -1,4 +1,5 @@
-﻿using FoodDlvAPI.Models;
+﻿using FoodDlvAPI.Controllers;
+using FoodDlvAPI.Models;
 using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Models.Services.Interfaces;
 using FoodDlvAPI.Models.ViewModels;
@@ -192,7 +193,6 @@ namespace FoodDlvAPI.Models.Repositories
 
             db.SaveChanges();
         }
-
         //更新訂單狀態
         public async Task MarkOrderStatus(int orderId)
         {
@@ -215,7 +215,6 @@ namespace FoodDlvAPI.Models.Repositories
             db.Add(query);
             db.SaveChanges();
         }
-
         //外送狀態切換
         public async Task ChangeDeliveryStatus(int dirverId)
         {
@@ -284,6 +283,26 @@ namespace FoodDlvAPI.Models.Repositories
                 db.Entry(EFModel).Property(property).IsModified = true;
             }
 
+            await db.SaveChangesAsync();
+        }
+
+        public Task<string> GetKey(string APIName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task UpateOrder(DeliveryEndDTO dTO)
+        {
+            if (db.Orders == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+
+            var EFModel = dTO.ToEFModel();
+
+            string updateModel = "Milage" ;
+            
+            db.Attach(EFModel);
+
+            db.Entry(EFModel).Property(updateModel).IsModified = true;
+            
             await db.SaveChangesAsync();
         }
     }

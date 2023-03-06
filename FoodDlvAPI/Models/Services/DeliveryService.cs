@@ -1,4 +1,5 @@
-﻿using FoodDlvAPI.Models.DTOs;
+﻿using FoodDlvAPI.Controllers;
+using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Models.Services.Interfaces;
 using FoodDlvAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -30,10 +31,11 @@ namespace FoodDlvAPI.Models.Services
             return await _repository.NavigationToStore(orderId);
         }
 
-        public async Task MarkOrderStatus(int orderId, int driverId)
+        public async Task MarkOrderStatus(DeliveryEndDTO dTO)
         {
-            await _repository.MarkOrderStatus(orderId);
-            await _repository.ChangeDeliveryStatus(driverId);
+            await _repository.MarkOrderStatus(dTO.OrderId);
+            await _repository.ChangeDeliveryStatus(dTO.DriverId);
+            await _repository.UpateOrder(dTO);
         }
 
 

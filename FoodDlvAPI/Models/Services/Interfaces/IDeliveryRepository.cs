@@ -1,4 +1,5 @@
-﻿using FoodDlvAPI.Models.DTOs;
+﻿using FoodDlvAPI.Controllers;
+using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,5 +19,6 @@ namespace FoodDlvAPI.Models.Services.Interfaces
         Task<IEnumerable<DriverCancellationsDTO>> GetListAsync();
         Task UpateLocation(LocationDTO location);
         Task<string> GetKey(string APIName);
+        Task UpateOrder(DeliveryEndDTO dTO);
     }
 }
