@@ -36,16 +36,10 @@ const DriverRegister = () => {
             </p>
             <form className="mt-6">
               <InputComponent
-                text="帳號"
+                text="帳號 / email"
                 name="account"
-                type="text"
+                type="email"
                 setInput={setAccount}
-              />
-              <InputComponent
-                text="email"
-                name="email"
-                type="text"
-                setInput={setLastName}
               />
               <InputComponent
                 text="密碼"
@@ -59,11 +53,6 @@ const DriverRegister = () => {
                 type="password"
                 setInput={setEmail}
               />
-              <div className="mt-6">
-                <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-black rounded-md hover:bg-zinc-600 focus:outline-none focus:bg-zinc-600">
-                  下一步
-                </button>
-              </div>
               <InputComponent
                 text="姓"
                 name="lastName"
@@ -88,33 +77,11 @@ const DriverRegister = () => {
                 type="number"
                 setInput={setBankAccount}
               />
-              <label
-                htmlFor="gender"
-                className="block text-base font-semibold text-gray-800"
-              >
-                性別
-              </label>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-                onChange={(newGender) => setGender(newGender)}
-              >
-                <FormControlLabel
-                  value="false"
-                  control={<Radio />}
-                  label="女"
-                />
-                <FormControlLabel value="true" control={<Radio />} label="男" />
-              </RadioGroup>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DatePicker"]}>
-                  <DatePicker
-                    onChange={(newBirthday) => setBirthday(newBirthday)}
-                    label="生日"
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
+              <div className="mt-6">
+                <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-black rounded-md hover:bg-zinc-600 focus:outline-none focus:bg-zinc-600">
+                  下一步
+                </button>
+              </div>
             </form>
           </div>
         </div>
