@@ -124,6 +124,11 @@ namespace FoodDlvAPI.Controllers
             }
         }    
 
+        public IActionResult CheckOut()
+        {
+
+            return View();
+        }
 
     }
 }
