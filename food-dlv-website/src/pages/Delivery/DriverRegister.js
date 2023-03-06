@@ -1,30 +1,23 @@
 import React, { useState } from "react";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useNavigate } from "react-router";
-import InputComponent from "../../components/Delivery/inputComponent";
-
-const step1 = () => {};
+import { Label, Input } from "../../components/Delivery/form-styling";
 
 const DriverRegister = () => {
+  //*states
   const navigate = useNavigate();
   let [account, setAccount] = useState("");
   let [password, setPassword] = useState("");
   let [firstName, setFirstName] = useState("");
   let [lastName, setLastName] = useState("");
   let [phone, setPhone] = useState("");
-  let [gender, setGender] = useState(null);
   let [bankAccount, setBankAccount] = useState("");
   let [Idcard, setIdCard] = useState("");
-  let [Birthday, setBirthday] = useState(null);
-  let [Email, setEmail] = useState("");
   let [vehicleRegistration, setVehicleRegistration] = useState("");
   let [DriverLicense, setDriverLicense] = useState("");
+
+  const isMatch = (e) => {
+    return e.target.value === password;
+  };
 
   return (
     <div className="flex justify-center bg-black">
@@ -35,47 +28,56 @@ const DriverRegister = () => {
               加入我們
             </p>
             <form className="mt-6">
-              <InputComponent
-                text="帳號 / email"
-                name="account"
-                type="email"
-                setInput={setAccount}
-              />
-              <InputComponent
-                text="密碼"
-                name="password"
-                type="password"
-                setInput={setPassword}
-              />
-              <InputComponent
-                text="確認密碼"
-                name="comfirmPassword"
-                type="password"
-                setInput={setEmail}
-              />
-              <InputComponent
-                text="姓"
+              <div className="mb-2">
+                <Label htmlFor="account">email / 帳號</Label>
+                <Input
+                  autoComplete="username"
+                  name="account"
+                  type="email"
+                  onChange={(e) => setAccount(e.target.value)}
+                />
+              </div>
+              <div className="mb-2">
+                <Label htmlFor="account">密碼</Label>
+                <Input
+                  autoComplete="new-password"
+                  name="password"
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <div className="mb-2">
+                <Label htmlFor="conFirmpassword">確認密碼</Label>
+                <Input
+                  autoComplete="new-password"
+                  name="conFirmpassword"
+                  type="password"
+                  onChange={isMatch}
+                />
+              </div>
+              <Label htmlFor="lastName">姓</Label>
+              <Input
                 name="lastName"
                 type="text"
-                setInput={setLastName}
+                onChange={(e) => setLastName(e.target.value)}
               />
-              <InputComponent
-                text="名"
-                name="firstName"
+              <Label htmlFor="lastName">名</Label>
+              <Input
+                name="lastName"
                 type="text"
-                setInput={setFirstName}
+                onChange={(e) => setFirstName(e.target.value)}
               />
-              <InputComponent
-                text="手機號碼"
+              <Label htmlFor="phone">手機號碼</Label>
+              <Input
                 name="phone"
-                type="number"
-                setInput={setPhone}
+                type="text"
+                onChange={(e) => setPhone(e.target.value)}
               />
-              <InputComponent
-                text="銀行帳戶"
+              <Label htmlFor="bankAccount">銀行帳戶</Label>
+              <Input
                 name="bankAccount"
-                type="number"
-                setInput={setBankAccount}
+                type="text"
+                onChange={(e) => setBankAccount(e.target.value)}
               />
               <div className="mt-6">
                 <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-black rounded-md hover:bg-zinc-600 focus:outline-none focus:bg-zinc-600">
