@@ -16,7 +16,7 @@ const DriverLogin = () => {
     try {
       e.preventDefault();
       let response = await driverAuthService.login(account, password);
-      localStorage.setItem("user", JSON.stringify(response.data));
+      localStorage.setItem("driver", JSON.stringify(response.data));
       navigate("/delivery");
     } catch (e) {
       console.log(e);

@@ -32,7 +32,11 @@ class DriverAuthService {
   }
 
   logout() {
-    localStorage.removeItem("user");
+    localStorage.removeItem("driver");
+  }
+
+  getCurrentDriver() {
+    return JSON.parse(localStorage.getItem("driver"));
   }
 }
 
