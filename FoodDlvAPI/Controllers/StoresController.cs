@@ -24,107 +24,106 @@ namespace FoodDlvAPI.Controllers
 			_context = context;
 		}
 
-		//1列出所有商店
-		// GET: api/Stores
-		[HttpGet]
-		public async Task<ActionResult<IEnumerable<StoreDTO>>> GetStores()
-		{
-			var getAllStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Select(x => new StoreDTO
-			{
-				Id = x.Id,
-				StorePrincipalId = x.StorePrincipalId,
-				StoreName = x.StoreName,
-				Address = x.Address,
-				ContactNumber = x.ContactNumber,
-				Photo = x.Photo,
+		////1列出所有商店
+		//// GET: api/Stores
+		//[HttpGet]
+		//public async Task<ActionResult<IEnumerable<StoreDTO>>> GetStores()
+		//{
+		//	var getAllStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Select(x => new StoreDTO
+		//	{
+		//		Id = x.Id,
+		//		StorePrincipalId = x.StorePrincipalId,
+		//		StoreName = x.StoreName,
+		//		Address = x.Address,
+		//		ContactNumber = x.ContactNumber,
+		//		Photo = x.Photo,
 
 
-				CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
+		//		CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
 
-			}).ToListAsync();
-			return getAllStores;
-		}
-		//1.01列出所有商店並且分頁顯示
+		//	}).ToListAsync();
+		//	return getAllStores;
+		//}
+		////1.01列出所有商店並且分頁顯示
 
-		[HttpGet("getSomeStores")]
-		public async Task<ActionResult<IEnumerable<StoreDTO>>> GetSomeStores(int storeNum, int pageNum)
-		{
-			var getSomeStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Select(x => new StoreDTO
-			{
-				Id = x.Id,
-				StorePrincipalId = x.StorePrincipalId,
-				StoreName = x.StoreName,
-				Address = x.Address,
-				ContactNumber = x.ContactNumber,
-				Photo = x.Photo,
-
-
-				CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
-
-			}).Skip((pageNum - 1) * storeNum).Take(storeNum).ToListAsync();
-			return getSomeStores;
-		}
+		//[HttpGet("getSomeStores")]
+		//public async Task<ActionResult<IEnumerable<StoreDTO>>> GetSomeStores(int storeNum, int pageNum)
+		//{
+		//	var getSomeStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Select(x => new StoreDTO
+		//	{
+		//		Id = x.Id,
+		//		StorePrincipalId = x.StorePrincipalId,
+		//		StoreName = x.StoreName,
+		//		Address = x.Address,
+		//		ContactNumber = x.ContactNumber,
+		//		Photo = x.Photo,
 
 
-		//1.02列出所有商店並且按照距離分頁顯示
-		//
-		[HttpGet("getSomeStoresIfIMAt/{origin}")]
-		public async Task<ActionResult<IEnumerable<Store1DTO>>> GetSomeStoresIfIMAt(int pageNum, int storeNum, string origin)
-		{
-			var getSomeStores = await _context.Stores
-				.Include(s => s.StoresCategoriesLists)
-				.ThenInclude(x => x.Category)
-				.Select(x => new Store1DTO
-				{
-					Id = x.Id,
-					StorePrincipalId = x.StorePrincipalId,
-					StoreName = x.StoreName,
-					Address = x.Address,
-					ContactNumber = x.ContactNumber,
-					Photo = x.Photo,
-					CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName),
-				})
-				.ToListAsync();
+		//		CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
 
-			var getSomeStoresWithDistance = new List<Store1DTO>();
-			foreach (var store in getSomeStores)
-			{
-				var distance = await getDistance(store.Address, origin);
-				store.Distance = distance;
-				getSomeStoresWithDistance.Add(store);
-			}
+		//	}).Skip((pageNum - 1) * storeNum).Take(storeNum).ToListAsync();
+		//	return getSomeStores;
+		//}
 
-			var getSomeStoresOrderByDistance = getSomeStoresWithDistance.Where(x => x.Distance!=-1).OrderBy(x => x.Distance).Skip((pageNum - 1) * storeNum).Take(storeNum).ToList();
-			return getSomeStoresOrderByDistance;
-		}
 
-		private async Task<int> getDistance(string storeAddress, string origin)
-		{
-			var Distance = -1;
-			var apiKey =await _context.Apis.Where(x => x.Id == 1).Select(x => x.Apikey).FirstOrDefaultAsync();
+		////1.02列出所有商店並且按照距離分頁顯示
+		////
+		//[HttpGet("getSomeStoresIfIMAt/{origin}")]
+		//public async Task<ActionResult<IEnumerable<Store1DTO>>> GetSomeStoresIfIMAt(int pageNum, int storeNum, string origin)
+		//{
+		//	var getSomeStores = await _context.Stores
+		//		.Include(s => s.StoresCategoriesLists)
+		//		.ThenInclude(x => x.Category)
+		//		.Select(x => new Store1DTO
+		//		{
+		//			Id = x.Id,
+		//			StorePrincipalId = x.StorePrincipalId,
+		//			StoreName = x.StoreName,
+		//			Address = x.Address,
+		//			ContactNumber = x.ContactNumber,
+		//			Photo = x.Photo,
+		//			CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName),
+		//		})
+		//		.ToListAsync();
 
-			var url = $"https://maps.googleapis.com/maps/api/distancematrix/json?origins={origin}&destinations={storeAddress}&key={apiKey}&mode=walking";
-			using var client = new HttpClient();
-			var response = await client.GetAsync(url);
-			var content = await response.Content.ReadAsStringAsync();
-			if (content == null)
-			{
-				return Distance;
-			}
+		//	var getSomeStoresWithDistance = new List<Store1DTO>();
+		//	foreach (var store in getSomeStores)
+		//	{
+		//		var distance = await getDistance(store.Address, origin);
+		//		store.Distance = distance;
+		//		getSomeStoresWithDistance.Add(store);
+		//	}
 
-			dynamic result = JsonConvert.DeserializeObject(content);
-			if (result == null || result.rows == null || result.rows.Count == 0 || result.rows[0].elements == null || result.rows[0].elements.Count == 0 || result.rows[0].elements[0].distance == null)
-			{
-				Distance = -1;
-			}
-			else
-			{
-				Distance = result.rows[0].elements[0].distance.value;
-			}
+		//	var getSomeStoresOrderByDistance = getSomeStoresWithDistance.Where(x => x.Distance!=-1).OrderBy(x => x.Distance).Skip((pageNum - 1) * storeNum).Take(storeNum).ToList();
+		//	return getSomeStoresOrderByDistance;
+		//}
 
-			return Distance;
-		}
+		//private async Task<int> getDistance(string storeAddress, string origin)
+		//{
+		//	var Distance = -1;
+		//	var apiKey =await _context.Apis.Where(x => x.Id == 1).Select(x => x.Apikey).FirstOrDefaultAsync();
 
+		//	var url = $"https://maps.googleapis.com/maps/api/distancematrix/json?origins={origin}&destinations={storeAddress}&key={apiKey}&mode=walking";
+		//	using var client = new HttpClient();
+		//	var response = await client.GetAsync(url);
+		//	var content = await response.Content.ReadAsStringAsync();
+		//	if (content == null)
+		//	{
+		//		return Distance;
+		//	}
+
+		//	dynamic result = JsonConvert.DeserializeObject(content);
+		//	if (result == null || result.rows == null || result.rows.Count == 0 || result.rows[0].elements == null || result.rows[0].elements.Count == 0 || result.rows[0].elements[0].distance == null)
+		//	{
+		//		Distance = -1;
+		//	}
+		//	else
+		//	{
+		//		Distance = result.rows[0].elements[0].distance.value;
+		//	}
+
+		//	return Distance;
+		//}
 
 
 		//1.1列出所有類別
@@ -135,48 +134,133 @@ namespace FoodDlvAPI.Controllers
 			return await _context.StoreCategories.ToListAsync();
 		}
 
-        //2依類別選出商店，點選類別傳入類別ID顯示商店
+        //整合全部條件顯示店家
 
-        [HttpGet("getStoresByCategoryId/{categoryId?}")]
-		public async Task<ActionResult<IEnumerable<StoreDTO>>> GetStores(int? categoryId)
-		{
-			if (categoryId != null)
+       
+        [HttpGet("getSomeStoresIfIMAt/{origin}/{categoryId?}")]
+        public async Task<ActionResult<IEnumerable<Store1DTO>>> GetSomeThisCategoryOfStoresIfIMAt(int pageNum, int storeNum, string origin, int? categoryId)
+        {
+            List<Store1DTO> getSomeStores;
+
+			
+            if (categoryId != null)
+            {
+                getSomeStores = await _context.Stores
+                    .Include(s => s.StoresCategoriesLists)
+                    .ThenInclude(x => x.Category)
+                    .Where(x => x.StoresCategoriesLists.Any(scl => scl.CategoryId == categoryId))
+                    .Select(x => new Store1DTO
+                    {
+                        Id = x.Id,
+                        StorePrincipalId = x.StorePrincipalId,
+                        StoreName = x.StoreName,
+                        Address = x.Address,
+                        ContactNumber = x.ContactNumber,
+                        Photo = x.Photo,
+                        CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName),
+                    })
+                    .ToListAsync();
+            }
+            else
+            {
+                getSomeStores = await _context.Stores
+                    .Include(s => s.StoresCategoriesLists)
+                    .ThenInclude(x => x.Category)
+                    .Select(x => new Store1DTO
+                    {
+                        Id = x.Id,
+                        StorePrincipalId = x.StorePrincipalId,
+                        StoreName = x.StoreName,
+                        Address = x.Address,
+                        ContactNumber = x.ContactNumber,
+                        Photo = x.Photo,
+                        CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName),
+                    })
+                    .ToListAsync();
+            }
+
+
+			var getSomeStoresWithDistance = new List<Store1DTO>();
+			foreach (var store in getSomeStores)
 			{
-				var getStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Where(x => x.StoresCategoriesLists.Any(scl => scl.CategoryId == categoryId)).Select(x => new StoreDTO
-				{
-					Id = x.Id,
-					StorePrincipalId = x.StorePrincipalId,
-					StoreName = x.StoreName,
-					Address = x.Address,
-					ContactNumber = x.ContactNumber,
-					Photo = x.Photo,
-
-					CategoryName = x.StoresCategoriesLists
-				  .Where(scl => scl.CategoryId == categoryId)
-				  .Select(scl => scl.Category.CategoryName)
-				})
-				  .ToListAsync();
-
-				return getStores;
+				var distance = await getDistance(store.Address, origin);
+				store.Distance = distance;
+				getSomeStoresWithDistance.Add(store);
 			}
-			else
-			{
-				var getAllStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Select(x => new StoreDTO
-				{
-					Id = x.Id,
-					StorePrincipalId = x.StorePrincipalId,
-					StoreName = x.StoreName,
-					Address = x.Address,
-					ContactNumber = x.ContactNumber,
-					Photo = x.Photo,
 
-
-					CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
-
-				}).ToListAsync();
-				return getAllStores;
-			}
+			var getSomeStoresOrderByDistance = getSomeStoresWithDistance.Where(x => x.Distance != -1).OrderBy(x => x.Distance).Skip((pageNum - 1) * storeNum).Take(storeNum).ToList();
+			return getSomeStoresOrderByDistance;
 		}
+
+        private async Task<int> getDistance(string storeAddress, string origin)
+        {
+            var Distance = -1;
+            var apiKey = await _context.Apis.Where(x => x.Id == 1).Select(x => x.Apikey).FirstOrDefaultAsync();
+
+            var url = $"https://maps.googleapis.com/maps/api/distancematrix/json?origins={origin}&destinations={storeAddress}&key={apiKey}&mode=walking";
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+            if (content == null)
+            {
+                return Distance;
+            }
+
+            dynamic result = JsonConvert.DeserializeObject(content);
+            if (result == null || result.rows == null || result.rows.Count == 0 || result.rows[0].elements == null || result.rows[0].elements.Count == 0 || result.rows[0].elements[0].distance == null)
+            {
+                Distance = -1;
+            }
+            else
+            {
+                Distance = result.rows[0].elements[0].distance.value;
+            }
+
+            return Distance;
+        }
+
+
+
+  //      //2依類別選出商店，點選類別傳入類別ID顯示商店
+
+  //      [HttpGet("getStoresByCategoryId/{categoryId?}")]
+		//public async Task<ActionResult<IEnumerable<StoreDTO>>> GetStores(int? categoryId)
+		//{
+		//	if (categoryId != null)
+		//	{
+		//		var getStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Where(x => x.StoresCategoriesLists.Any(scl => scl.CategoryId == categoryId)).Select(x => new StoreDTO
+		//		{
+		//			Id = x.Id,
+		//			StorePrincipalId = x.StorePrincipalId,
+		//			StoreName = x.StoreName,
+		//			Address = x.Address,
+		//			ContactNumber = x.ContactNumber,
+		//			Photo = x.Photo,
+
+		//			CategoryName = x.StoresCategoriesLists.Select(scl => scl.Category.CategoryName)
+		//		})
+		//		  .ToListAsync();
+
+		//		return getStores;
+		//	}
+		//	else
+		//	{
+		//		var getAllStores = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Select(x => new StoreDTO
+		//		{
+		//			Id = x.Id,
+		//			StorePrincipalId = x.StorePrincipalId,
+		//			StoreName = x.StoreName,
+		//			Address = x.Address,
+		//			ContactNumber = x.ContactNumber,
+		//			Photo = x.Photo,
+
+
+		//			CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
+
+		//		}).ToListAsync();
+		//		return getAllStores;
+		//	}
+		//}
 
 
 
