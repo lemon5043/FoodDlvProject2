@@ -20,10 +20,11 @@ namespace FoodDlvAPI.Models
 
         public virtual DbSet<AccountAddress> AccountAddresses { get; set; }
         public virtual DbSet<AccountStatue> AccountStatues { get; set; }
+        public virtual DbSet<Api> Apis { get; set; }
         public virtual DbSet<AppealRecord> AppealRecords { get; set; }
         public virtual DbSet<BenefitStandard> BenefitStandards { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
-        public virtual DbSet<CartCustomizationItem> CartCustomizationItems { get; set; }
+        public virtual DbSet<CartDetail> CartDetails { get; set; }
         public virtual DbSet<CommonReply> CommonReplies { get; set; }
         public virtual DbSet<ComplaintStatus> ComplaintStatuses { get; set; }
         public virtual DbSet<ComplaintType> ComplaintTypes { get; set; }
@@ -38,14 +39,13 @@ namespace FoodDlvAPI.Models
         public virtual DbSet<MemberViolationRecord> MemberViolationRecords { get; set; }
         public virtual DbSet<MemberViolationType> MemberViolationTypes { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<OrderAssItem> OrderAssItems { get; set; }
-        public virtual DbSet<OrderCustomizationItem> OrderCustomizationItems { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<OrderSchedule> OrderSchedules { get; set; }
         public virtual DbSet<OrderStatue> OrderStatues { get; set; }
         public virtual DbSet<Pay> Pays { get; set; }
         public virtual DbSet<ProcessingStatue> ProcessingStatues { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductCustomizationItem> ProductCustomizationItems { get; set; }
         public virtual DbSet<Qa> Qas { get; set; }
         public virtual DbSet<Qacategory> Qacategories { get; set; }
         public virtual DbSet<Staff> Staffs { get; set; }
@@ -60,7 +60,6 @@ namespace FoodDlvAPI.Models
         public virtual DbSet<StoreWallet> StoreWallets { get; set; }
         public virtual DbSet<StoresCategoriesList> StoresCategoriesLists { get; set; }
 
-
         //由這裡讀取 appsettings.json 定義的 database 連線名稱及帳密，如此帳密資料就不會被外洩
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -74,8 +73,6 @@ namespace FoodDlvAPI.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.UseCollation("Chinese_Taiwan_Stroke_CI_AS");
-
             modelBuilder.Entity<AccountAddress>(entity =>
             {
                 entity.ToTable("AccountAddress");
@@ -96,6 +93,21 @@ namespace FoodDlvAPI.Models
                 entity.Property(e => e.Status)
                     .IsRequired()
                     .HasMaxLength(30);
+            });
+
+            modelBuilder.Entity<Api>(entity =>
+            {
+                entity.ToTable("APIs");
+
+                entity.Property(e => e.Apikey)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnName("APIKey");
+
+                entity.Property(e => e.Apiname)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("APIName");
             });
 
             modelBuilder.Entity<AppealRecord>(entity =>
@@ -135,34 +147,30 @@ namespace FoodDlvAPI.Models
                 entity.HasOne(d => d.Member)
                     .WithMany(p => p.Carts)
                     .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Carts_Members");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Carts)
-                    .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Carts_Products");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Carts)
                     .HasForeignKey(d => d.StoreId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Carts_Stores");
             });
 
-            modelBuilder.Entity<CartCustomizationItem>(entity =>
+            modelBuilder.Entity<CartDetail>(entity =>
             {
                 entity.HasOne(d => d.Cart)
-                    .WithMany(p => p.CartCustomizationItems)
+                    .WithMany(p => p.CartDetails)
                     .HasForeignKey(d => d.CartId)
-                    .HasConstraintName("FK_CartCustomizationItems_Carts");
+                    .HasConstraintName("FK_CartDetails_Carts");
 
-                entity.HasOne(d => d.CustomizationItem)
-                    .WithMany(p => p.CartCustomizationItems)
-                    .HasForeignKey(d => d.CustomizationItemId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CartCustomizationItems_CustomizationItems");
+                entity.HasOne(d => d.Item)
+                    .WithMany(p => p.CartDetails)
+                    .HasForeignKey(d => d.ItemId)
+                    .HasConstraintName("FK_CartDetails_ProductCustomizationItems");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.CartDetails)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_CartDetails_Products");
             });
 
             modelBuilder.Entity<CommonReply>(entity =>
@@ -224,8 +232,6 @@ namespace FoodDlvAPI.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Birthday).HasColumnType("date");
-
                 entity.Property(e => e.DriverLicense)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -238,26 +244,17 @@ namespace FoodDlvAPI.Models
                     .IsRequired()
                     .HasMaxLength(20);
 
-                entity.Property(e => e.IDCard)
+                entity.Property(e => e.Idcard)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .HasColumnName("IDCard");
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
                     .HasMaxLength(20);
 
-                entity.Property(e => e.Latitude)
-                    .HasMaxLength(50)
-                    .HasColumnName("latitude");
-
-                entity.Property(e => e.Longitude)
-                    .HasMaxLength(50)
-                    .HasColumnName("longitude");
-
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.Phone)
                     .IsRequired()
@@ -366,8 +363,6 @@ namespace FoodDlvAPI.Models
 
                 entity.Property(e => e.AccountStatusId).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.Birthday).HasColumnType("date");
-
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -382,7 +377,7 @@ namespace FoodDlvAPI.Models
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.Phone)
                     .IsRequired()
@@ -463,37 +458,12 @@ namespace FoodDlvAPI.Models
                     .HasConstraintName("FK_Orders_Stores");
             });
 
-            modelBuilder.Entity<OrderAssItem>(entity =>
-            {
-                entity.HasOne(d => d.CustomizationItem)
-                    .WithMany(p => p.OrderAssItems)
-                    .HasForeignKey(d => d.CustomizationItemId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderAssItems_CustomizationItems");
-
-                entity.HasOne(d => d.OrderDetail)
-                    .WithMany(p => p.OrderAssItems)
-                    .HasForeignKey(d => d.OrderDetailId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderAssItems_OrderDetails");
-            });
-
-            modelBuilder.Entity<OrderCustomizationItem>(entity =>
-            {
-                entity.Property(e => e.ItemName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.HasOne(d => d.Prouct)
-                    .WithMany(p => p.OrderCustomizationItems)
-                    .HasForeignKey(d => d.ProuctId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderCustomizationItems_Products");
-            });
-
             modelBuilder.Entity<OrderDetail>(entity =>
             {
-                entity.Property(e => e.CustomizationList).HasMaxLength(200);
+                entity.HasOne(d => d.Item)
+                    .WithMany(p => p.OrderDetails)
+                    .HasForeignKey(d => d.ItemId)
+                    .HasConstraintName("FK_OrderDetails_ProductCustomizationItems");
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderDetails)
@@ -534,8 +504,6 @@ namespace FoodDlvAPI.Models
 
             modelBuilder.Entity<Pay>(entity =>
             {
-                entity.Property(e => e.SettlementMonth).HasColumnType("date");
-
                 entity.HasOne(d => d.DeliveryDrivers)
                     .WithMany(p => p.Pays)
                     .HasForeignKey(d => d.DeliveryDriversId)
@@ -552,6 +520,8 @@ namespace FoodDlvAPI.Models
 
             modelBuilder.Entity<Product>(entity =>
             {
+                entity.Property(e => e.Photo).HasMaxLength(50);
+
                 entity.Property(e => e.ProductContent).HasMaxLength(100);
 
                 entity.Property(e => e.ProductName)
@@ -567,6 +537,19 @@ namespace FoodDlvAPI.Models
                     .HasForeignKey(d => d.StoreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProductInformations_Stores");
+            });
+
+            modelBuilder.Entity<ProductCustomizationItem>(entity =>
+            {
+                entity.Property(e => e.ItemName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.Prouct)
+                    .WithMany(p => p.ProductCustomizationItems)
+                    .HasForeignKey(d => d.ProuctId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrderCustomizationItems_Products");
             });
 
             modelBuilder.Entity<Qa>(entity =>
@@ -603,9 +586,7 @@ namespace FoodDlvAPI.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Birthday)
-                    .HasColumnType("date")
-                    .HasColumnName("birthday");
+                entity.Property(e => e.Birthday).HasColumnName("birthday");
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -626,8 +607,6 @@ namespace FoodDlvAPI.Models
 
                 entity.Property(e => e.Photo).HasMaxLength(256);
 
-                entity.Property(e => e.RegistrationTime).HasColumnType("date");
-
                 entity.Property(e => e.Role)
                     .IsRequired()
                     .HasMaxLength(20)
@@ -647,6 +626,8 @@ namespace FoodDlvAPI.Models
                 entity.Property(e => e.ContactNumber)
                     .IsRequired()
                     .HasMaxLength(10);
+
+                entity.Property(e => e.Photo).HasMaxLength(50);
 
                 entity.Property(e => e.StoreName)
                     .IsRequired()
@@ -734,8 +715,6 @@ namespace FoodDlvAPI.Models
 
                 entity.Property(e => e.AccountStatusId).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.Birthday).HasColumnType("date");
-
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -750,7 +729,7 @@ namespace FoodDlvAPI.Models
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.Phone)
                     .IsRequired()

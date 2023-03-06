@@ -32,7 +32,7 @@ namespace FoodDlvAPI.EFModels
 
         public string VehicleRegistration { get; set; }
 
-        public DateTime Birthday { get; set; }
+        public DateOnly Birthday { get; set; }
 
         public string Email { get; set; }
 

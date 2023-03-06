@@ -26,6 +26,8 @@ namespace FoodDlvAPI.Models
         public string Address { get; set; }
         public string ContactNumber { get; set; }
         public string Photo { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
 
         public virtual StorePrincipal StorePrincipal { get; set; }
         public virtual ICollection<Cart> Carts { get; set; }

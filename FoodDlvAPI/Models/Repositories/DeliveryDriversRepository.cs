@@ -45,7 +45,7 @@ namespace FoodDlvAPI.Models.Repositories
                 AccountStatusId = x.AccountStatusId,
                 DriverRating = x.Orders.Average(x => x.DriverRating),
                 RegistrationTime = x.RegistrationTime,
-                Idcard = x.IDCard,
+                Idcard = x.Idcard,
                 VehicleRegistration = x.VehicleRegistration,
                 DriverLicense = x.DriverLicense,
             }).FirstOrDefaultAsync(m => m.Id == id);
@@ -71,7 +71,7 @@ namespace FoodDlvAPI.Models.Repositories
                 Email = x.Email,
                 BankAccount = x.BankAccount,
                 AccountStatusId = x.AccountStatusId,
-                Idcard = x.IDCard,
+                Idcard = x.Idcard,
                 VehicleRegistration = x.VehicleRegistration,
                 DriverLicense = x.DriverLicense,
             }).FirstOrDefaultAsync(m => m.Id == id);
@@ -95,7 +95,7 @@ namespace FoodDlvAPI.Models.Repositories
 
                 if (idCard != null)
                 {
-                    EFModel.IDCard = idCard;
+                    EFModel.Idcard = idCard;
                     //updateModel.Add("Idcard");
                 }
                 if (VehicleRegistration != null)
@@ -139,7 +139,7 @@ namespace FoodDlvAPI.Models.Repositories
 
                 if (idCard != null)
                 {
-                    EFModel.IDCard = idCard;
+                    EFModel.Idcard = idCard;
                     updateModel.Add("IdCard");
                 }
                 if (VehicleRegistration != null)

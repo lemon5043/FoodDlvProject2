@@ -23,16 +23,16 @@ namespace FoodDlvAPI.Models
         public string Phone { get; set; }
         public bool Gender { get; set; }
         public string BankAccount { get; set; }
-        public string IDCard { get; set; }
+        public string Idcard { get; set; }
         public DateTime RegistrationTime { get; set; }
         public string VehicleRegistration { get; set; }
-        public DateTime Birthday { get; set; }
+        public DateOnly Birthday { get; set; }
         public string Email { get; set; }
         public string Account { get; set; }
         public string Password { get; set; }
         public string DriverLicense { get; set; }
-        public string Longitude { get; set; }
-        public string Latitude { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
 
         public virtual AccountStatue AccountStatus { get; set; }
         public virtual DeliveryDriverWorkStatus WorkStatuse { get; set; }

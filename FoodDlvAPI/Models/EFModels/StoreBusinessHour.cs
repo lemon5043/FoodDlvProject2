@@ -9,8 +9,8 @@ namespace FoodDlvAPI.Models
     {
         public int Id { get; set; }
         public int StoreId { get; set; }
-        public TimeSpan OpeningTime { get; set; }
-        public TimeSpan ClosingTime { get; set; }
+        public TimeOnly OpeningTime { get; set; }
+        public TimeOnly ClosingTime { get; set; }
         public int OpeningDays { get; set; }
 
         public virtual Store Store { get; set; }

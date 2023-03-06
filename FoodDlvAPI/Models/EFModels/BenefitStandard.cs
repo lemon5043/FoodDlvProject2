@@ -18,10 +18,10 @@ namespace FoodDlvAPI.Models
         public int Bouns3 { get; set; }
         public double HolidayBouns { get; set; }
         public double RushHoursBouns { get; set; }
-        public TimeSpan RushHoursStart1 { get; set; }
-        public TimeSpan RushHoursStart2 { get; set; }
-        public TimeSpan RushHoursEnd1 { get; set; }
-        public TimeSpan RushHoursEnd2 { get; set; }
+        public TimeOnly RushHoursStart1 { get; set; }
+        public TimeOnly RushHoursStart2 { get; set; }
+        public TimeOnly RushHoursEnd1 { get; set; }
+        public TimeOnly RushHoursEnd2 { get; set; }
         public bool Selected { get; set; }
     }
 }

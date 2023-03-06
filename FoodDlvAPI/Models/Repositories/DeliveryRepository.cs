@@ -286,9 +286,15 @@ namespace FoodDlvAPI.Models.Repositories
             await db.SaveChangesAsync();
         }
 
-        public Task<string> GetKey(string APIName)
-        {
-            throw new NotImplementedException();
+        public async Task<string> GetKey(string APIName)
+        {          
+            if (db.Apis == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+
+            var apiKey = await db.Apis.Where(x => x.Apiname == APIName).FirstOrDefaultAsync();
+
+            if (apiKey == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+
+            return apiKey.Apikey;
         }
 
         public async Task UpateOrder(DeliveryEndDTO dTO)

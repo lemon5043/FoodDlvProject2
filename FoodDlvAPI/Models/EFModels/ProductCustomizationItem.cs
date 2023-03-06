@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace FoodDlvAPI.Models
 {
-    public partial class OrderCustomizationItem
+    public partial class ProductCustomizationItem
     {
-        public OrderCustomizationItem()
+        public ProductCustomizationItem()
         {
-            CartCustomizationItems = new HashSet<CartCustomizationItem>();
-            OrderAssItems = new HashSet<OrderAssItem>();
+            CartDetails = new HashSet<CartDetail>();
+            OrderDetails = new HashSet<OrderDetail>();
         }
 
         public int Id { get; set; }
@@ -19,7 +19,7 @@ namespace FoodDlvAPI.Models
         public int UnitPrice { get; set; }
 
         public virtual Product Prouct { get; set; }
-        public virtual ICollection<CartCustomizationItem> CartCustomizationItems { get; set; }
-        public virtual ICollection<OrderAssItem> OrderAssItems { get; set; }
+        public virtual ICollection<CartDetail> CartDetails { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

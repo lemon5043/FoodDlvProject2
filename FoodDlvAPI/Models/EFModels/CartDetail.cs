@@ -5,14 +5,17 @@ using System.Collections.Generic;
 
 namespace FoodDlvAPI.Models
 {
-    public partial class CartCustomizationItem
+    public partial class CartDetail
     {
         public int Id { get; set; }
-        public int CustomizationItemId { get; set; }
+        public int IdentifyNum { get; set; }
+        public long ProductId { get; set; }
+        public int ItemId { get; set; }
+        public int Qty { get; set; }
         public long CartId { get; set; }
-        public int Count { get; set; }
 
         public virtual Cart Cart { get; set; }
-        public virtual OrderCustomizationItem CustomizationItem { get; set; }
+        public virtual ProductCustomizationItem Item { get; set; }
+        public virtual Product Product { get; set; }
     }
 }
