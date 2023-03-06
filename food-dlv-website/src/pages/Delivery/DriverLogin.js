@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import Bike from "../../assets/images/delivery/bike.svg";
+import { Label, Input } from "../../components/Delivery/form-styling";
 
 const DriverLogin = () => {
   // navigate 是控制重新導向的東西
@@ -27,29 +28,21 @@ const DriverLogin = () => {
           <div className=" w-full px-6 m-auto rounded-md max-w-md">
             <form className="mt-6">
               <div className="mb-2">
-                <label
-                  htmlFor="account"
-                  className="block text-base font-semibold text-gray-800"
-                >
-                  帳號
-                </label>
-                <input
+                <Label htmlFor="account">email / 帳號</Label>
+                <Input
+                  autoComplete="username"
                   name="account"
                   type="email"
-                  className="block w-full px-4 py-2 mt-2 text-neutral-700 bg-white border rounded-md focus:border-neutral-400 focus:ring-neutral-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                  onChange={(e) => setAccount(e.target.value)}
                 />
               </div>
               <div className="mb-2">
-                <label
-                  htmlFor="password"
-                  className="block text-base font-semibold text-gray-800"
-                >
-                  密碼
-                </label>
-                <input
+                <Label htmlFor="password">密碼</Label>
+                <Input
+                  autoComplete="password"
                   name="password"
                   type="password"
-                  className="block w-full px-4 py-2 mt-2 text-neutral-700 bg-white border rounded-md focus:border-neutral-400 focus:ring-neutral-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <Link to="/" className="text-sm text-neutral-600 hover:underline">
