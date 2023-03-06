@@ -53,7 +53,7 @@ namespace FoodDlvAPI.Controllers
 		[HttpPost("login")]
 		public async Task<ActionResult<string>> Login(MemberLoginVM model)
 		{
-			LoginResponse response = await memberservice.Login(model.Account, model.Password);
+            MemberLoginresponse response = await memberservice.Login(model.Account, model.Password);
 
 			if (response.IsSuccess)
 			{
@@ -66,7 +66,7 @@ namespace FoodDlvAPI.Controllers
 
 			return response.ErrorMessage;
 		}
-		private string CreateToken(LoginResponse response)
+		private string CreateToken(MemberLoginresponse response)
 		{
 			List<Claim> claims = new List<Claim>
 			{

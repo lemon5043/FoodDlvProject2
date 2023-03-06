@@ -48,8 +48,8 @@ namespace FoodDlvAPI.Models.Services
             string encryptedPwd = HashUtility.ToSHA256(password, DeliveryDriverEntity.SALT);
 
             return (String.CompareOrdinal(Driver.Password, encryptedPwd) == 0)
-                ? LoginResponse.Success()
-                : LoginResponse.Fail("帳密有誤");
+                 ? LoginResponse.Success(Driver.Id, Driver.LastName + Driver.FirstName, Driver.Password)
+                 : LoginResponse.Fail("帳密有誤");
         }
 
         public DeliveryDriverEntity GetByAccount(string account)

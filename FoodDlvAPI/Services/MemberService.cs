@@ -30,20 +30,20 @@ namespace FoodDlvAPI.Services
 
 			return await _repository.EditAsync(model);
 		}
-		public async Task<LoginResponse> Login(string account, string password)
+		public async Task<MemberLoginresponse> Login(string account, string password)
 		{
 			MemberRegisterDto member = _repository.Load(account);
 
 			if (member == null)
 			{
-				return LoginResponse.Fail("帳密有誤");
+				return MemberLoginresponse.Fail("帳密有誤");
 			}
 
 			string encryptedPW = HashUtility.ToSHA256(password, MemberRegisterDto.SALT);
 
 			return (String.CompareOrdinal(member.Password, encryptedPW) == 0)
-				? LoginResponse.Success(member.Id, member.LastName+member.FirstName, member.Password)
-				: LoginResponse.Fail("帳密有誤");
+				? MemberLoginresponse.Success(member.Id, member.LastName+member.FirstName, member.Password)
+				: MemberLoginresponse.Fail("帳密有誤");
 		}
 	}
 }
