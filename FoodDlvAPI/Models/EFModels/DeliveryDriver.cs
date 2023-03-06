@@ -26,7 +26,7 @@ namespace FoodDlvAPI.Models
         public string Idcard { get; set; }
         public DateTime RegistrationTime { get; set; }
         public string VehicleRegistration { get; set; }
-        public DateOnly Birthday { get; set; }
+        public DateTime Birthday { get; set; }
         public string Email { get; set; }
         public string Account { get; set; }
         public string Password { get; set; }

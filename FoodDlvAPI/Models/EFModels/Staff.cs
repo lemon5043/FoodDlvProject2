@@ -14,9 +14,9 @@ namespace FoodDlvAPI.Models
         public string EncryptedPassword { get; set; }
         public string Title { get; set; }
         public string Role { get; set; }
-        public DateOnly RegistrationTime { get; set; }
+        public DateTime RegistrationTime { get; set; }
         public string Photo { get; set; }
         public string Email { get; set; }
-        public DateOnly Birthday { get; set; }
+        public DateTime Birthday { get; set; }
     }
 }

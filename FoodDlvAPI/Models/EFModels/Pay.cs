@@ -13,7 +13,7 @@ namespace FoodDlvAPI.Models
         public int TotalMilage { get; set; }
         public int Bouns { get; set; }
         public int TotalPay { get; set; }
-        public DateOnly SettlementMonth { get; set; }
+        public DateTime SettlementMonth { get; set; }
 
         public virtual DeliveryDriver DeliveryDrivers { get; set; }
     }

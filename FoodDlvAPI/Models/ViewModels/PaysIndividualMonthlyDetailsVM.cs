@@ -20,7 +20,7 @@ namespace FoodDlvAPI.Models.ViewModels
         [Display(Name = "實付薪資總額")]
         public int TotalPay { get; set; }
         [Display(Name = "結算月份")]
-        public DateOnly SettlementMonth { get; set; }
+        public DateTime SettlementMonth { get; set; }
     }
 
     public static class PaysIndividualMonthlyDetailsVMExts

@@ -43,7 +43,7 @@ namespace FoodDlvAPI.Models.ViewModels
         [Required(ErrorMessage = "請輸入{0}")]
         [Display(Name = "生日")]
         [DateNowAttribute(ErrorMessage = "{0}不可大於今日")]
-        public DateOnly Birthday { get; set; }
+        public DateTime Birthday { get; set; }
 
         [Display(Name = "電子郵件")]
         [EmailAddress(ErrorMessage = "輸入的{0}格式不正確")]
