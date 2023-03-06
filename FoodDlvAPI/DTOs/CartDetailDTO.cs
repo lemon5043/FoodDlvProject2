@@ -13,15 +13,15 @@ namespace FoodDlvAPI.DTOs
         public int IdentifyNum { get; set; }
         public long ProductId { get; set; }
         public string? ProductName { get; set; }        
-        public int ItemId { get; set; }
-        public List<int> ItemsId { get; set; }
+        public int? ItemId { get; set; }
+        public List<int?> ItemsId { get; set; }
         public string? ItemName { get; set; }       
         public int Qty { get; set; }      
         public long CartId { get; set; }
         public int SubTotal { get; set; }
             
         //Constructors
-        public CartDetailDTO (int id, int identifyNum, long productId, int itemId, int qty, long cartId)
+        public CartDetailDTO (int id, int identifyNum, long productId, int? itemId, int qty, long cartId)
         {
             Id = id;
             IdentifyNum = identifyNum;

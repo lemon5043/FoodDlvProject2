@@ -43,7 +43,7 @@ namespace FoodDlvAPI.Interfaces
         /// 監聽"加入購物車", 觸發商品客製化識別號碼的選擇器
         /// </summary>
         /// <returns></returns>
-        int IdentifyNumSelector();
+        int IdentifyNumSelector(long cartId);
 
         /// <summary>
         /// 讀取目前購物車的詳細內容

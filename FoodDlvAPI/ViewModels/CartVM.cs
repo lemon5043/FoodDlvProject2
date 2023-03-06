@@ -37,7 +37,7 @@ namespace FoodDlvAPI.ViewModels
         public int RD_StoreId { get; set; }
         public long RD_ProductId { get; set; }
         public int RD_identifyNum { get; set; }
-        public List<int> RD_ItemId { get; set; }                
+        public List<int?>? RD_ItemId { get; set; }                
         public int RD_Qty { get; set; } = 1;
     }
 

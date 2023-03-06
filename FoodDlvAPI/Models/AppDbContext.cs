@@ -147,6 +147,7 @@ namespace FoodDlvAPI.Models
                 entity.HasOne(d => d.Item)
                     .WithMany(p => p.CartDetails)
                     .HasForeignKey(d => d.ItemId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_CartDetails_ProductCustomizationItems");
 
                 entity.HasOne(d => d.Product)

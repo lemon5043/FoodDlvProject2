@@ -16,7 +16,7 @@ namespace FoodDlvAPI.ViewModels
         public string? ProductName { get; set; }
 
         [Display(Name = "客製化選項編號")]
-        public List<int>? ItemsId { get; set; }
+        public List<int?>? ItemsId { get; set; }
 
         [Display(Name = "客製化內容")]
         public string? ItemName { get; set; }

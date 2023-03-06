@@ -3,6 +3,7 @@ using FoodDlvAPI.Interfaces;
 using FoodDlvAPI.Models;
 using FoodDlvAPI.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 
@@ -82,7 +83,7 @@ namespace FoodDlvAPI.Repositories
                 throw new Exception("商品數量不可小於0");
             }
 
-            var listItemId = request.RD_ItemId;
+            List<int?> listItemId = request.RD_ItemId;            
             var invalidItemIds = listItemId.Where(itemId => _context.ProductCustomizationItems
                                         .Any(pci => pci.ProuctId == request.RD_ProductId && pci.Id == itemId) == false)
                                         .ToList();
@@ -91,56 +92,60 @@ namespace FoodDlvAPI.Repositories
             {
                 throw new Exception($"客製化編號{string.Join(", ",invalidItemIds)}號不屬於該產品");
             }
-
-            var details = cart.Details;            
-            var sameDetail = details.Select(d => d.ItemId).ToList().SequenceEqual(listItemId);
-            var identifyNum = IdentifyNumSelector();
-
-            if (sameDetail)
+            if (request.RD_ItemId.Count == 0)
             {
-                foreach (var item in details)
-                {
-                    item.Qty += request.RD_Qty;
-                    _context.CartDetails.Update(item.ToCartDetailEF());
-                }
-                _context.SaveChanges();
+                listItemId.Add(null);
             }
-            else
+
+            var details = cart.Details;           
+            var selectDetailItem = details.OrderBy(d => d.IdentifyNum).ThenBy(d => d.ItemsId).GroupBy(d => d.IdentifyNum).Select(gd => gd.Select(d => d.ItemId).ToList()).ToList();
+            var identifyNum = details.OrderBy(d => d.IdentifyNum).GroupBy(d => d.IdentifyNum).Select(gd => gd.Key).ToList();
+            List<int?> item = new List<int?>();
+            int count = -1;
+            foreach(var items in selectDetailItem)
             {
-                if(listItemId.Count == 0)
+                count++;
+                var sameDetail = items.SequenceEqual(listItemId);
+                if(sameDetail)
+                {
+                    item = items;
+                    break;
+                }                
+            }
+            
+            if (item.Count == 0) 
+            {
+
+                foreach (int? itemId in listItemId)
                 {
                     var newDetail = new CartDetailDTO
                     {
-                        IdentifyNum = identifyNum,
-                        ProductId = request.RD_ProductId,                       
+                        IdentifyNum = IdentifyNumSelector(cart.Id),
+                        ProductId = request.RD_ProductId,
+                        ItemId = itemId,
                         Qty = request.RD_Qty,
                         CartId = cart.Id
                     };
                     _context.CartDetails.Add(newDetail.ToCartDetailEF());
-                    _context.SaveChanges();
                 }
-                else
-                {
-                    foreach (int itemId in listItemId)
-                    {
-                        var newDetail = new CartDetailDTO
-                        {
-                            IdentifyNum = identifyNum,
-                            ProductId = request.RD_ProductId,
-                            ItemId = itemId,
-                            Qty = request.RD_Qty,
-                            CartId = cart.Id
-                        };
-                        _context.CartDetails.Add(newDetail.ToCartDetailEF());
-                    }
-                    _context.SaveChanges();
-                }               
+                _context.SaveChanges();                
             }
+            else
+            {
+                var targetDtail = details.Where(d => d.IdentifyNum == identifyNum[count]);
+                foreach (var detail in targetDtail)
+                {
+                    detail.Qty += request.RD_Qty;
+
+                    _context.CartDetails.Update(detail.ToCartDetailEF());
+                }
+                _context.SaveChanges();
+            }            
         }
 
-        public int IdentifyNumSelector()
+        public int IdentifyNumSelector(long cartId)
         {
-            var selectIdentifyNum = _context.CartDetails.Select(cd => cd.IdentifyNum);
+            var selectIdentifyNum = _context.CartDetails.Where(d => d.CartId == cartId).Select(cd => cd.IdentifyNum);
 
             int identifyNum;
             if (!selectIdentifyNum.Any())

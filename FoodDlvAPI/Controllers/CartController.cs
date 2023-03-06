@@ -32,7 +32,7 @@ namespace FoodDlvAPI.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("AddToCart")]
         public IActionResult AddToCart(CartVM request)
         {
             try
@@ -52,7 +52,7 @@ namespace FoodDlvAPI.Controllers
         /// <param name="memberId"></param>
         /// <param name="storeId"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("CartInfo")]
         public IActionResult CartInfo(int memberId, int storeId)
         {
             try
@@ -71,7 +71,7 @@ namespace FoodDlvAPI.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("UpdateCart")]
         public IActionResult UpdateCart(CartVM request)
         {
             try
@@ -90,7 +90,7 @@ namespace FoodDlvAPI.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("RemoveDetail")]
         public IActionResult RemoveDetail(CartVM request)
         {
             try
@@ -110,7 +110,7 @@ namespace FoodDlvAPI.Controllers
         /// <param name="memberId"></param>
         /// <param name="storeId"></param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpDelete("DeleteCart")]
         public IActionResult DeleteCart(int memberId, int storeId)
         {
             try
