@@ -31,6 +31,7 @@ const DriverRegister = () => {
               <div className="mb-2">
                 <Label htmlFor="account">email / 帳號</Label>
                 <Input
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                   autoComplete="username"
                   name="account"
                   type="email"

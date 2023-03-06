@@ -9,11 +9,8 @@ class DriverAuthService {
     FirstName,
     LastName,
     Phone,
-    Gender,
     BankAccount,
     Idcard,
-    Birthday,
-    Email,
     VehicleRegistration,
     DriverLicense
   ) {
@@ -23,19 +20,20 @@ class DriverAuthService {
       FirstName,
       LastName,
       Phone,
-      Gender,
       BankAccount,
       Idcard,
-      Birthday,
-      Email,
       VehicleRegistration,
       DriverLicense,
     });
   }
 
   login(account, password) {
-    return axios.post(API_URL + "login", { account, password });
+    return axios.post(API_URL + "/login", { account, password });
+  }
+
+  logout() {
+    localStorage.removeItem("user");
   }
 }
 
-export default new StoreService();
+export default new DriverAuthService();

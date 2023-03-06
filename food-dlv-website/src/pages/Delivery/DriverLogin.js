@@ -1,16 +1,25 @@
 import { Link, useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
 import Bike from "../../assets/images/delivery/bike.svg";
 import { Label, Input } from "../../components/Delivery/form-styling";
+import driverAuthService from "../../services/Delivery/driverAuth.service";
 
 const DriverLogin = () => {
   // navigate 是控制重新導向的東西
   const navigate = useNavigate();
+  //states
+  let [account, setAccount] = useState("");
+  let [password, setPassword] = useState("");
 
   //判斷是否登入成功
-  const loginHandler = () => {
-    if (true) {
+  const loginHandler = async (e) => {
+    try {
+      e.preventDefault();
+      let response = await driverAuthService.login(account, password);
+      localStorage.setItem("user", JSON.stringify(response.data));
       navigate("/delivery");
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -26,10 +35,12 @@ const DriverLogin = () => {
         </h2>
         <div className="relative flex flex-col justify-center overflow-hidden">
           <div className=" w-full px-6 m-auto rounded-md max-w-md">
-            <form className="mt-6">
+            <form className="mt-6" onSubmit={loginHandler}>
               <div className="mb-2">
                 <Label htmlFor="account">email / 帳號</Label>
                 <Input
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                  required
                   autoComplete="username"
                   name="account"
                   type="email"
@@ -39,7 +50,8 @@ const DriverLogin = () => {
               <div className="mb-2">
                 <Label htmlFor="password">密碼</Label>
                 <Input
-                  autoComplete="password"
+                  required
+                  autoComplete="current-password"
                   name="password"
                   type="password"
                   onChange={(e) => setPassword(e.target.value)}
@@ -50,7 +62,7 @@ const DriverLogin = () => {
               </Link>
               <div className="mt-6">
                 <button
-                  onClick={loginHandler}
+                  type="submit"
                   className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-black rounded-md hover:bg-zinc-600 focus:outline-none focus:bg-zinc-600"
                 >
                   登入
