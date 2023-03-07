@@ -23,16 +23,12 @@ namespace FoodDlvProject2.EFModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Phone { get; set; }
-        public bool Gender { get; set; }
         public string BankAccount { get; set; }
         public string Idcard { get; set; }
         
         public DateTime RegistrationTime { get; set; }
         
         public string VehicleRegistration { get; set; }
-        
-        public DateTime Birthday { get; set; }
-        public string Email { get; set; }
        
         public string Account { get; set; }
       

@@ -99,8 +99,8 @@ namespace FoodDlvProject2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id,
-                     [Bind("Id,AccountStatusId,WorkStatuseId,FirstName,LastName,Phone,Gender,BankAccount," +
-                            "Idcard,VehicleRegistration,DriverLicense,Birthday,Email")]
+                     [Bind("Id,AccountStatusId,WorkStatuseId,FirstName,LastName,Phone,BankAccount," +
+                            "Idcard,VehicleRegistration,DriverLicense")]
                      DeliveryDriversEditVM deliveryDriver)
         {
             if (ModelState.IsValid)

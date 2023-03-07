@@ -180,9 +180,6 @@ namespace FoodDlvProject2.EFModels
                 entity.HasIndex(e => e.Phone, "IX_DeliveryDrivers")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Email, "IX_DeliveryDrivers_2")
-                    .IsUnique();
-
                 entity.HasIndex(e => e.Account, "IX_DeliveryDrivers_3")
                     .IsUnique();
 
@@ -196,13 +193,7 @@ namespace FoodDlvProject2.EFModels
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Birthday).HasColumnType("date");
-
                 entity.Property(e => e.DriverLicense)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(50);
 

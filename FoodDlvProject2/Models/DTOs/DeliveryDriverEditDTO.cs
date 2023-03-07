@@ -36,10 +36,7 @@ namespace FoodDlvProject2.Models.DTOs
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Phone = model.Phone,
-                Gender = model.Gender,
                 BankAccount = model.BankAccount,
-                Birthday = model.Birthday,
-                Email = model.Email,
             };
         }
     }

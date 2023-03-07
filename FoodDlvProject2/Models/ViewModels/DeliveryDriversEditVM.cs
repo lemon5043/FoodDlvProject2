@@ -67,10 +67,7 @@ namespace FoodDlvProject2.Models.ViewModels
                 FirstName = source.FirstName,
                 LastName = source.LastName,
                 Phone = source.Phone,
-                Gender = source.Gender,
                 BankAccount = source.BankAccount,
-                Birthday = source.Birthday,             
-                Email = source.Email,
 
             };
         }

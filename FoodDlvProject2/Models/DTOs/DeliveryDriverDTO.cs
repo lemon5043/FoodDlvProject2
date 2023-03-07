@@ -28,8 +28,6 @@ namespace FoodDlvProject2.EFModels
 
         public string Phone { get; set; }
 
-        public bool Gender { get; set; }
-
         public string BankAccount { get; set; }
 
         public string Idcard { get; set; }
@@ -37,10 +35,6 @@ namespace FoodDlvProject2.EFModels
         public DateTime RegistrationTime { get; set; }
 
         public string VehicleRegistration { get; set; }
-
-        public DateTime Birthday { get; set; }
-
-        public string Email { get; set; }
 
         public string Account { get; set; }
 
@@ -60,7 +54,6 @@ namespace FoodDlvProject2.EFModels
             FirstName = source.FirstName,
             LastName = source.LastName,
             Phone = source.Phone,
-            Gender = source.Gender,
             AccountStatus = source.AccountStatus,
             WorkStatuse = source.WorkStatuse,
             DeliveryViolationRecords = source.DeliveryViolationRecords,

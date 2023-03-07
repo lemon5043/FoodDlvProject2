@@ -25,7 +25,6 @@ namespace FoodDlvProject2.Models.Repositories
                 Id = x.Id,
                 LastName = x.LastName,
                 FirstName = x.FirstName,
-                Gender = x.Gender,
                 AccountStatus = x.AccountStatus.Status,
                 WorkStatuse = x.WorkStatuse.Status,
             });
@@ -42,10 +41,7 @@ namespace FoodDlvProject2.Models.Repositories
                 Account = x.Account,
                 LastName = x.LastName,
                 FirstName = x.FirstName,
-                Gender = x.Gender,
-                Birthday = x.Birthday,
                 Phone = x.Phone,
-                Email = x.Email,
                 BankAccount = x.BankAccount,
                 AccountStatusId = x.AccountStatusId,
                 AccountStatus = x.AccountStatus.Status,
@@ -74,10 +70,7 @@ namespace FoodDlvProject2.Models.Repositories
                 Account = x.Account,
                 LastName = x.LastName,
                 FirstName = x.FirstName,
-                Gender = x.Gender,
-                Birthday = x.Birthday,
                 Phone = x.Phone,
-                Email = x.Email,
                 BankAccount = x.BankAccount,
                 AccountStatusId = x.AccountStatusId,
                 WorkStatuseId = x.WorkStatuseId,
@@ -100,7 +93,7 @@ namespace FoodDlvProject2.Models.Repositories
             {
                 //db.Update(model);
                 var EFModel = model.ToEFModle();
-                List<string> updateModel = new List<string> { "LastName", "FirstName", "Gender", "Birthday", "Phone", "Email",
+                List<string> updateModel = new List<string> { "LastName", "FirstName", "Phone", "Account",
                     "BankAccount", "AccountStatusId","WorkStatuseId"};
 
                 if (idCard != null)

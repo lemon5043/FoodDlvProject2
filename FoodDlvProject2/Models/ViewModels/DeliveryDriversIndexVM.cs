@@ -25,7 +25,6 @@ namespace FoodDlvProject2.Models.ViewModels
             {
                 Id = source.Id,
                 DriverName = source.LastName + source.FirstName,
-                Gender = source.Gender,
                 AccountStatus = source.AccountStatus,
                 WorkStatuse = source.WorkStatuse,
             };
