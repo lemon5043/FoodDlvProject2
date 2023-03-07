@@ -3,27 +3,11 @@ import axios from "axios";
 const API_URL = "https://localhost:7093/api/DeliveryDrivers";
 
 class DriverAuthService {
-  register(
-    Account,
-    Password,
-    FirstName,
-    LastName,
-    Phone,
-    BankAccount,
-    Idcard,
-    VehicleRegistration,
-    DriverLicense
-  ) {
-    return axios.post(API_URL + "/register", {
-      Account,
-      Password,
-      FirstName,
-      LastName,
-      Phone,
-      BankAccount,
-      Idcard,
-      VehicleRegistration,
-      DriverLicense,
+  register(formData) {
+    return axios.post(API_URL + "/register", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
   }
 

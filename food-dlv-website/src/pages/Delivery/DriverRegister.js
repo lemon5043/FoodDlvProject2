@@ -7,58 +7,38 @@ import driverAuthService from "../../services/Delivery/driverAuth.service";
 const DriverRegister = () => {
   //*states
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  // const { register, handleSubmit } = useForm();
   let [account, setAccount] = useState("");
   let [password, setPassword] = useState("");
   let [firstName, setFirstName] = useState("");
   let [lastName, setLastName] = useState("");
   let [phone, setPhone] = useState("");
   let [bankAccount, setBankAccount] = useState("");
-  // let [Idcard, setIdCard] = useState("");
-  // let [vehicleRegistration, setVehicleRegistration] = useState("");
-  // let [DriverLicense, setDriverLicense] = useState("");
+  let [Idcard, setIdCard] = useState("");
+  let [vehicleRegistration, setVehicleRegistration] = useState("");
+  let [driverLicense, setDriverLicense] = useState("");
   let [errorMessage, setErrorMessage] = useState("");
 
   const registerHandler = async (e) => {
     try {
       e.preventDefault();
       if (!isMatch) return;
-      // console.log(
-      //   account,
-      //   password,
-      //   firstName,
-      //   lastName,
-      //   phone,
-      //   bankAccount,
-      //   Idcard,
-      //   vehicleRegistration,
-      //   DriverLicense
-      // );
-
-      const formData = new FormData();
-
-      let response = await driverAuthService.register(
-        account,
-        password,
-        firstName,
-        lastName,
-        phone,
-        bankAccount,
-        uploadFile(Idcard),
-        uploadFile(vehicleRegistration),
-        uploadFile(DriverLicense)
-      );
+      let formData = new FormData();
+      formData.append("account", account);
+      formData.append("password", password);
+      formData.append("firstName", firstName);
+      formData.append("lastName", lastName);
+      formData.append("phone", phone);
+      formData.append("bankAccount", bankAccount);
+      formData.append("idcard", Idcard);
+      formData.append("vehicleRegistration", vehicleRegistration);
+      formData.append("driverLicense", driverLicense);
+      await driverAuthService.register(formData);
       alert("註冊成功，還需要審核約1~2個工作天，屆時將以email通知，請耐心等候");
       navigate("/delivery/login");
     } catch (e) {
       console.log(e);
     }
-  };
-
-  const uploadFile = (file) => {
-    let formData = new FormData();
-    formData.append("file", file);
-    return formData;
   };
 
   const isMatch = (e) => {
@@ -78,7 +58,7 @@ const DriverRegister = () => {
             <p className="mt-6 text-2xl font-semibold text-center text-black">
               加入我們
             </p>
-            <form className="mt-6" onSubmit={handleSubmit(registerHandler)}>
+            <form className="mt-6" onSubmit={registerHandler}>
               <div className="mb-2">
                 <Label htmlFor="account">email / 帳號</Label>
                 <Input
@@ -157,7 +137,7 @@ const DriverRegister = () => {
                   required
                   type="file"
                   name="idCard"
-                  {...register("idCard")}
+                  onChange={(e) => setIdCard(e.target.files[0])}
                 />
               </div>
               <div className="mb-2">
@@ -166,7 +146,7 @@ const DriverRegister = () => {
                   required
                   type="file"
                   name="vehicleRegistration"
-                  {...register("vehicleRegistration")}
+                  onChange={(e) => setVehicleRegistration(e.target.files[0])}
                 />
               </div>
               <div className="mb-2">
@@ -175,7 +155,7 @@ const DriverRegister = () => {
                   required
                   type="file"
                   name="driverLicense"
-                  {...register("driverLicense")}
+                  onChange={(e) => setDriverLicense(e.target.files[0])}
                 />
               </div>
               <div className="mt-6">
