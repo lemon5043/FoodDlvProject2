@@ -10,7 +10,7 @@ namespace FoodDlvAPI.DTOs
     {              
         //Properties
         public long Id { get; set; }
-        public int MemberId { get; set; }
+        public long MemberId { get; set; }
         public string? MemberName { get; set; }
         public int StoreId { get; set; }
         public string? StoreName { get; set; }
@@ -20,7 +20,7 @@ namespace FoodDlvAPI.DTOs
         
 
         //Constructors
-        public CartDTO(long id, int memberId, int storeId, List<CartDetailDTO> details)
+        public CartDTO(long id, long memberId, int storeId, List<CartDetailDTO> details)
         {
             Id = id;
             MemberId = memberId;

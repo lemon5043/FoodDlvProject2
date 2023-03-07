@@ -15,6 +15,7 @@ namespace FoodDlvAPI.DTOs
         public string DriverComment { get; set; }
         public string StoreComment { get; set; }
         public decimal Milage { get; set; }
+        public CartDTO Cart { get; set; }
         public List<OrderDetailDTO> Details { get; set; }
     }
 
@@ -22,7 +23,7 @@ namespace FoodDlvAPI.DTOs
     {
         public static OrderDTO ToOrderDTO(this Order source)
         {
-            var orderDTO = new OrderDTO { };
+            var orderDTO = new OrderDTO() { };
             return orderDTO;
         }
     }

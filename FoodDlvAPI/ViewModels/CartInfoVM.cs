@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FoodDlvAPI.ViewModels
 {
-    public class CartVM
+    public class CartInfoVM
     {   
         /// <summary>
         /// View可能需要的資料
@@ -43,9 +43,9 @@ namespace FoodDlvAPI.ViewModels
 
     public static partial class CartVMExts
     {
-        public static CartVM ToCartVM(this CartDTO source)
+        public static CartInfoVM ToCartInfoVM(this CartDTO source)
         {
-            var cartVM = new CartVM
+            var cartInfoVM = new CartInfoVM
             {
                 MemberId = source.MemberId,
                 MemberName = source.MemberName,
@@ -55,7 +55,7 @@ namespace FoodDlvAPI.ViewModels
                 Total = source.Total,
                 CartDetails = source.Details.Select(d => d.ToCartDetailVM()).ToList(),
             };
-            return cartVM;
+            return cartInfoVM;
         }
 
         //public static CartDTO ToCartDTO(this CartVM source)

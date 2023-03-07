@@ -13,7 +13,7 @@ namespace FoodDlvAPI.Models
         }
 
         public long Id { get; set; }
-        public int MemberId { get; set; }
+        public long MemberId { get; set; }
         public int StoreId { get; set; }
 
         public virtual Member Member { get; set; }

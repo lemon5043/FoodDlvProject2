@@ -20,7 +20,7 @@ namespace FoodDlvAPI.Repositories
             _context = context;
         }
 
-        public bool IsExists(int memberId, int storeId)
+        public bool IsExists(long memberId, int storeId)
         {
             var memberCheck = _context.Members.Any(m => m.Id == memberId);
             var storeCheck = _context.Stores.Any(s => s.Id == storeId);
@@ -36,7 +36,7 @@ namespace FoodDlvAPI.Repositories
             }
         }
 
-        public CartDTO Load(int memberId, int storeId)
+        public CartDTO Load(long memberId, int storeId)
         {
             var data = _context.Carts
                 .AsNoTracking()
@@ -47,7 +47,7 @@ namespace FoodDlvAPI.Repositories
             return data;
         }
 
-        public CartDTO CreateNewCart(int memberId, int storeId)
+        public CartDTO CreateNewCart(long memberId, int storeId)
         {
             var cart = new Cart
             {
@@ -60,7 +60,7 @@ namespace FoodDlvAPI.Repositories
             return Load(memberId, storeId);
         }
 
-        public void EmptyCart(int memberId, int storeId)
+        public void EmptyCart(long memberId, int storeId)
         {
             var cart = _context.Carts.SingleOrDefault(c => c.MemberId == memberId && c.StoreId == storeId);
             if (cart == null) return;
@@ -68,7 +68,7 @@ namespace FoodDlvAPI.Repositories
             _context.SaveChanges();
         }
 
-        public void AddDetail(CartDTO cart, CartVM request)
+        public void AddDetail(CartDTO cart, CartInfoVM request)
         {           
             if (_context.Stores.Any(m => m.Id == request.RD_StoreId) == false)
             {
@@ -194,13 +194,13 @@ namespace FoodDlvAPI.Repositories
 
             return cartInfo;
         }
-        public void RemoveDetail(CartVM cart)
+        public void RemoveDetail(CartInfoVM cart)
         {
             var target = _context.CartDetails.Where(cd => cd.IdentifyNum == cart.RD_identifyNum).ToList();
             if (target.Count == 0) return;
 
             _context.CartDetails.RemoveRange(target);
             _context.SaveChanges();
-        }        
+        }               
     }
 }

@@ -2,6 +2,7 @@
 using FoodDlvAPI.Interfaces;
 using FoodDlvAPI.Models;
 using FoodDlvAPI.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 
 namespace FoodDlvAPI.Services
@@ -21,13 +22,13 @@ namespace FoodDlvAPI.Services
             _productRepository = productRepository;
         }
 
-        public void AddToCart(CartVM request)
+        public void AddToCart(CartInfoVM request)
         {               
             var cart = Current(request.RD_MemberId, request.RD_StoreId);                 
             _cartRepository.AddDetail(cart, request);                        
         }
 
-        public CartDTO CartInfo(int memberId, int storeId)
+        public CartDTO CartInfo(long memberId, int storeId)
         {
             var cart = Current(memberId, storeId);
             var cartInfo = _cartRepository.GetCartInfo(cart);
@@ -35,7 +36,7 @@ namespace FoodDlvAPI.Services
         }
 
 
-        public CartDTO Current(int memberId, int storeId)
+        public CartDTO Current(long memberId, int storeId)
         {            
             if (_cartRepository.IsExists(memberId, storeId))
             {
@@ -47,7 +48,7 @@ namespace FoodDlvAPI.Services
             }
         }
 
-        public void UpdateCart(CartVM request)
+        public void UpdateCart(CartInfoVM request)
         {
             _cartRepository.RemoveDetail(request);
             if (request.RD_Qty >= 1)
@@ -56,14 +57,25 @@ namespace FoodDlvAPI.Services
             }            
         }
 
-        public void RemoveDetail(CartVM request)
+        public void RemoveDetail(CartInfoVM request)
         {
             _cartRepository.RemoveDetail(request);
         }
 
-        public void DeleteCart(int memberId, int storeId)
+        public void DeleteCart(long memberId, int storeId)
         {
             _cartRepository.EmptyCart(memberId, storeId);
         }
+
+        public void CheckOutCart(long memberId, int storeId)
+        {
+            var cart = Current(memberId, storeId);
+            if (cart.Details.Count == 0 || cart.Details == null)
+            {
+                throw new Exception("購物車內無商品, 無法進行結帳");
+            }            
+        }
+
+        
     }
 }

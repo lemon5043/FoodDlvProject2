@@ -1,4 +1,6 @@
-﻿namespace FoodDlvAPI.DTOs
+﻿using FoodDlvAPI.Models;
+
+namespace FoodDlvAPI.DTOs
 {
     public class OrderDetailDTO
     {
@@ -10,5 +12,24 @@
         public int ItemPrice { get; set; }
         public int Qty { get; set; }
         public long OrderId { get; set; }
+    }
+
+    public static partial class OrderDetailExts
+    {
+        public static OrderDetailDTO ToOrderDetailDTO(this OrderDetail source)
+        {
+            var orderDetailDTO = new OrderDetailDTO
+            {
+                Id = source.Id,
+                IdentifyNum = source.IdentifyNum,
+                ProductId = source.ProductId,
+                ProductPrice = source.ProductPrice,
+                ItemId = source.ItemId,
+                ItemPrice = source.ItemPrice,
+                Qty = source.Qty,
+                OrderId = source.OrderId,
+            };
+            return orderDetailDTO;
+        }
     }
 }

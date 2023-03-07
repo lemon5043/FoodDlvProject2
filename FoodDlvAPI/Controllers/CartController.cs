@@ -33,7 +33,7 @@ namespace FoodDlvAPI.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("AddToCart")]
-        public IActionResult AddToCart(CartVM request)
+        public IActionResult AddToCart(CartInfoVM request)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace FoodDlvAPI.Controllers
         {
             try
             {
-                var CartData = _cartService.CartInfo(memberId, storeId).ToCartVM();
+                var CartData = _cartService.CartInfo(memberId, storeId).ToCartInfoVM();
                 return Json(CartData);
             }
             catch (Exception ex)
@@ -72,7 +72,7 @@ namespace FoodDlvAPI.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("UpdateCart")]
-        public IActionResult UpdateCart(CartVM request)
+        public IActionResult UpdateCart(CartInfoVM request)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace FoodDlvAPI.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("RemoveDetail")]
-        public IActionResult RemoveDetail(CartVM request)
+        public IActionResult RemoveDetail(CartInfoVM request)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace FoodDlvAPI.Controllers
         /// <param name="storeId"></param>
         /// <returns></returns>
         [HttpDelete("DeleteCart")]
-        public IActionResult DeleteCart(int memberId, int storeId)
+        public IActionResult DeleteCart(long memberId, int storeId)
         {
             try
             {
@@ -122,13 +122,9 @@ namespace FoodDlvAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }    
+        }  
 
-        public IActionResult CheckOut()
-        {
-
-            return View();
-        }
+        
 
     }
 }
