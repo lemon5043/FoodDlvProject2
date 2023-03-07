@@ -76,7 +76,7 @@ namespace FoodDlvAPI.Controllers
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
 
-        [HttpGet("OrderAasignment")] //可能是?
+        [HttpGet("OrderAasignment")]
         public async Task<AasignmentOrderVM> OrderAasignment(int orderid)
         {
             try
