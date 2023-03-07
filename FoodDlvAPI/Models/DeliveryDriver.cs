@@ -31,8 +31,8 @@ namespace FoodDlvAPI.Models
         public string Account { get; set; }
         public string Password { get; set; }
         public string DriverLicense { get; set; }
-        public string Longitude { get; set; }
-        public string Latitude { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
 
         public virtual AccountStatue AccountStatus { get; set; }
         public virtual DeliveryDriverWorkStatus WorkStatuse { get; set; }

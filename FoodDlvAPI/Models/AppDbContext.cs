@@ -246,24 +246,15 @@ namespace FoodDlvAPI.Models
 
                 entity.Property(e => e.Idcard)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .HasColumnName("IDCard");
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
                     .HasMaxLength(20);
 
-                entity.Property(e => e.Latitude)
-                    .HasMaxLength(50)
-                    .HasColumnName("latitude");
-
-                entity.Property(e => e.Longitude)
-                    .HasMaxLength(50)
-                    .HasColumnName("longitude");
-
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.Phone)
                     .IsRequired()
@@ -388,7 +379,7 @@ namespace FoodDlvAPI.Models
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.Phone)
                     .IsRequired()
@@ -748,7 +739,7 @@ namespace FoodDlvAPI.Models
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.Phone)
                     .IsRequired()
