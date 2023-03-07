@@ -65,7 +65,7 @@
             <div class="form-group">
                 <label asp-for="Idcard" class="control-label"></label>
                 <div id="IdcardfileContent">
-                    <img src="~/img/DeliveyDriver/Idcard/@ViewBag.Idcard" alt="image" />
+                    <img src="/public/DeliveyDriver/Idcard/@ViewBag.Idcard" alt="image" />
                 </div>
                 <input type="file" asp-for="Idcard" accept="image/*" class="form-control" id="IdcardfileInput" />
                 @Html.ValidationMessageFor(model => model.Idcard, "", new { @class = "text-danger" })
@@ -74,7 +74,7 @@
             <div class="form-group">
                 <label asp-for="VehicleRegistration" class="control-label"></label>
                 <div id="fileContent">
-                    <img src="~/img/DeliveyDriver/VehicleRegistration/@ViewBag.VehicleRegistration" alt="image" />
+                    <img src="/public/DeliveyDriver/VehicleRegistration/@ViewBag.VehicleRegistration" alt="image" />
                 </div>                
                 <input type="file" asp-for="VehicleRegistration" accept="image/*" class="form-control" />
                 @Html.ValidationMessageFor(model => model.VehicleRegistration, "", new { @class = "text-danger" })
@@ -83,7 +83,7 @@
             <div class="form-group">
                 <label asp-for="DriverLicense" class="control-label"></label>
                 <div id="fileContent">
-                    <img src="~/img/DeliveyDriver/DriverLicense/@ViewBag.DriverLicense" alt="image" />
+                    <img src="/public/DeliveyDriver/DriverLicense/@ViewBag.DriverLicense" alt="image" />
                 </div>          
                 <input type="file" asp-for="DriverLicense" accept="image/*" class="form-control" />
                 @Html.ValidationMessageFor(model => model.DriverLicense, "", new { @class = "text-danger" })
