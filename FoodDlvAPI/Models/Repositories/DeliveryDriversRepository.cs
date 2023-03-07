@@ -188,7 +188,7 @@ namespace FoodDlvAPI.Models.Repositories
                 string extension = Path.GetExtension(file.FileName);
                 int ImgId = (int)((id != null) ? id : db.DeliveryDrivers.OrderBy(x => x.Id).Max(x => x.Id) + 1);
                 string newFileName = ImgId.ToString() + extension;
-                string filePath = Path.GetFullPath(Path.Combine("../FoodDlvProject2/wwwroot/img/DeliveyDriver", folder));
+                string filePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/DeliveyDriver", folder));
                 string path = Path.Combine(filePath, newFileName);
                 using var fileStream = new FileStream(path, FileMode.Create);
                 await file.CopyToAsync(fileStream);
