@@ -118,8 +118,9 @@ namespace FoodDlvAPI.Repositories
             var orderDetail = identifyGroup.Select(gd => new OrderDetailDTO
             {
                 IdentifyNum = gd.Key,
-                ProductId = gd.Key,
-                
+                ProductId = gd.First().ProductId,
+                ProductName =_context.Products.First(p => p.Id == gd.First().ProductId).ProductName,
+                ItemId = gd.Select(d => d.ItemId).ToList(),
             })
 
 
