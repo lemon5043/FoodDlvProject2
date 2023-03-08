@@ -29,16 +29,7 @@ namespace FoodDlvAPI.DTOs
             ItemId = itemId;
             Qty = qty;
             CartId = cartId;                
-        }
-
-        //public CartDetailDTO(int identifyNum, long productId, int itemId, int qty, long cartId)
-        //{
-        //    IdentifyNum = identifyNum;
-        //    ProductId = productId;
-        //    ItemId = itemId;
-        //    Qty = qty;
-        //    CartId = cartId;
-        //}        
+        }              
         
         public CartDetailDTO() { }
     }

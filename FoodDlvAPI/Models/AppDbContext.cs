@@ -438,7 +438,6 @@ namespace FoodDlvAPI.Models
                 entity.HasOne(d => d.DeliveryDrivers)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.DeliveryDriversId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_DeliveryDrivers");
 
                 entity.HasOne(d => d.Member)

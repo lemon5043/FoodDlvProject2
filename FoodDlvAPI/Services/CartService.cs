@@ -28,7 +28,7 @@ namespace FoodDlvAPI.Services
             _cartRepository.AddDetail(cart, request);                        
         }
 
-        public CartDTO CartInfo(long memberId, int storeId)
+        public CartDTO CartInfo(int memberId, int storeId)
         {
             var cart = Current(memberId, storeId);
             var cartInfo = _cartRepository.GetCartInfo(cart);
@@ -36,7 +36,7 @@ namespace FoodDlvAPI.Services
         }
 
 
-        public CartDTO Current(long memberId, int storeId)
+        public CartDTO Current(int memberId, int storeId)
         {            
             if (_cartRepository.IsExists(memberId, storeId))
             {
@@ -62,12 +62,12 @@ namespace FoodDlvAPI.Services
             _cartRepository.RemoveDetail(request);
         }
 
-        public void DeleteCart(long memberId, int storeId)
+        public void DeleteCart(int memberId, int storeId)
         {
             _cartRepository.EmptyCart(memberId, storeId);
         }
 
-        public void CheckOutCart(long memberId, int storeId)
+        public void CheckOutCart(int memberId, int storeId)
         {
             var cart = Current(memberId, storeId);
             if (cart.Details.Count == 0 || cart.Details == null)

@@ -20,32 +20,56 @@ namespace FoodDlvAPI.Controllers
         {
             _context = context;
             IOrderRepository orderRepo = new OrderRepository(_context);
+            ICartRepository cartRepo = new CartRepository(_context);
             
 
-            this._orderService = new OrderService(orderRepo);
+            this._orderService = new OrderService(orderRepo, cartRepo);
         }
 
         [HttpGet("OrderInfo")]
         public IActionResult OrderInfo(long cartId, string address, int fee)
         {
-            var orderInfo = _orderService.OrderInfo(cartId, address, fee).ToOrderInfoVM();
-            return Json(orderInfo);
+            try
+            {
+                var orderInfo = _orderService.OrderInfo(cartId, address, fee).ToOrderInfoVM();
+                return Json(orderInfo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         [HttpPost("OrderEstablished")]
-        public IActionResult OrderEstablished(long memberId, int storeId) 
+        public IActionResult OrderEstablished(int memberId, int storeId, int fee ,string address) 
         {
-            _cartService.CheckOutCart(memberId, storeId);
-            _orderService.CheckOutTime(storeId);
-
-
-            return new EmptyResult();
+            try
+            {
+                _cartService.CheckOutCart(memberId, storeId);
+                _orderService.CheckOutTime(storeId);
+                _orderService.OrderEstablished(memberId, storeId, fee, address);
+                return new EmptyResult();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         [HttpGet("OrderTracking")]
-        public IActionResult OrderTracking(long OrderId)
+        public IActionResult OrderTracking(long orderId)
         {
-            return View();
+            try
+            {
+                var orderTracking = _orderService.OrderTracking(orderId).ToOrderTrackingVM;
+                return Json(orderTracking);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

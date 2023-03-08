@@ -111,7 +111,7 @@ namespace FoodDlvAPI.Controllers
         /// <param name="storeId"></param>
         /// <returns></returns>
         [HttpDelete("DeleteCart")]
-        public IActionResult DeleteCart(long memberId, int storeId)
+        public IActionResult DeleteCart(int memberId, int storeId)
         {
             try
             {
