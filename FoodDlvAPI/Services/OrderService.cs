@@ -35,10 +35,10 @@ namespace FoodDlvAPI.Services
             _cartRepository.EmptyCart(memberId, storeId);            
         }
 
-        //public OrderDTO OrderTracking(long orderId)
-        //{
-        //    var orderTracking = _orderRepository.GetOrderTrack(orderId);
-        //    return orderTracking;
-        //}
+        public OrderDTO OrderTracking(long orderId)
+        {
+            var orderTracking = _orderRepository.GetOrderTrack(orderId);
+            return orderTracking;
+        }
     }
 }

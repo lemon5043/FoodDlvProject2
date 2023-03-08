@@ -41,6 +41,6 @@ namespace FoodDlvAPI.Interfaces
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        //OrderDTO GetOrderTrack(long orderId);
+        OrderDTO GetOrderTrack(long orderId);
     }
 }

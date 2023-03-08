@@ -9,18 +9,22 @@ namespace FoodDlvAPI.Repositories
     {
         //Fields
         private readonly AppDbContext _context;
+        private readonly ICartRepository _cartRepository;
 
         //Constructors
         public OrderRepository(AppDbContext context)
         {
             _context = context;
+            ICartRepository cartRepo = new CartRepository(_context);
         }
+        
 
         public OrderDTO GetOrderInfo(long cartId, string address, int fee)
         {
+            var cart = _context.Carts.First(c => c.Id == cartId).ToCartDTO();
             var orderInfo = new OrderDTO()
             {
-                Cart = _context.Carts.First(c => c.Id == cartId).ToCartDTO(),
+                Cart = _cartRepository.GetCartInfo(cart),
                 DeliveryAddress = address,
                 DeliveryFee = fee,
             };
@@ -111,19 +115,51 @@ namespace FoodDlvAPI.Repositories
             _context.SaveChanges();           
         }
 
-        //public OrderDTO GetOrderTrack(long orderId)
-        //{
-        //    var order = _context.Orders.FirstOrDefault(o => o.Id == orderId).ToOrderDTO();
-        //    var identifyGroup = order.Details.GroupBy(d => d.IdentifyNum); ;
-        //    var orderDetail = identifyGroup.Select(gd => new OrderDetailDTO
-        //    {
-        //        IdentifyNum = gd.Key,
-        //        ProductId = gd.First().ProductId,
-        //        ProductName =_context.Products.First(p => p.Id == gd.First().ProductId).ProductName,
-        //        ItemId = gd.Select(d => d.ItemId).ToList(),
-        //    })
+        public OrderDTO GetOrderTrack(long orderId)
+        {
+            var order = _context.Orders.FirstOrDefault(o => o.Id == orderId).ToOrderDTO();
+            var identifyGroup = order.Details.GroupBy(d => d.IdentifyNum); ;
+            var orderDetail = identifyGroup.Select(gd => new OrderDetailDTO
+            {
+                IdentifyNum = gd.Key,
+                ProductId = gd.First().ProductId,
+                ProductName = _context.Products.First(p => p.Id == gd.First().ProductId).ProductName,
+                ItemIds = gd.Select(d => d.ItemId).ToList(),
+                ItemName = string.Join(", ", _context.ProductCustomizationItems
+                    .Where(pci => gd.Select(d => d.ItemId).Contains(pci.Id))
+                    .Select(pci => pci.ItemName).ToList()),
+                Qty = gd.First().Qty,
+                SubTotal = (
+                           _context.Products.Single(p => p.Id == gd.First().ProductId).UnitPrice +
+                           _context.ProductCustomizationItems.Where(pci => gd.Select(d => d.ItemId).Contains(pci.Id)).Sum(pci => pci.UnitPrice)
+                           ) * gd.First().Qty,
+                OrderId = order.Id,
+            }).ToList();
 
+            var orderSchedule = _context.OrderSchedules
+                .Where(os => os.OrderId == order.Id)
+                .Select(os => new OrderScheduleDTO
+                {
+                    StatusId = os.StatusId,
+                    StatusName = os.Status.Status,
+                    MarkTime = os.MarkTime,
+                }).ToList();
 
-        //}
+            var orderTrack = new OrderDTO
+            {
+                Id = order.Id,
+                MemberId = order.MemberId,
+                MemberName = _context.Members.Where(m => m.Id == order.MemberId).Select(m => m.FirstName + " " + m.LastName).FirstOrDefault(),
+                StoreId = order.StoreId,
+                StoreName = _context.Stores.First(s => s.Id == order.StoreId).StoreName,
+                DetailQty = orderDetail.Where(d => d.OrderId == order.Id).Sum(d => d.Qty),
+                DeliveryFee = order.DeliveryFee,
+                Total = orderDetail.Where(d => d.OrderId == order.Id).Sum(d => d.SubTotal) + order.DeliveryFee,
+                Details = orderDetail,
+                Schedules = orderSchedule,
+            };
+
+            return orderTrack;
+        }
     }
 }

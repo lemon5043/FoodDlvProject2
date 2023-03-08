@@ -7,6 +7,7 @@ namespace FoodDlvAPI.DTOs
         public int Id { get; set; }
         public long OrderId { get; set; }
         public int StatusId { get; set; }
+        public string StatusName { get; set; }
         public DateTime MarkTime { get; set; }
     }
 

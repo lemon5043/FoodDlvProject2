@@ -52,13 +52,13 @@ namespace FoodDlvAPI.ViewModels
     {
         public static OrderInfoVM ToOrderInfoVM(this OrderDTO source)
         {
-            var orderVM = new OrderInfoVM()
+            var orderInfoVM = new OrderInfoVM()
             {
                 CartVM = source.Cart.ToCartInfoVM(),
                 DeliveryAddress = source.DeliveryAddress,
                 DeliveryFee = source.DeliveryFee,
             };
-            return orderVM;
+            return orderInfoVM;
         }
     }
 }

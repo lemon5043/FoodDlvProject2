@@ -14,6 +14,7 @@ namespace FoodDlvAPI.DTOs
         public string? ItemName { get; set; }
         public int ItemPrice { get; set; }
         public int Qty { get; set; }
+        public int SubTotal { get; set; }
         public long OrderId { get; set; }
     }
 
