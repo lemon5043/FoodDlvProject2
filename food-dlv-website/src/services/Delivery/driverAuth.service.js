@@ -12,7 +12,8 @@ class DriverAuthService {
   }
 
   login(account, password) {
-    return axios.post(API_URL + "/login", { account, password });
+    let response = axios.post(API_URL + "/login", { account, password });
+    return response;
   }
 
   logout() {

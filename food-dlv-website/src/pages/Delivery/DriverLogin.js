@@ -18,6 +18,10 @@ const DriverLogin = () => {
       e.preventDefault();
       let response = await driverAuthService.login(account, password);
       console.log(response);
+      if (response.data === "帳密有誤") {
+        setErrorMessage("帳號或密碼錯誤");
+        return;
+      }
       localStorage.setItem("driver", JSON.stringify(response.data));
       navigate("/delivery");
     } catch (e) {
@@ -59,6 +63,7 @@ const DriverLogin = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+              <p className="text-sm text-red-600">{errorMessage}</p>
               <Link to="/" className="text-sm text-neutral-600 hover:underline">
                 忘記密碼?
               </Link>

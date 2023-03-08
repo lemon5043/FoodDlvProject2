@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FoodDlvAPI.Models;
 using Newtonsoft.Json;
 using FoodDlvAPI.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FoodDlvAPI.Controllers
 {
