@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { Label, Input } from "../../components/Delivery/form-styling";
 import driverAuthService from "../../services/Delivery/driverAuth.service";
@@ -7,7 +6,6 @@ import driverAuthService from "../../services/Delivery/driverAuth.service";
 const DriverRegister = () => {
   //*states
   const navigate = useNavigate();
-  // const { register, handleSubmit } = useForm();
   let [account, setAccount] = useState("");
   let [password, setPassword] = useState("");
   let [firstName, setFirstName] = useState("");

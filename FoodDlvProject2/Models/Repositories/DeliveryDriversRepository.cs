@@ -99,7 +99,7 @@ namespace FoodDlvProject2.Models.Repositories
                 if (idCard != null)
                 {
                     EFModel.Idcard = idCard;
-                    updateModel.Add("IdCard");
+                    updateModel.Add("Idcard");
                 }
                 if (VehicleRegistration != null)
                 {

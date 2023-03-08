@@ -10,12 +10,14 @@ const DriverLogin = () => {
   //states
   let [account, setAccount] = useState("");
   let [password, setPassword] = useState("");
+  let [errorMessage, setErrorMessage] = useState("");
 
   //判斷是否登入成功
   const loginHandler = async (e) => {
     try {
       e.preventDefault();
       let response = await driverAuthService.login(account, password);
+      console.log(response);
       localStorage.setItem("driver", JSON.stringify(response.data));
       navigate("/delivery");
     } catch (e) {
