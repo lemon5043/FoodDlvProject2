@@ -111,19 +111,19 @@ namespace FoodDlvAPI.Repositories
             _context.SaveChanges();           
         }
 
-        public OrderDTO GetOrderTrack(long orderId)
-        {
-            var order = _context.Orders.FirstOrDefault(o => o.Id == orderId).ToOrderDTO();
-            var identifyGroup = order.Details.GroupBy(d => d.IdentifyNum); ;
-            var orderDetail = identifyGroup.Select(gd => new OrderDetailDTO
-            {
-                IdentifyNum = gd.Key,
-                ProductId = gd.First().ProductId,
-                ProductName =_context.Products.First(p => p.Id == gd.First().ProductId).ProductName,
-                ItemId = gd.Select(d => d.ItemId).ToList(),
-            })
+        //public OrderDTO GetOrderTrack(long orderId)
+        //{
+        //    var order = _context.Orders.FirstOrDefault(o => o.Id == orderId).ToOrderDTO();
+        //    var identifyGroup = order.Details.GroupBy(d => d.IdentifyNum); ;
+        //    var orderDetail = identifyGroup.Select(gd => new OrderDetailDTO
+        //    {
+        //        IdentifyNum = gd.Key,
+        //        ProductId = gd.First().ProductId,
+        //        ProductName =_context.Products.First(p => p.Id == gd.First().ProductId).ProductName,
+        //        ItemId = gd.Select(d => d.ItemId).ToList(),
+        //    })
 
 
-        }
+        //}
     }
 }

@@ -58,18 +58,18 @@ namespace FoodDlvAPI.Controllers
             
         }
 
-        [HttpGet("OrderTracking")]
-        public IActionResult OrderTracking(long orderId)
-        {
-            try
-            {
-                var orderTracking = _orderService.OrderTracking(orderId).ToOrderTrackingVM;
-                return Json(orderTracking);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpGet("OrderTracking")]
+        //public IActionResult OrderTracking(long orderId)
+        //{
+        //    try
+        //    {
+        //        var orderTracking = _orderService.OrderTracking(orderId);
+        //        return Json(orderTracking);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }
