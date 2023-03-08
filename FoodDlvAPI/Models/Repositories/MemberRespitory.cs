@@ -29,7 +29,6 @@ namespace FoodDlvAPI.Models.Repositories
                 catch (DbUpdateConcurrencyException)
                 {
                     if (AccountExists(model.Account)) throw new Exception("此帳號已被使用，請重新輸入");
-                    if (EmailExists(model.Email)) throw new Exception("此信箱已被使用，請使用其他信箱註冊");
                 }
 
                 return "新增成功";
@@ -110,10 +109,6 @@ namespace FoodDlvAPI.Models.Repositories
                 return db.DeliveryDrivers.Any(e => e.Account == account);
             }
 
-            public bool EmailExists(string email)
-            {
-                return db.DeliveryDrivers.Any(e => e.Email == email);
-            }
             public bool MemberExists(int id)
             {
                 return db.Members.Any(e => e.Id == id);
