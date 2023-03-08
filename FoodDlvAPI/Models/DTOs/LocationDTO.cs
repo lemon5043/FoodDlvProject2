@@ -3,8 +3,8 @@
     public class LocationDTO
     {
         public int DriverId { get; set; }
-        public double Longitude { get; set; }
-        public double Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public double? Latitude { get; set; }
     }
     public static class LocationDTOExts
     {

@@ -44,8 +44,10 @@ namespace FoodDlvAPI.Models.Repositories
 
                 int onlineWorkStatusId = 3;
                 EFModel.WorkStatuseId = onlineWorkStatusId;
+                EFModel.Latitude= location.Latitude;
+                EFModel.Longitude= location.Longitude;
 
-                string[] updateModel = { "WorkStatuseId","longitude", "latitude" };
+                string[] updateModel = { "WorkStatuseId", "Longitude", "Latitude" };
                 db.Attach(EFModel);
 
                 foreach (var property in updateModel)
@@ -65,7 +67,7 @@ namespace FoodDlvAPI.Models.Repositories
 
                 EFModel.WorkStatuseId = offlineWorkStatusId;
 
-                string[] updateModel = { "WorkStatuseId", "longitude", "latitude" };
+                string[] updateModel = { "WorkStatuseId", "Longitude", "Latitude" };
                 db.Attach(EFModel);
 
                 foreach (var property in updateModel)
@@ -80,7 +82,6 @@ namespace FoodDlvAPI.Models.Repositories
 
             throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
         }
-
         //回傳訂單
         public async Task<AasignmentOrderDTO> GetOrderDetail(int orderId)
         {
@@ -204,7 +205,9 @@ namespace FoodDlvAPI.Models.Repositories
                 {
                     OrderId = x.OrderId,
                     StatusId = x.StatusId,
-                }).LastOrDefaultAsync();
+                })
+                .OrderBy(x=>x.StatusId)
+                .LastOrDefaultAsync();
 
             if (query == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
             if (query.StatusId < 3 || query.StatusId > 5) throw new Exception("抱歉，指定為不可外送狀態，請重新確認訂單狀態");
@@ -269,13 +272,14 @@ namespace FoodDlvAPI.Models.Repositories
         {
             if (db.DeliveryDrivers == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
-            var query = await db.DeliveryDrivers.Where(x=>x.Id==location.DriverId && x.WorkStatuseId>3).FirstOrDefaultAsync();
+            var EFModel = await db.DeliveryDrivers.Where(x => x.Id == location.DriverId && x.WorkStatuseId >= 3).FirstOrDefaultAsync();
 
-            if (query == null) throw new Exception("抱歉，找不到指定外送員獲此外送員為非工作狀態");
+            if (EFModel == null) throw new Exception("抱歉，找不到指定外送員或此外送員為非工作狀態");
 
-            var EFModel = location.ToEFModel();
+            EFModel.Latitude= location.Latitude;
+            EFModel.Longitude= location.Longitude;
 
-            string[] updateModel = { "longitude", "latitude" };
+            string[] updateModel = { "Longitude", "Latitude" };
             db.Attach(EFModel);
 
             foreach (var property in updateModel)
@@ -287,7 +291,7 @@ namespace FoodDlvAPI.Models.Repositories
         }
 
         public async Task<string> GetKey(string APIName)
-        {          
+        {
             if (db.Apis == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
             var apiKey = await db.Apis.Where(x => x.Apiname == APIName).FirstOrDefaultAsync();
@@ -303,12 +307,12 @@ namespace FoodDlvAPI.Models.Repositories
 
             var EFModel = dTO.ToEFModel();
 
-            string updateModel = "Milage" ;
-            
+            string updateModel = "Milage";
+
             db.Attach(EFModel);
 
             db.Entry(EFModel).Property(updateModel).IsModified = true;
-            
+
             await db.SaveChangesAsync();
         }
     }

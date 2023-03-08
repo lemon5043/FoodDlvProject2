@@ -93,9 +93,9 @@ namespace FoodDlvProject2.Models.Repositories
             {
                 //db.Update(model);
                 var EFModel = model.ToEFModle();
-                List<string> updateModel = new List<string> { "LastName", "FirstName", "Phone", "Account",
+                List<string> updateModel = new List<string> { "LastName", "FirstName", "Phone",
                     "BankAccount", "AccountStatusId","WorkStatuseId"};
-
+                
                 if (idCard != null)
                 {
                     EFModel.Idcard = idCard;

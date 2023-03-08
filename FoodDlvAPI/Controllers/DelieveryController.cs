@@ -97,7 +97,7 @@ namespace FoodDlvAPI.Controllers
         /// <param name="driverId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        [HttpGet("OrderAccept/{orderId}/{DriverId}")]
+        [HttpGet("OrderAccept/{orderId}/{driverId}")]
         public async Task<AasignmentOrderVM> OrderAccept(int orderId, int driverId)
         {
             try
