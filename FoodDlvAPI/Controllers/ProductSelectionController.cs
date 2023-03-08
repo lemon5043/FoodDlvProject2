@@ -2,6 +2,7 @@
 using FoodDlvAPI.Models;
 using FoodDlvAPI.Repositories;
 using FoodDlvAPI.Services;
+using FoodDlvAPI.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDlvAPI.Controllers
@@ -23,16 +24,22 @@ namespace FoodDlvAPI.Controllers
         }
 
         /// <summary>
-        /// 商品購買介面
+        /// 商品客製化選擇頁面
         /// </summary>
-        /// <param name="productId">搜尋條件-產品Id</param>
+        /// <param name="productId"></param>
         /// <returns></returns>
         [HttpGet]
         public IActionResult ProductSelection(int productId, bool? status)
         {
-            var data = _productSelectionService.ProductSelection(productId, status);
-
-            return Json(data);
+            try
+            {
+                var data = _productSelectionService.ProductSelection(productId, status).ToProductSelectionVM();
+                return Json(data);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
     }
 }

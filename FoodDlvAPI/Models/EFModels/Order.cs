@@ -21,7 +21,7 @@ namespace FoodDlvAPI.Models
         }
 
         public long Id { get; set; }
-        public int DeliveryDriversId { get; set; }
+        public int? DeliveryDriversId { get; set; }
         public int MemberId { get; set; }
         public int StoreId { get; set; }
         public int DeliveryFee { get; set; }
@@ -30,8 +30,8 @@ namespace FoodDlvAPI.Models
         public int? StoreRating { get; set; }
         public string DriverComment { get; set; }
         public string StoreComment { get; set; }
-        public decimal Milage { get; set; }
-
+        public decimal? Milage { get; set; }
+        public bool CreateMark { get; set; }
         public virtual DeliveryDriver DeliveryDrivers { get; set; }
         public virtual Member Member { get; set; }
         public virtual Store Store { get; set; }

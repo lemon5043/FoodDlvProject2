@@ -1,13 +1,15 @@
 ﻿using FoodDlvAPI.DTOs;
 using FoodDlvAPI.Interfaces;
+using FoodDlvAPI.Models;
 using FoodDlvAPI.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 
 namespace FoodDlvAPI.Services
 {
     public class CartService
     {
-        //Fields
+        //Fields       
         private readonly ICartRepository _cartRepository;
         private readonly IProductRepository _productRepository;
 
@@ -20,44 +22,60 @@ namespace FoodDlvAPI.Services
             _productRepository = productRepository;
         }
 
-        public void ItemToCart(int memberAccount, CartVM request)
-        {
-            var cart = Current(memberAccount);
-
-            var product = _productRepository.Load(request.ProductId, request.customizationItem.Id, true);
-            var cartDetail = new CartDetailDTO(product.ProductId, request.Qty, cart.Id);
-            //int identifyNum = product.IdentifyNumSelector();
-
-
-            //var cartCustomizationItem = product.ProductCustomizationItems
-            //    .Select(pci => new CartCustomizationItemDTO
-            //    (
-            //        pci.Id,
-            //        pci.ProuctId,
-            //        cartDetail.Id,
-            //        request.Qty,
-            //        identifyNum
-            //    ));
-
-            //cart.AddItem(request.Qty);
-            //_cartRepository.Save(cart);
+        public void AddToCart(CartInfoVM request)
+        {               
+            var cart = Current(request.RD_MemberId, request.RD_StoreId);                 
+            _cartRepository.AddDetail(cart, request);                        
         }
 
-        //public int IdentifyNumSelector()
-        //{
-
-        //}
-
-        public CartDTO Current(int memberAccount)
+        public CartDTO CartInfo(int memberId, int storeId)
         {
-            if (_cartRepository.IsExists(memberAccount))
+            var cart = Current(memberId, storeId);
+            var cartInfo = _cartRepository.GetCartInfo(cart);
+            return cartInfo;
+        }
+
+
+        public CartDTO Current(int memberId, int storeId)
+        {            
+            if (_cartRepository.IsExists(memberId, storeId))
             {
-                return _cartRepository.Load(memberAccount);
+                return _cartRepository.Load(memberId, storeId);
             }
             else
             {
-                return _cartRepository.CreateNewCart(memberAccount);
+                return _cartRepository.CreateNewCart(memberId, storeId);
             }
         }
+
+        public void UpdateCart(CartInfoVM request)
+        {
+            _cartRepository.RemoveDetail(request);
+            if (request.RD_Qty >= 1)
+            {
+                AddToCart(request);
+            }            
+        }
+
+        public void RemoveDetail(CartInfoVM request)
+        {
+            _cartRepository.RemoveDetail(request);
+        }
+
+        public void DeleteCart(int memberId, int storeId)
+        {
+            _cartRepository.EmptyCart(memberId, storeId);
+        }
+
+        public void CheckOutCart(int memberId, int storeId)
+        {
+            var cart = Current(memberId, storeId);
+            if (cart.Details.Count == 0 || cart.Details == null)
+            {
+                throw new Exception("購物車內無商品, 無法進行結帳");
+            }            
+        }
+
+        
     }
 }

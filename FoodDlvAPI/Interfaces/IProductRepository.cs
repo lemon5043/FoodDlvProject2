@@ -3,13 +3,13 @@
 namespace FoodDlvAPI.Interfaces
 {
     public interface IProductRepository
-    {
+    {       
         /// <summary>
-        /// 回傳一筆商品
+        /// 回傳特定商品與被選擇的客製化資料
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        ProductDTO Load(long productId, int itemId, bool? status);
+        ProductDTO Load(long productId, List<int>? itemId, bool? status);
     }
 }

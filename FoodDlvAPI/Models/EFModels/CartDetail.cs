@@ -10,7 +10,7 @@ namespace FoodDlvAPI.Models
         public int Id { get; set; }
         public int IdentifyNum { get; set; }
         public long ProductId { get; set; }
-        public int ItemId { get; set; }
+        public int? ItemId { get; set; }
         public int Qty { get; set; }
         public long CartId { get; set; }
 

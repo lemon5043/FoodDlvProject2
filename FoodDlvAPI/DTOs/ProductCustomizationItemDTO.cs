@@ -2,6 +2,9 @@
 
 namespace FoodDlvAPI.DTOs
 {
+    /// <summary>
+    /// 傳送商品與客製化選項內容
+    /// </summary>
     public class ProductCustomizationItemDTO
     {
         public int Id { get; set; }
@@ -11,10 +14,10 @@ namespace FoodDlvAPI.DTOs
 
         public ProductCustomizationItemDTO(int id, long productId, string itemName, int unitPrice)
         {
-            this.Id = id;
-            this.ProuctId = productId;
-            this.ItemName = itemName;
-            this.UnitPrice = unitPrice;
+            Id = id;
+            ProuctId = productId;
+            ItemName = itemName;
+            UnitPrice = unitPrice;
         }
     }
 
@@ -22,14 +25,26 @@ namespace FoodDlvAPI.DTOs
     {
         public static ProductCustomizationItemDTO ToProductCustomizationItemDTO(this ProductCustomizationItem source)
         {
-            var toProductCustomizationItemDTO = new ProductCustomizationItemDTO
+            var productCustomizationItemDTO = new ProductCustomizationItemDTO
                 (
                     source.Id,
                     source.ProuctId,
                     source.ItemName,
                     source.UnitPrice
                 );
-            return toProductCustomizationItemDTO;
+            return productCustomizationItemDTO;
+        }
+
+        public static ProductCustomizationItem ToProductCustomizationItemEF(this ProductCustomizationItemDTO source)
+        {
+            var productCustomizationItemEF = new ProductCustomizationItem
+                { 
+                    Id = source.Id,
+                    ProuctId =  source.ProuctId,
+                    ItemName = source.ItemName,
+                    UnitPrice = source.UnitPrice
+                };
+            return productCustomizationItemEF;
         }
     }
 }
