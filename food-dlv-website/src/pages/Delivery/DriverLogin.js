@@ -30,7 +30,7 @@ const DriverLogin = () => {
   };
 
   return (
-    <div className="flex justify-center bg-black">
+    <div className="flex justify-center h-full bg-black">
       <div className="bg-white h-screen w-full max-w-md">
         <figure className=" flex justify-center pt-3">
           <img src={Bike} alt="bike" className="w-full max-w-xs h-72" />

@@ -1,10 +1,11 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../assets/images/logo.svg";
 // import index from "../hooks/useAxios";
 
 const Layout = () => {
   const navigate = useNavigate();
+  let [address, setAddress] = useState("");
 
   const addressHandler = () => {
     if (true) {
@@ -20,8 +21,11 @@ const Layout = () => {
   };
 
   return (
-    <div>
-      <nav className="bg-theme-color sticky top-0 z-10">
+    <div className="h-full">
+      <nav
+        style={{ height: "8%" }}
+        className="bg-theme-color sticky top-0 z-10"
+      >
         <ul className="flex justify-between w-full mr-4">
           {/* logo 標題 搜尋欄 */}
           <li className="flex items-center">
@@ -38,6 +42,7 @@ const Layout = () => {
             {/* 搜尋欄 */}
             <div className="pl-16 relative text-gray-600 flex items-center">
               <input
+                onChange={(e) => setAddress(e.target.value)}
                 onKeyDown={enterHandler}
                 className="border-2 border-gray-300 bg-white h-10 w-80 px-2 rounded-lg text-sm focus:border-neutral-400 focus:ring-neutral-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 type="address"

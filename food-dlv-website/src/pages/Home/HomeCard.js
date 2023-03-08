@@ -2,7 +2,7 @@ import React from "react";
 
 const HomeCard = ({ store }) => {
   return (
-    <div className="flex-shrink-0 w-80 p-4">
+    <div className="flex-shrink-0 w-80 p-4 h-full">
       <div className="bg-white h-96 shadow-lg rounded-lg overflow-hidden">
         <img
           className="w-full h-48 object-cover object-center"

@@ -131,16 +131,16 @@ const Home = () => {
 
   return (
     <div className="bg-theme-color h-full">
-      <div className="py-20">
-        <Slider {...settings}>
+      <div style={{ height: "52%" }} className="pt-4">
+        <Slider {...settings} className="h-full">
           {stores.map((d) => {
             return <HomeCard store={d} key={d.id} />;
           })}
         </Slider>
       </div>
-      <div>
-        <div className="flex">
-          <div className="slogan absolute bottom-36 left-24">
+      <div className="h-2/5">
+        <div className="flex h-full relative bg-theme-color items-end">
+          <div className="slogan absolute bottom-1/4 left-24">
             <h1 className=" text-4xl">想點什麼呢?</h1>
             <h5>
               以上的推薦您滿意嗎?
@@ -148,7 +148,7 @@ const Home = () => {
               如不符合您需求請點這裡
             </h5>
           </div>
-          <img className="w-80 mx-auto mt-8" src={Table} alt="" />
+          <img className="w-80 mx-auto relative" src={Table} alt="" />
         </div>
       </div>
       <About />

@@ -49,8 +49,8 @@ const DriverRegister = () => {
   };
 
   return (
-    <div className="flex justify-center bg-black">
-      <div className="bg-white h-screen w-full max-w-md">
+    <div className="flex justify-center h-full bg-black">
+      <div className="bg-white h-screen w-full max-w-md overflow-scroll pb-4">
         <div className="relative flex flex-col justify-center overflow-hidden">
           <div className=" w-full px-6 m-auto rounded-md max-w-md">
             <p className="mt-6 text-2xl font-semibold text-center text-black">

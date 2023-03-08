@@ -20,12 +20,15 @@ const CustomLink = ({ to, children, setIcon }) => {
 
 const DriverLayout = () => {
   return (
-    <div className="flex h-100 justify-center bg-black">
-      <div className="h-screen max-w-md bg-slate-900">
-        <main style={{ minHeight: "calc(100vh - 8rem)" }}>
-          <Outlet />
+    <div className="flex h-full justify-center bg-black">
+      <div className="h-full max-w-md bg-slate-900">
+        <main style={{ height: "90%" }}>
+          <Outlet className="text-white h-full overflow-scroll" />
         </main>
-        <footer className="flex justify-center items-end h-32 bg-slate-900">
+        <footer
+          className="flex justify-center items-end bg-slate-900"
+          style={{ height: "10%" }}
+        >
           <div className="driverNav w-96 h-16 relative bg-white rounded-lg flex justify-center items-center">
             <ul className="flex w-80">
               <CustomLink setIcon="fa-solid fa-user" to="/delivery">

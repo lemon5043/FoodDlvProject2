@@ -8,7 +8,7 @@ const Store = () => {
   // let [enableLoadMoreData, setEnableLoadMoreData] = useState(false);
 
   const search = async () => {
-    let result = await StoreService.getStore();
+    let result = await StoreService.getByAddress();
     setData(result.data);
     // setEnableLoadMoreData(true);
   };
@@ -17,14 +17,11 @@ const Store = () => {
   }, []);
 
   return (
-    <div className="mx-12">
+    <div className="mx-12 h-full">
       <button onClick={search}>測試</button>
-      <main className="flex">
+      <main className="flex h-full">
         {/* 篩選部分 */}
-        <section
-          className="max-w-xs sticky border-2 border-solid border-black"
-          style={{ height: "45rem" }}
-        >
+        <section className="max-w-xs h-3/4 sticky border-2 border-solid border-black">
           {/**下面的這個 div 做完要刪掉 */}
           <div className=" w-64"></div>
           <div className="text-2xl font-bold">所有店家</div>
