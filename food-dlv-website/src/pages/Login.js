@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Label, Input, Button } from "../components/Delivery/form-styling";
 
 const Login = () => {
   // navigate 是控制重新導向的東西
@@ -17,29 +18,22 @@ const Login = () => {
       <div className=" w-full p-6 m-auto bg-white rounded-md shadow-lg shadow-gray-900-600/40 ring ring-neutral-700 max-w-md">
         <form className="mt-6">
           <div className="mb-2">
-            <label
-              htmlFor="email"
-              className="block text-base font-semibold text-gray-800"
-            >
-              Email
-            </label>
-            <input
-              name="email"
+            <Label htmlFor="account">email / 帳號</Label>
+            <Input
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+              required
+              autoComplete="username"
+              name="account"
               type="email"
-              className="block w-full px-4 py-2 mt-2 text-neutral-700 bg-white border rounded-md focus:border-neutral-400 focus:ring-neutral-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
           <div className="mb-2">
-            <label
-              htmlFor="password"
-              className="block text-base font-semibold text-gray-800"
-            >
-              密碼
-            </label>
-            <input
+            <Label htmlFor="password">密碼</Label>
+            <Input
+              required
+              autoComplete="current-password"
               name="password"
               type="password"
-              className="block w-full px-4 py-2 mt-2 text-neutral-700 bg-white border rounded-md focus:border-neutral-400 focus:ring-neutral-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
           <Link to="/" className="text-sm text-neutral-600 hover:underline">

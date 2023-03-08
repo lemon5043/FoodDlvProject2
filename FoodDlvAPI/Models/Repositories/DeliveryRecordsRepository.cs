@@ -13,35 +13,6 @@ namespace FoodDlvAPI.Models.Repositories
             this.db = db;
         }
 
-        public async Task<List<DeliveryRecordDTO>> GetAllRecordAsync()
-        {
-            var data = await db.Orders
-                .Join(db.OrderSchedules.Where(x => x.StatusId > 3), o => o.Id, s => s.OrderId, (o, s) => new
-                {
-                    o.Id,
-                    o.Milage,
-                    s.MarkTime,
-                    s.Status.Status,
-                    o.DeliveryDrivers.FirstName,
-                    o.DeliveryDrivers.LastName,
-                    o.DeliveryDriversId,
-                }).ToListAsync();
-
-            var query = data.GroupBy(r => r.Id)
-               .Select(g => g.OrderByDescending(r => r.MarkTime).FirstOrDefault())
-               .Select(s => new DeliveryRecordDTO
-               {
-                   Id = s.Id,
-                   OrderDate = s.MarkTime,
-                   Milage = s.Milage,
-                   Status = s.Status.ToString(),
-                   DriverName = s.LastName + s.FirstName,
-                   DeliveryDriversId = s.DeliveryDriversId
-               }).ToList();
-
-            return query;
-        }
-
         public async Task<List<DeliveryRecordDTO>> GetMonthlyRecordAsync(int? id)
         {
             if (id == null || db.Orders == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");

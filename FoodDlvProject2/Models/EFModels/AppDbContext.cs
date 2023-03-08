@@ -25,7 +25,8 @@ namespace FoodDlvProject2.EFModels
         public virtual DbSet<AccountStatue> AccountStatues { get; set; }
         public virtual DbSet<BenefitStandard> BenefitStandards { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
-        public virtual DbSet<CartCustomizationItem> CartCustomizationItems { get; set; }
+		public virtual DbSet<CartDetail> CartDetails { get; set; }
+		public virtual DbSet<CartCustomizationItem> CartCustomizationItems { get; set; }
         public virtual DbSet<CommonReply> CommonReplies { get; set; }
         public virtual DbSet<CreditCard> CreditCards { get; set; }
         public virtual DbSet<DeliveryDriver> DeliveryDrivers { get; set; }

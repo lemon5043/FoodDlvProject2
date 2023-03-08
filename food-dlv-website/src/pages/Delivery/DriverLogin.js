@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import Bike from "../../assets/images/delivery/bike.svg";
-import { Label, Input } from "../../components/Delivery/form-styling";
+import { Label, Input, Button } from "../../components/Delivery/form-styling";
 import driverAuthService from "../../services/Delivery/driverAuth.service";
 
 const DriverLogin = () => {
@@ -63,12 +63,7 @@ const DriverLogin = () => {
                 忘記密碼?
               </Link>
               <div className="mt-6">
-                <button
-                  type="submit"
-                  className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-black rounded-md hover:bg-zinc-600 focus:outline-none focus:bg-zinc-600"
-                >
-                  登入
-                </button>
+                <Button type="submit">登入</Button>
               </div>
             </form>
             <p className="mt-8 text-sm font-light text-center text-gray-700">

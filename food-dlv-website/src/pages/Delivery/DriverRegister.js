@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { Label, Input } from "../../components/Delivery/form-styling";
+import { Label, Input, Button } from "../../components/Delivery/form-styling";
 import driverAuthService from "../../services/Delivery/driverAuth.service";
 
 const DriverRegister = () => {
@@ -157,12 +157,7 @@ const DriverRegister = () => {
                 />
               </div>
               <div className="mt-6">
-                <button
-                  type="submit"
-                  className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-black rounded-md hover:bg-zinc-600 focus:outline-none focus:bg-zinc-600"
-                >
-                  下一步
-                </button>
+                <Button type="submit">下一步</Button>
               </div>
             </form>
           </div>

@@ -24,3 +24,27 @@ export const Label = styled.label`
   font-weight: 600;
   color: rgb(31 41 55 / var(--tw-text-opacity));
 `;
+
+export const Button = styled.button`
+  width: 100%;
+  padding: 0.5rem 1rem;
+  letter-spacing: 0.025em;
+  color: #fff;
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  background-color: #000;
+  border-radius: 0.375rem;
+  &:hover {
+    background-color: rgb(82, 82, 91);
+  }
+  &:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    background-color: rgb(82, 82, 91);
+  }
+`;

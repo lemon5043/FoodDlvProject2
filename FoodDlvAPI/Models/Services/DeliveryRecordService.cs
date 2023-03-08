@@ -13,9 +13,6 @@ namespace FoodDlvAPI.Models.Services
             _repository = repository;
         }
 
-        public async Task<List<DeliveryRecordDTO>> GetAllRecordAsync()
-            => await _repository.GetAllRecordAsync();
-
         public async Task<List<DeliveryRecordDTO>> GetMonthlyRecordAsync(int? id)
             => await _repository.GetMonthlyRecordAsync(id);
 
