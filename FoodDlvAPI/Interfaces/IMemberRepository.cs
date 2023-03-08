@@ -10,6 +10,9 @@ namespace FoodDlvAPI.Interfaces
         Task<string> EditAsync(MemberRegisterDto model);
         MemberRegisterDto Load(string account);
         bool MemberExists(int id);
+		Task<string> GetKey(string APIName);
+		Task<GetMemberPositionDto> GetMemberPosition(int orderId);
+        Task MemberLocation(MemberLocationDto location);
 
 	}
 }

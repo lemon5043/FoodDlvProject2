@@ -106,10 +106,49 @@ namespace FoodDlvAPI.Models.Repositories
             }
             public bool AccountExists(string account)
             {
-                return db.DeliveryDrivers.Any(e => e.Account == account);
+                return db.Members.Any(e => e.Account == account);
             }
+			public async Task<string> GetKey(string APIName)
+			{
+				if (db.Apis == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
-            public bool MemberExists(int id)
+				var apiKey = await db.Apis.Where(x => x.Apiname == APIName).FirstOrDefaultAsync();
+
+				if (apiKey == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+
+				return apiKey.Apikey;
+			}
+			public async Task<GetMemberPositionDto> GetMemberPosition(int orderId)
+			{
+				if (db.Orders == null) throw new Exception("抱歉找不到資料，請確認後再試一次");
+
+				var query = await db.Orders
+					.Where(x => x.Id == orderId)
+					.Select(x => new GetMemberPositionDto
+					{
+						StoreAddress = x.Store.Address,
+						Address = x.Member.AccountAddresses
+					}).FirstOrDefaultAsync();
+
+				if (query == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+
+				return query;
+			}
+            public async Task MemberLocation(MemberLocationDto location) 
+            {
+                if (db.Members == null) throw new Exception("找不到指定資料,請確認後再試一次");
+                var EFModel=location.ToMemberEFModel();
+                string[] memberlocation = { "longitude", "latitude" };
+                db.Attach(EFModel);
+				foreach (var property in memberlocation)
+				{
+					db.Entry(EFModel).Property(property).IsModified = true;
+				}
+
+				await db.SaveChangesAsync();
+			}
+
+			public bool MemberExists(int id)
             {
                 return db.Members.Any(e => e.Id == id);
             }

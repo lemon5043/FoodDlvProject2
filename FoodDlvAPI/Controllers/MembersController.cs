@@ -5,13 +5,15 @@ using FoodDlvAPI.Models.Services;
 using FoodDlvAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using NuGet.Protocol.Core.Types;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using static FoodDlvAPI.Models.Repositories.MemberRespitory;
 
 namespace FoodDlvAPI.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class MembersController : Controller
 	{
@@ -53,7 +55,7 @@ namespace FoodDlvAPI.Controllers
 		[HttpPost("login")]
 		public async Task<ActionResult<string>> Login(MemberLoginVM model)
 		{
-            MemberLoginresponse response = await memberservice.Login(model.Account, model.Password);
+			MemberLoginresponse response = await memberservice.Login(model.Account, model.Password);
 
 			if (response.IsSuccess)
 			{
@@ -131,7 +133,21 @@ namespace FoodDlvAPI.Controllers
 				return BadRequest(ModelState);
 			}
 		}
+		//取得會員地址
+		[HttpPut("GetMemberPosition")]
+		public async Task GetMemberPosition(MemberLocationVM location)
+		{
+			try
+			{
+				await memberservice.MemberLocation(location.ToMemberLocationDto());
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
 
 
+
+		}
 	}
 }
