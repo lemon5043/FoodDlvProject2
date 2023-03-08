@@ -24,64 +24,117 @@ namespace FoodDlvAPI.Controllers
 			_context = context;
 		}
 
+		/// <summary>
+		/// 傳入搜尋字串、頁碼、顯示數量、所在地點、餐廳類別ID，先依據搜尋字串與類別ID選出商店名稱、商店類別名稱、商店的商品名稱與搜尋字串有關的商店
+		/// ，如果與搜尋字串有關的商品狀態為FALSE則不列出，然後利用所在地與商店的經緯度計算距離後依距排列(如果沒傳入類別ID則顯示全部餐廳)
+		/// </summary>
+		/// <param name="pageNum">頁碼</param>
+		/// <param name="storeNum">顯示數量</param>
+		/// <param name="origin">所在地點</param>
+		/// <param name="categoryId">餐廳類別ID</param>
+		/// <param name="searchString">搜尋字串</param>
+		/// <returns>List<StoreGetDTO>getSomeStoresOrderByDistance</returns>
 
 
-
-
-		//傳入頁碼、顯示數量、所在地點、餐廳類別ID，然後利用經緯計算距離後依距排列(如果沒傳入類別ID則顯示全部餐廳)
-		[HttpGet("getSomeStoresIfIMAt/{origin}/{categoryId?}")]
-		public async Task<ActionResult<IEnumerable<Store2DTO>>> GetSomeThisCategoryOfStoresIfIMAt(int pageNum, int storeNum, string origin, int? categoryId)
+		[HttpGet("getSomeStoresIfIMAt/{origin}")]
+		public async Task<ActionResult<IEnumerable<StoreGetDTO>>> GetSomeThisCategoryOfStoresIfIMAt(int pageNum, int storeNum, string origin, int? categoryId, string? searchString)
 		{
-			List<Store2DTO> getSomeStores;
-
-
-			if (categoryId != null)
+			List<StoreGetDTO> getSomeStores;
+			//如果有搜尋字串
+			if (!string.IsNullOrEmpty(searchString) || !string.IsNullOrWhiteSpace(searchString))
 			{
-				getSomeStores = await _context.Stores
-					.Include(s => s.StoresCategoriesLists)
-					.ThenInclude(x => x.Category)
-					.Where(x => x.StoresCategoriesLists.Any(scl => scl.CategoryId == categoryId))
-					.Select(x => new Store2DTO
-					{
-						Id = x.Id,
-						StorePrincipalId = x.StorePrincipalId,
-						StoreName = x.StoreName,
-						Address = x.Address,
-						ContactNumber = x.ContactNumber,
-						Photo = x.Photo,
-						CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName),
-						Longitude = x.Longitude,
-						Latitude = x.Latitude,
+				//如果有搜尋字串有類別ID
+				if (categoryId != null)
+				{
 
-					})
-					.ToListAsync();
+					getSomeStores = await _context.Stores.Include(x => x.StoresCategoriesLists).ThenInclude(x => x.Category).Include(x => x.Products).
+				   Where(s => s.StoreName.Contains(searchString)
+				   || s.StoresCategoriesLists.Any(scl => scl.Category.CategoryName.Contains(searchString))
+				   || s.Products.Any(p => p.ProductName.Contains(searchString) && s.Products.Any(p => p.Status == true))).Where(x => x.StoresCategoriesLists.Any(scl => scl.CategoryId
+				   == categoryId)).Select(x => new StoreGetDTO
+				   {
+					   Id = x.Id,
+					   StorePrincipalId = x.StorePrincipalId,
+					   StoreName = x.StoreName,
+					   Address = x.Address,
+					   ContactNumber = x.ContactNumber,
+					   Photo = x.Photo,
+					   CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName),
+					   Longitude = x.Longitude,
+					   Latitude = x.Latitude,
+				   }).ToListAsync();
+				}
+				//如果有搜尋字串沒有類別ID
+				else
+				{
+					getSomeStores = await _context.Stores.Include(x => x.StoresCategoriesLists).ThenInclude(x => x.Category).Include(x => x.Products).
+				   Where(s => s.StoreName.Contains(searchString)
+				   || s.StoresCategoriesLists.Any(scl => scl.Category.CategoryName.Contains(searchString))
+				   || s.Products.Any(p => p.ProductName.Contains(searchString) && s.Products.Any(p => p.Status == true))).Select(x => new StoreGetDTO
+				   {
+					   Id = x.Id,
+					   StorePrincipalId = x.StorePrincipalId,
+					   StoreName = x.StoreName,
+					   Address = x.Address,
+					   ContactNumber = x.ContactNumber,
+					   Photo = x.Photo,
+					   CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName),
+					   Longitude = x.Longitude,
+					   Latitude = x.Latitude,
+				   }).ToListAsync();
+				}
 			}
+			//如果沒有搜尋字串
 			else
 			{
-				getSomeStores = await _context.Stores
-					.Include(s => s.StoresCategoriesLists)
-					.ThenInclude(x => x.Category)
-					.Select(x => new Store2DTO
-					{
-						Id = x.Id,
-						StorePrincipalId = x.StorePrincipalId,
-						StoreName = x.StoreName,
-						Address = x.Address,
-						ContactNumber = x.ContactNumber,
-						Photo = x.Photo,
-						CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName),
-						Longitude = x.Longitude,
-						Latitude = x.Latitude,
-					})
-					.ToListAsync();
-			}
+				//如果沒有搜尋字串有類別ID
+				if (categoryId != null)
+				{
+					getSomeStores = await _context.Stores
+						.Include(s => s.StoresCategoriesLists)
+						.ThenInclude(x => x.Category)
+						.Where(x => x.StoresCategoriesLists.Any(scl => scl.CategoryId == categoryId))
+						.Select(x => new StoreGetDTO
+						{
+							Id = x.Id,
+							StorePrincipalId = x.StorePrincipalId,
+							StoreName = x.StoreName,
+							Address = x.Address,
+							ContactNumber = x.ContactNumber,
+							Photo = x.Photo,
+							CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName),
+							Longitude = x.Longitude,
+							Latitude = x.Latitude,
 
+						})
+						.ToListAsync();
+				}
+				//如果沒有搜尋字串沒有類別ID
+				else
+				{
+					getSomeStores = await _context.Stores
+						.Include(s => s.StoresCategoriesLists)
+						.ThenInclude(x => x.Category)
+						.Select(x => new StoreGetDTO
+						{
+							Id = x.Id,
+							StorePrincipalId = x.StorePrincipalId,
+							StoreName = x.StoreName,
+							Address = x.Address,
+							ContactNumber = x.ContactNumber,
+							Photo = x.Photo,
+							CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName),
+							Longitude = x.Longitude,
+							Latitude = x.Latitude,
+						})
+						.ToListAsync();
+				}
+			}
 			var OriginsLongitudeNLatitude = await getOriginsLongitudeNLatitude(origin);
-			var getSomeStoresWithDistance = new List<Store2DTO>();
+			var getSomeStoresWithDistance = new List<StoreGetDTO>();
 
 			foreach (var store in getSomeStores)
 			{
-
 				var distance = await getDistance(store.Longitude, store.Latitude, OriginsLongitudeNLatitude[0], OriginsLongitudeNLatitude[1]);
 				store.Distance = distance;
 				getSomeStoresWithDistance.Add(store);
@@ -91,11 +144,7 @@ namespace FoodDlvAPI.Controllers
 			return getSomeStoresOrderByDistance;
 		}
 
-
-
-
-
-
+		//取得所在地經緯度
 		private async Task<List<double>> getOriginsLongitudeNLatitude(string origin)
 		{
 			var apiKey = await _context.Apis.Where(x => x.Id == 1).Select(x => x.Apikey).FirstOrDefaultAsync();
@@ -104,14 +153,14 @@ namespace FoodDlvAPI.Controllers
 			var response = await client.GetAsync(url);
 			var content = await response.Content.ReadAsStringAsync();
 			dynamic result = JsonConvert.DeserializeObject(content);
-			
+
 			var OriginsLongitude = Convert.ToDouble(result.results[0].geometry.location.lng);
 			var OriginsLatitude = Convert.ToDouble(result.results[0].geometry.location.lat);
-			var OriginsLongitudeNLatitude = new List<double>() { OriginsLongitude,OriginsLatitude };
+			var OriginsLongitudeNLatitude = new List<double>() { OriginsLongitude, OriginsLatitude };
 
 			return OriginsLongitudeNLatitude;
 		}
-
+		//取得店家與所在地距離
 		private async Task<double> getDistance(double storeLng, double storeLat, double originLng, double originLat)
 		{
 			double R = 6371; // 地球平均半徑，單位為公里
@@ -126,7 +175,7 @@ namespace FoodDlvAPI.Controllers
 			//double dLat = Math.Abs(storeLat - originLat);
 			//double dLon = Math.Abs(storeLng - originLng);
 
-			//var distance_km= Math.Sqrt(Math.Pow(dLon,2)+Math.Pow(dLat,2));
+			//var distance_km = Math.Sqrt(Math.Pow(dLon, 2) + Math.Pow(dLat, 2)) * 110.9362;
 
 
 			return distance_km;
@@ -139,6 +188,106 @@ namespace FoodDlvAPI.Controllers
 
 
 
+		////傳入頁碼、顯示數量、所在地點、餐廳類別ID，然後利用經緯計算距離後依距排列(如果沒傳入類別ID則顯示全部餐廳)
+		//[HttpGet("getSomeStoresIfIMAt/{origin}/{categoryId?}")]
+		//public async Task<ActionResult<IEnumerable<Store2DTO>>> GetSomeThisCategoryOfStoresIfIMAt(int pageNum, int storeNum, string origin, int? categoryId)
+		//{
+		//	List<Store2DTO> getSomeStores;
+
+
+		//	if (categoryId != null)
+		//	{
+		//		getSomeStores = await _context.Stores
+		//			.Include(s => s.StoresCategoriesLists)
+		//			.ThenInclude(x => x.Category)
+		//			.Where(x => x.StoresCategoriesLists.Any(scl => scl.CategoryId == categoryId))
+		//			.Select(x => new Store2DTO
+		//			{
+		//				Id = x.Id,
+		//				StorePrincipalId = x.StorePrincipalId,
+		//				StoreName = x.StoreName,
+		//				Address = x.Address,
+		//				ContactNumber = x.ContactNumber,
+		//				Photo = x.Photo,
+		//				CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName),
+		//				Longitude = x.Longitude,
+		//				Latitude = x.Latitude,
+
+		//			})
+		//			.ToListAsync();
+		//	}
+		//	else
+		//	{
+		//		getSomeStores = await _context.Stores
+		//			.Include(s => s.StoresCategoriesLists)
+		//			.ThenInclude(x => x.Category)
+		//			.Select(x => new Store2DTO
+		//			{
+		//				Id = x.Id,
+		//				StorePrincipalId = x.StorePrincipalId,
+		//				StoreName = x.StoreName,
+		//				Address = x.Address,
+		//				ContactNumber = x.ContactNumber,
+		//				Photo = x.Photo,
+		//				CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName),
+		//				Longitude = x.Longitude,
+		//				Latitude = x.Latitude,
+		//			})
+		//			.ToListAsync();
+		//	}
+
+		//	var OriginsLongitudeNLatitude = await getOriginsLongitudeNLatitude(origin);
+		//	var getSomeStoresWithDistance = new List<Store2DTO>();
+
+		//	foreach (var store in getSomeStores)
+		//	{
+
+		//		var distance = await getDistance(store.Longitude, store.Latitude, OriginsLongitudeNLatitude[0], OriginsLongitudeNLatitude[1]);
+		//		store.Distance = distance;
+		//		getSomeStoresWithDistance.Add(store);
+		//	}
+
+		//	var getSomeStoresOrderByDistance = getSomeStoresWithDistance.Where(x => x.Distance != -1).OrderBy(x => x.Distance).Skip((pageNum - 1) * storeNum).Take(storeNum).ToList();
+		//	return getSomeStoresOrderByDistance;
+		//}
+
+
+		//private async Task<List<double>> getOriginsLongitudeNLatitude(string origin)
+		//{
+		//	var apiKey = await _context.Apis.Where(x => x.Id == 1).Select(x => x.Apikey).FirstOrDefaultAsync();
+		//	var url = $"https://maps.googleapis.com/maps/api/geocode/json?address={origin}&key={apiKey}";
+		//	using var client = new HttpClient();
+		//	var response = await client.GetAsync(url);
+		//	var content = await response.Content.ReadAsStringAsync();
+		//	dynamic result = JsonConvert.DeserializeObject(content);
+
+		//	var OriginsLongitude = Convert.ToDouble(result.results[0].geometry.location.lng);
+		//	var OriginsLatitude = Convert.ToDouble(result.results[0].geometry.location.lat);
+		//	var OriginsLongitudeNLatitude = new List<double>() { OriginsLongitude,OriginsLatitude };
+
+		//	return OriginsLongitudeNLatitude;
+		//}
+
+		//private async Task<double> getDistance(double storeLng, double storeLat, double originLng, double originLat)
+		//{
+		//	double R = 6371; // 地球平均半徑，單位為公里
+		//	double dLat = Math.Abs(storeLat - originLat) * Math.PI / 180;
+		//	double dLon = Math.Abs(storeLng - originLng) * Math.PI / 180;
+		//	double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) + Math.Cos(originLat * Math.PI / 180) * Math.Cos(storeLat * Math.PI / 180) * Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+		//	double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+		//	double distance_km = R * c;
+
+
+
+		//	//double dLat = Math.Abs(storeLat - originLat);
+		//	//double dLon = Math.Abs(storeLng - originLng);
+
+		//	//var distance_km = Math.Sqrt(Math.Pow(dLon, 2) + Math.Pow(dLat, 2)) * 110.9362;
+
+
+		//	return distance_km;
+
+		//}
 
 
 
@@ -401,27 +550,27 @@ namespace FoodDlvAPI.Controllers
 
 
 
-		//2.1依搜尋字串選出商店名稱、商店類別名稱、商店的商品名稱與搜尋字串有關的商店，如果商品狀態為FALSE則不列出
-		[HttpGet("searchString")]
-		public async Task<ActionResult<IEnumerable<StoreDTO>>> SearchStore(string? searchString)
-		{
-			var searchStores = await _context.Stores.Include(x => x.StoresCategoriesLists).ThenInclude(x => x.Category).Include(x => x.Products).
-						   Where(s => s.StoreName.Contains(searchString)
-						   || s.StoresCategoriesLists.Any(scl => scl.Category.CategoryName.Contains(searchString))
-						   || s.Products.Any(p => p.ProductName.Contains(searchString) && s.Products.Any(p => p.Status == true))).Select(x => new StoreDTO
-						   {
-							   Id = x.Id,
-							   StorePrincipalId = x.StorePrincipalId,
-							   StoreName = x.StoreName,
-							   Address = x.Address,
-							   ContactNumber = x.ContactNumber,
-							   Photo = x.Photo,
+		////2.1依搜尋字串選出商店名稱、商店類別名稱、商店的商品名稱與搜尋字串有關的商店，如果商品狀態為FALSE則不列出
+		//[HttpGet("searchString")]
+		//public async Task<ActionResult<IEnumerable<StoreDTO>>> SearchStore(string? searchString)
+		//{
 
-							   CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
-						   }).ToListAsync();
+		//		var searchStores = await _context.Stores.Include(x => x.StoresCategoriesLists).ThenInclude(x => x.Category).Include(x => x.Products).
+		//		   Where(s => s.StoreName.Contains(searchString)
+		//		   || s.StoresCategoriesLists.Any(scl => scl.Category.CategoryName.Contains(searchString))
+		//		   || s.Products.Any(p => p.ProductName.Contains(searchString) && s.Products.Any(p => p.Status == true))).Select(x => new StoreDTO
+		//		   {
+		//			   Id = x.Id,
+		//			   StorePrincipalId = x.StorePrincipalId,
+		//			   StoreName = x.StoreName,
+		//			   Address = x.Address,
+		//			   ContactNumber = x.ContactNumber,
+		//			   Photo = x.Photo,
 
-			return searchStores;
-		}
+		//			   CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
+		//		   }).ToListAsync();
+		//	return searchStores;
+		//}
 
 
 
@@ -514,37 +663,37 @@ namespace FoodDlvAPI.Controllers
 
 		}
 
-		//6商店內部資訊修改
-		[HttpPut("{id}")]
-		public async Task<string> PutStore(int id, Store store)
-		{
+		////6商店內部資訊修改
+		//[HttpPut("{id}")]
+		//public async Task<string> PutStore(int id, Store store)
+		//{
+		
+		//	if (id != store.Id)
+		//	{
+		//		return "錯誤";
+		//	}
 
-			if (id != store.Id)
-			{
-				return "錯誤";
-			}
+		//	_context.Entry(store).State = EntityState.Modified;
 
-			_context.Entry(store).State = EntityState.Modified;
+		//	try
+		//	{
+		//		await _context.SaveChangesAsync();
+		//	}
+		//	catch (DbUpdateConcurrencyException ex)
+		//	{
 
-			try
-			{
-				await _context.SaveChangesAsync();
-			}
-			catch (DbUpdateConcurrencyException ex)
-			{
+		//		if (!_context.Stores.Any(e => e.Id == id))
+		//		{
+		//			return "錯誤找不到此商店";
+		//		}
+		//		else
+		//		{
+		//			throw new Exception(ex.Message);
+		//		}
+		//	}
 
-				if (!_context.Stores.Any(e => e.Id == id))
-				{
-					return "錯誤找不到此商店";
-				}
-				else
-				{
-					throw new Exception(ex.Message);
-				}
-			}
-
-			return "修改成功";
-		}
+		//	return "修改成功";
+		//}
 
 
 		//6.1商店標籤新增
