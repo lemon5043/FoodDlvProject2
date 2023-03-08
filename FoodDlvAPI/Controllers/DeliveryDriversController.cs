@@ -9,12 +9,14 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using FoodDlvAPI.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FoodDlvAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DeliveryDriversController : Controller
+	[Authorize(Roles = "DeliveryDriver")]
+	public class DeliveryDriversController : Controller
     {
         private readonly DeliveryDriverService deliveryDriverService;
         
@@ -28,7 +30,8 @@ namespace FoodDlvAPI.Controllers
             this._configuration= configuration;
         }
 
-        [HttpPost("login")]
+		[AllowAnonymous]
+		[HttpPost("login")]
         public async Task<ActionResult<string>> Login(LoginVM model)
         {
             LoginResponse response = await deliveryDriverService.Login(model.Account, model.Password);
@@ -49,7 +52,23 @@ namespace FoodDlvAPI.Controllers
             return response.ErrorMessage;
         }
 
-        private string CreateToken(LoginResponse response)
+		//這是伯翰寫ㄉ，不確定前台會不會用到，以防萬一先寫
+		/// <summary>
+		/// 獲得透過 token 得到的用戶 ID、名字和身分
+		/// </summary>
+		/// <returns></returns>
+        [HttpGet]
+		public ActionResult<object> GetDriver()
+		{
+			var driverId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var driverAccount = User.FindFirstValue(ClaimTypes.Name);
+			var role = User.FindFirstValue(ClaimTypes.Role);
+			return Ok(new { driverId, driverAccount, role });
+
+		}
+
+		[AllowAnonymous]
+		private string CreateToken(LoginResponse response)
         {
             //Claim 的中文叫做宣告，代表主體的屬性
             List<Claim> claims = new List<Claim>
@@ -105,17 +124,18 @@ namespace FoodDlvAPI.Controllers
             }
         }
 
-        // GET: DeliveryDrivers/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+		// GET: DeliveryDrivers/Create
+		//public IActionResult Create()
+		//{
+		//    return View();
+		//}
 
-        //POST: DeliveryDrivers/Create
-        //To protect from overposting attacks, enable the specific properties you want to bind to.
-        //For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		//POST: DeliveryDrivers/Create
+		//To protect from overposting attacks, enable the specific properties you want to bind to.
+		//For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 
-        [HttpPost("register")]
+		[AllowAnonymous]
+		[HttpPost("register")]
         //[ValidateAntiForgeryToken]
         public async Task<ActionResult<string>> Register([FromForm]DeliveryDriverCreateVM deliveryDriver)
         {

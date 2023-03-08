@@ -14,19 +14,22 @@ const DriverLogin = () => {
 
   //判斷是否登入成功
   const loginHandler = async (e) => {
-    try {
-      e.preventDefault();
-      let response = await driverAuthService.login(account, password);
-      console.log(response);
-      if (response.data === "帳密有誤") {
-        setErrorMessage("帳號或密碼錯誤");
-        return;
-      }
-      localStorage.setItem("driver", JSON.stringify(response.data));
-      navigate("/delivery");
-    } catch (e) {
-      console.log(e);
+    e.preventDefault();
+    const res = await driverAuthService.login(account, password);
+    if (res.data === "帳密有誤") {
+      setErrorMessage("帳號或密碼錯誤");
+      return;
     }
+    localStorage.setItem("driver", res.data);
+    let token = res.data;
+    await driverAuthService
+      .GetDriver(token)
+      .then(() => {
+        navigate("/delivery");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

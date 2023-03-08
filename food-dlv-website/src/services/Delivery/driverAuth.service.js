@@ -12,8 +12,17 @@ class DriverAuthService {
   }
 
   login(account, password) {
-    let response = axios.post(API_URL + "/login", { account, password });
+    const response = axios.post(API_URL + "/login", { account, password });
     return response;
+  }
+  GetDriver(response) {
+    const res = axios.get(API_URL, {
+      headers: {
+        responseType: "json",
+        Authorization: `bearer ${response}`,
+      },
+    });
+    return res;
   }
 
   logout() {
