@@ -11,8 +11,8 @@
         public static LoginResponse Success(int id, string userName, string encryptedPassword)
             => new LoginResponse { IsSuccess = true, Id = id, Username = userName, EncryptedPassword = encryptedPassword };
 
-        public static LoginResponse Fail(string errorMessage)
-            => new LoginResponse { IsSuccess = false, ErrorMessage = errorMessage };
+		public static LoginResponse Fail(string errorMessage)
+			=> new LoginResponse { IsSuccess = false, ErrorMessage = errorMessage };
 
-    }
+	}
 }
