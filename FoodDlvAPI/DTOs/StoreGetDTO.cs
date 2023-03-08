@@ -1,6 +1,6 @@
 ﻿namespace FoodDlvAPI.DTOs
 {
-	public class Store2DTO
+	public class StoreGetDTO
 	{
 		public int Id { get; set; }
 		public int StorePrincipalId { get; set; }
