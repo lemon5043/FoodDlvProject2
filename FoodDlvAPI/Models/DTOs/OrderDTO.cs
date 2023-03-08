@@ -1,6 +1,6 @@
 ﻿using FoodDlvAPI.Models;
 
-namespace FoodDlvAPI.DTOs
+namespace FoodDlvAPI.Models.DTOs
 {
     public class OrderDTO
     {
@@ -18,7 +18,7 @@ namespace FoodDlvAPI.DTOs
         public int? StoreRating { get; set; }
         public string? DriverComment { get; set; }
         public string? StoreComment { get; set; }
-        public decimal? Milage { get; set; }        
+        public decimal? Milage { get; set; }
         public CartDTO? Cart { get; set; }
         public List<OrderDetailDTO>? Details { get; set; }
         public List<OrderScheduleDTO>? Schedules { get; set; }
@@ -28,10 +28,10 @@ namespace FoodDlvAPI.DTOs
     {
         public static OrderDTO ToOrderDTO(this Order source)
         {
-            var orderDTO = new OrderDTO() 
-            {                
-                Id= source.Id,
-                DeliveryDriversId  = source.DeliveryDriversId,
+            var orderDTO = new OrderDTO()
+            {
+                Id = source.Id,
+                DeliveryDriversId = source.DeliveryDriversId,
                 MemberId = source.MemberId,
                 StoreId = source.StoreId,
                 DeliveryFee = source.DeliveryFee,
@@ -52,7 +52,7 @@ namespace FoodDlvAPI.DTOs
                 Id = source.Id,
                 MemberId = source.MemberId,
                 StoreId = source.StoreId,
-                DeliveryFee = source.DeliveryFee,                
+                DeliveryFee = source.DeliveryFee,
                 OrderDetails = source.Details.Select(d => d.ToOrderDetailEF()).ToList(),
             };
             return orderEF;

@@ -1,11 +1,10 @@
-﻿
-using FoodDlvAPI.DTOs;
+﻿using FoodDlvAPI.Models.DTOs;
 using System.ComponentModel.DataAnnotations;
 
-namespace FoodDlvAPI.ViewModels
+namespace FoodDlvAPI.Models.ViewModels
 {
     public class CartInfoVM
-    {   
+    {
         /// <summary>
         /// View可能需要的資料
         /// </summary>
@@ -24,12 +23,12 @@ namespace FoodDlvAPI.ViewModels
         [Display(Name = "產品總量")]
         public int Qty { get; set; }
 
-        [Display(Name = "購物車總價")]        
-        public int Total { get; set; }  
+        [Display(Name = "購物車總價")]
+        public int Total { get; set; }
 
         [Display(Name = "產品明細")]
         public List<CartDetailVM>? CartDetails { get; set; }
-        
+
         /// <summary>
         /// ResponseData
         /// </summary>
@@ -37,7 +36,7 @@ namespace FoodDlvAPI.ViewModels
         public int RD_StoreId { get; set; }
         public long RD_ProductId { get; set; }
         public int RD_identifyNum { get; set; }
-        public List<int?>? RD_ItemId { get; set; }                
+        public List<int?>? RD_ItemId { get; set; }
         public int RD_Qty { get; set; } = 1;
     }
 

@@ -1,6 +1,6 @@
 ﻿using FoodDlvAPI.Models;
 
-namespace FoodDlvAPI.DTOs
+namespace FoodDlvAPI.Models.DTOs
 {
     public class OrderDetailDTO
     {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace FoodDlvAPI.ViewModels
+namespace FoodDlvAPI.Models.ViewModels
 {
     public class ProductCustomizationItemVM
     {
@@ -15,6 +15,6 @@ namespace FoodDlvAPI.ViewModels
         public string? ItemName { get; set; }
 
         [Display(Name = "客製化價格")]
-        public int CustomizationItemPrice { get; set; }       
+        public int CustomizationItemPrice { get; set; }
     }
 }

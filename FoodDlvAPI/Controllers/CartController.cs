@@ -1,8 +1,8 @@
 ﻿using FoodDlvAPI.Interfaces;
 using FoodDlvAPI.Models;
-using FoodDlvAPI.Repositories;
-using FoodDlvAPI.Services;
-using FoodDlvAPI.ViewModels;
+using FoodDlvAPI.Models.Services;
+using FoodDlvAPI.Models.ViewModels;
+using FoodDlvAPI.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,8 +1,8 @@
 ﻿using FoodDlvAPI.Interfaces;
 using FoodDlvAPI.Models;
 using FoodDlvAPI.Models.DTOs;
+using FoodDlvAPI.Models.Services;
 using FoodDlvAPI.Models.ViewModels;
-using FoodDlvAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,7 +11,7 @@ using static FoodDlvAPI.Models.Repositories.MemberRespitory;
 
 namespace FoodDlvAPI.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class MembersController : Controller
 	{

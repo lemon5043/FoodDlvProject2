@@ -1,8 +1,8 @@
-﻿using FoodDlvAPI.DTOs;
+﻿using FoodDlvAPI.Models.DTOs;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace FoodDlvAPI.ViewModels
+namespace FoodDlvAPI.Models.ViewModels
 {
     public class CartDetailVM
     {

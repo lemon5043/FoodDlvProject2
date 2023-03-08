@@ -1,5 +1,5 @@
-﻿using FoodDlvAPI.DTOs;
-using FoodDlvAPI.ViewModels;
+﻿using FoodDlvAPI.Models.DTOs;
+using FoodDlvAPI.Models.ViewModels;
 
 namespace FoodDlvAPI.Interfaces
 {

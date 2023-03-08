@@ -1,7 +1,7 @@
-﻿using FoodDlvAPI.DTOs;
+﻿using FoodDlvAPI.Models.DTOs;
 using System.ComponentModel.DataAnnotations;
 
-namespace FoodDlvAPI.ViewModels
+namespace FoodDlvAPI.Models.ViewModels
 {
     public class OrderInfoVM
     {
@@ -9,7 +9,7 @@ namespace FoodDlvAPI.ViewModels
         /// View可能需要的資料
         /// </summary>
         [Display(Name = "訂單編號")]
-        public long Id { get; set; }        
+        public long Id { get; set; }
 
         [Display(Name = "會員編號")]
         public int MemberId { get; set; }

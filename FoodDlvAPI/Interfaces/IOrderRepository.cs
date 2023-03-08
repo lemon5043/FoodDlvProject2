@@ -1,4 +1,4 @@
-﻿using FoodDlvAPI.DTOs;
+﻿using FoodDlvAPI.Models.DTOs;
 
 namespace FoodDlvAPI.Interfaces
 {

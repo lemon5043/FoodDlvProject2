@@ -1,8 +1,8 @@
-﻿using FoodDlvAPI.DTOs;
-using FoodDlvAPI.Models;
+﻿using FoodDlvAPI.Models;
+using FoodDlvAPI.Models.DTOs;
 using System.ComponentModel.DataAnnotations;
 
-namespace FoodDlvAPI.ViewModels
+namespace FoodDlvAPI.Models.ViewModels
 {
     public class ProductSelectionVM
     {
@@ -27,7 +27,7 @@ namespace FoodDlvAPI.ViewModels
         [Display(Name = "商品單價")]
         public int UnitPrice { get; set; }
 
-        public List<ProductCustomizationItemVM> CustomizationItems { get; set; }        
+        public List<ProductCustomizationItemVM> CustomizationItems { get; set; }
     }
 
     public static partial class ProductSelectionVMExts
@@ -51,7 +51,7 @@ namespace FoodDlvAPI.ViewModels
                     CustomizationItemPrice = pci.UnitPrice,
                 }).ToList(),
             };
-            return toProductSelectionVM;           
+            return toProductSelectionVM;
         }
     }
 }

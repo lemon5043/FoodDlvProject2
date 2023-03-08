@@ -1,11 +1,11 @@
-﻿using FoodDlvAPI.DTOs;
-using FoodDlvAPI.Interfaces;
+﻿using FoodDlvAPI.Interfaces;
 using FoodDlvAPI.Models;
-using FoodDlvAPI.ViewModels;
+using FoodDlvAPI.Models.DTOs;
+using FoodDlvAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 
-namespace FoodDlvAPI.Services
+namespace FoodDlvAPI.Models.Services
 {
     public class CartService
     {
@@ -23,9 +23,9 @@ namespace FoodDlvAPI.Services
         }
 
         public void AddToCart(CartInfoVM request)
-        {               
-            var cart = Current(request.RD_MemberId, request.RD_StoreId);                 
-            _cartRepository.AddDetail(cart, request);                        
+        {
+            var cart = Current(request.RD_MemberId, request.RD_StoreId);
+            _cartRepository.AddDetail(cart, request);
         }
 
         public CartDTO CartInfo(int memberId, int storeId)
@@ -37,7 +37,7 @@ namespace FoodDlvAPI.Services
 
 
         public CartDTO Current(int memberId, int storeId)
-        {            
+        {
             if (_cartRepository.IsExists(memberId, storeId))
             {
                 return _cartRepository.Load(memberId, storeId);
@@ -54,7 +54,7 @@ namespace FoodDlvAPI.Services
             if (request.RD_Qty >= 1)
             {
                 AddToCart(request);
-            }            
+            }
         }
 
         public void RemoveDetail(CartInfoVM request)
@@ -73,9 +73,9 @@ namespace FoodDlvAPI.Services
             if (cart.Details.Count == 0 || cart.Details == null)
             {
                 throw new Exception("購物車內無商品, 無法進行結帳");
-            }            
+            }
         }
 
-        
+
     }
 }

@@ -1,13 +1,13 @@
 ﻿using FoodDlvAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FoodDlvAPI.DTOs
+namespace FoodDlvAPI.Models.DTOs
 {
     /// <summary>
     /// 提供購物車使用的購物車資訊載體
     /// </summary>
     public class CartDTO
-    {              
+    {
         //Properties
         public long Id { get; set; }
         public int MemberId { get; set; }
@@ -16,7 +16,7 @@ namespace FoodDlvAPI.DTOs
         public string? StoreName { get; set; }
         public int DetailQty { get; set; } = 0;
         public int Total { get; set; } = 0;
-        public List<CartDetailDTO> Details { get; set; }        
+        public List<CartDetailDTO> Details { get; set; }
 
         //Constructors
         public CartDTO(long id, int memberId, int storeId, List<CartDetailDTO> details)
@@ -27,7 +27,7 @@ namespace FoodDlvAPI.DTOs
             Details = details;
         }
         public CartDTO() { }
-                  
+
     }
     public static class CartExts
     {
@@ -40,7 +40,7 @@ namespace FoodDlvAPI.DTOs
                 source.StoreId,
                 source.CartDetails.Select(cd => cd.ToCartDetailDTO()).ToList()
             );
-            return cartDTO;            
+            return cartDTO;
         }
 
         public static Cart ToCartEF(this CartDTO source)
@@ -52,7 +52,7 @@ namespace FoodDlvAPI.DTOs
                 StoreId = source.StoreId,
                 CartDetails = source.Details.Select(cd => cd.ToCartDetailEF()).ToList()
             };
-            return cartEF;            
+            return cartEF;
         }
     }
 }

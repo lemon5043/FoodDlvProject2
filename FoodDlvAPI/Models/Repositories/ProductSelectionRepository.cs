@@ -1,11 +1,11 @@
-﻿using FoodDlvAPI.DTOs;
-using FoodDlvAPI.Interfaces;
+﻿using FoodDlvAPI.Interfaces;
 using FoodDlvAPI.Models;
-using FoodDlvAPI.ViewModels;
+using FoodDlvAPI.Models.DTOs;
+using FoodDlvAPI.Models.ViewModels;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
-namespace FoodDlvAPI.Repositories
+namespace FoodDlvAPI.Models.Repositories
 {
     public class ProductSelectionRepository : IProductSelectionRepository
     {

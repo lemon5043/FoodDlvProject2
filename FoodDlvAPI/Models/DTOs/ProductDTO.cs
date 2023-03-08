@@ -1,13 +1,13 @@
 ﻿using FoodDlvAPI.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace FoodDlvAPI.DTOs
+namespace FoodDlvAPI.Models.DTOs
 {
     /// <summary>
     /// 傳送商品基礎內容
     /// </summary>
     public class ProductDTO
-    {       
+    {
         //Properties
         public long ProductId { get; set; }
         public int StoreId { get; set; }
@@ -16,7 +16,7 @@ namespace FoodDlvAPI.DTOs
         public string? ProductContent { get; set; }
         public bool? Status { get; set; }
         public int UnitPrice { get; set; }
-        public List<ProductCustomizationItemDTO>? Items { get; set; }     
+        public List<ProductCustomizationItemDTO>? Items { get; set; }
 
         public ProductDTO(long productId, int stordId, string productName,
                         string photo, string productContent, bool? status, int unitPrice,

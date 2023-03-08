@@ -1,9 +1,9 @@
-﻿using FoodDlvAPI.DTOs;
-using FoodDlvAPI.Interfaces;
+﻿using FoodDlvAPI.Interfaces;
 using FoodDlvAPI.Models;
+using FoodDlvAPI.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
 
-namespace FoodDlvAPI.Repositories
+namespace FoodDlvAPI.Models.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
@@ -17,7 +17,7 @@ namespace FoodDlvAPI.Repositories
             _context = context;
             ICartRepository cartRepo = new CartRepository(_context);
         }
-        
+
 
         public OrderDTO GetOrderInfo(long cartId, string address, int fee)
         {
@@ -82,7 +82,7 @@ namespace FoodDlvAPI.Repositories
                 MemberId = cart.MemberId,
                 StoreId = cart.StoreId,
                 DeliveryAddress = address,
-                DeliveryFee = fee,            
+                DeliveryFee = fee,
             };
             _context.Orders.Add(order.ToOrderEF());
             _context.SaveChanges();
@@ -100,11 +100,11 @@ namespace FoodDlvAPI.Repositories
                     Qty = detail.Qty,
                     OrderId = createMark.Id,
                 };
-                _context.OrderDetails.Add(orderDetail.ToOrderDetailEF());                
+                _context.OrderDetails.Add(orderDetail.ToOrderDetailEF());
             }
 
             var orderSechedule = new OrderScheduleDTO
-            { 
+            {
                 OrderId = createMark.Id,
                 StatusId = _context.OrderStatues.Min().Id,
                 MarkTime = DateTime.Now,
@@ -112,7 +112,7 @@ namespace FoodDlvAPI.Repositories
             _context.OrderSchedules.Add(orderSechedule.ToOrderScheduleEF());
 
             createMark.CreateMark = false;
-            _context.SaveChanges();           
+            _context.SaveChanges();
         }
 
         public OrderDTO GetOrderTrack(long orderId)

@@ -1,13 +1,13 @@
-﻿using FoodDlvAPI.DTOs;
-using FoodDlvAPI.Interfaces;
+﻿using FoodDlvAPI.Interfaces;
 using FoodDlvAPI.Models;
-using FoodDlvAPI.ViewModels;
+using FoodDlvAPI.Models.DTOs;
+using FoodDlvAPI.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 
-namespace FoodDlvAPI.Repositories
+namespace FoodDlvAPI.Models.Repositories
 {
     public class CartRepository : ICartRepository
     {
@@ -69,7 +69,7 @@ namespace FoodDlvAPI.Repositories
         }
 
         public void AddDetail(CartDTO cart, CartInfoVM request)
-        {           
+        {
             if (_context.Stores.Any(m => m.Id == request.RD_StoreId) == false)
             {
                 throw new Exception("此商店不存在");
@@ -83,37 +83,37 @@ namespace FoodDlvAPI.Repositories
                 throw new Exception("商品數量不可小於0");
             }
 
-            List<int?> listItemId = request.RD_ItemId;            
+            List<int?> listItemId = request.RD_ItemId;
             var invalidItemIds = listItemId.Where(itemId => _context.ProductCustomizationItems
                                         .Any(pci => pci.ProuctId == request.RD_ProductId && pci.Id == itemId) == false)
                                         .ToList();
 
             if (invalidItemIds.Count > 0)
             {
-                throw new Exception($"客製化編號{string.Join(", ",invalidItemIds)}號不屬於該產品");
+                throw new Exception($"客製化編號{string.Join(", ", invalidItemIds)}號不屬於該產品");
             }
             if (request.RD_ItemId.Count == 0)
             {
                 listItemId.Add(null);
             }
 
-            var details = cart.Details;           
+            var details = cart.Details;
             var selectDetailItem = details.OrderBy(d => d.IdentifyNum).ThenBy(d => d.ItemsId).GroupBy(d => d.IdentifyNum).Select(gd => gd.Select(d => d.ItemId).ToList()).ToList();
             var identifyNum = details.OrderBy(d => d.IdentifyNum).GroupBy(d => d.IdentifyNum).Select(gd => gd.Key).ToList();
             List<int?> item = new List<int?>();
             int count = -1;
-            foreach(var items in selectDetailItem)
+            foreach (var items in selectDetailItem)
             {
                 count++;
                 var sameDetail = items.SequenceEqual(listItemId);
-                if(sameDetail)
+                if (sameDetail)
                 {
                     item = items;
                     break;
-                }                
+                }
             }
-            
-            if (item.Count == 0) 
+
+            if (item.Count == 0)
             {
 
                 foreach (int? itemId in listItemId)
@@ -128,7 +128,7 @@ namespace FoodDlvAPI.Repositories
                     };
                     _context.CartDetails.Add(newDetail.ToCartDetailEF());
                 }
-                _context.SaveChanges();                
+                _context.SaveChanges();
             }
             else
             {
@@ -140,7 +140,7 @@ namespace FoodDlvAPI.Repositories
                     _context.CartDetails.Update(detail.ToCartDetailEF());
                 }
                 _context.SaveChanges();
-            }            
+            }
         }
 
         public int IdentifyNumSelector(long cartId)
@@ -158,7 +158,7 @@ namespace FoodDlvAPI.Repositories
             }
 
             return identifyNum;
-        }             
+        }
 
         public CartDTO GetCartInfo(CartDTO cart)
         {
@@ -201,6 +201,6 @@ namespace FoodDlvAPI.Repositories
 
             _context.CartDetails.RemoveRange(target);
             _context.SaveChanges();
-        }               
+        }
     }
 }

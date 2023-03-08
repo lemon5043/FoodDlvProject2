@@ -1,9 +1,9 @@
-﻿using FoodDlvAPI.DTOs;
+﻿using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Interfaces;
 using FoodDlvAPI.Models;
-using FoodDlvAPI.Repositories;
-using FoodDlvAPI.Services;
-using FoodDlvAPI.ViewModels;
+using FoodDlvAPI.Models.Services;
+using FoodDlvAPI.Models.Repositories;
+using FoodDlvAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDlvAPI.Controllers

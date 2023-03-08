@@ -6,14 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FoodDlvAPI.Models;
-using FoodDlvAPI.DTOs;
 using Newtonsoft.Json;
-
-
+using FoodDlvAPI.Models.DTOs;
 
 namespace FoodDlvAPI.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class StoresController : ControllerBase
 	{

@@ -1,6 +1,6 @@
 ﻿using FoodDlvAPI.Models;
 
-namespace FoodDlvAPI.DTOs
+namespace FoodDlvAPI.Models.DTOs
 {
     /// <summary>
     /// 傳送商品與客製化選項內容
@@ -38,12 +38,12 @@ namespace FoodDlvAPI.DTOs
         public static ProductCustomizationItem ToProductCustomizationItemEF(this ProductCustomizationItemDTO source)
         {
             var productCustomizationItemEF = new ProductCustomizationItem
-                { 
-                    Id = source.Id,
-                    ProuctId =  source.ProuctId,
-                    ItemName = source.ItemName,
-                    UnitPrice = source.UnitPrice
-                };
+            {
+                Id = source.Id,
+                ProuctId = source.ProuctId,
+                ItemName = source.ItemName,
+                UnitPrice = source.UnitPrice
+            };
             return productCustomizationItemEF;
         }
     }
