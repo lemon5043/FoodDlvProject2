@@ -16,6 +16,7 @@ const DriverRegister = () => {
   let [vehicleRegistration, setVehicleRegistration] = useState("");
   let [driverLicense, setDriverLicense] = useState("");
   let [errorMessage, setErrorMessage] = useState("");
+  let [serverErrorMessage, setServerErrorMessage] = useState("");
 
   const registerHandler = async (e) => {
     try {
@@ -35,6 +36,7 @@ const DriverRegister = () => {
       alert("註冊成功，還需要審核約1~2個工作天，屆時將以email通知，請耐心等候");
       navigate("/delivery/login");
     } catch (e) {
+      setServerErrorMessage("信箱已被使用!");
       console.log(e);
     }
   };
@@ -67,6 +69,7 @@ const DriverRegister = () => {
                   type="email"
                   onChange={(e) => setAccount(e.target.value)}
                 />
+                <p className="text-sm text-red-600">{serverErrorMessage}</p>
               </div>
               <div className="mb-2">
                 <Label htmlFor="account">密碼</Label>
