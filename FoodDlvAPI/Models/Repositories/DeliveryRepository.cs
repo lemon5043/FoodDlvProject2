@@ -212,7 +212,7 @@ namespace FoodDlvAPI.Models.Repositories
             if (query.StatusId < 3 || query.StatusId > 5) throw new Exception("抱歉，指定為不可外送狀態，請重新確認訂單狀態");
 
             query.StatusId++;
-            query.MarkTime = DateTime.UtcNow;
+            query.MarkTime = DateTime.Now;
 
             db.Add(query);
             db.SaveChanges();

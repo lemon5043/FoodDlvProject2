@@ -1,4 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import driverAuthService from "../../services/Delivery/driverAuth.service";
+
+const GetDriverData = ()=>{
+  let [id, setId] = useState("");
+  const role = "driver";
+
+  
+  console.log(localStorage.getItem("driver".id))
+  const data = driverAuthService.GetDriver();
+  console.log(data)
+
+}
 
 const DriverHome = () => {
   return (
