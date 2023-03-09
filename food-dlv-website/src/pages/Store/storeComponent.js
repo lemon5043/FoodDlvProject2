@@ -1,7 +1,7 @@
 import React from "react";
 
 const StoreComponent = ({ data }) => {
-  const image = require(`../../../assets/images/public/Stores/${data.photo}`);
+  const image = require(`../../assets/images/public/Stores/${data.photo}`);
   return (
     <div
       className="rounded overflow-hidden mx-2 mb-4 h-60"

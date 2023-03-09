@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import StoreService from "../../services/store.service";
-import StoreComponent from "./components/storeComponent";
+import StoreComponent from "./storeComponent";
 
 const Store = () => {
   let [data, setData] = useState([]);
