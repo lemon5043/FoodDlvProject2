@@ -208,17 +208,7 @@ namespace FoodDlvAPI.Controllers
 
 				CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
 			   ,
-				ProductId = x.Products.Select(x => x.Id)
-			   ,
-				ProductName = x.Products.Select(x => x.ProductName)
-			   ,
-				ProductPhoto = x.Products.Select(x => x.Photo)
-				,
-				ProductContent = x.Products.Select(x => x.ProductContent)
-				,
-				ProductStatus = x.Products.Select(x => x.Status)
-				,
-				ProductUnitPrice = x.Products.Select(x => x.UnitPrice)
+				Products=x.Products.Where(x=>x.StoreId== storeId)
 
 			})
 				  .ToListAsync();
@@ -259,17 +249,7 @@ namespace FoodDlvAPI.Controllers
 				CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
 
 			   ,
-				ProductId = x.Products.Select(x => x.Id)
-			   ,
-				ProductName = x.Products.Select(x => x.ProductName)
-			   ,
-				ProductPhoto = x.Products.Select(x => x.Photo)
-				,
-				ProductContent = x.Products.Select(x => x.ProductContent)
-				,
-				ProductStatus = x.Products.Select(x => x.Status)
-				,
-				ProductUnitPrice = x.Products.Select(x => x.UnitPrice)
+				Products = x.Products.Where(x => x.StoreId == storeId)
 
 
 			})
@@ -351,20 +331,21 @@ namespace FoodDlvAPI.Controllers
 
 
 
-		//店家訂單列表
+		//店家待辦訂單列表
+		//Question 如何取得訂單列表
 
 		[HttpGet("StorePrincipleGetOrderList")]
 		public async Task<ActionResult<IEnumerable<Order>>> StorePrincipleGetOrderList(int storeId)
 		{
-			return await _context.Orders.Include(x => x.OrderDetails).Include(x => x.OrderSchedules).Where(x => x.StoreId == storeId).OrderByDescending(x=>x.Id).ToListAsync();
+			return await _context.Orders.Include(x => x.OrderDetails).Include(x => x.OrderSchedules).Where(x => x.StoreId == storeId).ToListAsync();
 		}
+		//店家歷史訂單列表
 
 
 
-
-
-		[HttpPut("AgreeReqAfterGetOrderRequestFromCutomer")]
 		//訂單接收同意
+		[HttpPut("AgreeReqAfterGetOrderRequestFromCutomer")]
+		
 		public async Task<string> AgreeReqAfterGetReq(int orderId)
 		{
 			//var orderSchedules = await _context.OrderSchedules.FirstOrDefaultAsync(x => x.OrderId == orderId);
