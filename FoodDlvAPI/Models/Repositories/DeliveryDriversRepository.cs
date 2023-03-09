@@ -75,51 +75,38 @@ namespace FoodDlvAPI.Models.Repositories
             return query;
         }
 
-        public async Task<string> CreateAsync(DeliveryDriverEntity model)
+        public async Task CreateAsync(DeliveryDriverEntity model)
         {
             string? idCard = await UploadFile(model.Idcard, "Idcard", null);
             string? VehicleRegistration = await UploadFile(model.VehicleRegistration, "VehicleRegistration", null);
             string? DriverLicense = await UploadFile(model.DriverLicense, "DriverLicense", null);
             try
-            {
-                //db.Update(model);
+            {      
                 var EFModel = model.ToEFModle();
-                //List<string> updateModel = new List<string> { "Account","Password","LastName", "FirstName", "Gender", "Birthday", "Phone", "Email",
-                //"BankAccount","RegistrationTime"};
 
                 if (idCard != null)
                 {
                     EFModel.Idcard = idCard;
-                    //updateModel.Add("Idcard");
                 }
                 if (VehicleRegistration != null)
                 {
                     EFModel.VehicleRegistration = VehicleRegistration;
-                    //updateModel.Add("VehicleRegistration");
                 }
                 if (DriverLicense != null)
                 {
                     EFModel.DriverLicense = DriverLicense;
-                    //updateModel.Add("DriverLicense");
                 }
                 db.DeliveryDrivers.Add(EFModel);
 
-                //foreach (var property in updateModel)
-                //{
-                //    db.Entry(EFModel).Property(property).IsModified = true;
-                //}
-
                 await db.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
-                if (AccountExists(model.Account)) throw new Exception("此信箱已被使用，請使用其他信箱進行申請");
-            }
-
-            return "新增成功";
+                throw new Exception(ex.Message);
+            }           
         }
 
-        public async Task<string> EditAsync(DeliveryDriverEntity model)
+        public async Task EditAsync(DeliveryDriverEntity model)
         {
             string? idCard = await UploadFile(model.Idcard, "Idcard", model.Id);
             string? VehicleRegistration = await UploadFile(model.VehicleRegistration, "VehicleRegistration", model.Id);
@@ -159,8 +146,6 @@ namespace FoodDlvAPI.Models.Repositories
             {
                 if (!DeliveryDriverExists(model.Id)) throw new Exception("在新增資料時發生衝突，請重新載入頁面後再進行新增。");
             }
-
-            return "修改成功";
         }
 
         public bool DeliveryDriverExists(int id)

@@ -1,6 +1,4 @@
-﻿using FoodDlvAPI.Models;
-
-namespace FoodDlvAPI.Controllers
+﻿namespace FoodDlvAPI.Models.DTOs
 {
     public class DeliveryEndDTO
     {

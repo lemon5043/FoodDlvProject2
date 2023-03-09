@@ -24,17 +24,16 @@ namespace FoodDlvAPI.Models.Services
         public async Task<DeliveryDriverDTO> GetEditAsync(int? id)
             => await _repository.GetEditAsync(id);
 
-        public async Task<string> EditAsync(DeliveryDriverEntity model)
+        public async Task EditAsync(DeliveryDriverEntity model)
         {
-            //if (model.Idcard == null || model.VehicleRegistration == null || model.DriverLicense == null)
-            //{
-            //    if (model.AccountStatusId == 2) throw new Exception("文件未備齊的帳號不能授權啟用，請再次檢查帳號狀態");
-            //}
-            return await _repository.EditAsync(model);
+            await _repository.EditAsync(model);
         }
 
-        public async Task<string> RegisterAsync(DeliveryDriverEntity model)
-            => await _repository.CreateAsync(model);
+        public async Task RegisterAsync(DeliveryDriverEntity model)
+        {
+            if (_repository.AccountExists(model.Account)) throw new Exception("此信箱已被使用，請使用其他信箱進行申請");
+            await _repository.CreateAsync(model);
+        }
 
         public async Task<LoginResponse> Login(string account, string password)
         {

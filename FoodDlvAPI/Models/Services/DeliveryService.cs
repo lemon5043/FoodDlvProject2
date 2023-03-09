@@ -1,5 +1,4 @@
-﻿using FoodDlvAPI.Controllers;
-using FoodDlvAPI.Models.DTOs;
+﻿using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Models.Services.Interfaces;
 using FoodDlvAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
