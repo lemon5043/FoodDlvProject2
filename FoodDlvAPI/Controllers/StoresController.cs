@@ -237,7 +237,7 @@ namespace FoodDlvAPI.Controllers
 		public async Task<ActionResult<IEnumerable<MyStoreDetailDTO>>> GetMyStoreDetail(int storeId)
 		{
 
-			var getMyStoreDetail = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Where(x => x.StorePrincipalId == storeId).Include(x => x.Products).Select(x => new MyStoreDetailDTO
+			var getMyStoreDetail = await _context.Stores.Include(s => s.StoresCategoriesLists).ThenInclude(x => x.Category).Where(x => x.Id == storeId).Include(x => x.Products).Select(x => new MyStoreDetailDTO
 			{
 				Id = x.Id,
 				StorePrincipalId = x.StorePrincipalId,
