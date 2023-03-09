@@ -4,7 +4,7 @@ import Bike from "../../assets/images/delivery/bike.svg";
 import { Label, Input, Button } from "../../components/Delivery/form-styling";
 import driverAuthService from "../../services/Delivery/driverAuth.service";
 
-const DriverLogin = () => {
+const DriverLogin = ({ currentDriver, setCurrentDriver }) => {
   // navigate 是控制重新導向的東西
   const navigate = useNavigate();
   //states
@@ -14,22 +14,17 @@ const DriverLogin = () => {
 
   //判斷是否登入成功
   const loginHandler = async (e) => {
-    e.preventDefault();
-    const res = await driverAuthService.login(account, password);
-    if (res.data === "帳密有誤") {
-      setErrorMessage("帳號或密碼錯誤");
-      return;
+    try {
+      e.preventDefault();
+      const res = await driverAuthService.login(account, password);
+      localStorage.setItem("driver", res.data);
+      const data = await driverAuthService.GetDriver(res.data);
+      console.log(data);
+      // setCurrentDriver(driverAuthService.getCurrentDriver());
+      // navigate("/delivery");
+    } catch (e) {
+      setErrorMessage(e.response.data.wrongAccountOrPassword[0]);
     }
-    localStorage.setItem("driver", res.data);
-    let token = res.data;
-    await driverAuthService
-      .GetDriver(token)
-      .then(() => {
-        navigate("/delivery");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   return (
@@ -45,6 +40,7 @@ const DriverLogin = () => {
         <div className="relative flex flex-col justify-center overflow-hidden">
           <div className=" w-full px-6 m-auto rounded-md max-w-md">
             <form className="mt-6" onSubmit={loginHandler}>
+              <p className="text-sm text-red-600">{errorMessage}</p>
               <div className="mb-2">
                 <Label htmlFor="account">email / 帳號</Label>
                 <Input
@@ -66,7 +62,6 @@ const DriverLogin = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <p className="text-sm text-red-600">{errorMessage}</p>
               <Link to="/" className="text-sm text-neutral-600 hover:underline">
                 忘記密碼?
               </Link>

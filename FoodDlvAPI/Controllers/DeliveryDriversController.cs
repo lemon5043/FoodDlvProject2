@@ -47,9 +47,9 @@ namespace FoodDlvAPI.Controllers
                 //SetRefreshToken(refreshToken);
             }
 
-            ModelState.AddModelError(string.Empty, response.ErrorMessage);
+            ModelState.AddModelError("wrongAccountOrPassword", response.ErrorMessage);
 
-            return response.ErrorMessage;
+            return BadRequest(ModelState);
         }
 
 		//這是伯翰寫ㄉ，不確定前台會不會用到，以防萬一先寫
@@ -124,7 +124,8 @@ namespace FoodDlvAPI.Controllers
             }
         }
 
-        [HttpPost("register")]
+		[AllowAnonymous]
+		[HttpPost("register")]
         //[ValidateAntiForgeryToken]
         public async Task<ActionResult> Register([FromForm]DeliveryDriverCreateVM deliveryDriver)
         {
