@@ -12,20 +12,9 @@ namespace FoodDlvAPI.Controllers
 	{//選擇綠界系統
 		private ICommerce GetPayType(string option)
 		{
-			switch (option)
-			{
-				case "ECPay":
-					return new ECPayService();
-
-				default: throw new ArgumentException("No Such option");
-			}
+				return new ECPayService();
 		}
 
-		[HttpGet]
-		public bool GetType()
-		{
-			return true;
-		}
 
 		/// <summary>
 		/// 支付通知網址
@@ -40,12 +29,11 @@ namespace FoodDlvAPI.Controllers
 
 			return ResponseOK();
 		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		[HttpPost]
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
 
 		/// <summary>
 		/// 回傳給 綠界 失敗

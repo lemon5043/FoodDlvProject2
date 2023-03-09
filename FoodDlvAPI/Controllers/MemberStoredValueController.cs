@@ -18,24 +18,21 @@ namespace FoodDlvAPI.Controllers
 			_logger = logger;
 			Config = new ConfigurationBuilder().AddJsonFile("appSettings.json").Build();
 		}
+        [HttpGet]
+        public ActionResult<string> Get()
+        {
+            return View("Index");
+        }
 
-		private ICommerce GetPayType(string option)
-		{
-			switch (option)
-			{
-				
-				case "ECPay":
-					return new ECPayService();
-
-				default: throw new ArgumentException("No Such option");
-			}
+        private ICommerce GetPayType(string option)
+		{//選擇綠界
+			return new ECPayService();
 		}
 
 		private string GetReturnValue(ICommerce service, SendToNewebPayIn inModel)
-		{
+		{//取得回傳值
 			switch (inModel.PayOption)
 			{
-				
 				case "ECPay":
 					return service.GetCallBack(inModel);
 
@@ -44,12 +41,13 @@ namespace FoodDlvAPI.Controllers
 		}
 
 		public IActionResult Index()
-		{
-			ViewData["MerchantOrderNo"] = DateTime.Now.ToString("yyyyMMddHHmmss");  //訂單編號
-			ViewData["ExpireDate"] = DateTime.Now.AddDays(3).ToString("yyyyMMdd"); //繳費有效期限       
+		{   //訂單編號
+			ViewData["MerchantOrderNo"] = DateTime.Now.ToString("yyyyMMddHHmmss");
+			//繳費有效期限   
+			ViewData["ExpireDate"] = DateTime.Now.AddDays(3).ToString("yyyyMMdd");
 			return View();
 		}
-
+		[HttpPost("SendToNewebPay")]
 		public IActionResult SendToNewebPay(SendToNewebPayIn inModel)
 		{
 			var service = GetPayType(inModel.PayOption);
@@ -65,11 +63,6 @@ namespace FoodDlvAPI.Controllers
 		}
 
 		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-
-		/// <summary>
 		/// 支付完成返回網址
 		/// </summary>
 		/// <returns></returns>
@@ -79,7 +72,6 @@ namespace FoodDlvAPI.Controllers
 			var result = service.GetCallbackResult(Request.Form);
 			ViewData["ReceiveObj"] = result.ReceiveObj;
 			ViewData["TradeInfo"] = result.TradeInfo;
-
 			return View();
 		}
 

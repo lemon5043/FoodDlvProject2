@@ -47,6 +47,7 @@ namespace FoodDlvAPI.Models.Services
                 ? MemberLoginresponse.Success(member.Id, member.LastName + member.FirstName, member.Password)
                 : MemberLoginresponse.Fail("帳密有誤");
         }
+
 		//會員自身地址
 		public async Task<string> GetMemberPosition(int orderId)
 		{

@@ -12,10 +12,7 @@
                 <div class="col-md-6">
                     <label class="form-label">付款選項</label>
                     <select id="PayOption" class="form-control" name="PayOption" v-model="addForm.PayOption">
-                        <option value="newbPay">藍新支付</option>
-                        <option selected="selected" value="newbPayPeriod">藍新訂閱</option>
                         <option selected="selected" value="ECPay">綠界支付</option>
-                        <option selected="selected" value="ECPayPeriod">綠界訂閱</option>
                     </select>
                 </div>
                 <div class="col-md-6">
@@ -83,7 +80,7 @@
 
                         // 使用 jQuery Ajax 傳送至後端
                         $.ajax({
-                            url: '@Url.Content("~/Home/SendToNewebPay")',
+                        url: '@Url.Content("~/MemberStoredValueController/SendToNewebPay")',
                             method: 'POST',
                             dataType: 'json',
                             data: { inModel: postData, __RequestVerificationToken: $('@Html.AntiForgeryToken()').val() },
@@ -104,7 +101,7 @@
                         postData['Amt'] = self.addForm.Amt;
 
                         $.ajax({
-                            url: '@Url.Content("~/Home/GetReturn")',
+                        url: '@Url.Content("~/MemberStoredValueController/GetReturn")',
                             method: 'POST',
                             dataType: 'json',
                             data: { inModel: postData},

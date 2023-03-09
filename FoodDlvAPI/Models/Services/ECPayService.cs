@@ -21,7 +21,7 @@ namespace FoodDlvAPI.Models.Services
 			var orderId = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
 
 			//需填入 你的網址
-			var website = $"{Config.GetSection("https://localhost:7093").Value}/Home";
+			var website = $"{Config.GetSection("https://localhost:7093").Value}/MemberStoredValueController";
 
 			var order = new Dictionary<string, object>
 			{
@@ -40,11 +40,11 @@ namespace FoodDlvAPI.Models.Services
                 //商品名稱
                 { "ItemName", inModel.ItemDesc},
 
-                //允許繳費有效天數(付款方式為 ATM 時，需設定此值)
-                { "ExpireDate",  "3"},
+                ////允許繳費有效天數(付款方式為 ATM 時，需設定此值)
+                //{ "ExpireDate",  "3"},
 
-                //自訂名稱欄位1
-                { "Email",  inModel.Email},
+                ////自訂名稱欄位1
+                //{ "Email",  inModel.Email},
 
 
                 //完成後發通知
@@ -55,7 +55,7 @@ namespace FoodDlvAPI.Models.Services
 
 
                 //特店編號， 2000132 測試綠界編號
-                { "MerchantID",  "3002599"},
+                { "MerchantID",  "2000132"},
 
                 //忽略付款方式
                 { "IgnorePayment",  "GooglePay#WebATM#CVS#BARCODE"},
@@ -85,90 +85,90 @@ namespace FoodDlvAPI.Models.Services
 			return s.ToString();
 		}
 
-		public string GetPeriodCallBack(SendToNewebPayIn inModel)
-		{
-			var orderId = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
+		//public string GetPeriodCallBack(SendToNewebPayIn inModel)
+		//{
+		//	var orderId = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
 
-			//需填入 你的網址
-			var website = $"{Config.GetSection("HostURL").Value}/Home";
+		//	//需填入 你的網址
+		//	var website = $"{Config.GetSection("HostURL").Value}/Home";
 
-			var order = new Dictionary<string, object>
-			{
-                //選擇預設付款方式 固定Credit
-                { "ChoosePayment",  "Credit"},
+		//	var order = new Dictionary<string, object>
+		//	{
+  //              //選擇預設付款方式 固定Credit
+  //              { "ChoosePayment",  "Credit"},
 
-                //交易金額
-                { "PeriodAmount",  int.Parse(inModel.Amt)},
+  //              //交易金額
+  //              { "PeriodAmount",  int.Parse(inModel.Amt)},
                 
-                //自訂名稱欄位2
-                { "PeriodType ",  "D"},
+  //              ////自訂名稱欄位2
+  //              //{ "PeriodType ",  "D"},
 
-                //自訂名稱欄位2
-                { "Frequency",  1},
+  //              ////自訂名稱欄位2
+  //              //{ "Frequency",  1},
 
-                //自訂名稱欄位2
-                { "ExecTimes",  5},
+  //              ////自訂名稱欄位2
+  //              //{ "ExecTimes",  5},
                 
-                //完成後發通知
-                { "PeriodReturnURL",  $"{Config.GetSection("HostURL").Value}/Home/CallbackNotify?option=ECPay"},                
+  //              //完成後發通知
+  //              { "PeriodReturnURL",  $"{Config.GetSection("HostURL").Value}/Home/CallbackNotify?option=ECPay"},                
               
 
-                //交易金額
-                { "TotalAmount",  int.Parse(inModel.Amt)},
+  //              //交易金額
+  //              { "TotalAmount",  int.Parse(inModel.Amt)},
 
-                //特店交易編號
-                { "MerchantTradeNo",  orderId},
+  //              //特店交易編號
+  //              { "MerchantTradeNo",  orderId},
 
-                //特店交易時間 yyyy/MM/dd HH:mm:ss
-                { "MerchantTradeDate",  DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")},
+  //              //特店交易時間 yyyy/MM/dd HH:mm:ss
+  //              { "MerchantTradeDate",  DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")},
 
-                //交易描述
-                { "TradeDesc",  inModel.ItemDesc},
+  //              //交易描述
+  //              { "TradeDesc",  inModel.ItemDesc},
 
-                //商品名稱
-                { "ItemName", inModel.ItemDesc},              
+  //              //商品名稱
+  //              { "ItemName", inModel.ItemDesc},              
 
-                //自訂名稱欄位1
-                { "Email",  inModel.Email},
+  //              //自訂名稱欄位1
+  //              { "Email",  inModel.Email},
                 
-               //完成後發通知
-                { "ReturnURL",  $"{Config.GetSection("HostURL").Value}/Notify/CallbackNotify?option=ECPay"},
+  //             //完成後發通知
+  //              { "ReturnURL",  $"{Config.GetSection("HostURL").Value}/Notify/CallbackNotify?option=ECPay"},
 
-                //付款完成後導頁
-                { "OrderResultURL", $"{Config.GetSection("HostURL").Value}/Home/CallbackReturn?option=ECPay"},
-
-
-                //付款方式為 ATM 時，當使用者於綠界操作結束時，綠界回傳 虛擬帳號資訊至 此URL
-                { "PaymentInfoURL",$"{Config.GetSection("HostURL").Value}/Home/CallbackCustomer?option=ECPay"},
-
-                //付款方式為 ATM 時，當使用者於綠界操作結束時，綠界會轉址至 此URL。
-                { "ClientRedirectURL",  $"{Config.GetSection("HostURL").Value}/Home/CallbackCustomer?option=ECPay"},
-
-                //特店編號， 2000132 測試綠界編號
-                { "MerchantID",  "3002599"},
-
-                //交易類型 固定填入 aio
-                { "PaymentType",  "aio"},
+  //              //付款完成後導頁
+  //              { "OrderResultURL", $"{Config.GetSection("HostURL").Value}/Home/CallbackReturn?option=ECPay"},
 
 
-                //CheckMacValue 加密類型 固定填入 1 (SHA256)
-                { "EncryptType",  "1"},
-			};
+  //              ////付款方式為 ATM 時，當使用者於綠界操作結束時，綠界回傳 虛擬帳號資訊至 此URL
+  //              //{ "PaymentInfoURL",$"{Config.GetSection("HostURL").Value}/Home/CallbackCustomer?option=ECPay"},
 
-			//檢查碼
-			order["CheckMacValue"] = GetCheckMacValue(order);
+  //              ////付款方式為 ATM 時，當使用者於綠界操作結束時，綠界會轉址至 此URL。
+  //              //{ "ClientRedirectURL",  $"{Config.GetSection("HostURL").Value}/Home/CallbackCustomer?option=ECPay"},
 
-			StringBuilder s = new StringBuilder();
-			s.AppendFormat("<form id='payForm' action='{0}' method='post'>", "https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5");
-			foreach (KeyValuePair<string, object> item in order)
-			{
-				s.AppendFormat("<input type='hidden' name='{0}' value='{1}' />", item.Key, item.Value);
-			}
+  //              //特店編號， 2000132 測試綠界編號
+  //              { "MerchantID",  "2000132"},
 
-			s.Append("</form>");
+  //              //交易類型 固定填入 aio
+  //              { "PaymentType",  "aio"},
 
-			return s.ToString();
-		}
+
+  //              //CheckMacValue 加密類型 固定填入 1 (SHA256)
+  //              { "EncryptType",  "1"},
+		//	};
+
+		//	//檢查碼
+		//	order["CheckMacValue"] = GetCheckMacValue(order);
+
+		//	StringBuilder s = new StringBuilder();
+		//	s.AppendFormat("<form id='payForm' action='{0}' method='post'>", "https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5");
+		//	foreach (KeyValuePair<string, object> item in order)
+		//	{
+		//		s.AppendFormat("<input type='hidden' name='{0}' value='{1}' />", item.Key, item.Value);
+		//	}
+
+		//	s.Append("</form>");
+
+		//	return s.ToString();
+		//}
 
 		/// <summary>
 		/// 取得 檢查碼
