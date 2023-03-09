@@ -356,8 +356,11 @@ namespace FoodDlvAPI.Controllers
 		[HttpGet("StorePrincipleGetOrderList")]
 		public async Task<ActionResult<IEnumerable<Order>>> StorePrincipleGetOrderList(int storeId)
 		{
-			return await _context.Orders.Include(x => x.OrderDetails).Include(x => x.OrderSchedules).Where(x => x.StoreId == storeId).ToListAsync();
+			return await _context.Orders.Include(x => x.OrderDetails).Include(x => x.OrderSchedules).Where(x => x.StoreId == storeId).OrderByDescending(x=>x.Id).ToListAsync();
 		}
+
+
+
 
 
 		[HttpPut("AgreeReqAfterGetOrderRequestFromCutomer")]
@@ -389,29 +392,29 @@ namespace FoodDlvAPI.Controllers
 			_context.SaveChanges();
 			return "餐點準備中";
 		}
-		//訂單接收拒絕
-		public async Task<string> DeclineReqAfterGetReq(int orderId)
-		{
-			if (_context.OrderSchedules == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+		////訂單接收拒絕
+		//public async Task<string> DeclineReqAfterGetReq(int orderId)
+		//{
+		//	if (_context.OrderSchedules == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
-			var query = await _context.OrderSchedules
-				.Where(x => x.OrderId == orderId)
-				.Select(x => new OrderSchedule
-				{
-					OrderId = x.OrderId,
-					StatusId = x.StatusId,
-				}).OrderBy(x => x.StatusId).LastOrDefaultAsync();
+		//	var query = await _context.OrderSchedules
+		//		.Where(x => x.OrderId == orderId)
+		//		.Select(x => new OrderSchedule
+		//		{
+		//			OrderId = x.OrderId,
+		//			StatusId = x.StatusId,
+		//		}).OrderBy(x => x.StatusId).LastOrDefaultAsync();
 
-			if (query == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
-			//if (query.StatusId != 1) throw new Exception("抱歉，該筆訂單未建立，不可讓店家接收餐點狀態，請重新確認訂單狀態");
+		//	if (query == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+		//	//if (query.StatusId != 1) throw new Exception("抱歉，該筆訂單未建立，不可讓店家接收餐點狀態，請重新確認訂單狀態");
 
-			query.StatusId=9;
-			query.MarkTime = DateTime.UtcNow;
+		//	query.StatusId=9;
+		//	query.MarkTime = DateTime.UtcNow;
 
-			_context.Add(query);
-			_context.SaveChanges();
-			return "訂單接收已取消";
-		}
+		//	_context.Add(query);
+		//	_context.SaveChanges();
+		//	return "訂單接收已取消";
+		//}
 		//訂單接收同意後取消
 		//public async Task<string> CancelReqAfterAgreeReq(int orderId)
 		//{
