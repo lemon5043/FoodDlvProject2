@@ -105,25 +105,16 @@ namespace FoodDlvAPI.Controllers
             }
         }
 
-        // GET: DeliveryDrivers/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //POST: DeliveryDrivers/Create
-        //To protect from overposting attacks, enable the specific properties you want to bind to.
-        //For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-
         [HttpPost("register")]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult<string>> Register([FromForm]DeliveryDriverCreateVM deliveryDriver)
+        public async Task<ActionResult> Register([FromForm]DeliveryDriverCreateVM deliveryDriver)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    return await deliveryDriverService.RegisterAsync(deliveryDriver.ToDeliveryDriverEditDTO());
+                    await deliveryDriverService.RegisterAsync(deliveryDriver.ToDeliveryDriverEditDTO());
+                    return Ok();
                 }
                 catch (Exception ex)
                 {
@@ -140,26 +131,21 @@ namespace FoodDlvAPI.Controllers
             }
         }
 
-        // GET: api/DeliveryDrivers/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<DeliveryDriversEditVM>> Edit(int? id)
-        //{
-        //    var data = await deliveryDriverService.GetEditAsync(id);
-        //    return data.ToDeliveryDriversEditVM();
-        //}
+
 
         // PUT: api/DeliveryDrivers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPut("Edit/{id}")]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult<string>> Edit(DeliveryDriversEditVM deliveryDriver)
+        public async Task<ActionResult> Edit(DeliveryDriversEditVM deliveryDriver)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    return await deliveryDriverService.EditAsync(deliveryDriver.ToDeliveryDriverEntity());
+                    await deliveryDriverService.EditAsync(deliveryDriver.ToDeliveryDriverEntity());
+                    return Ok();
                 }
                 catch (Exception ex)
                 {

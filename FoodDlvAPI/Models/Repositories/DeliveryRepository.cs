@@ -1,5 +1,4 @@
-﻿using FoodDlvAPI.Controllers;
-using FoodDlvAPI.Models;
+﻿using FoodDlvAPI.Models;
 using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Models.Services.Interfaces;
 using FoodDlvAPI.Models.ViewModels;
