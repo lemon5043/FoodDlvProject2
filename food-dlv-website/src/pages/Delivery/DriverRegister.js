@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { Label, Input, Button } from "../../components/Delivery/form-styling";
+import { Label, Input, Button } from "../../components/Style/form-styling";
 import driverAuthService from "../../services/Delivery/driverAuth.service";
 
 const DriverRegister = () => {

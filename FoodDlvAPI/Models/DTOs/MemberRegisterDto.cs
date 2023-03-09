@@ -23,9 +23,6 @@ namespace FoodDlvAPI.Models.DTOs
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string Phone { get; set; }
-		public bool Gender { get; set; }
-		public DateTime Birthday { get; set; }
-		public string Email { get; set; }
 		public int Balance { get; set; }
 		public string Account { get; set; }
 		public string Password { get; set; }
@@ -42,9 +39,6 @@ namespace FoodDlvAPI.Models.DTOs
 				FirstName = source.FirstName,
 				LastName = source.LastName,
 				Phone = source.Phone,
-				Gender = source.Gender,
-				Birthday = source.Birthday,
-				Email = source.Email,
 				Balance = source.Balance,
 				Account = source.Account,
 				Password = source.EncryptedPassword,
@@ -61,9 +55,6 @@ namespace FoodDlvAPI.Models.DTOs
 				FirstName = entity.FirstName,
 				LastName = entity.LastName,
 				Phone = entity.Phone,
-				Gender = entity.Gender,
-				Birthday = entity.Birthday,
-				Email = entity.Email,
 				Balance = entity.Balance,
 				Account = entity.Account,
 				Password = entity.Password,

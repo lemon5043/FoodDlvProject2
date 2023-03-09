@@ -21,18 +21,11 @@ namespace FoodDlvProject2.Models.ViewModels
 		[Display(Name = "電話號碼")]
 		[StringLength(10, ErrorMessage = "號碼不能大於{1}")]
 		public string Phone { get; set; }
-		[Required(ErrorMessage = "請輸入{0}")]
-		[Display(Name = "生日")]
-		[DateNowAttribute(ErrorMessage = "{}不可大於今日")]
-		public DateTime Birthday { get; set; }
+		
 		[EmailAddress(ErrorMessage = "輸入的{0}格式不正確")]
-		[Display(Name = "信箱")]
-        public string Email { get; set; }
 		[Required(ErrorMessage = "請輸入{0}")]
 		[Display(Name = "帳號")]
         public string Account { get; set; }
-		
-		public bool Gender { get; set; }
 
 	}
     public static  class MemberEditVMExts
@@ -47,10 +40,7 @@ namespace FoodDlvProject2.Models.ViewModels
                 FirstName = source.FirstName,
                 LastName = source.LastName,
                 Phone = source.Phone,
-                Birthday = source.Birthday,
-                Email = source.Email,
                 Account = source.Account,
-                Gender= source.Gender,
 
 			};
         }
@@ -63,10 +53,7 @@ namespace FoodDlvProject2.Models.ViewModels
                 FirstName = source.FirstName,
                 LastName = source.LastName,
                 Phone = source.Phone,
-                Birthday = source.Birthday,
-                Email = source.Email,
                 Account = source.Account,
-				Gender = source.Gender,
 			};
 
         }

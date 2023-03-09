@@ -16,12 +16,6 @@ namespace FoodDlvProject2.Models.ViewModels
 		public string MemberName { get; set; }
 		[Display(Name = "電話")]
 		public string Phone { get; set; }
-		[Display(Name = "性別")]
-		public bool Gender { get; set; }
-		[Display(Name = "生日")]
-		public DateTime Birthday { get; set; }
-		[Display(Name = "信箱")]
-		public string Email { get; set; }
 		[Display(Name = "餘額")]
 		public int Balance { get; set; }
 		[Display(Name = "帳號")]
@@ -42,9 +36,6 @@ namespace FoodDlvProject2.Models.ViewModels
 				AccountStatusId = source.AccountStatusId,
 				MemberName = source.LastName + source.FirstName,
 				Phone = source.Phone,
-				Gender = source.Gender,
-				Birthday = source.Birthday,
-				Email = source.Email,
 				Balance = source.Balance,
 				Account = source.Account,
 				Password = source.Password,

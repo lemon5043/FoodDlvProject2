@@ -131,7 +131,7 @@ const Home = () => {
 
   return (
     <div className="bg-theme-color h-full">
-      <div style={{ height: "52%" }} className="pt-4">
+      <div style={{ height: "53%" }} className="pt-4">
         <Slider {...settings} className="h-full">
           {stores.map((d) => {
             return <HomeCard store={d} key={d.id} />;

@@ -1,22 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Label, Input, Button } from "../components/Delivery/form-styling";
+import { Label, Input, Button, Box } from "../../components/Style/form-styling";
+import userAuthService from "../../services/User/userAuth.service";
 
 const Login = () => {
   // navigate 是控制重新導向的東西
   const navigate = useNavigate();
+  //states
+  let [account, setAccount] = useState("");
+  let [password, setPassword] = useState("");
+  let [errorMessage, setErrorMessage] = useState("");
 
   //判斷是否登入成功
-  const loginHandler = () => {
-    if (true) {
+  const loginHandler = async (e) => {
+    try {
+      e.preventDefault();
+      const res = await userAuthService.login(account, password);
+      localStorage.setItem("user", res.data);
       navigate("/");
+    } catch (e) {
+      console.log(e);
     }
   };
 
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className=" w-full p-6 m-auto bg-white rounded-md shadow-lg shadow-gray-900-600/40 ring ring-neutral-700 max-w-md">
-        <form className="mt-6">
+      <Box>
+        <form className="mt-6" onSubmit={loginHandler}>
+          <p className="text-sm text-red-600">{errorMessage}</p>
           <div className="mb-2">
             <Label htmlFor="account">email / 帳號</Label>
             <Input
@@ -25,6 +36,7 @@ const Login = () => {
               autoComplete="username"
               name="account"
               type="email"
+              onChange={(e) => setAccount(e.target.value)}
             />
           </div>
           <div className="mb-2">
@@ -34,29 +46,26 @@ const Login = () => {
               autoComplete="current-password"
               name="password"
               type="password"
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <Link to="/" className="text-sm text-neutral-600 hover:underline">
             忘記密碼?
           </Link>
           <div className="mt-6">
-            <button
-              onClick={loginHandler}
-              className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-black rounded-md hover:bg-zinc-600 focus:outline-none focus:bg-zinc-600"
-            >
-              登入
-            </button>
+            <Button type="submit">登入</Button>
           </div>
         </form>
         <p className="mt-8 text-sm font-light text-center text-gray-700">
-          {" "}
-          還沒有帳號嗎?{" "}
-          <Link to="/" className="font-medium text-black hover:underline">
+          還沒有帳號嗎?
+          <Link
+            to="/register"
+            className="font-medium text-black hover:underline"
+          >
             註冊
           </Link>
         </p>
-        或
-      </div>
+      </Box>
     </div>
   );
 };

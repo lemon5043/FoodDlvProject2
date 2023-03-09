@@ -48,3 +48,23 @@ export const Button = styled.button`
     background-color: rgb(82, 82, 91);
   }
 `;
+
+export const Box = styled.div`
+  width: 100%;
+  padding: 1.5rem;
+  margin: auto;
+  background-color: #fff;
+  border-radius: 0.375rem;
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color),
+    0 4px 6px -4px var(--tw-shadow-color);
+  --tw-ring-color: rgb(64, 64, 64);
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
+    var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
+    calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  max-width: 28rem;
+`;

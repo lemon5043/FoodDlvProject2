@@ -336,12 +336,6 @@ namespace FoodDlvProject2.EFModels
 
                 entity.Property(e => e.AccountStatusId).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.Birthday).HasColumnType("date");
-
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
                 entity.Property(e => e.FirstName)
                     .IsRequired()
                     .HasMaxLength(20);

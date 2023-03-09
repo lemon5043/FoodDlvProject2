@@ -39,7 +39,7 @@ namespace FoodDlvAPI.Models.Repositories
                 {
                     var EFModel = model.ToMember();
 
-                    List<string> updateModel = new List<string> { "LastName", "FirstName","Phone", "Gender", "Birthday",  "Email",
+                    List<string> updateModel = new List<string> { "LastName", "FirstName","Phone",
                     };
                     db.Members.Attach(EFModel);
 
@@ -70,10 +70,7 @@ namespace FoodDlvAPI.Models.Repositories
                     Account = x.Account,
                     LastName = x.LastName,
                     FirstName = x.FirstName,
-                    Gender = x.Gender,
-                    Birthday = x.Birthday,
                     Phone = x.Phone,
-                    Email = x.Email,
                     Balance = x.Balance,
                     RegistrationTime = x.RegistrationTime,
                 }).FirstOrDefaultAsync(m => m.Id == id);
@@ -93,10 +90,7 @@ namespace FoodDlvAPI.Models.Repositories
                     Account = x.Account,
                     LastName = x.LastName,
                     FirstName = x.FirstName,
-                    Gender = x.Gender,
-                    Birthday = x.Birthday,
                     Phone = x.Phone,
-                    Email = x.Email,
                     RegistrationTime = x.RegistrationTime,
                 }).FirstOrDefaultAsync(m => m.Id == id);
 

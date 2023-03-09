@@ -23,7 +23,7 @@ const Layout = () => {
   return (
     <div className="h-full">
       <nav
-        style={{ height: "8%" }}
+        style={{ height: "7%" }}
         className="bg-theme-color sticky top-0 z-10"
       >
         <ul className="flex justify-between w-full mr-4">

@@ -14,12 +14,6 @@ namespace FoodDlvAPI.Models.ViewModels
 		public string LastName { get; set; }
 		[Display(Name = "手機號碼")]
 		public string Phone { get; set; }
-		[Display(Name = "性別")]
-		public bool Gender { get; set; }
-		[Display(Name = "生日")]
-		public DateTime Birthday { get; set; }
-		[Display(Name = "電子郵件")]
-		public string Email { get; set; }
 
 		[Display(Name = "帳號")]
 		public string Account { get; set; }
@@ -39,9 +33,6 @@ namespace FoodDlvAPI.Models.ViewModels
 				FirstName = source.FirstName,
 				LastName = source.LastName,
 				Phone = source.Phone,
-				Gender = source.Gender,
-				Birthday = source.Birthday,
-				Email = source.Email,
 				Account = source.Account,
 				Password = source.Password,
 				RegistrationTime = source.RegistrationTime,

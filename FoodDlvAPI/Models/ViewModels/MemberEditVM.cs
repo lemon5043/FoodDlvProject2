@@ -46,9 +46,6 @@ namespace FoodDlvAPI.Models.ViewModels
 				FirstName = source.FirstName,
 				LastName = source.LastName,
 				Phone = source.Phone,
-				Gender = source.Gender,
-				Birthday = source.Birthday,
-				Email = source.Email,
 				Account = source.Account,
 				Password = source.Password,
 
@@ -63,9 +60,6 @@ namespace FoodDlvAPI.Models.ViewModels
 				FirstName = source.FirstName,
 				LastName = source.LastName,
 				Phone = source.Phone,
-				Gender = source.Gender,
-				Birthday = source.Birthday,
-				Email = source.Email,
 				Account = source.Account,
 				Password = source.Password,
 

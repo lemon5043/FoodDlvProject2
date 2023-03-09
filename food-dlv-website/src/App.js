@@ -4,9 +4,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 //layout
 import Layout from "./components/Layout";
 //登入註冊
-import Login from "./pages/Login";
+import Login from "./pages/User/Login";
+import Register from "./pages/User/Register";
 //頁面
-import User from "./pages/User";
+import User from "./pages/User/User";
 import Error from "./pages/Error";
 import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart";
@@ -36,6 +37,7 @@ function App() {
           <Route path="user" element={<User />}></Route>
           <Route path="cart" element={<Cart />}></Route>
           <Route path="login" element={<Login />}></Route>
+          <Route path="register" element={<Register />}></Route>
           <Route path="store" element={<Store />}></Route>
           <Route path="*" element={<Error />}></Route>
         </Route>
