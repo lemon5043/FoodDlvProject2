@@ -3,11 +3,13 @@ using FoodDlvAPI.Models;
 using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Models.Services;
 using FoodDlvAPI.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol.Core.Types;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using static FoodDlvAPI.Models.Repositories.MemberRespitory;
 
@@ -149,30 +151,57 @@ namespace FoodDlvAPI.Controllers
 
 
 		}
-        //[HttpPut("Edit/{id}")]
-        //public async Task<ActionResult<string>> StoreValue(MemberStoreValueVM member)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            return await ECPayService.;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            ModelState.AddModelError(string.Empty, ex.Message);
-        //            return BadRequest(ModelState);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-        //        {
-        //            ModelState.AddModelError(string.Empty, error.ErrorMessage);
-        //        }
-        //        return BadRequest(ModelState);
-        //    }
-        //}
+		public async Task SendAsync(IdentityMessage message) 
+		{
+			MailMessage mail= new MailMessage();
+			//收信帳號
+			NetworkCredential cred = new NetworkCredential("testfuen25@gmail.com", "zxcv12345==");
+			mail.To.Add(message.Destination);
+			mail.Subject = message.Subject;
+			//寄信帳號
+			mail.From = new System.Net.Mail.MailAddress("testfuen25@gmail.com");
+			mail.IsBodyHtml = true;
+			mail.Body = message.Body;
+			//設定SMTP
+			//創建客戶端,指定gmail smtp的服務器
+			SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+			//禁用默認憑證
+			smtp.UseDefaultCredentials = false;
+			//啟用SSL加密
+			smtp.EnableSsl = true;
+			//指定smtp憑證,包含帳號密碼
+			smtp.Credentials = cred;
+			//端口
+			smtp.Port = 587;
+			//送出Mail
+			await smtp.SendMailAsync(mail);
 
-    }
+		}
+		
+	//[HttpPut("Edit/{id}")]
+	//public async Task<ActionResult<string>> StoreValue(MemberStoreValueVM member)
+	//{
+	//    if (ModelState.IsValid)
+	//    {
+	//        try
+	//        {
+	//            return await ECPayService.;
+	//        }
+	//        catch (Exception ex)
+	//        {
+	//            ModelState.AddModelError(string.Empty, ex.Message);
+	//            return BadRequest(ModelState);
+	//        }
+	//    }
+	//    else
+	//    {
+	//        foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+	//        {
+	//            ModelState.AddModelError(string.Empty, error.ErrorMessage);
+	//        }
+	//        return BadRequest(ModelState);
+	//    }
+	//}
+
+}
 }
