@@ -51,22 +51,22 @@ namespace FoodDlvAPI.Controllers
 			}
 		}
 		[HttpPost("login")]
-		public async Task<ActionResult<string>> Login(MemberLoginVM model)
+		public async Task<ActionResult<object>> Login(MemberLoginVM model)
 		{
             MemberLoginresponse response = await memberservice.Login(model.Account, model.Password);
 
 			if (response.IsSuccess)
 			{
-				string token = CreateToken(response);
+				object token = CreateToken(response);
 				return Ok(token);
 
 			}
 
 			ModelState.AddModelError(string.Empty, response.ErrorMessage);
 
-			return response.ErrorMessage;
+			return BadRequest(ModelState);
 		}
-		private string CreateToken(MemberLoginresponse response)
+		private object CreateToken(MemberLoginresponse response)
 		{
 			List<Claim> claims = new List<Claim>
 			{
@@ -90,8 +90,11 @@ namespace FoodDlvAPI.Controllers
 				);
 
 			var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+			var userId = response.Id;
+			var userAccount = response.Username;
+			var role = "Member";
 
-			return jwt;
+			return new { jwt, userId, userAccount, role } ;
 		}
 		// GET: api/Members/5
 		[HttpGet("{id}")]

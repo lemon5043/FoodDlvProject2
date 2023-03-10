@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Label, Input, Button, Box } from "../../components/Style/form-styling";
 import userAuthService from "../../services/User/userAuth.service";
 
-const Login = () => {
+const Login = ({ currentUser, setCurrentUser }) => {
   // navigate 是控制重新導向的東西
   const navigate = useNavigate();
   //states
@@ -16,9 +16,13 @@ const Login = () => {
     try {
       e.preventDefault();
       const res = await userAuthService.login(account, password);
-      localStorage.setItem("user", res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
+      setCurrentUser(userAuthService.getCurrentUser());
       navigate("/");
     } catch (e) {
+      // if (e.response.status === 400) {
+      //   setErrorMessage("帳號或密碼錯誤!");
+      // }
       console.log(e);
     }
   };

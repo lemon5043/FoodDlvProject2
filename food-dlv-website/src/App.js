@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 //*用戶介面
 //layout
@@ -26,17 +26,35 @@ import DriverWallet from "./pages/Delivery/DriverWallet";
 import DriverHistory from "./pages/Delivery/DriverHistory";
 //css
 import "./assets/styles/tailwind.css";
+//services
+import UserAuthService from "./services/User/userAuth.service";
 
 function App() {
+  let [currentUser, setCurrentUser] = useState(
+    UserAuthService.getCurrentUser()
+  );
   return (
     <BrowserRouter>
       <Routes>
         {/* 使用者頁面 */}
-        <Route path="/" element={<Layout />}>
+        <Route
+          path="/"
+          element={
+            <Layout currentUser={currentUser} setCurrentUser={setCurrentUser} />
+          }
+        >
           <Route index element={<Home />}></Route>
           <Route path="user" element={<User />}></Route>
           <Route path="cart" element={<Cart />}></Route>
-          <Route path="login" element={<Login />}></Route>
+          <Route
+            path="login"
+            element={
+              <Login
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+              />
+            }
+          ></Route>
           <Route path="register" element={<Register />}></Route>
           <Route path="store" element={<Store />}></Route>
           <Route path="*" element={<Error />}></Route>

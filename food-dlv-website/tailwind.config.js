@@ -21,6 +21,9 @@ module.exports = {
           "Segoe UI Symbol",
           "Noto Color Emoji",
         ],
+        variants: {
+          display: ["responsive", "group-hover", "group-focus"],
+        },
       },
     },
   },

@@ -15,22 +15,14 @@ class UserAuthService {
     const response = axios.post(API_URL + "/login", { account, password });
     return response;
   }
-  GetDriver(response) {
-    const res = axios.get(API_URL, {
-      headers: {
-        responseType: "json",
-        Authorization: `bearer ${response}`,
-      },
-    });
-    return res;
+
+  getCurrentUser() {
+    const data = JSON.parse(localStorage.getItem("user"));
+    return data;
   }
 
   logout() {
     localStorage.removeItem("user");
-  }
-
-  getCurrentUser() {
-    return JSON.parse(localStorage.getItem("user"));
   }
 }
 
