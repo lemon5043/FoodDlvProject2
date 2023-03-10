@@ -22,6 +22,14 @@ namespace FoodDlvAPI.Controllers
 			_context = context;
 		}
 
+		[HttpGet("getStoreCategories")]
+		public async Task<ActionResult<IEnumerable<StoreCategory>>> GetStoreCategories()
+		{
+			return await _context.StoreCategories.ToListAsync();
+		}
+
+
+
 		/// <summary>
 		/// 傳入搜尋字串、頁碼、顯示數量、所在地點、餐廳類別ID，先依據搜尋字串與類別ID選出商店名稱、商店類別名稱、商店的商品名稱與搜尋字串有關的商店
 		/// ，如果與搜尋字串有關的商品狀態為FALSE則不列出，然後利用所在地與商店的經緯度計算距離後依距排列(如果沒傳入類別ID則顯示全部餐廳)
@@ -181,11 +189,7 @@ namespace FoodDlvAPI.Controllers
 		}
 
 
-		[HttpGet("getStoreCategories")]
-		public async Task<ActionResult<IEnumerable<StoreCategory>>> GetStoreCategories()
-		{
-			return await _context.StoreCategories.ToListAsync();
-		}
+
 
 
 
@@ -331,13 +335,22 @@ namespace FoodDlvAPI.Controllers
 
 
 
-		//店家待辦訂單列表
-		//Question 如何取得訂單列表
+		//取得該店家狀態介於1到3的訂單資訊
 
-		[HttpGet("StorePrincipleGetOrderList")]
-		public async Task<ActionResult<IEnumerable<Order>>> StorePrincipleGetOrderList(int storeId)
+		[HttpGet("StoreGetOrderList")]
+		public async Task<ActionResult<IEnumerable<OrderDetail>>> StoreGetOrderList(int storeId)
 		{
-			return await _context.Orders.Include(x => x.OrderDetails).Include(x => x.OrderSchedules).Where(x => x.StoreId == storeId).ToListAsync();
+			//var orders =_context.Orders.Include(x => x.OrderSchedules).Include(x => x.OrderDetails).ThenInclude(x => x.Product)
+			//	.ThenInclude(x => x.ProductCustomizationItems).Where(x => x.StoreId == storeId)
+			//	.Where(x => x.OrderSchedules.Any(x => x.StatusId > 0 && x.StatusId < 4))
+			//	;
+
+			var ordersDetail = await _context.OrderDetails.Include(x => x.Order).ThenInclude(x => x.OrderSchedules).Include(x => x.Product).ThenInclude(x => x.ProductCustomizationItems).Where(x => x.Order.StoreId == storeId)
+				.Where(x => x.Order.OrderSchedules.Any(x => x.StatusId > 0 && x.StatusId < 4)).ToListAsync();
+
+			return ordersDetail;
+
+
 		}
 		//店家歷史訂單列表
 
@@ -364,7 +377,7 @@ namespace FoodDlvAPI.Controllers
 				}).OrderBy(x=>x.StatusId).LastOrDefaultAsync();
 
 			if (query == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
-			if (query.StatusId !=1) throw new Exception("抱歉，該筆訂單未建立，不可讓店家接收餐點狀態，請重新確認訂單狀態");
+			if (query.StatusId !=1) throw new Exception("抱歉，該筆為不可讓店家接收餐點狀態，請重新確認訂單狀態");
 
 			query.StatusId++;
 			query.MarkTime = DateTime.UtcNow;
