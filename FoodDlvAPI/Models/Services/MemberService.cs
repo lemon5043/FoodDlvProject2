@@ -48,7 +48,7 @@ namespace FoodDlvAPI.Models.Services
                 : MemberLoginresponse.Fail("帳密有誤");
         }
 
-		//會員自身地址
+		
 		public async Task<string> GetMemberPosition(int orderId)
 		{
 			    //從資料庫取得起點跟終點位置

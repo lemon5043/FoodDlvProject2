@@ -121,14 +121,15 @@ namespace FoodDlvAPI.Models.Repositories
 			public async Task<GetMemberPositionDto> GetMemberPosition(int orderId)
 			{
 				if (db.Orders == null) throw new Exception("抱歉找不到資料，請確認後再試一次");
-
 				var query = await db.Orders
 					.Where(x => x.Id == orderId)
 					.Select(x => new GetMemberPositionDto
 					{
 						StoreAddress = x.Store.Address,
-						Address = x.Member.AccountAddresses
-					}).FirstOrDefaultAsync();
+                        MemberId=x.MemberId,
+                        Address = db.AccountAddresses.First(a=>x.MemberId==a.MemberId).Address,
+					})
+                    .FirstOrDefaultAsync();
 
 				if (query == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
@@ -136,7 +137,7 @@ namespace FoodDlvAPI.Models.Repositories
 			}
             public async Task MemberLocation(MemberLocationDto location) 
             {
-                if (db.Members == null) throw new Exception("找不到指定資料,請確認後再試一次");
+                if (db.AccountAddresses == null) throw new Exception("找不到指定資料,請確認後再試一次");
                 var EFModel=location.ToMemberEFModel();
                 string[] memberlocation = { "longitude", "latitude" };
                 db.Attach(EFModel);

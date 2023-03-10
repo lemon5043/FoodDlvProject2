@@ -5,12 +5,15 @@ using FoodDlvAPI.Models.Services;
 using FoodDlvAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using NuGet.Protocol.Core.Types;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
+using System.Security.Principal;
 using static FoodDlvAPI.Models.Repositories.MemberRespitory;
 
 namespace FoodDlvAPI.Controllers
@@ -148,10 +151,44 @@ namespace FoodDlvAPI.Controllers
 				throw new Exception(ex.Message);
 			}
 
-
-
 		}
-		public async Task SendAsync(IdentityMessage message) 
+        //計算會員地址經緯度
+        private async Task<List<double>> GetMemberLongitudeNLatitude(int memberId)
+		{
+            var apiKey = await MemberRepository.db.Apis.Where(x => x.Id == 1).Select(x => x.Apikey).FirstOrDefaultAsync();
+            var address = await db.AccountAddresses.Where(a => a.Id == memberId).Select(a => a.Address).FirstOrDefaultAsync();
+            var url = $"https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={apiKey}";
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+            dynamic result = JsonConvert.DeserializeObject(content);
+
+            var MemberLongitude = Convert.ToDouble(result.results[0].geometry.location.lng);
+            var MemberLatitude = Convert.ToDouble(result.results[0].geometry.location.lat);
+            var MembersLongitudeNLatitude = new List<double>() { MemberLongitude, MemberLatitude };
+
+            return MembersLongitudeNLatitude;
+        }
+        public async Task<string> CreateMemberLongitudeNLatitudeAsync(MemberAccountAddressDto model)
+        {
+            try
+            {
+                var EFModel = model.ToEFmodel();
+
+                db.AccountAddress.Add(EFModel);
+
+
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new Exception("發生異常狀況,請重新輸入");
+            }
+
+            return "新增成功";
+        }
+
+        public async Task SendAsync(IdentityMessage message) 
 		{
 			MailMessage mail= new MailMessage();
 			//收信帳號
@@ -203,5 +240,5 @@ namespace FoodDlvAPI.Controllers
 	//    }
 	//}
 
-}
+	}
 }
