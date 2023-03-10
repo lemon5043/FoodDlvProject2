@@ -1,8 +1,16 @@
-import React from "react";
-import ProductSelection from "./ProductSelection";
+import {useState} from 'react';
+
+import ProductInfo from '../../components/Cart/ProductInfo';
+import EditItemList from '../../components/Cart/EditItemList';
+import ProductSelection from '../../pages/Cart/ProductSelection';
+
 
 const Cart = () => {
-  return <div>
+  const[data, setData] = useSatate([])
+
+  return <div>   
+    <ProductInfo />
+    <EditItemList listData={data} />
     <ProductSelection />
   </div>;
 };
