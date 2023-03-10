@@ -18,8 +18,10 @@ const DriverLogin = ({ currentDriver, setCurrentDriver }) => {
       e.preventDefault();
       const res = await driverAuthService.login(account, password);
       localStorage.setItem("driver", res.data);
+
       const data = await driverAuthService.GetDriver(res.data);
-      console.log(data);
+      console.log(data.data);
+
       // setCurrentDriver(driverAuthService.getCurrentDriver());
       // navigate("/delivery");
     } catch (e) {
