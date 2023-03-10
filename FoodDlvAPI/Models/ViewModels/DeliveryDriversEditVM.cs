@@ -30,36 +30,17 @@ namespace FoodDlvAPI.Models.ViewModels
         [Display(Name = "身分證")]
         public IFormFile? Idcard { get; set; }
 
-        public string? IdcardPath { get; set; }
-
-
         [Display(Name = "行照")]
         public IFormFile? VehicleRegistration { get; set; }
 
-        public string? VehicleRegistrationPath { get; set; }
 
         [Display(Name = "駕照")]
         public IFormFile? DriverLicense { get; set; }
 
-        public string? DriverLicensePath { get; set; }
-
+  
     }
     public static class DeliveryDriversEditVMExts
     {
-        public static DeliveryDriversEditVM ToDeliveryDriversEditVM(this DeliveryDriverDTO source)
-        {
-            return new DeliveryDriversEditVM
-            {
-                Id = source.Id,
-                FirstName = source.FirstName,
-                LastName = source.LastName,
-                Phone = source.Phone,
-                BankAccount = source.BankAccount,
-                IdcardPath = source.Idcard,
-                VehicleRegistrationPath = source.VehicleRegistration,
-                DriverLicensePath = source.DriverLicense,
-            };
-        }
         public static DeliveryDriverEntity ToDeliveryDriverEntity(this DeliveryDriversEditVM source)
         {
             return new DeliveryDriverEntity
