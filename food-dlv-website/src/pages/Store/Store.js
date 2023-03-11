@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from "react";
-import StoreService from "../../services/store.service";
+import StoreService from "../../services/Store/store.service";
 import StoreComponent from "./storeComponent";
 import { Box } from "../../components/Style/form-styling";
+import { useLocation } from "react-router-dom";
 
-const Store = (props) => {
-  let [data, setData] = useState([]);
+const Store = () => {
+  let [data, setData] = useState("");
   // let [page, setPage] = useState(1);
   // let [enableLoadMoreData, setEnableLoadMoreData] = useState(false);
 
+  const location = useLocation();
+
   const search = async () => {
-    setData(props.location.state.storeData);
     console.log(data);
     // setData(store);
     // setEnableLoadMoreData(true);
   };
   useEffect(() => {
-    search();
+    console.log(location.state);
+    if (location.state) {
+      setData(location.state);
+    }
+    console.log(data);
   }, []);
 
   return (

@@ -1,33 +1,27 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+// icons
 import Logo from "../assets/images/logo.svg";
 import bag from "../assets/icons/bag.svg";
 import magnifyingGlass from "../assets/icons/magnifying-glass-solid.svg";
 import User from "../assets/icons/user.svg";
+//components
 import Swal from "sweetalert2";
+// services
 import userAuthService from "../services/User/userAuth.service";
-import StoreService from "../services/store.service";
+// import StoreService from "../services/Store/store.service";
+import { DropdownItem, DropdownMenu, Trigger } from "./Style/dropdown-styling";
 
 const Layout = ({ currentUser, setCurrentUser }) => {
   const navigate = useNavigate();
-  let [storeData, setStoreData] = useState([]);
   let [address, setAddress] = useState("");
 
-  const addressHandler = async () => {
-    let res = await StoreService.getByAddress(address);
-    if (typeof res !== "undefined") {
-      console.log(res.data);
-      setStoreData(res.data);
-      navigate("/store", { state: { storeData: res.data } });
-    }
-  };
-
-  //搜尋欄，按下 enter 就會自動搜尋
-  const enterHandler = (event) => {
-    if (event.key === "Enter") {
-      addressHandler();
-    }
-  };
+  // //搜尋欄，按下 enter 就會自動搜尋
+  // const enterHandler = (event) => {
+  //   if (event.key === "Enter") {
+  //     addressHandler();
+  //   }
+  // };
 
   const logoutHandler = () => {
     Swal.fire({
@@ -72,24 +66,34 @@ const Layout = ({ currentUser, setCurrentUser }) => {
             <div className="pl-16 relative text-gray-600 flex items-center">
               <input
                 onChange={(e) => setAddress(e.target.value)}
-                onKeyDown={enterHandler}
+                // onKeyDown={enterHandler}
                 className="border-2 border-gray-300 bg-white h-10 w-80 px-2 rounded-lg text-sm focus:border-neutral-400 focus:ring-neutral-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 type="address"
                 name="address"
                 placeholder="要送到哪呢"
               />
-              <button
-                onClick={addressHandler}
-                type="submit"
-                className="absolute right-0 top-0 mr-3"
-              >
-                <img
-                  src={magnifyingGlass}
-                  alt="magnifyingGlass.svg"
-                  className="py-3 w-4"
-                />
-                {/* <i className="fa-solid fa-magnifying-glass py-3"></i> */}
-              </button>
+              {address && (
+                <Link
+                  to="/store"
+                  className="absolute right-0 top-0 mr-3"
+                  state={address}
+                >
+                  <img
+                    src={magnifyingGlass}
+                    alt="magnifyingGlass.svg"
+                    className="py-3 w-4"
+                  />
+                </Link>
+              )}
+              {!address && (
+                <button className="absolute right-0 top-0 mr-3">
+                  <img
+                    src={magnifyingGlass}
+                    alt="magnifyingGlass.svg"
+                    className="py-3 w-4"
+                  />
+                </button>
+              )}
             </div>
           </li>
 
@@ -108,7 +112,6 @@ const Layout = ({ currentUser, setCurrentUser }) => {
                       alt="user.svg"
                       className="w-4 mr-2 inline"
                     />
-                    {/* <i className="fa-solid  fa-user pr-2"></i> */}
                     登入/ 註冊
                   </Link>
                 </div>
@@ -118,32 +121,32 @@ const Layout = ({ currentUser, setCurrentUser }) => {
                   <button className=" w-full px-4 font-medium">
                     <span>Hi!, {currentUser.userAccount}</span>
                   </button>
-                  <div className="absolute z-10 hidden bg-grey-200 group-hover:block">
-                    <div className="w-28 pt-2 pb-4 bg-white shadow-lg flex justify-center">
+                  <Trigger className="group-hover:block">
+                    <DropdownMenu className="w-28 shadow-lg">
                       <ul className="w-full text-center">
-                        <li className=" py-2 transition-colors hover:bg-zinc-200 hover:text-emerald-600">
+                        <DropdownItem>
                           <Link to="/cart" className="text-base">
                             個人檔案
                           </Link>
-                        </li>
-                        <li className=" py-2 transition-colors hover:bg-zinc-200 hover:text-emerald-600">
+                        </DropdownItem>
+                        <DropdownItem>
                           <Link to="/cart" className="text-base">
                             我的訂單
                           </Link>
-                        </li>
-                        <li className=" py-2 transition-colors hover:bg-zinc-200 hover:text-emerald-600">
+                        </DropdownItem>
+                        <DropdownItem>
                           <Link to="/cart" className="text-base">
                             客服中心
                           </Link>
-                        </li>
-                        <li className=" py-2 transition-colors hover:bg-zinc-200 hover:text-emerald-600">
+                        </DropdownItem>
+                        <DropdownItem>
                           <Link onClick={logoutHandler} className="text-base">
                             登出
                           </Link>
-                        </li>
+                        </DropdownItem>
                       </ul>
-                    </div>
-                  </div>
+                    </DropdownMenu>
+                  </Trigger>
                 </div>
               )}
             </div>
@@ -151,7 +154,6 @@ const Layout = ({ currentUser, setCurrentUser }) => {
             <div className="p-4">
               <Link to="/cart" className="text-base">
                 <img src={bag} alt="bag.svg" className="w-4" />
-                {/* <i className="fa-solid fa-bag-shopping"></i> */}
               </Link>
             </div>
           </li>
