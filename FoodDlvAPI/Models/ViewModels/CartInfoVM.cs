@@ -28,16 +28,7 @@ namespace FoodDlvAPI.Models.ViewModels
 
         [Display(Name = "產品明細")]
         public List<CartDetailVM>? CartDetails { get; set; }
-
-        /// <summary>
-        /// ResponseData
-        /// </summary>
-        public int RD_MemberId { get; set; }
-        public int RD_StoreId { get; set; }
-        public long RD_ProductId { get; set; }
-        public int RD_identifyNum { get; set; }
-        public List<int?>? RD_ItemId { get; set; }
-        public int RD_Qty { get; set; } = 1;
+        
     }
 
     public static partial class CartVMExts

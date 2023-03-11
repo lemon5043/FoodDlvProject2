@@ -9,7 +9,7 @@ import Login from "./pages/Login";
 import User from "./pages/User";
 import Error from "./pages/Error";
 import Home from "./pages/Home/Home";
-import Cart from "./pages/Cart/Cart";
+import Cart from "./pages/Cart/ProductSelection";
 import Store from "./pages/Store/Store";
 // *外送員介面
 //layout

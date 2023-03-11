@@ -22,9 +22,9 @@ namespace FoodDlvAPI.Models.Services
             _productRepository = productRepository;
         }
 
-        public void AddToCart(CartInfoVM request)
+        public void AddToCart(CartDTO request)
         {
-            var cart = Current(request.RD_MemberId, request.RD_StoreId);
+            var cart = Current(request.MemberId, request.StoreId);
             _cartRepository.AddDetail(cart, request);
         }
 
@@ -48,18 +48,18 @@ namespace FoodDlvAPI.Models.Services
             }
         }
 
-        public void UpdateCart(CartInfoVM request)
+        public void UpdateCart(CartDTO request)
         {
-            _cartRepository.RemoveDetail(request);
-            if (request.RD_Qty >= 1)
+            _cartRepository.RemoveDetail(request.Details.First().IdentifyNum);
+            if (request.Details.First().Qty >= 1)
             {
                 AddToCart(request);
             }
         }
 
-        public void RemoveDetail(CartInfoVM request)
+        public void RemoveDetail(int identifyNum)
         {
-            _cartRepository.RemoveDetail(request);
+            _cartRepository.RemoveDetail(identifyNum);
         }
 
         public void DeleteCart(int memberId, int storeId)

@@ -31,7 +31,7 @@ namespace FoodDlvAPI.Interfaces
         /// </summary>
         /// <param name="cart"></param>
         /// <param name="request"></param>
-        void AddDetail(CartDTO cart, CartInfoVM request);
+        void AddDetail(CartDTO cart, CartDTO request);
         
         /// <summary>
         /// 清空購物車, 並刪除Database中的購物車主檔與明細檔
@@ -56,7 +56,7 @@ namespace FoodDlvAPI.Interfaces
         /// 移除購物車指定明細
         /// </summary>
         /// <param name="identifyNum"></param>
-        void RemoveDetail(CartInfoVM cart);
+        void RemoveDetail(int identifyNum);
 
 
     }

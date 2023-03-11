@@ -1,18 +1,15 @@
-import {useState} from 'react';
+// import {useState} from 'react';
 
-import ProductInfo from '../../components/Cart/ProductInfo';
-import EditItemList from '../../components/Cart/EditItemList';
-import ProductSelection from '../../pages/Cart/ProductSelection';
+// import ProductInfo from '../../components/Cart/ProductInfo';
+// import List from '../../components/Cart/List';
 
+// const Cart = () => {
+//   const[data, setData] = useState([])
 
-const Cart = () => {
-  const[data, setData] = useSatate([])
+//   return <div>
+//     <ProductInfo Info={setData}/>
+//     <List listData={data} />    
+//   </div>;
+// };
 
-  return <div>   
-    <ProductInfo />
-    <EditItemList listData={data} />
-    <ProductSelection />
-  </div>;
-};
-
-export default Cart;
+// export default Cart;
