@@ -138,6 +138,7 @@ namespace FoodDlvAPI.Controllers
 				return BadRequest(ModelState);
 			}
 		}
+		
 		//取得會員經緯度
 		[HttpGet("GetMemberPosition")]
 		public async Task GetMemberPosition(MemberLocationVM location)
@@ -178,32 +179,9 @@ namespace FoodDlvAPI.Controllers
 
 			return distance_km;
 		}
-		public async Task SendAsync(IdentityMessage message) 
-		{
-			MailMessage mail= new MailMessage();
-			//收信帳號
-			NetworkCredential cred = new NetworkCredential("testfuen25@gmail.com", "zxcv12345==");
-			mail.To.Add(message.Destination);
-			mail.Subject = message.Subject;
-			//寄信帳號
-			mail.From = new System.Net.Mail.MailAddress("testfuen25@gmail.com");
-			mail.IsBodyHtml = true;
-			mail.Body = message.Body;
-			//設定SMTP
-			//創建客戶端,指定gmail smtp的服務器
-			SmtpClient smtp = new SmtpClient("smtp.gmail.com");
-			//禁用默認憑證
-			smtp.UseDefaultCredentials = false;
-			//啟用SSL加密
-			smtp.EnableSsl = true;
-			//指定smtp憑證,包含帳號密碼
-			smtp.Credentials = cred;
-			//端口
-			smtp.Port = 587;
-			//送出Mail
-			await smtp.SendMailAsync(mail);
-
-		}
+		
+		
+		
 		
 	//[HttpPut("Edit/{id}")]
 	//public async Task<ActionResult<string>> StoreValue(MemberStoreValueVM member)
