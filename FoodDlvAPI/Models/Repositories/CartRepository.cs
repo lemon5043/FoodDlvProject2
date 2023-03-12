@@ -70,11 +70,11 @@ namespace FoodDlvAPI.Models.Repositories
 
         public void AddDetail(CartDTO cart, CartDTO request)
         {
-            if (_context.Stores.Any(m => m.Id == request.StoreId) == false)
+            if (_context.Stores.Any(m => m.Id == cart.StoreId) == false)
             {
                 throw new Exception("此商店不存在");
             }
-            if (_context.Products.Any(p => p.StoreId == request.StoreId && p.Id == request.Details.First().ProductId) == false)
+            if (_context.Products.Any(p => p.StoreId == cart.StoreId && p.Id == request.Details.First().ProductId) == false)
             {
                 throw new Exception("商店無此商品");
             }
@@ -83,15 +83,20 @@ namespace FoodDlvAPI.Models.Repositories
                 throw new Exception("商品數量不可小於0");
             }
 
-            List<int?> listItemId = request.Details.Select(d => d.ItemId).ToList();
+            List<int?> listItemId = request.Details.SelectMany(d => d.ItemsId ?? Enumerable.Empty<int?>())
+                                        .Where(itemId => itemId.HasValue)
+                                        .Select(itemId => itemId.Value).ToList()
+                                        .ConvertAll(itemId => (int?)itemId); 
+
             var invalidItemIds = listItemId.Where(itemId => _context.ProductCustomizationItems
-                                        .Any(pci => pci.ProuctId == request.Details.First().ProductId && pci.Id == itemId) == false)
-                                        .ToList();
+                                    .Any(pci => pci.ProuctId == request.Details.First().ProductId && pci.Id == itemId) == false)
+                                    .ToList();
 
             if (invalidItemIds.Count > 0)
             {
                 throw new Exception($"客製化編號{string.Join(", ", invalidItemIds)}號不屬於該產品");
             }
+
             if (listItemId.Count == 0)
             {
                 listItemId.Add(null);

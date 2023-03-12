@@ -11,7 +11,7 @@ namespace FoodDlvAPI.Models.ViewModels
         public int StoreId { get; set; }
         public long ProductId { get; set; }
         public int IdentifyNum { get; set; }
-        public List<int?>? ItemId { get; set; }
+        public List<int?>? ItemsId { get; set; }
         public int Qty { get; set; } = 1;
     }
 
@@ -23,14 +23,19 @@ namespace FoodDlvAPI.Models.ViewModels
             {
                 MemberId = source.MemberId,
                 StoreId = source.StoreId,
-                Details = new List<CartDetailDTO>().Select(cd => new CartDetailDTO
-                {
-                    IdentifyNum = source.IdentifyNum,
-                    ProductId = source.ProductId,
-                    ItemsId = source.ItemId,
-                    Qty = source.Qty
-                }).ToList(),
+                Details = new List<CartDetailDTO>()
             };
+
+            var cartDetailDTO = new CartDetailDTO()
+            {
+                IdentifyNum = source.IdentifyNum,
+                ProductId = source.ProductId,
+                ItemsId = source.ItemsId,
+                Qty = source.Qty
+            };
+
+            cartDTO.Details.Add(cartDetailDTO);
+
             return cartDTO;
         }
     }
