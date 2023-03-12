@@ -12,7 +12,8 @@ namespace FoodDlvAPI.Interfaces
         bool MemberExists(int id);
 		Task<string> GetKey(string APIName);
 		Task<GetMemberPositionDto> GetMemberPosition(int orderId);
-        Task MemberLocation(MemberLocationDto location);
-
+        Task GetMemberPosition(MemberLocationDto location);
+        Task<List<double>> GetMemberLongitudeNLatitude(int memberId);
+		
 	}
 }

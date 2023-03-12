@@ -48,37 +48,14 @@ namespace FoodDlvAPI.Models.Services
                 : MemberLoginresponse.Fail("帳密有誤");
         }
 
+
+        public async Task MemberLocation(MemberLocationDto location)
+            => await _repository.GetMemberPosition(location);
+
+        public async Task GetMemberLongitudeNLatitude(int memberId)
+        =>await _repository.GetMemberLongitudeNLatitude(memberId);
+
 		
-		public async Task<string> GetMemberPosition(int orderId)
-		{
-			    //從資料庫取得起點跟終點位置
-				var query = await _repository.GetMemberPosition(orderId);
-                //從資料庫取得金鑰
-				string token = await _repository.GetKey("GoogleMap");
-				string start = query.Address;
-			    string end = query.StoreAddress;
-		    	//創建一個包含起點終點跟金鑰參數的request
-			    WebRequest request = WebRequest.Create("https://maps.googleapis.com/maps/api/directions/json?language=zh-TW&origin=" + start + "&destination=" + end + "&key=" + token);
-				//請求憑證
-				request.Credentials = CredentialCache.DefaultCredentials;
-		    	//發送 HTTP 請求，並獲取 API 的回應
-		    	HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                //從API回應得到資料
-				Stream dataStream = response.GetResponseStream();
-		   	   //打開資料流，以便從中讀取API的回應
-		       	StreamReader reader = new StreamReader(dataStream);
-		       	//讀取 API 的回應，並將其存儲在一個字符串變數中。
-		       	string responseFromServer = reader.ReadToEnd();
-		       	//閉資料流和 HTTP 回應，釋放資源。
-		       	reader.Close();
-               
-		       		dataStream.Close();
-		       		response.Close();
-		       	//返回 Google MAP API回應，包含了從起點地址到終點地址的路線信息
-		       	return responseFromServer;
-		    }
-		public async Task MemberLocation(MemberLocationDto location)
-			=> await _repository.MemberLocation(location);
 
 	}
 }

@@ -138,8 +138,8 @@ namespace FoodDlvAPI.Controllers
 				return BadRequest(ModelState);
 			}
 		}
-		//取得會員地址
-		[HttpPut("GetMemberPosition")]
+		//取得會員經緯度
+		[HttpGet("GetMemberPosition")]
 		public async Task GetMemberPosition(MemberLocationVM location)
 		{
 			try
@@ -152,43 +152,33 @@ namespace FoodDlvAPI.Controllers
 			}
 
 		}
-        //計算會員地址經緯度
-        private async Task<List<double>> GetMemberLongitudeNLatitude(int memberId)
+		//計算經緯度
+		public async Task GetMemberLongitudeNLatitude(int memberId)
 		{
-            var apiKey = await MemberRepository.db.Apis.Where(x => x.Id == 1).Select(x => x.Apikey).FirstOrDefaultAsync();
-            var address = await db.AccountAddresses.Where(a => a.Id == memberId).Select(a => a.Address).FirstOrDefaultAsync();
-            var url = $"https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={apiKey}";
-            using var client = new HttpClient();
-            var response = await client.GetAsync(url);
-            var content = await response.Content.ReadAsStringAsync();
-            dynamic result = JsonConvert.DeserializeObject(content);
+			try
+			{
+				await memberservice.GetMemberLongitudeNLatitude(memberId);
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
 
-            var MemberLongitude = Convert.ToDouble(result.results[0].geometry.location.lng);
-            var MemberLatitude = Convert.ToDouble(result.results[0].geometry.location.lat);
-            var MembersLongitudeNLatitude = new List<double>() { MemberLongitude, MemberLatitude };
+		}
 
-            return MembersLongitudeNLatitude;
-        }
-        public async Task<string> CreateMemberLongitudeNLatitudeAsync(MemberAccountAddressDto model)
-        {
-            try
-            {
-                var EFModel = model.ToEFmodel();
+		//取得店家與會員距離
+		private async Task<double> GetDistance(double storeLng, double storeLat, double MemberLongitude, double MemberLatitude)
+		{
+			double R = 6371; // 地球平均半徑，單位為公里
+			double dLat = Math.Abs(storeLat - MemberLatitude) * Math.PI / 180;
+			double dLon = Math.Abs(storeLng - MemberLongitude) * Math.PI / 180;
+			double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) + Math.Cos(MemberLatitude * Math.PI / 180) * Math.Cos(storeLat * Math.PI / 180) * Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+			double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+			double distance_km = R * c;
 
-                db.AccountAddress.Add(EFModel);
-
-
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw new Exception("發生異常狀況,請重新輸入");
-            }
-
-            return "新增成功";
-        }
-
-        public async Task SendAsync(IdentityMessage message) 
+			return distance_km;
+		}
+		public async Task SendAsync(IdentityMessage message) 
 		{
 			MailMessage mail= new MailMessage();
 			//收信帳號
