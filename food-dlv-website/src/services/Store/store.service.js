@@ -11,6 +11,14 @@ class StoreService {
       API_URL + "getSomeStoresIfIMAt/" + address + "?pageNum=1&storeNum=10"
     );
   }
+
+  getCategories() {
+    return axios.get(API_URL + "getStoreCategories");
+  }
+
+  getStoreDetail(id) {
+    return axios.get(API_URL + "storeDetail/" + id);
+  }
 }
 
 export default new StoreService();

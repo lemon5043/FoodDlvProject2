@@ -1,4 +1,4 @@
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, Link, useNavigate, useSearchParams } from "react-router-dom";
 import React, { useState } from "react";
 // icons
 import Logo from "../assets/images/logo.svg";
@@ -9,19 +9,11 @@ import User from "../assets/icons/user.svg";
 import Swal from "sweetalert2";
 // services
 import userAuthService from "../services/User/userAuth.service";
-// import StoreService from "../services/Store/store.service";
 import { DropdownItem, DropdownMenu, Trigger } from "./Style/dropdown-styling";
 
 const Layout = ({ currentUser, setCurrentUser }) => {
   const navigate = useNavigate();
   let [address, setAddress] = useState("");
-
-  // //搜尋欄，按下 enter 就會自動搜尋
-  // const enterHandler = (event) => {
-  //   if (event.key === "Enter") {
-  //     addressHandler();
-  //   }
-  // };
 
   const logoutHandler = () => {
     Swal.fire({
@@ -41,6 +33,18 @@ const Layout = ({ currentUser, setCurrentUser }) => {
         navigate("/");
       }
     });
+  };
+
+  const enterHandler = (e) => {
+    if (e.key === "Enter") {
+      searchHandler();
+    }
+  };
+
+  const searchHandler = () => {
+    console.log(address);
+    if (address === "") return;
+    navigate("/store/" + address);
   };
 
   return (
@@ -66,34 +70,20 @@ const Layout = ({ currentUser, setCurrentUser }) => {
             <div className="pl-16 relative text-gray-600 flex items-center">
               <input
                 onChange={(e) => setAddress(e.target.value)}
-                // onKeyDown={enterHandler}
+                onKeyDown={enterHandler}
                 className="border-2 border-gray-300 bg-white h-10 w-80 px-2 rounded-lg text-sm focus:border-neutral-400 focus:ring-neutral-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 type="address"
                 name="address"
                 placeholder="要送到哪呢"
               />
-              {address && (
-                <Link
-                  to="/store"
-                  className="absolute right-0 top-0 mr-3"
-                  state={address}
-                >
-                  <img
-                    src={magnifyingGlass}
-                    alt="magnifyingGlass.svg"
-                    className="py-3 w-4"
-                  />
-                </Link>
-              )}
-              {!address && (
-                <button className="absolute right-0 top-0 mr-3">
-                  <img
-                    src={magnifyingGlass}
-                    alt="magnifyingGlass.svg"
-                    className="py-3 w-4"
-                  />
-                </button>
-              )}
+              <button className="absolute right-0 top-0 mr-3">
+                <img
+                  onClick={searchHandler}
+                  src={magnifyingGlass}
+                  alt="magnifyingGlass.svg"
+                  className="py-3 w-4"
+                />
+              </button>
             </div>
           </li>
 

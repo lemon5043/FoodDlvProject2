@@ -12,6 +12,7 @@ import Error from "./pages/Error";
 import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart";
 import Store from "./pages/Store/Store";
+import Product from "./pages/Product/Product";
 // *外送員介面
 //layout
 import DriverLayout from "./components/DriverLayout";
@@ -56,7 +57,8 @@ function App() {
             }
           ></Route>
           <Route path="register" element={<Register />}></Route>
-          <Route path="store" element={<Store />}></Route>
+          <Route path="store/:addressName" element={<Store />}></Route>
+          <Route path="product/:storeId" element={<Product />}></Route>
           <Route path="*" element={<Error />}></Route>
         </Route>
         {/* 外送員頁面 */}

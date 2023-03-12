@@ -1,45 +1,52 @@
 import React, { useEffect, useState } from "react";
 import StoreService from "../../services/Store/store.service";
-import StoreComponent from "./storeComponent";
+import StoreCard from "./storeCard";
 import { Box } from "../../components/Style/form-styling";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const Store = () => {
-  let [data, setData] = useState("");
+  const params = useParams();
+  const addressName = params.addressName;
+
+  let [data, setData] = useState([]);
+  let [ctg, setCtg] = useState([]);
   // let [page, setPage] = useState(1);
   // let [enableLoadMoreData, setEnableLoadMoreData] = useState(false);
 
-  const location = useLocation();
+  const selectCategory = async () => {
+    const category = await StoreService.getCategories();
+    setCtg(category.data);
+  };
 
-  const search = async () => {
-    console.log(data);
-    // setData(store);
-    // setEnableLoadMoreData(true);
+  const search = async (addr) => {
+    const res = await StoreService.getByAddress(addr);
+    setData(res.data);
   };
   useEffect(() => {
-    console.log(location.state);
-    if (location.state) {
-      setData(location.state);
-    }
-    console.log(data);
+    search(addressName);
+    selectCategory();
   }, []);
 
   return (
     <div className="mx-12 h-full">
-      <button onClick={search}>測試</button>
-      <main className="flex h-full">
+      <main className="flex h-full mt-6">
         {/* 篩選部分 */}
-        <div className="text-2xl font-bold">所有店家</div>
-        {/* <Box></Box> */}
-        {/* <section className="max-w-xs h-3/4 sticky border-2 border-solid border-black">
+        <section className="max-w-xs h-3/4 sticky border-2 border-solid border-black">
+          <div className="text-2xl font-bold">所有店家</div>
+          {ctg &&
+            ctg.map((d) => {
+              return <p key={d.id}>{d.categoryName}</p>;
+            })}
           {/**下面的這個 div 做完要刪掉 */}
-        {/* <div className=" w-64"></div> */}
+          <div className=" w-64"></div>
+        </section>
 
         {/* 餐廳選擇部分 */}
         <section className="flex flex-wrap justify-center">
-          {/* {data.map((d) => {
-            return <StoreComponent data={d} />;
-          })} */}
+          {data &&
+            data.map((d) => {
+              return <StoreCard data={d} key={d.id} />;
+            })}
         </section>
       </main>
     </div>
