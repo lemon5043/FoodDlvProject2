@@ -50,11 +50,12 @@ namespace FoodDlvAPI.Models.Services
         }
 
 
-        public async Task MemberLocation(MemberLocationDto location)
-            => await _repository.GetMemberPosition(location);
-
-        public async Task GetMemberLongitudeNLatitude(int memberId)
-        =>await _repository.GetMemberLongitudeNLatitude(memberId);
+        //public async Task MemberLocation(int MemberId)
+        //    => await _repository.GetMemberPosition(MemberId);
+        //public async Task<GetMemberPositionDto> GetMemberPosition(int orderId)
+        //    => await _repository.GetMemberPosition(orderId);
+        //public async Task GetMemberLongitudeNLatitude(int MemberId)
+        //=>await _repository.GetMemberLongitudeNLatitude(MemberId);
 
 		
 

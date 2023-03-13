@@ -1,4 +1,6 @@
 ﻿using FoodDlvAPI.Models.DTOs;
+using FoodDlvAPI.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDlvAPI.Interfaces
 {
@@ -11,9 +13,9 @@ namespace FoodDlvAPI.Interfaces
 		MemberRegisterDto Load(string account);
         bool MemberExists(int id);
 		Task<string> GetKey(string APIName);
-		Task<GetMemberPositionDto> GetMemberPosition(int orderId);
-        Task GetMemberPosition(MemberLocationDto location);
-        Task<List<double>> GetMemberLongitudeNLatitude(int memberId);
+		//Task<GetMemberPositionDto> GetMemberPosition(int orderId);
+        //Task<ActionResult<MemberLocationVM>> GetMemberPosition(int MemberId);
+        //Task<List<double>> GetMemberLongitudeNLatitude(int MemberId);
 		
 	}
 }

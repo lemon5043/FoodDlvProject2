@@ -4,7 +4,9 @@ namespace FoodDlvAPI.Models.ViewModels
 {
 	public class MemberLocationVM
 	{
-		public int MemberId { get; set; }
+		public int Id { get; set; }
+		public string Address { get; set; }
+        public int MemberId { get; set; }
 		public double Longitude { get; set; }
 		public double Latitude { get; set; }
 	}
@@ -13,6 +15,8 @@ namespace FoodDlvAPI.Models.ViewModels
 		public static MemberLocationDto ToMemberLocationDto(this MemberLocationVM model)
 			=> new MemberLocationDto
 			{
+				Id=model.Id,
+				Address=model.Address,
 				MemberId = model.MemberId,
 				Longitude = model.Longitude,
 				Latitude = model.Latitude,

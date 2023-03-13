@@ -2,7 +2,9 @@
 {
 	public class MemberLocationDto
 	{
-		public int MemberId { get; set; }
+        public int Id { get; set; }
+        public string Address { get; set; }
+        public int MemberId { get; set; }
 		public double Longitude { get; set; }
 		public double Latitude { get; set; }
 	}
@@ -12,7 +14,9 @@
 		{
 			return new AccountAddress
 			{
-				Id = dto.MemberId,
+				Id = dto.Id,
+				Address = dto.Address,
+				MemberId= dto.MemberId,
 				Latitude = dto.Latitude,
 				Longitude = dto.Longitude,
 			};

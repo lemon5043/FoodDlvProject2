@@ -119,36 +119,36 @@ namespace FoodDlvAPI.Models.Repositories
 
 				return apiKey.Apikey;
 			}
-			public async Task<GetMemberPositionDto> GetMemberPosition(int orderId)
-			{
-				if (db.Orders == null) throw new Exception("抱歉找不到資料，請確認後再試一次");
-				var query = await db.Orders
-					.Where(x => x.Id == orderId)
-					.Select(x => new GetMemberPositionDto
-					{
-						StoreAddress = x.Store.Address,
-                        MemberId=x.MemberId,
-                        Address = db.AccountAddresses.First(a=>x.MemberId==a.MemberId).Address,
-					})
-                    .FirstOrDefaultAsync();
+			//public async Task<GetMemberPositionDto> GetMemberPosition(int orderId)
+			//{
+			//	if (db.Orders == null) throw new Exception("抱歉找不到資料，請確認後再試一次");
+			//	var query = await db.Orders
+			//		.Where(x => x.Id == orderId)
+			//		.Select(x => new GetMemberPositionDto
+			//		{
+			//			StoreAddress = x.Store.Address,
+   //                     MemberId=x.MemberId,
+   //                     Address = db.AccountAddresses.First(a=>x.MemberId==a.MemberId).Address,
+			//		})
+   //                 .FirstOrDefaultAsync();
 
-				if (query == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+			//	if (query == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
-				return query;
-			}
-            public async Task GetMemberPosition(MemberLocationDto location) 
-            {
-                if (db.AccountAddresses == null) throw new Exception("找不到指定資料,請確認後再試一次");
-                var EFModel=location.ToMemberEFModel();
-                string[] memberlocation = { "longitude", "latitude" };
-                db.Attach(EFModel);
-				foreach (var property in memberlocation)
-				{
-					db.Entry(EFModel).Property(property).IsModified = true;
-				}
+			//	return query;
+			//}
+   //         public async Task GetMemberPosition( location) 
+   //         {
+   //             if (db.AccountAddresses == null) throw new Exception("找不到指定資料,請確認後再試一次");
+   //             var EFModel=location.ToMemberEFModel();
+   //             string[] memberlocation = { "longitude", "latitude" };
+   //             db.Attach(EFModel);
+			//	foreach (var property in memberlocation)
+			//	{
+			//		db.Entry(EFModel).Property(property).IsModified = true;
+			//	}
 
-				await db.SaveChangesAsync();
-			}
+			//	await db.SaveChangesAsync();
+			//}
 
 			public bool MemberExists(int id)
             {
@@ -157,41 +157,25 @@ namespace FoodDlvAPI.Models.Repositories
             public MemberRegisterDto Load(string account)
                 => db.Members.SingleOrDefault(x => x.Account == account).ToEntity();
 			
-            //計算會員地址經緯度
-			public async Task<List<double>> GetMemberLongitudeNLatitude(int memberId)
-			{
-				var apiKey = await db.Apis.Where(x => x.Id == 1).Select(x => x.Apikey).FirstOrDefaultAsync();
-				var address = await db.AccountAddresses.Where(a => a.Id == memberId).Select(a => a.Address).FirstOrDefaultAsync();
-				var url = $"https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={apiKey}";
-				using var client = new HttpClient();
-				var response = await client.GetAsync(url);
-				var content = await response.Content.ReadAsStringAsync();
-				dynamic result = JsonConvert.DeserializeObject(content);
-
-				var MemberLongitude = Convert.ToDouble(result.results[0].geometry.location.lng);
-				var MemberLatitude = Convert.ToDouble(result.results[0].geometry.location.lat);
-				var MembersLongitudeNLatitude = new List<double>() { MemberLongitude, MemberLatitude };
-
-				return MembersLongitudeNLatitude;
-			}
+           
 			
             //將經緯度存回資料庫
-			public async Task<string> CreateMemberLongitudeNLatitudeAsync(MemberAccountAddressDto model)
-			{
-				try
-				{
-					var EFModel = model.ToEFmodel();
+			//public async Task<string> CreateMemberLongitudeNLatitudeAsync(MemberAccountAddressDto model)
+			//{
+			//	try
+			//	{
+			//		var EFModel = model.ToEFmodel();
 
-					db.AccountAddresses.Add(EFModel);
-					await db.SaveChangesAsync();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					throw new Exception("發生異常狀況,請重新輸入");
-				}
+			//		db.AccountAddresses.Add(EFModel);
+			//		await db.SaveChangesAsync();
+			//	}
+			//	catch (DbUpdateConcurrencyException)
+			//	{
+			//		throw new Exception("發生異常狀況,請重新輸入");
+			//	}
 
-				return "新增成功";
-			}
+			//	return "新增成功";
+			//}
 		}
 
     }

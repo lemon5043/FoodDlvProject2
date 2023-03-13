@@ -138,75 +138,36 @@ namespace FoodDlvAPI.Controllers
 				return BadRequest(ModelState);
 			}
 		}
-		
-		//取得會員經緯度
-		[HttpGet("GetMemberPosition")]
-		public async Task GetMemberPosition(MemberLocationVM location)
-		{
-			try
-			{
-				await memberservice.MemberLocation(location.ToMemberLocationDto());
-			}
-			catch (Exception ex)
-			{
-				throw new Exception(ex.Message);
-			}
+	
+	
 
-		}
-		//計算經緯度
-		public async Task GetMemberLongitudeNLatitude(int memberId)
-		{
-			try
-			{
-				await memberservice.GetMemberLongitudeNLatitude(memberId);
-			}
-			catch (Exception ex)
-			{
-				throw new Exception(ex.Message);
-			}
 
-		}
 
-		//取得店家與會員距離
-		private async Task<double> GetDistance(double storeLng, double storeLat, double MemberLongitude, double MemberLatitude)
-		{
-			double R = 6371; // 地球平均半徑，單位為公里
-			double dLat = Math.Abs(storeLat - MemberLatitude) * Math.PI / 180;
-			double dLon = Math.Abs(storeLng - MemberLongitude) * Math.PI / 180;
-			double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) + Math.Cos(MemberLatitude * Math.PI / 180) * Math.Cos(storeLat * Math.PI / 180) * Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
-			double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-			double distance_km = R * c;
 
-			return distance_km;
-		}
-		
-		
-		
-		
-	//[HttpPut("Edit/{id}")]
-	//public async Task<ActionResult<string>> StoreValue(MemberStoreValueVM member)
-	//{
-	//    if (ModelState.IsValid)
-	//    {
-	//        try
-	//        {
-	//            return await ECPayService.;
-	//        }
-	//        catch (Exception ex)
-	//        {
-	//            ModelState.AddModelError(string.Empty, ex.Message);
-	//            return BadRequest(ModelState);
-	//        }
-	//    }
-	//    else
-	//    {
-	//        foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-	//        {
-	//            ModelState.AddModelError(string.Empty, error.ErrorMessage);
-	//        }
-	//        return BadRequest(ModelState);
-	//    }
-	//}
+		//[HttpPut("Edit/{id}")]
+		//public async Task<ActionResult<string>> StoreValue(MemberStoreValueVM member)
+		//{
+		//    if (ModelState.IsValid)
+		//    {
+		//        try
+		//        {
+		//            return await ECPayService.;
+		//        }
+		//        catch (Exception ex)
+		//        {
+		//            ModelState.AddModelError(string.Empty, ex.Message);
+		//            return BadRequest(ModelState);
+		//        }
+		//    }
+		//    else
+		//    {
+		//        foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+		//        {
+		//            ModelState.AddModelError(string.Empty, error.ErrorMessage);
+		//        }
+		//        return BadRequest(ModelState);
+		//    }
+		//}
 
 	}
 }
