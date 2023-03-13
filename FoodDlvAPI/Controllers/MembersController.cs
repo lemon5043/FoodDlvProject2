@@ -138,36 +138,6 @@ namespace FoodDlvAPI.Controllers
 				return BadRequest(ModelState);
 			}
 		}
-	
-	
-
-
-
-
-		//[HttpPut("Edit/{id}")]
-		//public async Task<ActionResult<string>> StoreValue(MemberStoreValueVM member)
-		//{
-		//    if (ModelState.IsValid)
-		//    {
-		//        try
-		//        {
-		//            return await ECPayService.;
-		//        }
-		//        catch (Exception ex)
-		//        {
-		//            ModelState.AddModelError(string.Empty, ex.Message);
-		//            return BadRequest(ModelState);
-		//        }
-		//    }
-		//    else
-		//    {
-		//        foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-		//        {
-		//            ModelState.AddModelError(string.Empty, error.ErrorMessage);
-		//        }
-		//        return BadRequest(ModelState);
-		//    }
-		//}
 
 	}
 }

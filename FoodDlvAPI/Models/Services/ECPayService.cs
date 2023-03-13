@@ -26,48 +26,7 @@ namespace FoodDlvAPI.Models.Services
 			var order = new Dictionary<string, object>
 			{
                 //特店交易編號
-                { "MerchantTradeNo",  orderId},
-
-                //特店交易時間 yyyy/MM/dd HH:mm:ss
-                { "MerchantTradeDate",  DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")},
-
-                //交易金額
-                { "TotalAmount",  inModel.Amt},
-
-                //交易描述
-                { "TradeDesc",  inModel.ItemDesc},
-
-                //商品名稱
-                { "ItemName", inModel.ItemDesc},
-
-                ////允許繳費有效天數(付款方式為 ATM 時，需設定此值)
-                //{ "ExpireDate",  "3"},
-
-                ////自訂名稱欄位1
-                //{ "Email",  inModel.Email},
-
-
-                //完成後發通知
-                { "ReturnURL",  $"{Config.GetSection("https://localhost:7093").Value}/Notify/CallbackNotify?option=ECPay"},
-
-                //付款完成後導頁
-                { "OrderResultURL", $"{Config.GetSection("https://localhost:7093").Value}/Home/CallbackReturn?option=ECPay"},
-
-
-                //特店編號， 2000132 測試綠界編號
-                { "MerchantID",  "2000132"},
-
-                //忽略付款方式
-                { "IgnorePayment",  "GooglePay#WebATM#CVS#BARCODE"},
-
-                //交易類型 固定填入 aio
-                { "PaymentType",  "aio"},
-
-                //選擇預設付款方式 固定填入 ALL
-                { "ChoosePayment",  "ALL"},
-
-                //CheckMacValue 加密類型 固定填入 1 (SHA256)
-                { "EncryptType",  "1"},
+               
 			};
 
 			//檢查碼
