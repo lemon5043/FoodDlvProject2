@@ -64,19 +64,19 @@ const ProductSelection = () => {
     //const selectedItems = items.filter((item) => selectItems.includes(item.id));
     //const itemId = items.map((item) => item.id.toString());
     console.log(memberId, product.storeId, productId, selectItems, qty);
-    // CartService.postAddToCart(
-    //   memberId,
-    //   product.storeId,
-    //   productId,
-    //   selectItems,
-    //   qty
-    // )
-    //   .then(function (response) {
-    //     console.log(response.data);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+    CartService.postAddToCart(
+      memberId,
+      product.storeId,
+      productId,
+      selectItems,
+      qty
+    )
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   return (
@@ -99,11 +99,7 @@ const ProductSelection = () => {
           {/* 紀錄產品訊息 */}
           <ProductInfo product={product} />
           {/* 增加客製化選項的 checkbox */}
-          <List
-            items={product.customizationItems}
-            toggleItem={toggleItem}
-            selectItems={selectItems}
-          />
+          <List items={product.customizationItems} toggleItem={toggleItem} />
           <div>
             <label>Quantity:</label>
             <input type="number" value={qty} min={1} onChange={numberQty} />

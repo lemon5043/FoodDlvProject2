@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Item from "./Item";
 
-const List = ({ items, toggleItem, selectItems }) => {
+const List = ({ items, toggleItem }) => {
   //   const [selectItems, setSelectItems] = useState([]);
 
   //   function ItemsForSelected(itemId, isChecked) {
