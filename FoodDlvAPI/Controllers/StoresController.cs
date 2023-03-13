@@ -380,7 +380,7 @@ namespace FoodDlvAPI.Controllers
 			if (query.StatusId !=1) throw new Exception("抱歉，該筆為不可讓店家接收餐點狀態，請重新確認訂單狀態");
 
 			query.StatusId++;
-			query.MarkTime = DateTime.UtcNow;
+			query.MarkTime = DateTime.Now;
 
 			_context.Add(query);
 			_context.SaveChanges();
@@ -403,7 +403,7 @@ namespace FoodDlvAPI.Controllers
 		//	//if (query.StatusId != 1) throw new Exception("抱歉，該筆訂單未建立，不可讓店家接收餐點狀態，請重新確認訂單狀態");
 
 		//	query.StatusId=9;
-		//	query.MarkTime = DateTime.UtcNow;
+		//	query.MarkTime = DateTime.Now;
 
 		//	_context.Add(query);
 		//	_context.SaveChanges();
@@ -460,7 +460,7 @@ namespace FoodDlvAPI.Controllers
 
 			if (deliveryDriver == null) throw new Exception("目前沒有可用的外送員");
 			query.StatusId++;
-			query.MarkTime = DateTime.UtcNow;
+			query.MarkTime = DateTime.Now;
 
 			_context.Add(query);
 			_context.SaveChanges();
