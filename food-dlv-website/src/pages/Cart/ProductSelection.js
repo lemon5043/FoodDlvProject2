@@ -1,14 +1,17 @@
 import {useState} from 'react';
-import ProductSelectionService from "../../services/Cart/productSelection.service";
-import ProductInfo from '../../components/Cart/ProductInfo';
-import List from '../../components/Cart/List';
-import Item from '../../components/Cart/Item';
+import ProductSelectionService from '../../services/Cart/productSelection.service';
+import CartService from '../../services/Cart/cart.service';
+import ProductInfo from '../../components/Cart/ProductSelection/ProductInfo';
+import List from '../../components/Cart/ProductSelection/List';
+//import Item from '../../components/Cart/ProductSelection/Item';
 
 const ProductSelection = () => {
+  const[memberId, setMemberId] = useState('');
   const[productId, setProductId] = useState('');
   const[state, setState] = useState('');
   const[product, setProduct] = useState(null);
   const[items, setItems] = useState([]);
+  const[selectItems,setSelectItems] = useState({});
   const[qty,setQty] = useState(1);
 
   function textProductId(e){
@@ -16,6 +19,9 @@ const ProductSelection = () => {
   };
   function textState(e){
     setState(e.target.value);
+  };
+  function textMemberId(e){
+    setMemberId(e.target.value);
   };
 
   function getProduct(){
@@ -42,12 +48,29 @@ const ProductSelection = () => {
     setQty(parseInt(e.target.value));
   }
 
-  function Buy(){
-    console.log(`${qty} ${product.productName}`,items)
+  function getSelectItems(items){
+    setSelectItems(items);
+  }
+
+  function AddToCart(){
+    //const selectedItems = items.filter((item) => selectItems.includes(item.id));
+    //const itemId = items.map((item) => item.id.toString());
+    console.log(memberId, product.storeId, productId, selectItems, qty);
+    CartService.postAddToCart(memberId, product.storeId, productId, selectItems, qty)
+      .then(function(response){
+        console.log(response.data);
+      })
+      .catch(function(error){
+        console.log(error);
+      })
   }
 
   return(
     <div>
+      <div>
+        <label>MemberId:</label>
+        <input type='text' value={memberId} onChange={textMemberId} />
+      </div>
       <div>
         <label>ProductId:</label>
         <input type='text' value={productId} onChange={textProductId} />
@@ -60,12 +83,12 @@ const ProductSelection = () => {
       {product && (
         <div>
           <ProductInfo product={product} />
-          <List items={product.customizationItems} getItem={getItem} />
+          <List items={product.customizationItems} getItem={getItem} ItemsForSelected={getSelectItems}/>
           <div>
             <label>Quantity:</label>
             <input type="number" value={qty} min={1} onChange={numberQty} />
           </div>
-          <button onClick={Buy}>Buy</button>
+          <button onClick={AddToCart}>AddToCart</button>
         </div>
       )}
     </div>

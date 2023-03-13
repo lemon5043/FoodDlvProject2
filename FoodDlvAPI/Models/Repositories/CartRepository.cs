@@ -82,27 +82,27 @@ namespace FoodDlvAPI.Models.Repositories
             {
                 throw new Exception("商品數量不可小於0");
             }
+                        
+            List<int?> listItemId = request.Details.SelectMany(d => d.ItemsId ?? Enumerable.Empty<int?>()).ToList();
 
-            List<int?> listItemId = request.Details.SelectMany(d => d.ItemsId ?? Enumerable.Empty<int?>())
-                                        .Where(itemId => itemId.HasValue)
-                                        .Select(itemId => itemId.Value).ToList()
-                                        .ConvertAll(itemId => (int?)itemId); 
-
-            var invalidItemIds = listItemId.Where(itemId => _context.ProductCustomizationItems
+            if (!(listItemId?.Count == 1 && listItemId.Contains(null)))
+            {
+                var invalidItemIds = listItemId.Where(itemId => _context.ProductCustomizationItems
                                     .Any(pci => pci.ProuctId == request.Details.First().ProductId && pci.Id == itemId) == false)
                                     .ToList();
 
-            if (invalidItemIds.Count > 0)
-            {
-                throw new Exception($"客製化編號{string.Join(", ", invalidItemIds)}號不屬於該產品");
-            }
+                if (invalidItemIds.Count > 0)
+                {
+                    throw new Exception($"客製化編號{string.Join(", ", invalidItemIds)}號不屬於該產品");
+                }
+            }            
 
             if (listItemId.Count == 0)
             {
                 listItemId.Add(null);
             }
 
-            var details = cart.Details;
+            var details = cart.Details.Where(d => d.ProductId == request.Details.First().ProductId);
             var selectDetailItem = details.OrderBy(d => d.IdentifyNum).ThenBy(d => d.ItemsId).GroupBy(d => d.IdentifyNum).Select(gd => gd.Select(d => d.ItemId).ToList()).ToList();
             var identifyNum = details.OrderBy(d => d.IdentifyNum).GroupBy(d => d.IdentifyNum).Select(gd => gd.Key).ToList();
             List<int?> item = new List<int?>();
@@ -118,9 +118,9 @@ namespace FoodDlvAPI.Models.Repositories
                 }
             }
 
-            if (item.Count == 0)
+            var targetDtail = details.Where(d => d.IdentifyNum == identifyNum[count]);
+            if (item.Count == 0 || !targetDtail.Any())
             {
-
                 foreach (int? itemId in listItemId)
                 {
                     var newDetail = new CartDetailDTO
@@ -135,9 +135,8 @@ namespace FoodDlvAPI.Models.Repositories
                 }
                 _context.SaveChanges();
             }
-            else
-            {
-                var targetDtail = details.Where(d => d.IdentifyNum == identifyNum[count]);
+            else 
+            {                
                 foreach (var detail in targetDtail)
                 {
                     detail.Qty += request.Details.First().Qty;

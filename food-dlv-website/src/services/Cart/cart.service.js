@@ -1,36 +1,27 @@
 import axios from 'axios';
 
-const AddToCart_API_URL = "https://localhost:7093/api/Cart/AddToCart";
-const CartInfo_API_URL = "https://localhost:7093/api/Cart/CartInfo";
-const UpdateCart_API_URL = "https://localhost:7093/api/Cart/UpdateCart";
-const RemoveDetail_API_URL = "https://localhost:7093/api/Cart/RemoveDetail";
-const DeleteCart_API_URL = "https://localhost:7093/api/Cart/DeleteCart";
+const API_URL = "https://localhost:7093/api/Cart";
 
 class CartService{
-    getAddToCart(memberId, storeId, productId, itemId, qty){
-        return axios.post(
-            `${AddToCart_API_URL}?memberId=${memberId}&storeId=${storeId}&productId=${productId}&itemId=${itemId}&qty=${qty}`
-        );
+    postAddToCart(memberId, storeId, productId, itemId, qty){
+        const response = axios.post(API_URL + '/AddToCart',{memberId, storeId, productId, itemId, qty})
+        return response;    
     };
     getCartInfo(memberId, storeId){
-        return axios.get(
-            `${CartInfo_API_URL}?memberId=${memberId}&storeId=${storeId}`
-        );
+        const response = axios.get(API_URL + `/CartInfo?memberId=${memberId}&storeId=${storeId}`)
+        return response;
     };
     getUpdateCart(identifyNum, storeId, productId, itemId, qty){
-        return axios.post(
-            `${UpdateCart_API_URL}?identifyNum=${identifyNum}&storeId=${storeId}&productId=${productId}&itemId=${itemId}&qty=${qty}`
-        );
+        const response = axios.post(API_URL + '/UpdateCart',{identifyNum, storeId, productId, itemId, qty})
+        return response;  
     };
     getRemoveDetail(identifyNum){
-        return axios.post(
-            `${RemoveDetail_API_URL}?identifyNum=${identifyNum}`
-        );
+        const response = axios.post(API_URL + '/RemoveDetail',{identifyNum})
+        return response;
     };
     getDeleteCart(memberId, storeId){
-        return axios.delete(
-            `${CartInfo_API_URL}?memberId=${memberId}&storeId=${storeId}`
-        );
+        const response = axios.delete(API_URL + '/DeleteCart',{memberId, storeId})
+        return response;
     };    
 }
 

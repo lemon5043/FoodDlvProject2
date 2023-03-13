@@ -1,11 +1,11 @@
 import {useState} from 'react';
 
-const Item = ({item, getItem}) => {
+const Item = ({item, ItemsForSelected}) => {
 
     const[checked, setChecked] = useState(false);
     function itemChange(e){
         setChecked(e.target.checked);
-        getItem(item.id)
+        ItemsForSelected(item.id , e.target.checked)
     }
      
     return(

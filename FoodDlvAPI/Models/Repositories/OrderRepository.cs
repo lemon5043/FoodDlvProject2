@@ -10,6 +10,7 @@ namespace FoodDlvAPI.Models.Repositories
         //Fields
         private readonly AppDbContext _context;
         private readonly ICartRepository _cartRepository;
+        //private readonly 
 
         //Constructors
         public OrderRepository(AppDbContext context)
@@ -21,11 +22,12 @@ namespace FoodDlvAPI.Models.Repositories
 
         public OrderDTO GetOrderInfo(long cartId, string address, int fee)
         {
+            long test = 1;
             var cart = _context.Carts.First(c => c.Id == cartId).ToCartDTO();
             var orderInfo = new OrderDTO()
             {
                 Cart = _cartRepository.GetCartInfo(cart),
-                DeliveryAddress = address,
+                DeliveryAddress = _context.AccountAddresses.First(aa => aa.Id == test).Address,
                 DeliveryFee = fee,
             };
             return orderInfo;
