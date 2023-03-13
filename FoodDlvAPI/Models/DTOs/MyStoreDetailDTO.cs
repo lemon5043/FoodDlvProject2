@@ -17,12 +17,7 @@ namespace FoodDlvAPI.Models.DTOs
 
 
 
-        public IEnumerable<long> ProductId { get; set; }
-        public IEnumerable<string> ProductName { get; set; }
-        public IEnumerable<string> ProductPhoto { get; set; }
-        public IEnumerable<string> ProductContent { get; set; }
-        public IEnumerable<bool?> ProductStatus { get; set; }
-        public IEnumerable<int> ProductUnitPrice { get; set; }
+		public IEnumerable<Product> Products { get; set; }
 
-    }
+	}
 }
