@@ -5,6 +5,7 @@ namespace FoodDlvAPI.Models.ViewModels
     public class AasignmentOrderVM
     {
         public long OrderId { get; set; }
+        public int MembreId { get; set; }
         public string StoreAddress { get; set; }
         public string StoreName { get; set; }
     }
@@ -15,6 +16,7 @@ namespace FoodDlvAPI.Models.ViewModels
             => new AasignmentOrderVM
             {
                 OrderId = dTO.OrderId,
+                MembreId = dTO.MemberId,
                 StoreAddress = dTO.StoreAddress,
                 StoreName = dTO.StoreName,
             };

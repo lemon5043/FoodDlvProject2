@@ -45,23 +45,23 @@ namespace FoodDlvAPI.Models.Services
             string start = query.StoreAddress;
             string end = query.DeliveryAddress;
             // Create a request for the URL. 		
-            WebRequest request = WebRequest.Create("https://maps.googleapis.com/maps/api/directions/json?language=zh-TW&origin=" + start + "&destination=" + end + "&key=" + token);
+            //WebRequest request = WebRequest.Create("https://maps.googleapis.com/maps/api/directions/json?language=zh-TW&origin=" + start + "&destination=" + end + "&key=" + token);
             // If required by the server, set the credentials.
-            request.Credentials = CredentialCache.DefaultCredentials;
+            //request.Credentials = CredentialCache.DefaultCredentials;
             // Get the response.
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream dataStream = response.GetResponseStream();
+            //HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            //Stream dataStream = response.GetResponseStream();
             // Open the stream using a StreamReader for easy access.
-            StreamReader reader = new StreamReader(dataStream);
+            //StreamReader reader = new StreamReader(dataStream);
             // Read the content.
-            string responseFromServer = reader.ReadToEnd();
+            //string responseFromServer = reader.ReadToEnd();
 
             // Cleanup the streams and the response.
-            reader.Close();
-            dataStream.Close();
-            response.Close();
+            //reader.Close();
+            //dataStream.Close();
+            //response.Close();
 
-            return responseFromServer;
+            return end;
         }
 
         public async Task<IEnumerable<DriverCancellationsDTO>> GetListAsync()

@@ -38,17 +38,13 @@ class DelieveryService {
     });
   }
 
-  OrderArrive(orderId) {
+  NavationToCustomer(orderId) {
     const response = axios.get(API_URL + "/" + orderId);
     return response
   }
 
-  DeliveryArrive(formData) {
-    return axios.put(API_URL + "/", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+  DeliveryArrive(orderId, driverId,milage) {
+    return axios.put(API_URL + "/", { orderId, driverId, milage });
   }
 }
 

@@ -165,6 +165,7 @@ namespace FoodDlvAPI.Models.Repositories
                 {
                     StoreAddress = x.Store.Address,
                     DeliveryAddress = x.DeliveryAddress,
+                    MemberId= x.MemberId,
                 }).FirstOrDefaultAsync();
 
             if (query == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
