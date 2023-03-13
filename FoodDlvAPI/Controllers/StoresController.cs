@@ -136,12 +136,12 @@ namespace FoodDlvAPI.Controllers
 						.ToListAsync();
 				}
 			}
-			var OriginsLongitudeNLatitude = await getOriginsLongitudeNLatitude(origin);
+			var OriginsLongitudeNLatitude = await GetOriginsLongitudeNLatitude(origin);
 			var getSomeStoresWithDistance = new List<StoreGetDTO>();
 
 			foreach (var store in getSomeStores)
 			{
-				var distance = await getDistance(store.Longitude, store.Latitude, OriginsLongitudeNLatitude[0], OriginsLongitudeNLatitude[1]);
+				var distance = await GetDistance(store.Longitude, store.Latitude, OriginsLongitudeNLatitude[0], OriginsLongitudeNLatitude[1]);
 				store.Distance = distance;
 				getSomeStoresWithDistance.Add(store);
 			}
@@ -151,7 +151,7 @@ namespace FoodDlvAPI.Controllers
 		}
 
 		//取得所在地經緯度
-		private async Task<List<double>> getOriginsLongitudeNLatitude(string origin)
+		private async Task<List<double>> GetOriginsLongitudeNLatitude(string origin)
 		{
 			var apiKey = await _context.Apis.Where(x => x.Id == 1).Select(x => x.Apikey).FirstOrDefaultAsync();
 			var url = $"https://maps.googleapis.com/maps/api/geocode/json?address={origin}&key={apiKey}";
@@ -167,7 +167,7 @@ namespace FoodDlvAPI.Controllers
 			return OriginsLongitudeNLatitude;
 		}
 		//取得店家與所在地距離
-		private async Task<double> getDistance(double storeLng, double storeLat, double originLng, double originLat)
+		private async Task<double> GetDistance(double storeLng, double storeLat, double originLng, double originLat)
 		{
 			double R = 6371; // 地球平均半徑，單位為公里
 			double dLat = Math.Abs(storeLat - originLat) * Math.PI / 180;
@@ -418,7 +418,7 @@ namespace FoodDlvAPI.Controllers
 
 		//訂單傳送
 		[HttpPut("SendReqToDeliver")]
-		public async Task<string> SendReqToDeliver(int orderId)
+		public async Task<Tuple<string, int,int>> SendReqToDeliver(int orderId)
 		{
 			if (_context.OrderSchedules == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
@@ -433,12 +433,62 @@ namespace FoodDlvAPI.Controllers
 			if (query == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 			if (query.StatusId != 2) throw new Exception("抱歉，該筆訂單未在準備中，不可讓該餐點狀態變為待配中，請重新確認訂單狀態");
 
+			
+
+
+
+
+
+			var order = await _context.Orders.Where(x => x.Id == orderId).FirstOrDefaultAsync();
+			var storeId = order.StoreId;
+			var store =await _context.Stores.FirstOrDefaultAsync(x => x.Id == storeId);
+
+
+
+			//		var deliveryDriverId = await _context.DeliveryDrivers
+			//.Where(x => x.Latitude != null && x.Longitude != null)
+			//.OrderBy(x => Math.Pow(x.Latitude.Value - .Value, 2) + Math.Pow(x.Longitude.Value - query.DeliveryLongitude.Value, 2))
+			//.Select(x => x.Id)
+			//.FirstOrDefaultAsync();
+
+			//		if (deliveryDriverId == 0) throw new Exception("目前沒有可用的外送員");
+
+			var deliveryDriver = _context.DeliveryDrivers.Where(x => x.Latitude.HasValue && x.Longitude.HasValue)
+	.AsEnumerable()
+	.OrderBy(x => GetDistanceForStoreToDriver(store.Longitude, store.Latitude, x.Longitude, x.Latitude))
+	.FirstOrDefault();
+
+			if (deliveryDriver == null) throw new Exception("目前沒有可用的外送員");
 			query.StatusId++;
 			query.MarkTime = DateTime.UtcNow;
 
 			_context.Add(query);
 			_context.SaveChanges();
-			return "餐點待配中";
+
+			return Tuple.Create("餐點待配中", orderId, deliveryDriver.Id);
+		}
+		private async Task<double> GetDistanceForStoreToDriver(double storeLng, double storeLat, double? originLng, double? originLat)
+		{
+			double R = 6371; // 地球平均半徑，單位為公里
+
+			
+
+			double dLat = Math.Abs((double)(storeLat - originLat)) * Math.PI / 180;
+			double dLon = Math.Abs((double)(storeLng - originLng)) * Math.PI / 180;
+			double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) + Math.Cos((double)(originLat * Math.PI / 180)) * Math.Cos(storeLat * Math.PI / 180) * Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+			double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+			double distance_km = R * c;
+
+
+
+			//double dLat = Math.Abs(storeLat - originLat);
+			//double dLon = Math.Abs(storeLng - originLng);
+
+			//var distance_km = Math.Sqrt(Math.Pow(dLon, 2) + Math.Pow(dLat, 2)) * 110.9362;
+
+
+			return distance_km;
+
 		}
 	}
 }

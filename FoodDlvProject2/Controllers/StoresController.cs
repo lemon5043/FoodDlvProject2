@@ -60,7 +60,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StorePrincipalId,StoreName,Address,ContactNumber,Photo")] StoreCreateVM storeCreateVM)
+        public async Task<IActionResult> Create([Bind("Id,StorePrincipalId,StoreName,Address,ContactNumber,Photo,Latitude,Longitude")] StoreCreateVM storeCreateVM)
         {
             if (ModelState.IsValid)
             {
@@ -80,6 +80,8 @@ namespace FoodDlvProject2.Controllers
                     StoreName = storeCreateVM.StoreName,
                     Address = storeCreateVM.Address,
                     ContactNumber = storeCreateVM.ContactNumber,
+                    Latitude= storeCreateVM.Latitude,
+                    Longitude= storeCreateVM.Longitude,
                 };
 
                 if (storeCreateVM.Photo != null)
@@ -124,7 +126,8 @@ namespace FoodDlvProject2.Controllers
                 StoreName = store.StoreName,
                 Address = store.Address,
                 ContactNumber = store.ContactNumber,
-
+                Latitude = store.Latitude,
+                Longitude = store.Longitude,
             };
 
 
@@ -138,7 +141,7 @@ namespace FoodDlvProject2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StorePrincipalId,StoreName,Address,ContactNumber,Photo")] StoreEditVM storeEditVM)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,StorePrincipalId,StoreName,Address,ContactNumber,Photo,Latitude,Longitude")] StoreEditVM storeEditVM)
         {
             if (id != storeEditVM.Id)
             {
@@ -155,6 +158,8 @@ namespace FoodDlvProject2.Controllers
                     store.StoreName = storeEditVM.StoreName;
                     store.Address = storeEditVM.Address;
                     store.ContactNumber = storeEditVM.ContactNumber;
+                    store.Latitude = storeEditVM.Latitude;
+                    store.Longitude = storeEditVM.Longitude;
 
                     // IFormFile 的值就算沒照片也不會是 null，會直接報錯
                     //就算有照片，167 行的 store.Photo 也沒被定義，一樣無法修改
