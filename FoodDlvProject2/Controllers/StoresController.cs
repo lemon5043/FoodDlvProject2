@@ -368,15 +368,6 @@ namespace FoodDlvProject2.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
 				_context.Add(product);
 				await _context.SaveChangesAsync();
 				//return RedirectToAction(nameof(Index));
@@ -447,16 +438,24 @@ namespace FoodDlvProject2.Controllers
 					if (productEditVM.Photo != null)
 					{
 						// 刪除舊圖片
-						var oldFilePath = Path.Combine(
-							Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
-							product.Photo);
-
-						if (System.IO.File.Exists(oldFilePath))
+						if (product.Photo != null)
 						{
-							System.IO.File.Delete(oldFilePath);
-						}
+                            var oldFilePath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
+                            product.Photo);
 
-						var now = DateTime.Now;
+                            if (System.IO.File.Exists(oldFilePath))
+                            {
+                                System.IO.File.Delete(oldFilePath);
+                            }
+
+                        }
+					
+
+
+
+
+                            var now = DateTime.Now;
 						var fileName = $"{productEditVM.ProductName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}.jpg";
 						var filePath = Path.Combine(
 							Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
