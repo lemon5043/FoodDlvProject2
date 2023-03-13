@@ -61,9 +61,13 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-@section Scripts
+
+@*VIEWBAG還是會透漏金鑰請更改*@
+
+
+@*@section Scripts
     {
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBiwcVFOUSu4T7yM_tlYJn8yyDSKT6gzV0"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={@ViewBag.Apikey}"></script>
     <script>
         // 等待 DOM 載入完成
         $(function () {
@@ -110,4 +114,4 @@
             }
         });
     </script>
-    }
+    }*@

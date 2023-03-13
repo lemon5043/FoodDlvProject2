@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FoodDlvAPI.Models
+namespace FoodDlvProject2.EFModels
 {
     public partial class Api
     {
