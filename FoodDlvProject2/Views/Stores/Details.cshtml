@@ -153,11 +153,11 @@
 										var imgSrcP = "";
 										if (!string.IsNullOrEmpty(p.Photo))
 										{
-											imgSrcP = $"/img/Products/{p.Photo}";
+											imgSrcP = $"/public/Products/{p.Photo}";
 										}
 										else
 										{
-											imgSrcP = "/img/Products/noPic.jpg";
+											imgSrcP = "../../food-dlv-website/noPic.jpg";
 										}
 									}
 									<img src="@imgSrcP" width="100px" height="100px">

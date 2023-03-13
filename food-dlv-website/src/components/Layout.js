@@ -48,7 +48,7 @@ const Layout = ({ currentUser, setCurrentUser }) => {
   };
 
   return (
-    <div className="h-full">
+    <div>
       <nav
         style={{ height: "6%" }}
         className="bg-theme-color sticky top-0 z-10"
@@ -149,7 +149,9 @@ const Layout = ({ currentUser, setCurrentUser }) => {
           </li>
         </ul>
       </nav>
-      <Outlet />
+      <div className="h-full">
+        <Outlet />
+      </div>
     </div>
   );
 };

@@ -345,9 +345,9 @@ namespace FoodDlvProject2.Controllers
                     var now = DateTime.Now;
                     var fileName = $"{productCreateVM.ProductName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}.jpg";
                     var filePath = Path.Combine(
-                   Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
-                   fileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+							Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
+							fileName);
+					using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await productCreateVM.Photo.CopyToAsync(stream);
                     }
@@ -432,19 +432,19 @@ namespace FoodDlvProject2.Controllers
                     product.Status = productEditVM.Status;
                     product.UnitPrice = productEditVM.UnitPrice;
 
-                    if (productEditVM.Photo != null)
-                    {
-                        // 刪除舊圖片
-                        var oldFilePath = Path.Combine(
-                            Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
-                            product.Photo);
+     //               if (productEditVM.Photo != null)
+     //               {
+     //                   // 刪除舊圖片
+     //                   var oldFilePath = Path.Combine(
+     //                       Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/"
+					//		, product.Photo);
 
-                        if (System.IO.File.Exists(oldFilePath))
-                        {
-                            System.IO.File.Delete(oldFilePath);
-                        }
-
-                        var now = DateTime.Now;
+     //                   if (System.IO.File.Exists(oldFilePath))
+     //                   {
+     //                       System.IO.File.Delete(oldFilePath);
+     //                   }
+					//}
+					var now = DateTime.Now;
                         var fileName = $"{productEditVM.ProductName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}.jpg";
                         var filePath = Path.Combine(
                             Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
@@ -454,18 +454,6 @@ namespace FoodDlvProject2.Controllers
                             await productEditVM.Photo.CopyToAsync(stream);
                         }
                         product.Photo = fileName;
-                    }
-
-
-
-
-
-
-
-
-
-
-
 
                     _context.Update(product);
                     await _context.SaveChangesAsync();

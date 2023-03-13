@@ -8,7 +8,7 @@ class StoreService {
     if (address === "" || typeof address == "undefined") return;
 
     return axios.get(
-      API_URL + "getSomeStoresIfIMAt/" + address + "?pageNum=1&storeNum=10"
+      API_URL + "getSomeStoresIfIMAt/" + address + "?pageNum=1&storeNum=20"
     );
   }
 
