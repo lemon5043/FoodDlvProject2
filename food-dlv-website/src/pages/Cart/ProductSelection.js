@@ -9,7 +9,6 @@ const ProductSelection = () => {
   const [productId, setProductId] = useState("");
   const [state, setState] = useState("");
   const [product, setProduct] = useState(null);
-  // const [items, setItems] = useState([]);
   const [selectItems, setSelectItems] = useState([]);
   const [qty, setQty] = useState(1);
 
@@ -47,22 +46,7 @@ const ProductSelection = () => {
     }
   };
 
-  // function getItem(id) {
-  //   const item = product.customizationItems.find((item) => item.id === id);
-  //   if (items.some((item) => item.id === id)) {
-  //     setItems(items.filter((item) => item.id !== id));
-  //   } else {
-  //     setItems([...items, item]);
-  //   }
-  // }
-
-  // function getSelectItems(items) {
-  //   setSelectItems(items);
-  // }
-
   function AddToCart() {
-    //const selectedItems = items.filter((item) => selectItems.includes(item.id));
-    //const itemId = items.map((item) => item.id.toString());
     console.log(memberId, product.storeId, productId, selectItems, qty);
     CartService.postAddToCart(
       memberId,
@@ -104,7 +88,7 @@ const ProductSelection = () => {
             <label>Quantity:</label>
             <input type="number" value={qty} min={1} onChange={numberQty} />
           </div>
-          <button onClick={AddToCart}>AddToCart</button>
+          <button onClick={() => AddToCart}>AddToCart</button>
         </div>
       )}
     </div>

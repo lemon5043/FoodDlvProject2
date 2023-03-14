@@ -2,15 +2,6 @@ import { useState } from "react";
 import Item from "./Item";
 
 const List = ({ items, toggleItem }) => {
-  //   const [selectItems, setSelectItems] = useState([]);
-
-  //   function ItemsForSelected(itemId, isChecked) {
-  //     if (isChecked) {
-  //       setSelectItems([...selectItems, itemId]);
-  //     } else {
-  //       setSelectItems(selectItems.filter((id) => id !== itemId));
-  //     }
-  //   }
 
   return (
     <div>
