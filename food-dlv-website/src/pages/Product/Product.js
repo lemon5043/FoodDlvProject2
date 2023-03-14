@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import StoreService from "../../services/Store/store.service";
-import BgImage from "../../components/Product/BgImage";
+import ProductPage from "./ProductPage";
 
 const Product = () => {
   const params = useParams();
@@ -10,6 +10,7 @@ const Product = () => {
 
   const displayProduct = async (id) => {
     const res = await StoreService.getStoreDetail(id);
+    console.log(res.data[0]);
     setData(res.data[0]);
   };
 
@@ -19,8 +20,12 @@ const Product = () => {
 
   return (
     <div>
-      {data.length !== 0 && <BgImage data={data} />}
-      123
+      {data.length !== 0 && (
+        <section className="left">
+          <ProductPage data={data} />
+        </section>
+      )}
+      <section></section>
     </div>
   );
 };

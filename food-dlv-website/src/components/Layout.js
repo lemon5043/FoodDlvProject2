@@ -50,7 +50,7 @@ const Layout = ({ currentUser, setCurrentUser }) => {
   return (
     <div>
       <nav
-        style={{ height: "6%" }}
+        style={{ height: "6vh" }}
         className="bg-theme-color sticky top-0 z-10"
       >
         <ul className="flex h-full justify-between items-center w-full mr-4">
