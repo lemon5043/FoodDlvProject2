@@ -11,7 +11,7 @@ namespace FoodDlvAPI.Interfaces
         /// <param name="address"></param>
         /// <param name="fee"></param>
         /// <returns></returns>
-        OrderDTO GetOrderInfo(long cartId, string address, int fee);
+        OrderDTO GetOrderInfo(long cartId, int addressId);
 
         /// <summary>
         /// 訂單建立時, 確認是否在商家營業時間

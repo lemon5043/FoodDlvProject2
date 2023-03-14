@@ -17,9 +17,9 @@ namespace FoodDlvAPI.Models.Services
             _cartRepository = cartRepository;
         }
 
-        public OrderDTO OrderInfo(long cartId, string address, int fee)
-        {
-            var orderInfo = _orderRepository.GetOrderInfo(cartId, address, fee);
+        public OrderDTO OrderInfo(long cartId, int addressId)
+        {           
+            var orderInfo = _orderRepository.GetOrderInfo(cartId, addressId);
             return orderInfo;
         }
 

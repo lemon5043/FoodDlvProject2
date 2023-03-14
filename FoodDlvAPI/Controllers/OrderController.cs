@@ -27,11 +27,11 @@ namespace FoodDlvAPI.Controllers
         }
 
         [HttpGet("OrderInfo")]
-        public IActionResult OrderInfo(long cartId, string address, int fee)
+        public IActionResult OrderInfo(long cartId, int addressId)
         {
             try
-            {
-                var orderInfo = _orderService.OrderInfo(cartId, address, fee).ToOrderInfoVM();
+            {                
+                var orderInfo = _orderService.OrderInfo(cartId, addressId).ToOrderInfoVM();
                 return Json(orderInfo);
             }
             catch (Exception ex)

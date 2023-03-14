@@ -1,4 +1,5 @@
-﻿using FoodDlvAPI.Interfaces;
+﻿using FoodDlvAPI.Controllers;
+using FoodDlvAPI.Interfaces;
 using FoodDlvAPI.Models;
 using FoodDlvAPI.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
@@ -10,25 +11,27 @@ namespace FoodDlvAPI.Models.Repositories
         //Fields
         private readonly AppDbContext _context;
         private readonly ICartRepository _cartRepository;
-        //private readonly 
+        private readonly GetMemberdistanceController _addressClac;
+      
 
         //Constructors
         public OrderRepository(AppDbContext context)
         {
             _context = context;
-            ICartRepository cartRepo = new CartRepository(_context);
+            _cartRepository = new CartRepository(_context);
+            _addressClac = new GetMemberdistanceController(_context);
         }
 
 
-        public OrderDTO GetOrderInfo(long cartId, string address, int fee)
-        {
-            long test = 1;
-            var cart = _context.Carts.First(c => c.Id == cartId).ToCartDTO();
+        public OrderDTO GetOrderInfo(long cartId, int addressId)
+        {         
+            var cart = _context.Carts.First(c => c.Id == cartId).ToCartDTO();            
+
             var orderInfo = new OrderDTO()
             {
                 Cart = _cartRepository.GetCartInfo(cart),
-                DeliveryAddress = _context.AccountAddresses.First(aa => aa.Id == test).Address,
-                DeliveryFee = fee,
+                DeliveryAddress = _context.AccountAddresses.First(aa => aa.Id == addressId).Address,
+                DeliveryFee = Convert.ToInt32(_addressClac.GetDeliveryFee(cartId).Result),
             };
             return orderInfo;
         }
