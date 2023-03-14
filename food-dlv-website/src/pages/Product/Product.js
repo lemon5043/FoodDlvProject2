@@ -3,15 +3,18 @@ import { useParams } from "react-router-dom";
 import StoreService from "../../services/Store/store.service";
 import ProductPage from "./ProductPage";
 import Cart from "../Cart/Cart";
+import UserAuthService from "../../services/User/userAuth.service";
 
 const Product = () => {
+  let [currentUser, setCurrentUser] = useState(
+    UserAuthService.getCurrentUser()
+  );
   const params = useParams();
   const storeId = params.storeId;
   let [data, setData] = useState([]);
 
   const displayProduct = async (id) => {
     const res = await StoreService.getStoreDetail(id);
-    console.log(res.data[0]);
     setData(res.data[0]);
   };
 
@@ -27,7 +30,7 @@ const Product = () => {
         </section>
       )}
       <aside className="right sticky top-4 w-1/5">
-        <Cart />
+        <Cart currentUser={currentUser} storeId={data.id} />
       </aside>
     </div>
   );

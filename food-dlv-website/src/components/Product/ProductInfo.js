@@ -1,11 +1,11 @@
 import React from "react";
 
-const ProductInfo = ({ products }) => {
+const ProductInfo = ({ products, toggleOverlay }) => {
   const productImg = require(`../../assets/images/public/Products/${products.photo}`);
   return (
     <li
       className="p-6 border-b-2 cursor-pointer flex justify-between w-full lg:w-1/2 hover:bg-neutral-200 transition"
-      onClick={() => alert(products.id)}
+      onClick={toggleOverlay}
     >
       <div>
         <h3 className="font-semibold text-lg">{products.productName}</h3>

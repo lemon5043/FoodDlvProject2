@@ -47,15 +47,7 @@ function App() {
           <Route index element={<Home />}></Route>
           <Route path="user" element={<User />}></Route>
           <Route path="cart" element={<Cart />}></Route>
-          <Route
-            path="login"
-            element={
-              <Login
-                currentUser={currentUser}
-                setCurrentUser={setCurrentUser}
-              />
-            }
-          ></Route>
+          <Route path="login" element={<Login />}></Route>
           <Route path="register" element={<Register />}></Route>
           <Route path="store/:addressName" element={<Store />}></Route>
           <Route path="product/:storeId" element={<Product />}></Route>

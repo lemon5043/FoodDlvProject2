@@ -42,7 +42,6 @@ const Layout = ({ currentUser, setCurrentUser }) => {
   };
 
   const searchHandler = () => {
-    console.log(address);
     if (address === "") return;
     navigate("/store/" + address);
   };
