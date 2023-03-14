@@ -21,17 +21,7 @@ namespace FoodDlvAPI.Controllers
         [HttpGet("GetMemberLongitudeNLatitude")]
         public async Task<List<double>> GetMemberLongitudeNLatitude(int orderId)
         {
-            //if (_context.Orders == null) throw new Exception("抱歉找不到訂單，請確認後再試一次");
-            //if (address == null) throw new Exception("抱歉，找不到地址，請確認後再試一次");
-
-            //var address = await _context.Orders
-            //        .Where(x => x.Id == orderId)
-            //        .Select(x => new GetMemberPositionDto
-            //        {
-            //            //StoreAddress = x.Store.Address,
-            //            //MemberId = x.MemberId,
-            //            Address = _context.AccountAddresses.First(a => x.MemberId == a.MemberId).Address,
-            //        }).FirstOrDefaultAsync();
+            
                 var address = await _context.Orders
                 .Where(x => x.Id == orderId)
                 .Select(x => _context.AccountAddresses
