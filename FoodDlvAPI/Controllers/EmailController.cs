@@ -47,10 +47,10 @@ namespace FoodDlvAPI.Controllers
 			var bodyBuilder = new BodyBuilder();
 
 			// 產生驗證連結
-			string confirmationLink = $"{Request.Scheme}://{Request.Host}/api/EmailController/EmailConfirm?account={member.Account}&confirmCode={confirmCode}";
+			string confirmationLink = $"{Request.Scheme}://{Request.Host}/api/EmailController/EmailConfirm?account={member.Account}";
 
 			// 設定 HTML 內容
-			bodyBuilder.HtmlBody = "<h1 style='text-align: center; color:darkgreen; font-size:60px;'>PawPaw!</h1>" +
+			bodyBuilder.HtmlBody = "<h1 style='text-align: center; color:darkgreen; font-size:60px;'>FASPAN!</h1>" +
 									"<br>" +
 									"<h3 style='text-align: center;font-size:30px;'>歡迎使用FASPAN!!</h3>" +
 									"<h3 style='text-align: center;font-size:30px;'>請點擊下方連結以驗證信箱</h3>" +
@@ -122,7 +122,7 @@ namespace FoodDlvAPI.Controllers
 			string forgetpasswordlink = $"{Request.Scheme}://{Request.Host}/api/Members/LogIn";
 
 			// 設定 HTML 內容
-			bodyBuilder.HtmlBody = "<h1 style='text-align: center; color:darkgreen; font-size:60px;'>PawPaw!</h1>" +
+			bodyBuilder.HtmlBody = "<h1 style='text-align: center; color:darkgreen; font-size:60px;'>FASPAN!</h1>" +
 									"<br>" +
 									"<h3 style='text-align: center;font-size:30px;'>歡迎使用FASPAN,以下是您的新密碼,請使用新密碼登入後至個人資料修改密碼</h3>" +
 									"<h3 style='text-align: center;font-size:30px;'>以下是您的新密碼....</h3>" +
