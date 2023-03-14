@@ -33,11 +33,11 @@ namespace FoodDlvAPI.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("AddToCart")]
-        public IActionResult AddToCart(CartInfoVM request)
+        public IActionResult AddToCart(CartRequestVM request)
         {
             try
             {
-                _cartService.AddToCart(request);
+                _cartService.AddToCart(request.ToCartDTO());
                 return new EmptyResult();
             }
             catch (Exception ex)
@@ -72,11 +72,11 @@ namespace FoodDlvAPI.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("UpdateCart")]
-        public IActionResult UpdateCart(CartInfoVM request)
+        public IActionResult UpdateCart(CartRequestVM request)
         {
             try
             {
-                _cartService.UpdateCart(request);
+                _cartService.UpdateCart(request.ToCartDTO());
                 return new EmptyResult();
             }
             catch (Exception ex)
@@ -88,14 +88,14 @@ namespace FoodDlvAPI.Controllers
         /// <summary>
         /// 移除購物車內一項商品
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="identifyNum"></param>
         /// <returns></returns>
         [HttpPost("RemoveDetail")]
-        public IActionResult RemoveDetail(CartInfoVM request)
+        public IActionResult RemoveDetail(int identifyNum)
         {
             try
             {
-                _cartService.RemoveDetail(request);
+                _cartService.RemoveDetail(identifyNum);
                 return new EmptyResult();
             }
             catch (Exception ex)

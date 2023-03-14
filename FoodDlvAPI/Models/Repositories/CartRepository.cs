@@ -68,36 +68,41 @@ namespace FoodDlvAPI.Models.Repositories
             _context.SaveChanges();
         }
 
-        public void AddDetail(CartDTO cart, CartInfoVM request)
+        public void AddDetail(CartDTO cart, CartDTO request)
         {
-            if (_context.Stores.Any(m => m.Id == request.RD_StoreId) == false)
+            if (_context.Stores.Any(m => m.Id == cart.StoreId) == false)
             {
                 throw new Exception("此商店不存在");
             }
-            if (_context.Products.Any(p => p.StoreId == request.RD_StoreId && p.Id == request.RD_ProductId) == false)
+            if (_context.Products.Any(p => p.StoreId == cart.StoreId && p.Id == request.Details.First().ProductId) == false)
             {
                 throw new Exception("商店無此商品");
             }
-            if (request.RD_Qty <= 0)
+            if (request.Details.First().Qty <= 0)
             {
                 throw new Exception("商品數量不可小於0");
             }
+                        
+            List<int?> listItemId = request.Details.SelectMany(d => d.ItemsId ?? Enumerable.Empty<int?>()).ToList();
 
-            List<int?> listItemId = request.RD_ItemId;
-            var invalidItemIds = listItemId.Where(itemId => _context.ProductCustomizationItems
-                                        .Any(pci => pci.ProuctId == request.RD_ProductId && pci.Id == itemId) == false)
-                                        .ToList();
-
-            if (invalidItemIds.Count > 0)
+            if (!(listItemId?.Count == 1 && listItemId.Contains(null)))
             {
-                throw new Exception($"客製化編號{string.Join(", ", invalidItemIds)}號不屬於該產品");
-            }
-            if (request.RD_ItemId.Count == 0)
+                var invalidItemIds = listItemId.Where(itemId => _context.ProductCustomizationItems
+                                    .Any(pci => pci.ProuctId == request.Details.First().ProductId && pci.Id == itemId) == false)
+                                    .ToList();
+
+                if (invalidItemIds.Count > 0)
+                {
+                    throw new Exception($"客製化編號{string.Join(", ", invalidItemIds)}號不屬於該產品");
+                }
+            }            
+
+            if (listItemId.Count == 0)
             {
                 listItemId.Add(null);
             }
 
-            var details = cart.Details;
+            var details = cart.Details.Where(d => d.ProductId == request.Details.First().ProductId);
             var selectDetailItem = details.OrderBy(d => d.IdentifyNum).ThenBy(d => d.ItemsId).GroupBy(d => d.IdentifyNum).Select(gd => gd.Select(d => d.ItemId).ToList()).ToList();
             var identifyNum = details.OrderBy(d => d.IdentifyNum).GroupBy(d => d.IdentifyNum).Select(gd => gd.Key).ToList();
             List<int?> item = new List<int?>();
@@ -113,29 +118,28 @@ namespace FoodDlvAPI.Models.Repositories
                 }
             }
 
-            if (item.Count == 0)
+            var targetDtail = details.Where(d => d.IdentifyNum == identifyNum[count]);
+            if (item.Count == 0 || !targetDtail.Any())
             {
-
                 foreach (int? itemId in listItemId)
                 {
                     var newDetail = new CartDetailDTO
                     {
                         IdentifyNum = IdentifyNumSelector(cart.Id),
-                        ProductId = request.RD_ProductId,
+                        ProductId = request.Details.First().ProductId,
                         ItemId = itemId,
-                        Qty = request.RD_Qty,
+                        Qty = request.Details.First().Qty,
                         CartId = cart.Id
                     };
                     _context.CartDetails.Add(newDetail.ToCartDetailEF());
                 }
                 _context.SaveChanges();
             }
-            else
-            {
-                var targetDtail = details.Where(d => d.IdentifyNum == identifyNum[count]);
+            else 
+            {                
                 foreach (var detail in targetDtail)
                 {
-                    detail.Qty += request.RD_Qty;
+                    detail.Qty += request.Details.First().Qty;
 
                     _context.CartDetails.Update(detail.ToCartDetailEF());
                 }
@@ -194,9 +198,9 @@ namespace FoodDlvAPI.Models.Repositories
 
             return cartInfo;
         }
-        public void RemoveDetail(CartInfoVM cart)
+        public void RemoveDetail(int identifyNum)
         {
-            var target = _context.CartDetails.Where(cd => cd.IdentifyNum == cart.RD_identifyNum).ToList();
+            var target = _context.CartDetails.Where(cd => cd.IdentifyNum == identifyNum).ToList();
             if (target.Count == 0) return;
 
             _context.CartDetails.RemoveRange(target);
