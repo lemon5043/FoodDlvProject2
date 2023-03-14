@@ -109,11 +109,13 @@ const Cart = () => {
         <input type="text" value={storeId} onChange={textStoreId} />
       </div>
       <button onClick={() => CartInfo()}>GetCartInfo</button>
-            
+
       {cartDetail && (
         <div>
           <p>{cartDetail.storeName}</p>
-          <button onClick={() => DeleteCart(memberId , cartDetail.storeId)}>DeleteCart</button>
+          <button onClick={() => DeleteCart(memberId, cartDetail.storeId)}>
+            DeleteCart
+          </button>
           <p>{cartDetail.total}</p>
 
           {/* 展開購物車的CartDetail */}

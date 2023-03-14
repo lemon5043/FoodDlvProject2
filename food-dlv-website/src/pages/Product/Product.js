@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import StoreService from "../../services/Store/store.service";
 import ProductPage from "./ProductPage";
+import Cart from "../Cart/Cart";
 
 const Product = () => {
   const params = useParams();
@@ -19,13 +20,15 @@ const Product = () => {
   }, []);
 
   return (
-    <div>
+    <div className="flex">
       {data.length !== 0 && (
-        <section className="left">
+        <section className="left w-4/5">
           <ProductPage data={data} />
         </section>
       )}
-      <section></section>
+      <aside className="right sticky top-4 w-1/5">
+        <Cart />
+      </aside>
     </div>
   );
 };
