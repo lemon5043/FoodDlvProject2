@@ -42,9 +42,13 @@ namespace FoodDlvAPI.Controllers
 		/// <returns>List<StoreGetDTO>getSomeStoresOrderByDistance</returns>
 
 
-		[HttpGet("getSomeStoresIfIMAt/{origin}")]
-		public async Task<ActionResult<IEnumerable<StoreGetDTO>>> GetSomeThisCategoryOfStoresIfIMAt(int pageNum, int storeNum, string origin, int? categoryId, string? searchString)
+		[HttpGet("getSomeStoresIfIMAt/")]
+		public async Task<ActionResult<IEnumerable<StoreGetDTO>>> GetSomeThisCategoryOfStoresIfIMAt(int pageNum, int storeNum, string? origin, int? categoryId, string? searchString)
 		{
+			if (origin == null)
+			{
+				origin = "聖德基督學院";
+			}
 			List<StoreGetDTO> getSomeStores;
 			//如果有搜尋字串
 			if (!string.IsNullOrEmpty(searchString) || !string.IsNullOrWhiteSpace(searchString))

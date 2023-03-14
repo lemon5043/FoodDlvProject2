@@ -104,9 +104,45 @@ namespace FoodDlvAPI.Controllers
             return storePrincipal;
         }
 
+
+		[HttpGet("GetStorePrincipalEditVM{id}")]
+		public async Task<ActionResult<StorePrincipalEditVM>> GetStorePrincipalEditVM(int id)
+		{
+			StorePrincipalEditVM storePrincipalEditVM=new StorePrincipalEditVM();
+			try
+			{
+				
+				var storePrincipal = await _context.StorePrincipals.FirstOrDefaultAsync(x => x.Id == id);
+
+				storePrincipalEditVM.FirstName = storePrincipal.FirstName;
+				storePrincipalEditVM.LastName = storePrincipal.LastName;
+				storePrincipalEditVM.Phone = storePrincipal.Phone;
+				storePrincipalEditVM.Gender = storePrincipal.Gender;
+				storePrincipalEditVM.Birthday = storePrincipal.Birthday;
+				storePrincipalEditVM.Email = storePrincipal.Email;
+				storePrincipalEditVM.Password = storePrincipal.Password;
+
+				_context.StorePrincipals.Update(storePrincipal);
+				await _context.SaveChangesAsync();
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+
+			return storePrincipalEditVM;
+		}
+
+
+
+
+
+
+
+
 		// PUT: api/StorePrincipals/5
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-		[HttpPut("{id}")]
+		[HttpPut("storePrincipalEditVM{id}")]
 		public async Task<string> PutStorePrincipal(int id, StorePrincipalEditVM storePrincipalEditVM)
 		{
 			try {
@@ -168,25 +204,25 @@ namespace FoodDlvAPI.Controllers
 			//return CreatedAtAction("GetStorePrincipal", new { id = storePrincipal.Id }, storePrincipal);
 		}
 
-        // DELETE: api/StorePrincipals/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStorePrincipal(int id)
-        {
-            var storePrincipal = await _context.StorePrincipals.FindAsync(id);
-            if (storePrincipal == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: api/StorePrincipals/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteStorePrincipal(int id)
+        //{
+        //    var storePrincipal = await _context.StorePrincipals.FindAsync(id);
+        //    if (storePrincipal == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.StorePrincipals.Remove(storePrincipal);
-            await _context.SaveChangesAsync();
+        //    _context.StorePrincipals.Remove(storePrincipal);
+        //    await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
-        private bool StorePrincipalExists(int id)
-        {
-            return _context.StorePrincipals.Any(e => e.Id == id);
-        }
+        //private bool StorePrincipalExists(int id)
+        //{
+        //    return _context.StorePrincipals.Any(e => e.Id == id);
+        //}
     }
 }
