@@ -3,15 +3,22 @@ using FoodDlvAPI.Models;
 using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Models.Services;
 using FoodDlvAPI.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using NuGet.Protocol.Core.Types;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
+using System.Security.Principal;
 using static FoodDlvAPI.Models.Repositories.MemberRespitory;
 
 namespace FoodDlvAPI.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class MembersController : Controller
 	{
@@ -53,7 +60,7 @@ namespace FoodDlvAPI.Controllers
 		[HttpPost("login")]
 		public async Task<ActionResult<object>> Login(MemberLoginVM model)
 		{
-            MemberLoginresponse response = await memberservice.Login(model.Account, model.Password);
+			MemberLoginresponse response = await memberservice.Login(model.Account, model.Password);
 
 			if (response.IsSuccess)
 			{
@@ -134,7 +141,6 @@ namespace FoodDlvAPI.Controllers
 				return BadRequest(ModelState);
 			}
 		}
-
 
 	}
 }

@@ -2,6 +2,7 @@
 using FoodDlvAPI.Models;
 using FoodDlvAPI.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace FoodDlvAPI.Models.Repositories
 {
@@ -100,16 +101,76 @@ namespace FoodDlvAPI.Models.Repositories
             }
             public bool AccountExists(string account)
             {
-                return db.DeliveryDrivers.Any(e => e.Account == account);
+                return db.Members.Any(e => e.Account == account);
             }
+			public async Task<string> GetKey(string APIName)
+			{
+				if (db.Apis == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
-            public bool MemberExists(int id)
+				var apiKey = await db.Apis.Where(x => x.Apiname == APIName).FirstOrDefaultAsync();
+
+				if (apiKey == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+
+				return apiKey.Apikey;
+			}
+			//public async Task<GetMemberPositionDto> GetMemberPosition(int orderId)
+			//{
+			//	if (db.Orders == null) throw new Exception("抱歉找不到資料，請確認後再試一次");
+			//	var query = await db.Orders
+			//		.Where(x => x.Id == orderId)
+			//		.Select(x => new GetMemberPositionDto
+			//		{
+			//			StoreAddress = x.Store.Address,
+   //                     MemberId=x.MemberId,
+   //                     Address = db.AccountAddresses.First(a=>x.MemberId==a.MemberId).Address,
+			//		})
+   //                 .FirstOrDefaultAsync();
+
+			//	if (query == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
+
+			//	return query;
+			//}
+   //         public async Task GetMemberPosition( location) 
+   //         {
+   //             if (db.AccountAddresses == null) throw new Exception("找不到指定資料,請確認後再試一次");
+   //             var EFModel=location.ToMemberEFModel();
+   //             string[] memberlocation = { "longitude", "latitude" };
+   //             db.Attach(EFModel);
+			//	foreach (var property in memberlocation)
+			//	{
+			//		db.Entry(EFModel).Property(property).IsModified = true;
+			//	}
+
+			//	await db.SaveChangesAsync();
+			//}
+
+			public bool MemberExists(int id)
             {
                 return db.Members.Any(e => e.Id == id);
             }
             public MemberRegisterDto Load(string account)
                 => db.Members.SingleOrDefault(x => x.Account == account).ToEntity();
-        }
+			
+           
+			
+            //將經緯度存回資料庫
+			//public async Task<string> CreateMemberLongitudeNLatitudeAsync(MemberAccountAddressDto model)
+			//{
+			//	try
+			//	{
+			//		var EFModel = model.ToEFmodel();
+
+			//		db.AccountAddresses.Add(EFModel);
+			//		await db.SaveChangesAsync();
+			//	}
+			//	catch (DbUpdateConcurrencyException)
+			//	{
+			//		throw new Exception("發生異常狀況,請重新輸入");
+			//	}
+
+			//	return "新增成功";
+			//}
+		}
 
     }
 }

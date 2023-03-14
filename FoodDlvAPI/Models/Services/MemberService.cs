@@ -5,6 +5,8 @@ using FoodDlvAPI.Models.Infrastructures;
 using FoodDlvAPI.Models.Repositories;
 using FoodDlvAPI.Models.ViewModels;
 using NuGet.Protocol.Core.Types;
+using System.Net;
+
 namespace FoodDlvAPI.Models.Services
 {
     public class MemberService
@@ -30,7 +32,8 @@ namespace FoodDlvAPI.Models.Services
 
             return await _repository.EditAsync(model);
         }
-        public async Task<MemberLoginresponse> Login(string account, string password)
+	
+		public async Task<MemberLoginresponse> Login(string account, string password)
         {
             MemberRegisterDto member = _repository.Load(account);
 
@@ -45,5 +48,17 @@ namespace FoodDlvAPI.Models.Services
                 ? MemberLoginresponse.Success(member.Id, member.LastName + member.FirstName, member.Password)
                 : MemberLoginresponse.Fail("帳密有誤");
         }
-    }
+
+
+        //public async Task MemberLocation(int MemberId)
+        //    => await _repository.GetMemberPosition(MemberId);
+        //public async Task<GetMemberPositionDto> GetMemberPosition(int orderId)
+        //    => await _repository.GetMemberPosition(orderId);
+        //public async Task GetMemberLongitudeNLatitude(int MemberId)
+        //=>await _repository.GetMemberLongitudeNLatitude(MemberId);
+
+		
+
+	}
 }
+
