@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FoodDlvAPI.Models;
 using Newtonsoft.Json;
 using FoodDlvAPI.Models.DTOs;
+using FoodDlvAPI.Models.ViewModels;
 
 namespace FoodDlvAPI.Controllers
 {
@@ -270,6 +271,49 @@ namespace FoodDlvAPI.Controllers
 
 
 
+
+		//6商店內部資訊修改
+		[HttpPut("{id}")]
+		public async Task<string> PutStore(int id, Store store)
+		{
+
+			if (id != store.Id)
+			{
+				return "錯誤";
+			}
+
+			_context.Entry(store).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException ex)
+			{
+
+				if (!_context.Stores.Any(e => e.Id == id))
+				{
+					return "錯誤找不到此商店";
+				}
+				else
+				{
+					throw new Exception(ex.Message);
+				}
+			}
+
+			return "修改成功";
+		}
+
+
+
+
+
+
+
+
+
+
+
 		////6商店內部資訊修改
 		//[HttpPut("{id}")]
 		//public async Task<string> PutStore(int id, Store store)
@@ -422,7 +466,7 @@ namespace FoodDlvAPI.Controllers
 
 		//訂單傳送
 		[HttpPut("SendReqToDeliver")]
-		public async Task<Tuple<string, int,int>> SendReqToDeliver(int orderId)
+		public async Task<SendReqToDeliverVM> SendReqToDeliver(int orderId)
 		{
 			if (_context.OrderSchedules == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 
@@ -436,11 +480,6 @@ namespace FoodDlvAPI.Controllers
 
 			if (query == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
 			if (query.StatusId != 2) throw new Exception("抱歉，該筆訂單未在準備中，不可讓該餐點狀態變為待配中，請重新確認訂單狀態");
-
-			
-
-
-
 
 
 			var order = await _context.Orders.Where(x => x.Id == orderId).FirstOrDefaultAsync();
@@ -469,7 +508,16 @@ namespace FoodDlvAPI.Controllers
 			_context.Add(query);
 			_context.SaveChanges();
 
-			return Tuple.Create("餐點待配中", orderId, deliveryDriver.Id);
+			var sendReqToDeliverVM = new SendReqToDeliverVM
+			{
+				AlertString = "餐點待配中",
+				OrderId = orderId,
+				deliveryDriverId = deliveryDriver.Id
+
+			};
+
+
+			return sendReqToDeliverVM;
 		}
 		private async Task<double> GetDistanceForStoreToDriver(double storeLng, double storeLat, double? originLng, double? originLat)
 		{

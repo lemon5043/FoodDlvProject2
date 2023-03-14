@@ -84,25 +84,25 @@ namespace FoodDlvAPI.Controllers
 		}
 
 		// GET: api/StorePrincipals
-		[HttpGet]
-        public async Task<ActionResult<IEnumerable<StorePrincipal>>> GetStorePrincipals()
-        {
-            return await _context.StorePrincipals.ToListAsync();
-        }
+		//[HttpGet]
+  //      public async Task<ActionResult<IEnumerable<StorePrincipal>>> GetStorePrincipals()
+  //      {
+  //          return await _context.StorePrincipals.ToListAsync();
+  //      }
 
-        // GET: api/StorePrincipals/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<StorePrincipal>> GetStorePrincipal(int id)
-        {
-            var storePrincipal = await _context.StorePrincipals.FindAsync(id);
+  //      // GET: api/StorePrincipals/5
+  //      [HttpGet("{id}")]
+  //      public async Task<ActionResult<StorePrincipal>> GetStorePrincipal(int id)
+  //      {
+  //          var storePrincipal = await _context.StorePrincipals.FindAsync(id);
 
-            if (storePrincipal == null)
-            {
-                return NotFound();
-            }
+  //          if (storePrincipal == null)
+  //          {
+  //              return NotFound();
+  //          }
 
-            return storePrincipal;
-        }
+  //          return storePrincipal;
+  //      }
 
 
 		[HttpGet("GetStorePrincipalEditVM{id}")]
