@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using FoodDlvProject2.Hubs;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Authentication;
+using FoodDlvAPI.Models.Services;
 
 namespace FoodDlvProject2
 {
@@ -12,7 +13,9 @@ namespace FoodDlvProject2
     {
         public static async Task Main(string[] args)
         {
+
             var builder = WebApplication.CreateBuilder(args);
+
 
             //以下為身分驗證相關 cookie 設置功能
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -35,9 +38,11 @@ namespace FoodDlvProject2
 
 
 			builder.Services.AddControllersWithViews();
+
+            //加入SignalR
             builder.Services.AddSignalR();
 
-            builder.Services.AddSignalR();
+
 
             var app = builder.Build();
 
@@ -69,6 +74,8 @@ namespace FoodDlvProject2
             });
 
             app.UseRouting();
+
+
 
             //以下為驗證相關功能，請洽https://learn.microsoft.com/zh-tw/aspnet/core/security/authentication/cookie?view=aspnetcore-7.0
             app.UseAuthentication();

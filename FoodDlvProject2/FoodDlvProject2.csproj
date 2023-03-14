@@ -41,4 +41,8 @@
     <Folder Include="Models\Infrastructures\ExtensionMethods\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FoodDlvAPI\FoodDlvAPI.csproj" />
+  </ItemGroup>
+
 </Project>

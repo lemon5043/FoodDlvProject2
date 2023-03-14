@@ -1,20 +1,28 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using FoodDlvAPI.Models.Services;
+using Microsoft.AspNetCore.SignalR;
 using System.Text.RegularExpressions;
 
 namespace FoodDlvAPI.Hubs
 {
     public class OrderHub : Hub
     {
+        private readonly IDictionary<string, UserConnection> _connections;
 
+        public OrderHub(IDictionary<string, UserConnection> connections)
+        {
+            _connections = connections;
+        }
         /// <summary>
         /// 將使用者加入Hub群組，方便建立連線
         /// </summary>
         /// <param name="id">自身Id e.g.storeId、MemberId</param>
         /// <param name="role">使用者角色Id e.g.Store、Member ，不分大小寫</param>
         /// <returns></returns>
-        public async Task JoinGroup(int id,string role)
+        public async Task JoinGroup(UserConnection userConnection)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, role.ToLower() + id.ToString());
+            await Groups.AddToGroupAsync(Context.ConnectionId, userConnection.Room);
+
+            _connections[Context.ConnectionId] = userConnection;
         }
 
         /// <summary>
@@ -22,11 +30,24 @@ namespace FoodDlvAPI.Hubs
         /// </summary>
         /// <param name="id">自身Id e.g.storeId、MemberId</param>
         /// <param name="role">使用者角色Id e.g.Store、Member ，不分大小寫</param>
-         /// <returns></returns>
-        public async Task LeaveGroup(int id, string role)
+        /// <returns></returns>
+        public async Task LeaveGroup(UserConnection userConnection)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, role.ToLower() + id.ToString());
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, userConnection.Room);
         }
+
+        /// <summary>
+        /// 傳送訊息
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        //public async Task SendOrderId(string mesage)
+        //{
+        //    if (_connections.TryGetValue(Context.ConnectionId, out UserConnection userConnection))
+        //    {
+        //        await Clients.Group(userConnection.Room).SendAsync("ReceiveOrderId", userConnection.Room, mesage);
+        //    }
+        //}
 
         /// <summary>
         /// 會員=>商家
@@ -35,7 +56,7 @@ namespace FoodDlvAPI.Hubs
         /// <param name="StordId">商家Id</param>
         /// <param name="orderId">訂單Id</param>
         /// <returns></returns>
-        public async Task NewOrder(int StordId,int orderId)
+        public async Task NewOrder(int StordId, int orderId)
         {
             string groupName = "Store" + StordId.ToString();
             await Clients.Group(groupName).SendAsync("NewOrder", orderId);

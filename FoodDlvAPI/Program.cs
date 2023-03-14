@@ -1,5 +1,7 @@
 using FoodDlvAPI.Hubs;
 using FoodDlvAPI.Models;
+using FoodDlvAPI.Models.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -7,12 +9,17 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
 
 //加入 SignalR
 builder.Services.AddSignalR();
 
-// Add services to the container.
+//SignalR記錄使用者、群組用
+builder.Services.AddSingleton<IDictionary<string, UserConnection>>(opt => new Dictionary<string, UserConnection>());
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -45,7 +52,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     })
     ;
 
-
 //註冊要使用的 database 類別
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("FoodDelivery")));
@@ -56,7 +62,8 @@ var app = builder.Build();
 app.UseCors(options =>
 options.WithOrigins("http://localhost:5129")
 .AllowAnyMethod()
-.AllowAnyHeader());
+.AllowAnyHeader()
+.AllowCredentials());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -75,6 +82,5 @@ app.MapControllers();
 
 //加入 Hub
 app.MapHub<OrderHub>("/OrderHub");
-
 
 app.Run();
