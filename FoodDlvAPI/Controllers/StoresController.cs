@@ -9,6 +9,7 @@ using FoodDlvAPI.Models;
 using Newtonsoft.Json;
 using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Models.ViewModels;
+using System.Drawing.Text;
 
 namespace FoodDlvAPI.Controllers
 {
@@ -217,7 +218,7 @@ namespace FoodDlvAPI.Controllers
 
 				CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
 			   ,
-				Products=x.Products.Where(x=>x.StoreId== storeId)
+				Products=x.Products.Where(x=>x.StoreId== storeId).Where(x=>x.Status!=false)
 
 			})
 				  .ToListAsync();
@@ -242,7 +243,6 @@ namespace FoodDlvAPI.Controllers
 		//5店家擁有商店頁面
 
 		[HttpGet("myStoreDetail/{storeId}")]
-
 		public async Task<ActionResult<IEnumerable<MyStoreDetailDTO>>> GetMyStoreDetail(int storeId)
 		{
 
@@ -255,6 +255,8 @@ namespace FoodDlvAPI.Controllers
 				ContactNumber = x.ContactNumber,
 				Photo = x.Photo,
 
+
+				CategoryId = x.StoresCategoriesLists.Select(s => s.Category.Id),
 				CategoryName = x.StoresCategoriesLists.Select(s => s.Category.CategoryName)
 
 			   ,
@@ -273,39 +275,152 @@ namespace FoodDlvAPI.Controllers
 
 
 		//6商店內部資訊修改
-		[HttpPut("{id}")]
-		public async Task<string> PutStore(int id, Store store)
+		[HttpPut("myStoreDetail/Edit/{id}")]
+		public async Task<string> PutStore(int id, MyStoreDetailEditDTO myStoreDetailEditDTO)
 		{
-
-			if (id != store.Id)
-			{
-				return "錯誤";
-			}
-
-			_context.Entry(store).State = EntityState.Modified;
-
 			try
 			{
-				await _context.SaveChangesAsync();
-			}
-			catch (DbUpdateConcurrencyException ex)
-			{
+				var store = await _context.Stores.FindAsync(id);
 
-				if (!_context.Stores.Any(e => e.Id == id))
+				store.StoreName = myStoreDetailEditDTO.StoreName;
+				store.Address = myStoreDetailEditDTO.Address;
+				store.ContactNumber = myStoreDetailEditDTO.ContactNumber;
+
+				if (myStoreDetailEditDTO.Photo != null)
 				{
-					return "錯誤找不到此商店";
+					// 刪除舊圖片
+					if (store.Photo != null)
+					{
+						var oldFilePath = Path.Combine(
+							Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Stores/",
+							store.Photo);
+
+						if (System.IO.File.Exists(oldFilePath))
+						{
+							System.IO.File.Delete(oldFilePath);
+						}
+					}
+
+
+					var now = DateTime.Now;
+					var fileName = $"{myStoreDetailEditDTO.StoreName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}{myStoreDetailEditDTO.Address}.jpg";
+					var filePath = Path.Combine(
+						Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Stores/",
+						fileName);
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						await myStoreDetailEditDTO.Photo.CopyToAsync(stream);
+					}
+					store.Photo = fileName;
 				}
-				else
+
+
+
+				var currentCategories = await _context.StoresCategoriesLists.Where(x => x.StoreId == id).ToListAsync();
+				var newCategories = myStoreDetailEditDTO.CategoryIds.Select(x => new StoresCategoriesList { StoreId = id, CategoryId = x });
+				_context.StoresCategoriesLists.RemoveRange(currentCategories);
+				_context.StoresCategoriesLists.AddRange(newCategories);
+
+
+
+
+
+
+
+
+				var products = await _context.Products.Where(x => x.StoreId == id).ToListAsync();
+				foreach (var product in products)
 				{
-					throw new Exception(ex.Message);
+					var productDto = myStoreDetailEditDTO.Products.FirstOrDefault(x => x.Id == product.Id);
+					if (productDto != null)
+					{
+						product.ProductName = productDto.ProductName;
+						product.ProductContent = productDto.ProductContent;
+						product.Status = productDto.Status;
+						product.UnitPrice = productDto.UnitPrice;
+
+
+						if (productDto.Photo != null)
+						{
+							// 刪除舊圖片
+							if (product.Photo != null)
+							{
+								var oldFilePath = Path.Combine(
+								Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
+								product.Photo);
+
+								if (System.IO.File.Exists(oldFilePath))
+								{
+									System.IO.File.Delete(oldFilePath);
+								}
+
+							}
+
+							var now = DateTime.Now;
+							var fileName = $"{productDto.ProductName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}.jpg";
+							var filePath = Path.Combine(
+								Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
+								fileName);
+							using (var stream = new FileStream(filePath, FileMode.Create))
+							{
+								await productDto.Photo.CopyToAsync(stream);
+							}
+							product.Photo = fileName;
+						}
+
+					}
+					else
+					{
+						_context.Products.Remove(product);
+					}
 				}
+
+
+				var newProducts = myStoreDetailEditDTO.Products.Where(x => x.Id == null).Select(x => new Product
+				{
+					StoreId = id,
+					ProductName = x.ProductName,
+					Photo = PruductPicToString(x.Photo, x.ProductName),
+					ProductContent = x.ProductContent,
+					Status = x.Status,
+					UnitPrice = x.UnitPrice
+				});
+
+				_context.Products.AddRange(newProducts);
+
+				await _context.SaveChangesAsync();
+
 			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+
 
 			return "修改成功";
 		}
 
 
-
+		private string? PruductPicToString(IFormFile? pic, string ProductName)
+		{
+			if (pic != null)
+			{
+				var now = DateTime.Now;
+				var fileName = $"{ProductName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}.jpg";
+				var filePath = Path.Combine(
+					Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
+					fileName);
+				using (var stream = new FileStream(filePath, FileMode.Create))
+				{
+				pic.CopyTo(stream);
+				}
+				return fileName;
+			}
+			else
+			{
+				return null;
+			}
+		}
 
 
 
