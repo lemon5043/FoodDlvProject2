@@ -3,10 +3,13 @@ using FoodDlvAPI.Models;
 using FoodDlvAPI.Models.DTOs;
 using FoodDlvAPI.Models.Services;
 using FoodDlvAPI.Models.ViewModels;
+using MailKit.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit.Utils;
+using MimeKit;
 using Newtonsoft.Json;
 using NuGet.Protocol.Core.Types;
 using System.IdentityModel.Tokens.Jwt;
@@ -138,6 +141,6 @@ namespace FoodDlvAPI.Controllers
 				return BadRequest(ModelState);
 			}
 		}
-
+		
 	}
 }
