@@ -156,9 +156,9 @@ namespace FoodDlvAPI.Controllers
         // PUT: api/DeliveryDrivers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPut("Edit/{id}")]
+        [HttpPut]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(DeliveryDriversEditVM deliveryDriver)
+        public async Task<ActionResult> Edit([FromForm]DeliveryDriversEditVM deliveryDriver)
         {
             if (ModelState.IsValid)
             {

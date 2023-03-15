@@ -25,6 +25,16 @@ class DriverAuthService {
     return res;
   }
 
+  GetDetails( id, token ){
+    const response = axios.get(API_URL + "/" + id ,{
+      headers: {
+        responseType: "json",
+        Authorization: `bearer ${token}`,
+      },
+    });
+    return response
+  }
+
   logout() {
     localStorage.removeItem("driver");
   }

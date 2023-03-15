@@ -165,6 +165,7 @@ namespace FoodDlvAPI.Models.Repositories
                 {
                     StoreAddress = x.Store.Address,
                     DeliveryAddress = x.DeliveryAddress,
+                    MemberId= x.MemberId,
                 }).FirstOrDefaultAsync();
 
             if (query == null) throw new Exception("抱歉，找不到指定資料，請確認後再試一次");
@@ -212,7 +213,7 @@ namespace FoodDlvAPI.Models.Repositories
             if (query.StatusId < 3 || query.StatusId > 5) throw new Exception("抱歉，指定為不可外送狀態，請重新確認訂單狀態");
 
             query.StatusId++;
-            query.MarkTime = DateTime.UtcNow;
+            query.MarkTime = DateTime.Now;
 
             db.Add(query);
             db.SaveChanges();

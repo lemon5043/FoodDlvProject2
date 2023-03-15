@@ -9,6 +9,7 @@ namespace FoodDlvAPI.Models.DTOs
         public string StoreName { get; set; }
         public string DeliveryAddress { get;  set; }
         public int DriverId { get; set; }
+        public int MemberId { get; set; }
         //todo public OrderDetailsDTO OrderDetails { get;  set; }
     }
 
