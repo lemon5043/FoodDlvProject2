@@ -82,7 +82,7 @@ namespace FoodDlvAPI.Models.Repositories
             {
                 throw new Exception("商品數量不可小於0");
             }
-                        
+
             List<int?> listItemId = request.Details.SelectMany(d => d.ItemsId ?? Enumerable.Empty<int?>()).ToList();
 
             if (!(listItemId?.Count == 1 && listItemId.Contains(null)))
@@ -95,7 +95,7 @@ namespace FoodDlvAPI.Models.Repositories
                 {
                     throw new Exception($"客製化編號{string.Join(", ", invalidItemIds)}號不屬於該產品");
                 }
-            }            
+            }
 
             if (listItemId.Count == 0)
             {
@@ -135,8 +135,8 @@ namespace FoodDlvAPI.Models.Repositories
                 }
                 _context.SaveChanges();
             }
-            else 
-            {                
+            else
+            {
                 foreach (var detail in targetDtail)
                 {
                     detail.Qty += request.Details.First().Qty;
@@ -164,9 +164,12 @@ namespace FoodDlvAPI.Models.Repositories
             return identifyNum;
         }
 
-        public CartDTO GetCartInfo(CartDTO cart)
+        public List<CartDTO> GetCartInfos(int memberId)
         {
-            var identifyGroup = cart.Details.GroupBy(d => d.IdentifyNum);
+            var carts = _context.Carts                
+                .Include(c => c.CartDetails)
+                .Where(c => c.MemberId == memberId).ToList();
+            var identifyGroup = carts.SelectMany(c => c.CartDetails).GroupBy(d => d.IdentifyNum);
             var cartDetail = identifyGroup.Select(gd => new CartDetailDTO
             {
                 IdentifyNum = gd.Key,
@@ -184,19 +187,20 @@ namespace FoodDlvAPI.Models.Repositories
                 CartId = gd.First().CartId,
             }).ToList();
 
-            var cartInfo = new CartDTO
-            {
-                Id = cart.Id,
-                MemberId = cart.MemberId,
-                MemberName = _context.Members.Where(m => m.Id == cart.MemberId).Select(m => m.FirstName + " " + m.LastName).FirstOrDefault(),
-                StoreId = cart.StoreId,
-                StoreName = _context.Stores.First(s => s.Id == cart.StoreId).StoreName,
-                DetailQty = cartDetail.Where(d => d.CartId == cart.Id).Sum(d => d.Qty),
-                Total = cartDetail.Where(d => d.CartId == cart.Id).Sum(d => d.SubTotal),
-                Details = cartDetail,
-            };
-
-            return cartInfo;
+            var cartInfos = carts.GroupBy(c => c.StoreId)
+                .Select(gc => new CartDTO
+                {
+                    Id = gc.First().Id,
+                    MemberId = gc.First().MemberId,
+                    MemberName = _context.Members.Where(m => m.Id == gc.First().MemberId).Select(m => m.FirstName + " " + m.LastName).FirstOrDefault(),
+                    StoreId = gc.First().StoreId,
+                    StoreName = _context.Stores.First(s => s.Id == gc.First().StoreId).StoreName,
+                    DetailQty = cartDetail.Where(d => d.CartId == gc.First().Id).Sum(d => d.Qty),
+                    Total = cartDetail.Where(d => d.CartId == gc.First().Id).Sum(d => d.SubTotal),
+                    Details = cartDetail,
+                }).ToList();
+                        
+            return cartInfos;
         }
         public void RemoveDetail(int identifyNum)
         {
