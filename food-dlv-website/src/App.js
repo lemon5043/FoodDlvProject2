@@ -10,7 +10,7 @@ import Register from "./pages/User/Register";
 import User from "./pages/User/User";
 import Error from "./pages/Error";
 import Home from "./pages/Home/Home";
-import Cart from "./pages/Cart/Cart";
+import Cart from "./pages/Cart/ProductSelection";
 import Store from "./pages/Store/Store";
 import Product from "./pages/Product/Product";
 // *外送員介面
