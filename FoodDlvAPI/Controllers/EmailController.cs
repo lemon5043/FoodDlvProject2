@@ -13,6 +13,7 @@ using MimeKit;
 using MimeKit.Text;
 using MimeKit.Utils;
 using System.Security.Claims;
+using System.Security.Principal;
 
 namespace FoodDlvAPI.Controllers
 {
@@ -27,9 +28,12 @@ namespace FoodDlvAPI.Controllers
 			_context = context;
 		}
 		[HttpPost("SendEmail")]
-		public async Task<ActionResult> SendEmail(Member member)
+		public async Task<ActionResult> SendEmail(int memberid)
 		{
-			var message = new MimeMessage();
+			var member = await _context.Members
+				.SingleOrDefaultAsync(m => m.Id == memberid);
+
+            var message = new MimeMessage();
 			// 寄件者
 			message.From.Add(new MailboxAddress("FASPAN!", "testfuen25@gmail.com"));
 			// 收件者
@@ -47,7 +51,7 @@ namespace FoodDlvAPI.Controllers
 			var bodyBuilder = new BodyBuilder();
 
 			// 產生驗證連結
-			string confirmationLink = $"{Request.Scheme}://{Request.Host}/api/EmailController/EmailConfirm?account={member.Account}";
+			string confirmationLink = $"{Request.Scheme}://{Request.Host}/api/Email/EmailConfirm?memberid={member.Id}";
 
 			// 設定 HTML 內容
 			bodyBuilder.HtmlBody = "<h1 style='text-align: center; color:darkgreen; font-size:60px;'>FASPAN!</h1>" +
@@ -72,11 +76,11 @@ namespace FoodDlvAPI.Controllers
 
 		}
 		[HttpGet("EmailConfirm")]
-		public async Task<ActionResult> EmailConfirm(string account)
+		public async Task<ActionResult> EmailConfirm(int memberid)
 		{
 			// 從資料庫中找出符合帳號及驗證碼的會員資料
 			var member = await _context.Members
-				.SingleOrDefaultAsync(m => m.Account == account);
+				.SingleOrDefaultAsync(m => m.Id == memberid);
 
 			// 如果找到會員資料，則將會員狀態改為已驗證
 			if (member != null)
@@ -119,16 +123,16 @@ namespace FoodDlvAPI.Controllers
 			message.Subject = "FASPAN忘記密碼";
 			var bodyBuilder = new BodyBuilder();
 
-			string forgetpasswordlink = $"{Request.Scheme}://{Request.Host}/api/Members/LogIn";
+			string forgetpasswordlink = $"{Request.Scheme}://{Request.Host}/api/Members/Login/Account={member.Account}newPassword={member.Password}";
 
 			// 設定 HTML 內容
 			bodyBuilder.HtmlBody = "<h1 style='text-align: center; color:darkgreen; font-size:60px;'>FASPAN!</h1>" +
 									"<br>" +
 									"<h3 style='text-align: center;font-size:30px;'>歡迎使用FASPAN,以下是您的新密碼,請使用新密碼登入後至個人資料修改密碼</h3>" +
-									"<h3 style='text-align: center;font-size:30px;'>以下是您的新密碼....</h3>" +
+									"<h3 style='text-align: center;font-size:30px;'>以下是您的新密碼,請使用新密碼重新登入</h3>" +
 									$"<p  style='text-align: center;font-size:30px;'>新密碼:{newPassword}</p>" +
 									"<p style='text-align: center;'>" +
-									$"<a style= font-size:20px;' href=\"{forgetpasswordlink}\">-----點此連結驗證------</a>" +
+									
 									"</p>" +
 									"<br>";
 			// 設定郵件內容
@@ -149,7 +153,7 @@ namespace FoodDlvAPI.Controllers
 		public string ResetPassword(ResetPasswordDTO model)
 		{
 
-			var member = _context.Members.SingleOrDefault(x => x.Account == model.Account);
+			var member = _context.Members.SingleOrDefault(x => x.Id == model.memberid);
 			var encryptedPassword = HashUtility.ToSHA256(model.OldPassword, MemberRegisterDto.SALT);
 			if (member == null)
 			{
@@ -174,7 +178,17 @@ namespace FoodDlvAPI.Controllers
 		[HttpPost("GoogleLogin")]
 		public IActionResult ValidGoogleLogin()
 		{
-			string? formCredential = Request.Form["credential"]; //回傳憑證
+
+                //< div id = "g_id_onload"
+
+                //     data - client_id = "1002573051499-qgpbgbhkk9hdd3f73om9ahpbj4apr37f.apps.googleusercontent.com"
+
+                //     data - login_uri = "https://localhost:7093/api/Email/ValidGoogleLogin"
+
+                //     data - auto_prompt = "false" >
+
+                //</ div >
+            string ? formCredential = Request.Form["credential"]; //回傳憑證
 			string? formToken = Request.Form["g_csrf_token"]; //回傳令牌
 			string? cookiesToken = Request.Cookies["g_csrf_token"]; //Cookie 令牌
 
