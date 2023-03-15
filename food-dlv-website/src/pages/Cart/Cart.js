@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import cartService from "../../services/Cart/cart.service";
 
 import CartService from "../../services/Cart/cart.service";
 
@@ -85,11 +84,11 @@ const Cart = ({ currentUser, storeId }) => {
   }
 
   //清空購物車
-  function DeleteCart(memberId, storeId) {
-    cartService
-      .deleteDeleteCart(memberId, storeId)
+  async function DeleteCart(memberId, storeId) {
+    await CartService.deleteDeleteCart(memberId, storeId)
       .then(function (response) {
-        console.log(response.data);
+        console.log(response);
+        setCartDetail(null);
       })
       .catch(function (error) {
         console.log(error);

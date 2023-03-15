@@ -33,17 +33,27 @@ class CartService {
   }
 
   async postRemoveDetail(identifyNum) {
-    const response = await axios.post(API_URL + "/RemoveDetail", {
-      identifyNum: identifyNum,
-    });
+    const response = await axios.post(
+      API_URL + "/RemoveDetail" + `?identifyNum=${identifyNum}`
+    );
     return response;
   }
 
-  deleteDeleteCart(memberId, storeId) {
-    const response = axios.delete(API_URL + "/DeleteCart", {
-      memberId,
-      storeId,
-    });
+  //   async deleteDeleteCart(memberId, storeId) {
+  //     console.log(memberId);
+  //     console.log(storeId);
+  //     const response = await axios.delete(API_URL + "/DeleteCart", {
+  //       memberId,
+  //       storeId,
+  //     });
+  //     return response;
+  //   }
+  // }
+
+  async deleteDeleteCart(memberId, storeId) {
+    const response = await axios.delete(
+      API_URL + "/DeleteCart" + `?memberId=${memberId}&storeId=${storeId}`
+    );
     return response;
   }
 }
