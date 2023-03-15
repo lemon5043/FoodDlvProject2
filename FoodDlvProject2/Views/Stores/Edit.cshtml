@@ -59,7 +59,8 @@
 </div>
 
 <div>
-	<a asp-action="Index">Back to List</a>
+	<a asp-action="Index">
+返回列表</a>
 </div>
 
 
@@ -67,7 +68,7 @@
 
 @section Scripts
 	{
-	<script src="https://maps.googleapis.com/maps/api/js?key={@ViewBag.Apikey}"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=@($"{ViewBag.Apikey}")"></script>
 	<script>
 		// 等待 DOM 載入完成
 		$(function () {

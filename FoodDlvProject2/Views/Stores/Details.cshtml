@@ -1,5 +1,6 @@
 ﻿@model FoodDlvProject2.EFModels.Store
 
+
 @{
 	ViewData["Title"] = "Details";
 }
@@ -21,7 +22,25 @@
 		</dt>
 		<dd class="col-sm-10">
 			@Html.DisplayFor(model => model.Address)
+
+			
 		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Longitude)
+		</dt>
+		<dd id="Longitude">
+			@Html.DisplayFor(model => model.Longitude)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Latitude)
+		</dt>
+		<dd id="Latitude">
+			@Html.DisplayFor(model => model.Latitude)
+		</dd>
+
+		<div id="map" style="height: 300px; width: 100%;"></div>
+
 		<dt class="col-sm-2">
 			@Html.DisplayNameFor(model => model.ContactNumber)
 		</dt>
@@ -45,7 +64,8 @@
 				{
 					imgSrc = "./noPic.jpg";
 				}
-			<img src="@imgSrc" width="100px" height="100px">}
+				<img src="@imgSrc" width="100px" height="100px">
+			}
 
 		</dd>
 		<dt class="col-sm-2">
@@ -208,6 +228,40 @@
 
 @section Scripts
 	{
+
+		<script src="https://maps.googleapis.com/maps/api/js?key=@($"{ViewBag.Apikey}")"></script>
+	<script>
+		// 等待 DOM 載入完成
+
+			$(function(){
+			
+			var lat = parseFloat(document.getElementById('Latitude').innerText);
+			var lng = parseFloat(document.getElementById('Longitude').innerText);
+			showLocationOnMap(lat, lng);
+			// 建立一個 Google 地圖
+			var map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 15
+			});
+
+			// 在 Google 地圖上顯示地點
+			function showLocationOnMap(lat, lng) {
+				var latLng = new google.maps.LatLng(lat, lng);
+				map.setCenter(latLng);
+				var marker = new google.maps.Marker({
+					position: latLng,
+					map: map
+				});
+			}
+			
+			
+			});
+			
+
+			
+
+	</script>
+
+
 	<script>
 
 		//document.getElementById("btnSBH1").addEventListener("click", () => {
@@ -218,11 +272,6 @@
 		//	document.getElementById("tdSBH1").innerHTML += string1;
 
 		//})
-
-
-
-
-
 	</script>
 
 

@@ -194,12 +194,6 @@ namespace FoodDlvAPI.Controllers
 
 		}
 
-
-
-
-
-
-
 		//進入商店頁面顯示其資訊包含商品資訊
 
 		[HttpGet("storeDetail/{storeId}")]
@@ -271,7 +265,14 @@ namespace FoodDlvAPI.Controllers
 
 		}
 
-
+		/// <summary>
+		/// 取得自己的店家輸入Id取得，傳入更改的資訊myStoreDetailEditDTO修改以下資料
+		/// </summary>
+		/// <param name="id">我的店家Id</param>
+		/// <param name="myStoreDetailEditDTO">修改的值</param>
+		/// 
+		/// <returns>"修改成功"</returns>
+	
 
 
 		//6商店內部資訊修改
@@ -286,6 +287,9 @@ namespace FoodDlvAPI.Controllers
 				store.Address = myStoreDetailEditDTO.Address;
 				store.ContactNumber = myStoreDetailEditDTO.ContactNumber;
 
+
+
+				//如果傳入照片有值
 				if (myStoreDetailEditDTO.Photo != null)
 				{
 					// 刪除舊圖片
@@ -315,10 +319,11 @@ namespace FoodDlvAPI.Controllers
 				}
 
 
-
-				var currentCategories = await _context.StoresCategoriesLists.Where(x => x.StoreId == id).ToListAsync();
+				//目前我的店家的類別
+				var Categories = await _context.StoresCategoriesLists.Where(x => x.StoreId == id).ToListAsync();
+				//新類別
 				var newCategories = myStoreDetailEditDTO.CategoryIds.Select(x => new StoresCategoriesList { StoreId = id, CategoryId = x });
-				_context.StoresCategoriesLists.RemoveRange(currentCategories);
+				_context.StoresCategoriesLists.RemoveRange(Categories);
 				_context.StoresCategoriesLists.AddRange(newCategories);
 
 
@@ -327,20 +332,22 @@ namespace FoodDlvAPI.Controllers
 
 
 
-
+				//我的店家的商品
 				var products = await _context.Products.Where(x => x.StoreId == id).ToListAsync();
 				foreach (var product in products)
 				{
-					var productDto = myStoreDetailEditDTO.Products.FirstOrDefault(x => x.Id == product.Id);
-					if (productDto != null)
+					//修改已有的商品
+					var productFromDto = myStoreDetailEditDTO.Products.FirstOrDefault(x => x.Id == product.Id);
+					//如果更新的資料有值
+					if (productFromDto != null)
 					{
-						product.ProductName = productDto.ProductName;
-						product.ProductContent = productDto.ProductContent;
-						product.Status = productDto.Status;
-						product.UnitPrice = productDto.UnitPrice;
+						product.ProductName = productFromDto.ProductName;
+						product.ProductContent = productFromDto.ProductContent;
+						product.Status = productFromDto.Status;
+						product.UnitPrice = productFromDto.UnitPrice;
 
 
-						if (productDto.Photo != null)
+						if (productFromDto.Photo != null)
 						{
 							// 刪除舊圖片
 							if (product.Photo != null)
@@ -357,25 +364,26 @@ namespace FoodDlvAPI.Controllers
 							}
 
 							var now = DateTime.Now;
-							var fileName = $"{productDto.ProductName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}.jpg";
+							var fileName = $"{productFromDto.ProductName}{now.Year}{now.Month}{now.Day}{now.Hour}{now.Minute}{now.Second}.jpg";
 							var filePath = Path.Combine(
 								Directory.GetCurrentDirectory(), "../food-dlv-website/src/assets/images/public/Products/",
 								fileName);
 							using (var stream = new FileStream(filePath, FileMode.Create))
 							{
-								await productDto.Photo.CopyToAsync(stream);
+								await productFromDto.Photo.CopyToAsync(stream);
 							}
 							product.Photo = fileName;
 						}
 
 					}
+					//如果更新的資料有沒值就刪除商品
 					else
 					{
 						_context.Products.Remove(product);
 					}
 				}
 
-
+				//新增新商品進資料庫
 				var newProducts = myStoreDetailEditDTO.Products.Where(x => x.Id == null).Select(x => new Product
 				{
 					StoreId = id,
@@ -421,70 +429,6 @@ namespace FoodDlvAPI.Controllers
 				return null;
 			}
 		}
-
-
-
-
-
-
-
-
-		////6商店內部資訊修改
-		//[HttpPut("{id}")]
-		//public async Task<string> PutStore(int id, Store store)
-		//{
-
-		//	if (id != store.Id)
-		//	{
-		//		return "錯誤";
-		//	}
-
-		//	_context.Entry(store).State = EntityState.Modified;
-
-		//	try
-		//	{
-		//		await _context.SaveChangesAsync();
-		//	}
-		//	catch (DbUpdateConcurrencyException ex)
-		//	{
-
-		//		if (!_context.Stores.Any(e => e.Id == id))
-		//		{
-		//			return "錯誤找不到此商店";
-		//		}
-		//		else
-		//		{
-		//			throw new Exception(ex.Message);
-		//		}
-		//	}
-
-		//	return "修改成功";
-		//}
-
-
-		//6.1商店標籤新增
-
-
-		//6.2商店標籤刪除
-
-
-
-		//7商店內部商品新增
-
-
-
-		//7.1商店內部商品修改
-
-		//7.2商店內部商品刪除
-
-
-
-
-
-
-
-
-
 
 
 
@@ -601,15 +545,6 @@ namespace FoodDlvAPI.Controllers
 			var storeId = order.StoreId;
 			var store =await _context.Stores.FirstOrDefaultAsync(x => x.Id == storeId);
 
-
-
-			//		var deliveryDriverId = await _context.DeliveryDrivers
-			//.Where(x => x.Latitude != null && x.Longitude != null)
-			//.OrderBy(x => Math.Pow(x.Latitude.Value - .Value, 2) + Math.Pow(x.Longitude.Value - query.DeliveryLongitude.Value, 2))
-			//.Select(x => x.Id)
-			//.FirstOrDefaultAsync();
-
-			//		if (deliveryDriverId == 0) throw new Exception("目前沒有可用的外送員");
 
 			var deliveryDriver = _context.DeliveryDrivers.Where(x => x.Latitude.HasValue && x.Longitude.HasValue)
 	.AsEnumerable()
