@@ -9,10 +9,7 @@
 		//public double? StoreLongitude { get; set; }
 		public int MemberId { get; set; }
 		public string Address { get; set; }
-        //public double? MemberLatitude { get; set; }
-        //public double? MemberLongitude { get; set; }
-
-    }
-	
-
+		//public double? MemberLatitude { get; set; }
+		//public double? MemberLongitude { get; set; }
+	}
 }
