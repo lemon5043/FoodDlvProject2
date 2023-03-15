@@ -12,8 +12,11 @@ const DriverMap = () => {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   })
   let [orderId, setOrderId] = useState(0)
+  let [driverId,setDriverId] = useState(0)
   let [memberId, setMemberId] = useState(0)
   let [storeName, setStoreName] = useState("")
+  let [storeAddress, setStoreAddress] = useState("")
+  let [customerAddress,setCustomerAddress]=useState("")
   let [workingStatus, setWorkingStatus] = useState(false)
   let [position, setPosition] = useState({ lat: 0, lng: 0 });
   let [errorMessage, setErrorMessage] = useState("");
@@ -21,7 +24,7 @@ const DriverMap = () => {
   const [directionsResponse, setDirectionsResponse] = useState(null)
   const [distance, setDistance] = useState(0)
   const [duration, setDuration] = useState(0)
-  const dstTest ="桃園市中壢區新生路三段12號"
+  //const dstTest ="桃園市中壢區新生路三段12號"
   const token = localStorage.getItem("driver")
   
   useEffect(() => {
@@ -52,7 +55,7 @@ const DriverMap = () => {
     const directionsService = new google.maps.DirectionsService()
     const results = await directionsService.route({
       origin: position,
-      destination: dstTest,
+      destination: destination,
       // eslint-disable-next-line no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     })
@@ -111,8 +114,10 @@ const DriverMap = () => {
         console.log(OrderId)
         const storeInfo = await delieveryService.OrderAasignment(OrderId)
         setOrderId(storeInfo.orderId)
+        setStoreAddress(storeInfo.storeAddress)
+        setDriverId(driver.id)
         //todo 跳出視窗顯示=>接受
-        NavationToStore(OrderId,driver.driverId)
+        NewOrder()
         //todo 跳出視窗顯示=>取消
       })
       await connection.start()
@@ -121,6 +126,34 @@ const DriverMap = () => {
     catch (e) {
       console.log(e)
     }
+  }
+ const NewOrder = ()=>{
+  swal.fire({
+      title: '新訂單!',
+      text: "請至 "+storeAddress +" 取餐",
+      icon: 'warning',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '開始導航',
+      heightAuto : false,
+      width:'20em'
+    }).then(() => {
+    NavationToStore(orderId,driverId)
+    setDriverId(0)
+    console.log("success")
+  })}
+
+  //向餐廳導航
+  async function NavationToStore(orderId,driverId) {
+    try{
+        const orderDetail = await delieveryService.OrderAccept(orderId,driverId)
+        setStoreName(orderDetail.StoreName)
+        setMemberId(orderDetail.MemberId)
+        calculateRoute(orderDetail.StoreAddress)
+        setStoreAddress("")
+    }catch(e){
+        setErrorMessage(e.response.data.errorMessage[0]);
+    }      
   }
 
   //離開HubGroup
@@ -139,16 +172,22 @@ const DriverMap = () => {
     }
   }
 
-  //向餐廳導航
-  async function NavationToStore(orderId,driverId) {
-    try{
-        const orderDetail = await delieveryService.OrderAccept(orderId,driverId)
-        setStoreName(orderDetail.StoreName)
-        setMemberId(orderDetail.MemberId)
-        calculateRoute(orderDetail.StoreAddress)
-    }catch(e){
-      setErrorMessage(e.response.data.errorMessage[0]);
-    }      
+  const PickUpConfirmation = ()=>{
+    swal.fire({
+      title: '取餐確認',
+      text: "請至"+{storeName}+ "領取"+ {orderId}+ "號餐點",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '確認餐點無誤，開始外送',
+      heightAuto : false,
+      width:'20em'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        NavationToCustomer(orderId)        
+      }
+    })
   }
 
   //確認取餐，回傳外送地址
@@ -156,13 +195,32 @@ const DriverMap = () => {
     try{
       clearRoute()
       const customerAddress = await delieveryService.NavationToCustomer(orderId)
+      setCustomerAddress(customerAddress)
       calculateRoute(customerAddress)
     }catch(e){
       setErrorMessage(e.response.data.wrongAccountOrPassword[0]);
     }      
   }
 
-  //todo 餐點抵達
+  const DeliveryArrive = ()=>{
+    swal.fire({
+      title: '送達確認',
+      text: "請至將餐點送至"+{customerAddress},
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '確認餐點已送達，通知客戶取餐',
+      heightAuto : false,
+      width:'20em'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        OrderArrive()        
+      }
+    })
+  }
+
+  // 餐點抵達
   async function OrderArrive(){
     try {
       clearRoute()
@@ -177,12 +235,13 @@ const DriverMap = () => {
       await connection.invoke("JoinGroup", {memberId,targetRole})//連上MemberGroup
       await connection.invoke("OrderArrive", {memberId, orderId})//傳送訂單
       await connection.invoke("LeaveGroup", {memberId, targetRole})//離開MemberGroup
+      setOrderId(0)
+      setCustomerAddress("")
     }
     catch (e) {
       setErrorMessage(e.response.data.wrongAccountOrPassword[0]);
-    }
-  }
-
+    }}
+    
   return (
     <>              
       {isLoaded && (
@@ -198,11 +257,13 @@ const DriverMap = () => {
             fullscreenControl: false,
           }}
         >
+          
           {position && <Marker position={position} />}
           {directionsResponse && <DirectionsRenderer directions={directionsResponse} />}
           <Button onClick={ChangeWorkingStatus}>上線</Button> 
-          <Button onClick={calculateRoute}>NavTest</Button>
           <Button onClick={handleCenterButton}>Center</Button>
+          <Button onClick={PickUpConfirmation}>PickUp</Button>
+          <Button onClick={DeliveryArrive}>Arrive</Button>
         </GoogleMap>
       )}
     </>
