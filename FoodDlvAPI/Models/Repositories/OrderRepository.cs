@@ -25,15 +25,11 @@ namespace FoodDlvAPI.Models.Repositories
 
         public OrderDTO GetOrderInfo(long cartId, int addressId)
         {         
-            var cart = _context.Carts
-                .AsNoTracking()
-                .Include(c => c.CartDetails)
-                .First(c => c.Id == cartId)
-                .ToCartDTO();           
+            int memberId = _context.Carts.First(c => c.Id == cartId).MemberId;                    
 
             var orderInfo = new OrderDTO()
             {
-                Cart = _cartRepository.GetCartInfo(cart),
+                Cart = _cartRepository.GetCartInfos(memberId).First(c => c.Id == cartId),
                 DeliveryAddress = _context.AccountAddresses.First(aa => aa.Id == addressId).Address,
                 DeliveryFee = Convert.ToInt32(_addressClac.GetDeliveryFee(cartId).Result),
             };

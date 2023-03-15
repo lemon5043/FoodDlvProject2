@@ -48,9 +48,9 @@ namespace FoodDlvAPI.Interfaces
         /// <summary>
         /// 讀取目前購物車的詳細內容
         /// </summary>
-        /// <param name="cart"></param>
+        /// <param name="memberId"></param>
         /// <returns></returns>
-        CartDTO GetCartInfo(CartDTO cart);
+        List<CartDTO> GetCartInfos(int memberId);
 
         /// <summary>
         /// 移除購物車指定明細
