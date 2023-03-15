@@ -3,20 +3,21 @@ import cartService from "../../services/Cart/cart.service";
 
 import CartService from "../../services/Cart/cart.service";
 
-const Cart = () => {
+const Cart = ({ currentUser, storeId }) => {
+  const memberId = currentUser.userId;
   //State設定
-  const [memberId, setMemberId] = useState("");
-  const [storeId, setStoreId] = useState("");
+  // const [memberId, setMemberId] = useState(currentUser.userId);
+  // const [storeId, setStoreId] = useState("");
   const [identifyNum, setIdentifyNum] = useState("");
   const [cartDetail, setCartDetail] = useState(null);
 
   //替代'Member'點擊'購物車內容'需要的輸入值, 若串接完成, 可刪除
-  function textMemberId(e) {
-    setMemberId(e.target.value);
-  }
-  function textStoreId(e) {
-    setStoreId(e.target.value);
-  }
+  // function textMemberId(e) {
+  //   setMemberId(e.target.value);
+  // }
+  // function textStoreId(e) {
+  //   setStoreId(e.target.value);
+  // }
 
   //展示購物車內容
   function CartInfo() {
@@ -31,14 +32,11 @@ const Cart = () => {
   }
 
   //條件:在memberId或storeId改變時, 重新獲取購物車內容
-  useEffect(
-    function () {
-      if (memberId || storeId) {
-        CartInfo();
-      }
-    },
-    [memberId, storeId]
-  );
+  useEffect(function () {
+    if (memberId && storeId) {
+      CartInfo();
+    }
+  }, []);
 
   //條件:在cartDetail改變時, 重新獲取購物車的產品明細
   useEffect(
@@ -101,19 +99,20 @@ const Cart = () => {
   return (
     <div>
       <div>
-        <label>MemberId:</label>
-        <input type="text" value={memberId} onChange={textMemberId} />
+        <label>MemberId:{currentUser.userId}</label>
+        {/* <input type="text" value={memberId} onChange={textMemberId} /> */}
       </div>
       <div>
-        <label>StoreId:</label>
-        <input type="text" value={storeId} onChange={textStoreId} />
+        <label>StoreId:{storeId}</label>
       </div>
       <button onClick={() => CartInfo()}>GetCartInfo</button>
-            
+
       {cartDetail && (
         <div>
           <p>{cartDetail.storeName}</p>
-          <button onClick={() => DeleteCart(memberId , cartDetail.storeId)}>DeleteCart</button>
+          <button onClick={() => DeleteCart(memberId, cartDetail.storeId)}>
+            DeleteCart
+          </button>
           <p>{cartDetail.total}</p>
 
           {/* 展開購物車的CartDetail */}
