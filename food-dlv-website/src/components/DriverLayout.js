@@ -20,7 +20,7 @@ const CustomLink = ({ to, children, setIcon }) => {
 
 const DriverLayout = () => {
   return (
-    <div className="flex h-full justify-center bg-black">
+    <div className="flex h-screen justify-center bg-black">
       <div className="h-full max-w-md bg-slate-900">
         <main style={{ height: "90%" }}>
           <Outlet className="text-white h-full overflow-scroll" />

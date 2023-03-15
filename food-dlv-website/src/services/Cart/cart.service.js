@@ -14,10 +14,8 @@ class CartService {
     return response;
   }
 
-  getCartInfo(memberId, storeId) {
-    const response = axios.get(
-      API_URL + `/CartInfo?memberId=${memberId}&storeId=${storeId}`
-    );
+  getCartInfo(memberId) {
+    const response = axios.get(API_URL + `/CartInfo?memberId=${memberId}`);
     return response;
   }
 
@@ -38,17 +36,6 @@ class CartService {
     );
     return response;
   }
-
-  //   async deleteDeleteCart(memberId, storeId) {
-  //     console.log(memberId);
-  //     console.log(storeId);
-  //     const response = await axios.delete(API_URL + "/DeleteCart", {
-  //       memberId,
-  //       storeId,
-  //     });
-  //     return response;
-  //   }
-  // }
 
   async deleteDeleteCart(memberId, storeId) {
     const response = await axios.delete(
