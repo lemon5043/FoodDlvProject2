@@ -25,7 +25,11 @@ namespace FoodDlvAPI.Models.Repositories
 
         public OrderDTO GetOrderInfo(long cartId, int addressId)
         {         
-            var cart = _context.Carts.First(c => c.Id == cartId).ToCartDTO();            
+            var cart = _context.Carts
+                .AsNoTracking()
+                .Include(c => c.CartDetails)
+                .First(c => c.Id == cartId)
+                .ToCartDTO();           
 
             var orderInfo = new OrderDTO()
             {
@@ -40,20 +44,35 @@ namespace FoodDlvAPI.Models.Repositories
         {
             var nowTime = DateTime.Now.TimeOfDay;
             int nowDay = Convert.ToInt32(DateTime.Now.DayOfWeek);
+            
+            var storeState = _context.StorePrincipals.First(sp => sp.Id == _context.Stores.First(s => s.Id == storeId).StorePrincipalId).AccountStatusId == 2;
 
-            var targetStore = _context.StoreBusinessHours.Where(sbh => sbh.StoreId == storeId).ToList();
-            var timeRange = targetStore.FirstOrDefault(sbh => sbh.OpeningDays == nowDay && sbh.OpeningTime <= nowTime && sbh.ClosingTime <= nowTime);
-
-            if (timeRange == null)
+            if (storeState)
             {
-                throw new Exception("目前非商家營業時間");
+                var targetStore = _context.StoreBusinessHours.Where(sbh => sbh.StoreId == storeId).ToList();
+                if (targetStore == null) 
+                {
+                    return;
+                }
+                var timeRange = targetStore.FirstOrDefault(sbh => sbh.OpeningDays == nowDay && sbh.OpeningTime <= nowTime && sbh.ClosingTime >= nowTime);
+                if (timeRange == null)
+                {
+                    throw new Exception("目前剛商家非營業狀態");
+                }
             }
+            else
+            {
+                throw new Exception("目前剛商家非營業狀態");
+            }           
         }
 
         public void CashTransfer(int memberId, int storeId, int fee)
         {
             int memberWallet = _context.Members.First(m => m.Id == memberId).Balance;
-            var cart = _context.Carts.First(c => c.MemberId == memberId && c.StoreId == storeId);
+            var cart = _context.Carts
+                .AsNoTracking()
+                .Include(c => c.CartDetails)
+                .First(c => c.MemberId == memberId && c.StoreId == storeId);
             var identifyGroup = cart.CartDetails.GroupBy(d => d.IdentifyNum).ToList();
             int cartTotal = fee;
 
@@ -122,7 +141,10 @@ namespace FoodDlvAPI.Models.Repositories
 
         public OrderDTO GetOrderTrack(long orderId)
         {
-            var order = _context.Orders.FirstOrDefault(o => o.Id == orderId).ToOrderDTO();
+            var order = _context.Orders
+                .AsNoTracking()
+                .Include(o => o.OrderDetails)
+                .FirstOrDefault(o => o.Id == orderId).ToOrderDTO();
             var identifyGroup = order.Details.GroupBy(d => d.IdentifyNum); ;
             var orderDetail = identifyGroup.Select(gd => new OrderDetailDTO
             {

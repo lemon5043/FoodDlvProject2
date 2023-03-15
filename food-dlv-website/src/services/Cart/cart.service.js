@@ -32,10 +32,10 @@ class CartService {
     return response;
   }
 
-  async postRemoveDetail(identifyNum) {
-    const response = await axios.post(API_URL + "/RemoveDetail", {
-      identifyNum: identifyNum,
-    });
+  postRemoveDetail(identifyNum) {
+    const response = axios.post(API_URL + "/RemoveDetail", 
+      (identifyNum)
+    );
     return response;
   }
 

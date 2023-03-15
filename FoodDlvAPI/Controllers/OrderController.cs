@@ -46,6 +46,7 @@ namespace FoodDlvAPI.Controllers
         {
             try
             {
+
                 _cartService.CheckOutCart(memberId, storeId);
                 _orderService.CheckOutTime(storeId);
                 _orderService.OrderEstablished(memberId, storeId, fee, address);

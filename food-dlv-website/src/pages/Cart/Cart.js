@@ -130,7 +130,7 @@ const Cart = () => {
                   {/* 在該頁面重新選擇完成後, 按鈕'確認修改':onClick={UpdateDetail} */}
                   <button onClick={null}>Update</button>
                   <button onClick={() => RemoveDetail(detail.identifyNum)}>
-                    Delete
+                    Remove
                   </button>
                 </div>
               );
