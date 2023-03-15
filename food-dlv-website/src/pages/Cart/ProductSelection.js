@@ -88,7 +88,7 @@ const ProductSelection = () => {
             <label>Quantity:</label>
             <input type="number" value={qty} min={1} onChange={numberQty} />
           </div>
-          <button onClick={() => AddToCart}>AddToCart</button>
+          <button onClick={AddToCart}>AddToCart</button>
         </div>
       )}
     </div>

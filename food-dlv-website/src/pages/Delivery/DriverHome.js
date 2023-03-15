@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { Label, Input, Button } from "../../components/Delivery/form-styling2";
+import { Label, Input, Button } from "../../components/Style/form-styling2";
 import driverAuthService from "../../services/Delivery/driverAuth.service";
 import driverService from "../../services/Delivery/driver.service";
 
-
-
 const DriverHome = () => {
-
   const navigate = useNavigate();
   let [errorMessage, setErrorMessage] = useState("");
   let [account, setAccount] = useState("");
@@ -29,33 +26,35 @@ const DriverHome = () => {
   //     const driverDetail = driverService.GetDetails(response.data.driverId,token).then(
   //       function(details){
   //         console.log(details.data)
-  //       }       
-  //     )    
+  //       }
+  //     )
   //   }
   // )
 
   useEffect(() => {
-    GetDetails()
-  }, [])
+    GetDetails();
+  }, []);
 
   const GetDetails = async (e) => {
     try {
-      const token = localStorage.getItem("driver")
-      const driver = await driverAuthService.GetDriver(token)
-      const driverDetail = await driverService.GetDetails(driver.data.driverId, token)
-      setPassword(driverDetail.password)
-      setFirstName(driverDetail.firstName)
-      setLastName(driverDetail.lastName)
-      setPhone(driverDetail.phone)
-      setBankAccount(driverDetail.bankAccount)
-      setIdCard(driverDetail.Idcard)
-      setVehicleRegistration(driverDetail.vehicleRegistration)
-      setDriverLicense(driverDetail.driverLicense)
-    }
-    catch {
+      const token = localStorage.getItem("driver");
+      const driver = await driverAuthService.GetDriver(token);
+      const driverDetail = await driverService.GetDetails(
+        driver.data.driverId,
+        token
+      );
+      setPassword(driverDetail.password);
+      setFirstName(driverDetail.firstName);
+      setLastName(driverDetail.lastName);
+      setPhone(driverDetail.phone);
+      setBankAccount(driverDetail.bankAccount);
+      setIdCard(driverDetail.Idcard);
+      setVehicleRegistration(driverDetail.vehicleRegistration);
+      setDriverLicense(driverDetail.driverLicense);
+    } catch {
       setErrorMessage(e.response.data.wrongAccountOrPassword[0]);
     }
-  }
+  };
 
   const EditHandler = async (e) => {
     try {
