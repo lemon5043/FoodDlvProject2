@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 // services
 import userAuthService from "../services/User/userAuth.service";
 import { DropdownItem, DropdownMenu, Trigger } from "./Style/dropdown-styling";
+import { LayoutBtn } from "./Style/button-styling";
 
 const Layout = ({ currentUser, setCurrentUser }) => {
   const navigate = useNavigate();
@@ -92,17 +93,16 @@ const Layout = ({ currentUser, setCurrentUser }) => {
               {/* (沒登入)登入超連結*/}
               {!currentUser && (
                 <div className="pr-4">
-                  <Link
-                    to="/login"
-                    className="text-base bg-zinc-300 hover:bg-zinc-400 font-semibold py-2 px-4 rounded-full flex justify-center"
-                  >
-                    <img
-                      src={User}
-                      alt="user.svg"
-                      className="w-4 mr-2 inline"
-                    />
-                    登入/ 註冊
-                  </Link>
+                  <LayoutBtn>
+                    <Link to="/login" className="flex justify-center">
+                      <img
+                        src={User}
+                        alt="user.svg"
+                        className="w-4 mr-2 inline"
+                      />
+                      登入/ 註冊
+                    </Link>
+                  </LayoutBtn>
                 </div>
               )}
               {currentUser && (

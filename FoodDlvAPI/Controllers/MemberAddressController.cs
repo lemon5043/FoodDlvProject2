@@ -10,7 +10,9 @@ using System.Xml.Linq;
 
 namespace FoodDlvAPI.Controllers
 {
-    public class MemberAddressController : Controller
+	[Route("api/[controller]")]
+	[ApiController]
+	public class MemberAddressController : Controller
     {
         private readonly AppDbContext _context;
 

@@ -52,7 +52,12 @@ function App() {
             setCurrentUser={setCurrentUser}
             element={<Cart />}
           ></Route>
-          <Route path="login" element={<Login />}></Route>
+          <Route
+            path="login"
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+            element={<Login />}
+          ></Route>
           <Route path="register" element={<Register />}></Route>
           <Route path="store/:addressName" element={<Store />}></Route>
           <Route path="product/:storeId" element={<Product />}></Route>
